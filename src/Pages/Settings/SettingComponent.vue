@@ -7,10 +7,12 @@
 import PageTitle from "../../Layout/Components/PageTitle.vue";
 
 export default {
-    comments: {
-        PageTitle,
+    name: "SettingComponent",
+
+    components: {
+        PageTitle
     },
-    name: "Settings",
+
     data: () => ({
       heading: 'Settings',
       subheading: 'Settings.',
