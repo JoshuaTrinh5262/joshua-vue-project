@@ -39,8 +39,14 @@ export default new Router({
             component: () => import('../DemoPages/UserPages/ForgotPasswordBoxed.vue'),
         },
 
-        // Settings
+        // DataSet
+        {
+            path: '/translations',
+            name: 'translations',
+            component: () => import('../Pages/Datasets/LanguagueComponent.vue'),
+        },
 
+        // Settings
         {
             path: '/settings',
             name: 'settings',

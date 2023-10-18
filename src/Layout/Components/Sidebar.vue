@@ -67,6 +67,16 @@
                         ]
                     },
                     {
+                        title: 'DataSet',
+                        icon: 'pe-7s-rocket',
+                        child: [
+                            {
+                                href: '/translations',
+                                title: 'Translations',
+                            },
+                        ]
+                    },
+                    {
                         title: 'Settings',
                         icon: 'pe-7s-rocket',
                         child: [
