@@ -5,6 +5,7 @@
         <input v-model="input" 
           placeholder="Enter your prompt"
           @keydown="onKeydown" 
+          :disabled="isUserInputDisabled"
           type="text" class="form-control">
             <div class="input-group-append"><span class="input-group-text">To the Right!</span>
             </div>
@@ -39,7 +40,10 @@ export default {
 
   methods: {
     onSubmit() {
-      this.addUserMessage(this.userInput);
+      this.$store.dispatch('addMessage', {
+        role: 'user',
+        content: this.userInput,
+      });
     },
     onKeydown(event) {
       if (event.key === 'Enter' && !event.shiftKey) {
@@ -50,6 +54,9 @@ export default {
   },
 
   computed: {
+    isUserInputDisabled() {
+      return this.$store.state.currentChat === null;
+    },
   },
 
   mounted() {

@@ -19,9 +19,7 @@ export default {
   },
   computed: {
     messages() {
-      return this.debugMode
-        ? this.currentChat.messages
-        : this.currentChat.messages.filter((m) => m.role !== 'system');
+      return this.debugMode ? this.currentChat.messages : this.currentChat.messages.filter((m) => m.role !== 'system');
     },
   },
   watch: {

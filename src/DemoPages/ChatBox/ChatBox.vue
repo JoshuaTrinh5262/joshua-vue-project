@@ -5,13 +5,13 @@
 
       <div class="d-flex h-100 max-w-6xl mx-auto w-100 flex-column">
         <div class="d-flex h-100 gap-4 px-4 py-4 w-100 flex-column">
-          <ModelSelector />
+          <ModelSelector :availableModels="availableModels"/>
           <ChatMessages />
           <ChatInput />
         </div>
       </div>
 
-      <Settings />
+      <ChatSettings />
     </main>
   </div>
 </template>
@@ -20,16 +20,14 @@
 import Sidebar from './Sidebar.vue';
 import ChatInput from './ChatInput.vue';
 import ChatMessages from './ChatMessages.vue';
-import Settings from './Settings.vue';
+import ChatSettings from './ChatSettings.vue';
 import ModelSelector from './ModelSelector.vue';
-// import store from '../../services/store';
 
 export default {
   data() {
     return {
       isDarkMode: false,
       currentChat: null,
-      availableModels: [],
       currentModel: null,
     };
   },
@@ -37,24 +35,26 @@ export default {
     Sidebar,
     ChatInput,
     ChatMessages,
-    Settings,
+    ChatSettings,
     ModelSelector,
   },
+
+  computed: {
+    availableModels() {
+      return this.$store.getters.getAvailableModels;
+    },
+  },
+
   created() {
     // Get the initial values for data properties from your store or other sources.
-    // this.isDarkMode = store.isDarkMode;
-    // this.currentChat = store.currentChat;
-    // this.availableModels = store.availableModels;
-    // this.currentModel = store.currentModel;
-    this.isDarkMode = false; // Set your initial data
-    this.currentChat = null;
-    this.availableModels = [];
-    this.currentModel = null;
+    this.isDarkMode = this.$store.isDarkMode;
+    this.currentChat = this.$store.currentChat;
+    this.currentModel = this.$store.currentModel;
 
     // Watch for changes to currentModel
     this.$watch('currentModel', (newModel) => {
       if (newModel && this.currentChat && this.currentChat.messages.length === 0) {
-        // store.changeCurrentModel(newModel);
+        this.store.changeCurrentModel(newModel);
       }
     });
   },

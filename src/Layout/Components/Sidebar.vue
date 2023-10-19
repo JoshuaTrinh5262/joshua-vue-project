@@ -182,6 +182,16 @@
                         ]
                     },
                     {
+                        icon: 'pe-7s-display2',
+                        title: 'Chatbox',
+                        child: [
+                            {
+                                title: 'Chatbox',
+                                href: '/Chatbox',
+                            },
+                        ]
+                    },
+                    {
                         header: true,
                         title: 'Dashboard Boxes',
                     },

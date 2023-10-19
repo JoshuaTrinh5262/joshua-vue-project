@@ -16,10 +16,9 @@
         <button
           :disabled="currentChatHasMessages"
           title="Refresh available models"
-          @click="fetchAvailableModels"
           class="p-3 inline-flex items-center justify-center h-full rounded-lg bg-zinc-200 text-sm focus:outline-none border-none focus:ring-2 focus:ring-blue-600 dark:bg-zinc-700 disabled:opacity-50"
         >
-          <IconRefresh class="h-5 w-5 text-zinc-500" />
+          <!-- <IconRefresh class="h-5 w-5 text-zinc-500" /> -->
         </button>
       </div>
     </div>
@@ -29,11 +28,43 @@
 <script>
 export default {
   props: {
-    availableModels: Array, // Ensure that the parent component provides this prop
-    currentModel: String, // Ensure that the parent component provides this prop
-    changeCurrentModel: Function, // Ensure that the parent component provides this method
-    fetchAvailableModels: Function, // Ensure that the parent component provides this method
-    currentChatHasMessages: Boolean, // This can be computed in the parent component
+    availableModels: {
+      type: Array,
+      required: true
+    },
+    // currentModel: {
+    //   type: String,
+    //   required: true
+    // },
+    currentChatHasMessages: {
+      type: Boolean,
+      required: true
+    },
+    
+  },
+
+  data() {
+    return {
+      currentModel: null,
+    };
+  },
+
+  computed: {
+
+  },
+
+  methods: {
+    updateCurrentModel(newModel) {
+      this.$store.commit('setCurrentModel', newModel);
+    },
+  },
+
+
+  watch: {
+    currentModel(newModel) {
+      console.log(newModel);
+      this.updateCurrentModel(newModel);
+    },
   },
 };
 </script>
