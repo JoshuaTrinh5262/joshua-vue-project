@@ -9,7 +9,31 @@ const store =  new Vuex.Store({
     return {
       count: 0,
       items: [],
-      previousChats: [],
+      previousChats: [
+        {
+          createdAt: "2023-10-19T22:55:15.000Z",
+          id: "a4b6f3d1-92fe-4dd7-b231-0bcfed1ec453",
+          messages: [
+            {
+              role: "user",
+              message: "Hello"
+            },
+            {
+              role: "ai",
+              message: "Hello. How can i help you?"
+            }
+          ],
+          model: 'Model A',
+          title: "new chat 1",
+        },
+        {
+          createdAt: "2023-10-19T22:55:15.000Z",
+          id: "a4b6f3d1-92fe-4dd7-b231-0bcfed1ec454",
+          messages: [],
+          model: 'Model B',
+          title: "new chat 2",
+        },
+      ],
       currentChat: null,
       currentModel: null,
       availableModels: [
