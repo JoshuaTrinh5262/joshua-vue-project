@@ -12,13 +12,12 @@
 export default {
   props: {
     message: {
-      type: Object, // Assuming ChatMessage is an object type
+      type: Object,
       required: true,
     },
   },
   computed: {
     avatarUrl() {
-      // Assuming that avatarUrl is a computed property in your store or component
       return this.$store.state.avatarUrl;
     },
   },

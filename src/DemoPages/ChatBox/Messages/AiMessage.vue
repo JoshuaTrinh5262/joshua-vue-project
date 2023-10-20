@@ -1,7 +1,7 @@
 <template>
-  <div class="flex rounded-xl bg-zinc-50 px-2 py-6 dark:bg-zinc-900 sm:px-4">
+  <div class="d-flex align-item-end">
     <img
-      class="mr-2 flex h-10 w-10 rounded-full sm:mr-4 bg-white object-contain border border-gray-200"
+      class="" width="50" height="50"
       src="https://ollama.ai/public/ollama.png"
     />
 

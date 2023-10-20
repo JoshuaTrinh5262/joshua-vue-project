@@ -33,6 +33,7 @@ const store =  new Vuex.Store({
           model: 'Model B',
           title: "new chat 2",
         },
+        
       ],
       currentChat: null,
       currentModel: null,
@@ -45,24 +46,43 @@ const store =  new Vuex.Store({
           id: 2,
           name: 'Model B',
         },
+        {
+          id: 3,
+          name: 'Model C',
+        },
       ],
+      debugMode: false,
+      isDarkMode: false,
+      userInput: ''
     }
   },
   mutations: {
     increment (state) {
-      state.count++
+      state.count++;
     },
+
     setItems(state, data) {
       state.items = data;
     },
+
     addChat(state, chat) {
       state.previousChats.push(chat);
     },
+
     setCurrentChat(state, chat) {
       state.currentChat = chat;
     },
+
     setCurrentModel(state, model) {
       state.currentModel = model;
+    },
+
+    clearUserInput(state) {
+      state.userInput = '';
+    },
+
+    addMessageToCurrentChat(state, message) {
+      state.currentChat.messages.push(message);
     },
   },
 
@@ -95,11 +115,13 @@ const store =  new Vuex.Store({
       commit('addChat', newChat);
       commit('setCurrentChat', newChat);
     },
+
     addMessage({ commit, state }, { role, content }) {
       if (!state.currentChat) return;
       if (!content?.trim()) return;
 
       const message = {
+        // id,
         role,
         content,
         date: new Date(),

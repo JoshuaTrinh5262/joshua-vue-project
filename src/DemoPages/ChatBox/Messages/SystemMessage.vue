@@ -18,7 +18,7 @@
 export default {
   props: {
     message: {
-      type: Object, // Assuming ChatMessage is an object type
+      type: Object,
       required: true,
     },
   },
