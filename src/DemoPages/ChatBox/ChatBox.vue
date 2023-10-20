@@ -1,42 +1,49 @@
 <template>
   <div :class="{ dark: isDarkMode }">
-    <main class="d-flex flex-row align-items-stretch flex-1 w-100 h-100 bg-light dark:bg-dark">
-      <Sidebar />
-
-      <div class="d-flex h-100 max-w-6xl mx-auto w-100 flex-column">
-        <div class="d-flex h-100 gap-4 px-4 py-4 w-100 flex-column">
-          <ModelSelector :availableModels="availableModels"/>
-          <ChatMessages />
-          <ChatInput />
+    <page-title :heading=heading :subheading=subheading :icon=icon></page-title>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <chat-sidebar></chat-sidebar>
+        </div>
+        <div class="col-md-4">
+          <model-selector :availableModels="availableModels"></model-selector>
+          <chat-messages></chat-messages>
+          <chat-input></chat-input>
+        </div>
+          <chat-settings></chat-settings>
         </div>
       </div>
-
-      <ChatSettings />
-    </main>
   </div>
 </template>
 
 <script>
-import Sidebar from './Sidebar.vue';
+import ChatSidebar from './ChatSidebar.vue';
 import ChatInput from './ChatInput.vue';
 import ChatMessages from './ChatMessages.vue';
 import ChatSettings from './ChatSettings.vue';
 import ModelSelector from './ModelSelector.vue';
+import PageTitle from '../../Layout/Components/PageTitle.vue';
 
 export default {
   data() {
     return {
+      heading: 'Chatbox',
+      subheading: 'Chatbox',
+      icon: 'pe-7s-bandaid icon-gradient bg-amy-crisp',
+
       isDarkMode: false,
       currentChat: null,
       currentModel: null,
     };
   },
   components: {
-    Sidebar,
+    ChatSidebar,
     ChatInput,
     ChatMessages,
     ChatSettings,
     ModelSelector,
+    PageTitle,
   },
 
   computed: {

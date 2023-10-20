@@ -9,7 +9,40 @@ const store =  new Vuex.Store({
     return {
       count: 0,
       items: [],
-      previousChats: [],
+      previousChats: [
+        {
+          title: 'Chat A',
+          model: 'Model A',
+          id: 1,
+          createdAt: 'Fri Oct 20 2023 12:38:33 GMT+0700 (Indochina Time)',
+          messages: [
+            {
+              id : 1,
+              role : 'user',
+              content : 'Hello',
+              date: new Date()
+            },
+            {
+              id : 2,
+              role : 'ai',
+              content : 'Hello. How can i help you today?',
+              date: new Date()
+            },
+            {
+              id : 3,
+              role : 'user',
+              content : 'Hello',
+              date: new Date()
+            },
+            {
+              id : 4,
+              role : 'ai',
+              content : 'Hello. How can i help you today?',
+              date: new Date()
+            },
+          ],
+        }
+      ],
       currentChat: null,
       currentModel: null,
       availableModels: [
@@ -21,24 +54,43 @@ const store =  new Vuex.Store({
           id: 2,
           name: 'Model B',
         },
+        {
+          id: 3,
+          name: 'Model C',
+        },
       ],
+      debugMode: false,
+      isDarkMode: false,
+      userInput: ''
     }
   },
   mutations: {
     increment (state) {
-      state.count++
+      state.count++;
     },
+
     setItems(state, data) {
       state.items = data;
     },
+
     addChat(state, chat) {
       state.previousChats.push(chat);
     },
+
     setCurrentChat(state, chat) {
       state.currentChat = chat;
     },
+
     setCurrentModel(state, model) {
       state.currentModel = model;
+    },
+
+    clearUserInput(state) {
+      state.userInput = '';
+    },
+
+    addMessageToCurrentChat(state, message) {
+      state.currentChat.messages.push(message);
     },
   },
 
@@ -71,11 +123,13 @@ const store =  new Vuex.Store({
       commit('addChat', newChat);
       commit('setCurrentChat', newChat);
     },
+
     addMessage({ commit, state }, { role, content }) {
       if (!state.currentChat) return;
       if (!content?.trim()) return;
 
       const message = {
+        // id,
         role,
         content,
         date: new Date(),

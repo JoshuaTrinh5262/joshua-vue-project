@@ -1,5 +1,9 @@
 <template>
-  <component :is="getMessageComponent" :message="message" />
+  <div>
+    <SystemMessage v-if="message.role == 'system'" :message="message" />
+    <UserMessage v-if="message.role == 'user'" :message="message" />
+    <AiMessage v-if="message.role == 'ai'" :message="message" />
+  </div>
 </template>
 
 <script>

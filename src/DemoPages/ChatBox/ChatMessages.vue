@@ -3,23 +3,32 @@
     ref="chatElement"
     class="flex-1 overflow-y-auto rounded-xl bg-zinc-100 p-4 text-sm leading-6 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-300 sm:text-base sm:leading-7 scroll-smooth"
   >
-    <ChatMessage v-for="message in messages" :message="message" :key="message.id" />
+    <ChatMessage v-for="message in this.messages" :message="message" :key="message.id" />
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
+import ChatMessage from './ChatMessage.vue';
+
 export default {
   data() {
     return {
       chatElement: null,
     };
   },
-  props: {
-    debugMode: Boolean,
+
+  components: {
+    ChatMessage,
   },
+
   computed: {
+    ...mapState({
+      currentChat: 'currentChat', 
+      debugMode: 'debugMode',
+    }),
     messages() {
-      return this.debugMode ? this.currentChat.messages : this.currentChat.messages.filter((m) => m.role !== 'system');
+      return this.debugMode ? this.currentChat?.messages : this.currentChat?.messages.filter((m) => m.role !== 'system');
     },
   },
   watch: {

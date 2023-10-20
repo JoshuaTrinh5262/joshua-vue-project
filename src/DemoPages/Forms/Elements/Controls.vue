@@ -54,20 +54,30 @@
             <div class="col-md-6">
                 <div class="main-card mb-3 card">
                     <div class="card-body"><h5 class="card-title">Sizing</h5>
-                        <form class=""><input placeholder="lg" type="text"
-                                              class="mb-2 form-control-lg form-control"><input placeholder="default"
-                                                                                               type="text"
-                                                                                               class="mb-2 form-control"><input
-                            placeholder="sm" type="text"
-                            class="mb-2 form-control-sm form-control">
+                        <form class="">
+                            <input placeholder="lg" type="text"
+                                              class="mb-2 form-control-lg form-control">
+                            <input placeholder="default"
+                                type="text"
+                                class="mb-2 form-control">
+                            <input
+                                placeholder="sm" type="text"
+                                class="mb-2 form-control-sm form-control">
                             <div class="divider"></div>
                             <select class="mb-2 form-control-lg form-control">
-                                <option>Large Select</option>
-                            </select><select class="mb-2 form-control">
-                                <option>Default Select</option>
-                            </select><select class="form-control-sm form-control">
-                                <option>Small Select</option>
-                            </select></form>
+                                <option>Large Select 1</option>
+                                <option>Large Select 2</option>
+                            </select>
+                            <select class="mb-2 form-control">
+                                <option disabled>Select A Model</option>
+                                <option>Default Select 1</option>
+                                <option>Default Select 2</option>
+                            </select>
+                            <select class="form-control-sm form-control">
+                                <option>Small Select 1</option>
+                                <option>Small Select 2</option>
+                            </select>
+                        </form>
                     </div>
                 </div>
                 <div class="main-card mb-3 card">
@@ -374,6 +384,7 @@
             </div>
         </div>
     </div>
+
 </template>
 
 <script>
