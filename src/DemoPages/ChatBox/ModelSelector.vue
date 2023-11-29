@@ -1,67 +1,88 @@
 <template>
-  <div class="mx-auto max-w-md w-full">
-    <div class="">
-      <div class="form-inline">
-        <select 
-          :disabled="currentChatHasMessages"
-          v-model="currentModel"
-          class="mb-2 form-control">
-            <option :value="undefined" disabled selected>Select A Model</option>
-            <option v-for="model in availableModels" :key="model.id" :value="model.name">
-              {{ model.name }}
-            </option>
-        </select>
-        <button
-          :disabled="currentChatHasMessages"
-          title="Refresh available models"
-          class="btn btn-primary mb-2 form-control"
-        >
-          <!-- <IconRefresh class="h-5 w-5 text-zinc-500" /> -->
-          Refresh
-        </button>
-      </div>
+  <div class="d-flex justify-content-center">
+    <div class="form-inline">
+      <select 
+        :disabled="currentChatHasMessages"
+        v-model="currentModel"
+        @change=""
+        class="mb-2 form-control">
+          <option :value="null" disabled>Select A Model</option>
+          <option v-for="model in availableModels"
+          :key="model.name"
+          :value="model.name"
+          :selected="model.name=== currentModel"
+          >
+            {{ model.name }}
+          </option>
+      </select>
+      <p>Selected option: {{ this.currentModel }}</p>
+
+      <button
+        :disabled="currentChatHasMessages"
+        title="Refresh available models"
+        class="btn btn-primary mb-2 form-control"
+      >
+        Refresh
+      </button>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, } from 'vuex';
+import { mapMutations } from 'vuex';
 
 export default {
-  props: {
-    availableModels: {
-      type: Array,
-      required: true
-    },
-  },
-
   data() {
     return {
-      currentModel: null,
+      seletedModel: null
     };
+  },
+
+  mounted() {
+    this.seletedModel = this.currentModel;
   },
 
   computed: {
     ...mapState({
+      currentModel: 'currentModel',
       currentChat: 'currentChat',
+      availableModels: 'availableModels',
     }),
 
+    // currentModel: {
+    //   get() {
+    //       return this.value
+    //   },
+    //   set(value) {
+    //       this.value = value
+    //   }
+    // },
+    
     currentChatHasMessages() {
       return this.currentChat?.messages?.length > 0;
     },
   },
-
-  methods: {
-    updateCurrentModel(newModel) {
-      this.$store.commit('setCurrentModel', newModel);
+  watch: {
+    seletedModel(newModel) {
+      if (newModel && this.currentChat && this.currentChat.messages && this.currentChat.messages.length === 0) {
+        console.log('The current model changed to:', newModel);
+        this.changeCurrentModel(newModel);
+      }
     },
   },
 
+  methods: {
+    ...mapMutations([
+      'setCurrentModel',
+      'changeCurrentModel'
+    ]),
 
-  watch: {
-    currentModel(newModel) {
-      this.updateCurrentModel(newModel);
-    },
+    // updateCurrentModel() {
+    //   this.changeCurrentModel(this.currentModel);
+
+      // this.setCurrentModel(this.selectedModel);
+    // },
   },
 };
 </script>

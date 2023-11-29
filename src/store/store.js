@@ -16,12 +16,28 @@ const store =  new Vuex.Store({
           messages: [
             {
               role: "user",
-              message: "Hello"
+              content: "Hello"
             },
             {
               role: "ai",
-              message: "Hello. How can i help you?"
-            }
+              content: "Hello. How can i help you?"
+            },
+            {
+              role: "user",
+              content: "Hello"
+            },
+            {
+              role: "ai",
+              content: "Hello. How can i help you?"
+            },
+            {
+              role: "user",
+              content: "What is Earth ?"
+            },
+            {
+              role: "ai",
+              content: "The Earth, often simply referred to as Earth, is the third planet from the Sun in our solar system. It is a terrestrial planet and is the only known celestial body to support life. Earth is located at an average distance of approximately 93 million miles (150 million kilometers) from the Sun, which places it within the habitable zone, where conditions are just right for the existence of liquid water, essential for life as we know it."
+            },
           ],
           model: 'Model A',
           title: "new chat 1",
@@ -29,11 +45,26 @@ const store =  new Vuex.Store({
         {
           createdAt: "2023-10-19T22:55:15.000Z",
           id: "a4b6f3d1-92fe-4dd7-b231-0bcfed1ec454",
-          messages: [],
+          messages: [
+            {
+              role: "system",
+              content: "Hello"
+            },
+            {
+              role: "ai",
+              content: "Hello. How can i help you?"
+            },
+          ],
           model: 'Model B',
           title: "new chat 2",
         },
-        
+                {
+          createdAt: "2023-10-19T22:55:15.000Z",
+          id: "a4b6f3d1-92fe-4dd7-b231-0bcfed1ec455",
+          messages: [],
+          model: 'Model C',
+          title: "new chat 3",
+        },        
       ],
       currentChat: null,
       currentModel: null,
@@ -53,6 +84,7 @@ const store =  new Vuex.Store({
       ],
       debugMode: false,
       isDarkMode: false,
+      isSettingsPanelOpen: false,
       userInput: ''
     }
   },
@@ -77,6 +109,10 @@ const store =  new Vuex.Store({
       state.currentModel = model;
     },
 
+    setUserInput(state, input) {
+      state.userInput = input;
+    },
+
     clearUserInput(state) {
       state.userInput = '';
     },
@@ -84,13 +120,33 @@ const store =  new Vuex.Store({
     addMessageToCurrentChat(state, message) {
       state.currentChat.messages.push(message);
     },
+
+    toggleDarkMode(state) {
+      state.isDarkMode = !state.isDarkMode;
+    },
+
+    toggleSettingsPanel(state) {
+      state.isSettingsPanelOpen = !state.isSettingsPanelOpen;
+    },
+
+    changeCurrentModel(state, newModel) {
+      if (state.currentModel && state.currentChat.messages.length === 0) {
+        state.currentModel = newModel;
+      }
+    },
+
   },
 
   getters: {
     getAvailableModels: (state) => state.availableModels,
+    getCurrentModel: (state) => state.currentModel,
   },
 
   actions: {
+    changeCurrentModel({ commit }, newModel) {
+      commit('changeCurrentModel', newModel);
+    },
+
     async fetchData(context) {
       try {
         const response = await fetch('./demo/data/translation.js');
@@ -104,6 +160,7 @@ const store =  new Vuex.Store({
         console.error(error);
       }
     },
+
     startNewChat({ commit }, { title, model }) {
       const newChat = {
         title,
@@ -114,6 +171,7 @@ const store =  new Vuex.Store({
       };
       commit('addChat', newChat);
       commit('setCurrentChat', newChat);
+      commit('setCurrentModel', model);
     },
 
     addMessage({ commit, state }, { role, content }) {

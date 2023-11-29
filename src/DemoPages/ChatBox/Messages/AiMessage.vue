@@ -1,13 +1,13 @@
 <template>
-  <div class="d-flex align-item-end">
-    <img
-      class="" width="50" height="50"
-      src="https://ollama.ai/public/ollama.png"
-    />
-
-    <div class="flex max-w-3xl items-center rounded-xl">
+  <div class="d-flex justify-content-end rounded-circle">
+    <div class="flex p-1">
       <p class="whitespace-pre-line">{{ message.content }}</p>
     </div>
+    <img
+      class="rounded-circle ml-2"
+      width="50" height="50"
+      src="@/assets/images/avatars/2.jpg"
+    />
   </div>
 </template>
 

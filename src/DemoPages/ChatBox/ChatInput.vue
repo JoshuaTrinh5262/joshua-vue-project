@@ -9,7 +9,7 @@
         :disabled="isUserInputDisabled"
         type="text" class="form-control">
           <div class="input-group-append">
-              <button type="submit" class="btn btn-secondary">Send message</button>
+              <button type="submit" class="btn btn-primary">Send message</button>
           </div>
       </div>
     </div>
@@ -17,6 +17,7 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
@@ -40,17 +41,19 @@ export default {
   },
 
   computed: {
+    userInput: {
+      get() {
+        return this.$store.state.userInput;
+      },
+      set(value) {
+        this.$store.commit('setUserInput', value);
+      },
+    },
+
     isUserInputDisabled() {
       return this.$store.state.currentChat === null;
     },
 
-    userInput() {
-      return this.$store.userInput;
-    }
-  },
-
-  mounted() {
-    this.use = this.$refs.textarea;
   },
 };
 </script>

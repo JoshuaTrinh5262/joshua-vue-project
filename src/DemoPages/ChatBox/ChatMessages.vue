@@ -1,7 +1,6 @@
 <template>
   <div
-    ref="chatElement"
-    class="flex-1 overflow-y-auto rounded-xl bg-zinc-100 p-4 text-sm leading-6 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-300 sm:text-base sm:leading-7 scroll-smooth"
+    class="flex-1 overflow-y-auto rounded p-1 text-md leading-6 scroll-smooth"
   >
     <ChatMessage v-for="message in this.messages" :message="message" :key="message.id" />
   </div>
@@ -14,7 +13,6 @@ import ChatMessage from './ChatMessage.vue';
 export default {
   data() {
     return {
-      chatElement: null,
     };
   },
 
@@ -27,6 +25,7 @@ export default {
       currentChat: 'currentChat', 
       debugMode: 'debugMode',
     }),
+
     messages() {
       return this.debugMode ? this.currentChat?.messages : this.currentChat?.messages.filter((m) => m.role !== 'system');
     },

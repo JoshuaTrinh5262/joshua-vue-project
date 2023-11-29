@@ -1,19 +1,19 @@
 <template>
-  <div :class="{ dark: isDarkMode }">
-    <page-title :heading=heading :subheading=subheading :icon=icon></page-title>
-    <div class="card-body">
+  <div :class="{ dark: isDarkMode }" >
+    <page-title :heading="heading" :subheading="subHeading" :icon="icon"></page-title>
+    <div class="card-body bg-light">
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-3">
           <chat-sidebar></chat-sidebar>
         </div>
-        <div class="col-md-4">
-          <model-selector :availableModels="availableModels"></model-selector>
+        <div class="col-9">
+          <model-selector></model-selector>
           <chat-messages></chat-messages>
           <chat-input></chat-input>
         </div>
-          <chat-settings></chat-settings>
-        </div>
+        <chat-settings></chat-settings>
       </div>
+    </div>
   </div>
 </template>
 
@@ -29,12 +29,8 @@ export default {
   data() {
     return {
       heading: 'Chatbox',
-      subheading: 'Chatbox',
+      subHeading: 'Chatbox demo',
       icon: 'pe-7s-bandaid icon-gradient bg-amy-crisp',
-
-      isDarkMode: false,
-      currentChat: null,
-      currentModel: null,
     };
   },
   components: {
@@ -50,20 +46,22 @@ export default {
     availableModels() {
       return this.$store.getters.getAvailableModels;
     },
+
+    isDarkMode() {
+      return this.$store.getters.isDarkMode;
+    },
+
+    currentChat() {
+      return this.$store.getters.currentChat;
+    },
   },
 
-  created() {
-    // Get the initial values for data properties from your store or other sources.
-    this.isDarkMode = this.$store.isDarkMode;
-    this.currentChat = this.$store.currentChat;
-    this.currentModel = this.$store.currentModel;
-
-    // Watch for changes to currentModel
-    this.$watch('currentModel', (newModel) => {
-      if (newModel && this.currentChat && this.currentChat.messages.length === 0) {
-        this.store.changeCurrentModel(newModel);
-      }
-    });
-  },
+  // created() {
+  //   this.$watch('currentModel', (newModel) => {
+  //     if (newModel && this.currentChat && this.currentChat.messages.length === 0) {
+  //       this.store.changeCurrentModel(newModel);
+  //     }
+  //   });
+  // },
 };
 </script>

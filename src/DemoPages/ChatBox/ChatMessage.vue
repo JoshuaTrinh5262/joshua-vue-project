@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="outline-primary">
     <SystemMessage v-if="message.role == 'system'" :message="message" />
     <UserMessage v-if="message.role == 'user'" :message="message" />
     <AiMessage v-if="message.role == 'ai'" :message="message" />
