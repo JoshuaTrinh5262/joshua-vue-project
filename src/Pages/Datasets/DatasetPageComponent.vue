@@ -1,10 +1,28 @@
 <template>
     <div>
-        <page-title :heading=heading :subheading=subheading :icon=icon></page-title>
+        <page-title
+            :heading=heading
+            :subheading=subheading
+            :icon=icon
+            :clickCreateBtn="toggleCreateData"
+            :showImport=true
+            :showExport=true
+            ></page-title>
+            <div v-if="showCreateData" class="main-card">
+                <div class="card-head">
+                    <div class="card-title">Create New Chat Data</div>
+                </div>
+                <div class="card-body">
+
+                </div>
+            </div>
         <table-component 
             :footer=true
+            :small=true
             :fields="fields"
-            :items="items">
+            :items="items"
+            @deleteRow="handleDeleteRow"
+            @updateRow="handleUpdateRow">
         </table-component>
     </div>
 </template>
@@ -22,7 +40,8 @@ export default {
     },
 
     data: () => ({
-        fields: ['Source Text', 'Target Text'],
+        showCreateData: false,
+        fields: ['Id', 'Source Text', 'Target Text'],
         items: [],
         heading: 'Chatbot Dataset',
         subheading: 'Chatbot Dataset',
@@ -34,7 +53,7 @@ export default {
     },
     methods: {
         getDatasetData() {
-            axios.get('http://127.0.0.1:8080/api/conversations')
+            axios.get('http://127.0.0.1:5000/api/conversations')
             .then(response => {
             this.items = response.data;
                 console.log(response);
@@ -42,6 +61,26 @@ export default {
             .catch(error => {
                 console.error(error);
             });
+        },
+
+        handleDeleteRow(id) {
+            axios.delete('http://127.0.0.1:5000/api/conversations/' + id)
+            .then(response => {
+                this.getDatasetData();
+                console.log(response);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        },
+
+        handleUpdateRow() {
+            console.log("update")
+        },
+
+        toggleCreateData(){
+            console.log(this.showCreateData)
+            this.showCreateData = !this.showCreateData;
         }
     }
 };

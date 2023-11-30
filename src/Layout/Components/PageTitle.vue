@@ -14,12 +14,17 @@
                 </div>
             </div>
             <div class="page-title-actions">
-                <button type="button" class="btn-shadow mr-3 btn btn-dark">
-                    <font-awesome-icon icon="star"/>
-                </button>
-                <button type="button" class="btn-shadow d-inline-flex align-items-center btn btn-success">
+                <button type="button" @click=clickCreateBtn class="btn-shadow d-inline-flex align-items-center btn btn-success">
                     <font-awesome-icon class="mr-2" icon="plus"/>
                     Create New
+                </button>
+                <button v-if="showImport" @click=clickImportBtn type="button" class="btn-shadow d-inline-flex align-items-center btn btn-info">
+                    <font-awesome-icon class="mr-2" icon="plus"/>
+                    import
+                </button>
+                <button v-if="showExport" @click=clickExportBtn type="button" class="btn-shadow d-inline-flex align-items-center btn btn-info">
+                    <font-awesome-icon class="mr-2" icon="plus"/>
+                    Export
                 </button>
             </div>
         </div>
@@ -43,11 +48,49 @@
         components: {
             'font-awesome-icon': FontAwesomeIcon,
         },
-        props: {
-            icon: String,
-            heading: String,
-            subheading: String,
 
-        }
+        props: {
+            icon: {
+                type: String,
+                required: true,
+            },
+            heading: {
+                type: String,
+                required: true,
+            },
+            subheading: {
+                type: String,
+                required: false,
+            },
+            showImport: {
+                type: Boolean,
+                default: false,
+                required: false,
+            },
+            showExport: {
+                type: Boolean,
+                default: false,
+                required: false,
+            },
+        },
+
+        data() {
+            return {
+            };
+        },
+
+        methods: {
+            clickCreateBtn() {
+                this.$emit('clickCreateBtn');
+            },
+
+            clickImportBtn() {
+                this.$emit('clickImportBtn');
+            },
+
+            clickExportBtn() {
+                this.$emit('clickExportBtn');
+            },
+            }
     }
 </script>

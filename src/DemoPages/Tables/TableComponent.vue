@@ -9,9 +9,12 @@
       </thead>
       <tbody>
         <tr v-for="(item, key) in items" :key="key">
+          <td>{{ item.id }}</td>
           <td>{{ item.source_text }}</td>
           <td>{{ item.target_text }}</td>
           <td>
+            <button type="button" class="btn btn-sm btn-primary" @click="updateRow(item.id)"><i class="pe-7s-file"></i></button>
+            <button type="button" class="btn btn-sm btn-warning" @click="deleteRow(item.id)"><i class="pe-7s-trash"></i></button>
           </td>
         </tr>
       </tbody>
@@ -54,6 +57,12 @@
       },
       footer: {
         type: Boolean,
+        default: false,
+        required: false,
+      },
+      small: {
+        type: Boolean,
+        default: false,
         required: false,
       },
     },
@@ -62,7 +71,7 @@
       striped: false,
       bordered: false,
       outlined: false,
-      small: false,
+      // small: false,
       hover: false,
       dark: false,
       fixed: false,
@@ -73,7 +82,13 @@
     },
 
     methods: {
+      deleteRow(id) {
+        this.$emit('deleteRow', id);
+      },
 
+      updateRow(id) {
+         this.$emit('updateRow', id);
+      },
     }
   }
 </script>
