@@ -41,6 +41,11 @@ export default new Router({
 
         // DataSet
         {
+            path: '/dataset',
+            name: 'dataset',
+            component: () => import('../Pages/Datasets/DatasetPageComponent.vue'),
+        },
+        {
             path: '/translations',
             name: 'translations',
             component: () => import('../Pages/Datasets/LanguagueComponent.vue'),

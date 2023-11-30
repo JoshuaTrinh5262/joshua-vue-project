@@ -1,5 +1,28 @@
 <template>
   <div>
+    <table class="table b-table">
+      <thead>
+        <tr>
+          <th v-for="(field, key) in fields" :key="key">{{ field }}</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item, key) in items" :key="key">
+          <td>{{ item.source_text }}</td>
+          <td>{{ item.target_text }}</td>
+          <td>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot v-if="footer">
+        <tr>
+          <th v-for="(field, key) in fields" :key="key">{{ field }}</th>
+          <th>Action</th>
+        </tr>
+      </tfoot>
+    </table>
+
     <b-table :striped="striped"
             :bordered="bordered"
             :outlined="outlined"
@@ -7,7 +30,7 @@
             :hover="hover"
             :dark="dark"
             :fixed="fixed"
-            :foot-clone="footClone"
+            :foot-clone="footer"
             :items="items"
             :fields="fields">
     </b-table>
@@ -20,9 +43,22 @@
 
   export default {
     components: { PaginationComponent },
+    props: {
+      fields: {
+        type: Array,
+        required: true,
+      },
+      items: {
+        type: Array,
+        required: true,
+      },
+      footer: {
+        type: Boolean,
+        required: false,
+      },
+    },
+
     data: () => ({
-      fields: [ 'id', 'name', 'age' ],
-      items: [],
       striped: false,
       bordered: false,
       outlined: false,
@@ -30,28 +66,14 @@
       hover: false,
       dark: false,
       fixed: false,
-      footClone: false
     }),
 
     created() {
-      this.fetchData();
+
     },
 
     methods: {
-      fetchData() {
-        fetch('./demo/data/translation.json')
-        .then(response => {
-          return response.json();
-        })
-        .then(data => {
-          this.items = data.data;
-          console.log(data);
-        })
-        .catch(error => {
-          console.error(error);
-        });
-      }
-    }
 
+    }
   }
 </script>

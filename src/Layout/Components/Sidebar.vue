@@ -71,6 +71,10 @@
                         icon: 'pe-7s-rocket',
                         child: [
                             {
+                                href: '/dataset',
+                                title: 'dataset',
+                            },
+                            {
                                 href: '/translations',
                                 title: 'Translations',
                             },
