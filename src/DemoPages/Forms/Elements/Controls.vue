@@ -4,14 +4,16 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="main-card mb-3 card">
-                    <div class="card-body"><h5 class="card-title">Controls Types</h5>
+                    <div class="card-body">
+                        <h5 class="card-title">Controls Types</h5>
                         <form class="">
-                            <div class="position-relative form-group"><label for="exampleEmail"
-                                                                             class="">Email</label><input name="email"
-                                                                                                          id="exampleEmail"
-                                                                                                          placeholder="with a placeholder"
-                                                                                                          type="email"
-                                                                                                          class="form-control">
+                            <div class="position-relative form-group">
+                                <label for="exampleEmail" class="">Email</label>
+                                <input name="email"
+                                    id="exampleEmail"
+                                    placeholder="with a placeholder"
+                                    type="email"
+                                    class="form-control">
                             </div>
                             <div class="position-relative form-group"><label for="examplePassword"
                                                                              class="">Password</label><input

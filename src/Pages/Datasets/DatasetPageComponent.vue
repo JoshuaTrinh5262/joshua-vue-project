@@ -8,12 +8,28 @@
             :showImport=true
             :showExport=true
             ></page-title>
-            <div v-if="showCreateData" class="main-card">
-                <div class="card-head">
-                    <div class="card-title">Create New Chat Data</div>
-                </div>
+            <div class="main-card mb-3 card">
                 <div class="card-body">
-
+                    <h5 class="card-title">Add New Data</h5>
+                    <div class="position-relative form-group">
+                        <label for="source_text" class="">Source Text</label>
+                        <input name="source_text"
+                            v-model="source_text"
+                            id="source_text"
+                            placeholder="with a placeholder"
+                            type="text"
+                            class="form-control">
+                    </div>
+                    <div class="position-relative form-group">
+                        <label for="target_text" class="">Target Text</label>
+                        <input name="target_text"
+                            v-model="target_text"
+                            id="target_text"
+                            placeholder="with a placeholder"
+                            type="text"
+                            class="form-control">
+                    </div>
+                    <button class="btn-primary btn-sm"  @click="handleCreate">Submit</button>
                 </div>
             </div>
         <table-component 
@@ -40,6 +56,8 @@ export default {
     },
 
     data: () => ({
+        source_text: '',
+        target_text: '',
         showCreateData: false,
         fields: ['Id', 'Source Text', 'Target Text'],
         items: [],
@@ -52,11 +70,32 @@ export default {
         this.getDatasetData();
     },
     methods: {
+        handleCreate() {
+            const postData = {
+                source_text: this.source_text,
+                target_text: this.target_text,
+                language: 'en',
+            };
+            
+            if(this.source_text && this.target_text) {
+                axios.post('http://127.0.0.1:5000/api/conversations', postData)
+                .then(() => {
+                    this.getDatasetData();
+                    this.source_text = '';
+                    this.target_text = '';
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+            } else {
+                alert('Please enter data before submitting.');
+            }
+        },
+
         getDatasetData() {
             axios.get('http://127.0.0.1:5000/api/conversations')
             .then(response => {
-            this.items = response.data;
-                console.log(response);
+                this.items = response.data;
             })
             .catch(error => {
                 console.error(error);
@@ -65,9 +104,8 @@ export default {
 
         handleDeleteRow(id) {
             axios.delete('http://127.0.0.1:5000/api/conversations/' + id)
-            .then(response => {
+            .then(() => {
                 this.getDatasetData();
-                console.log(response);
             })
             .catch(error => {
                 console.error(error);
