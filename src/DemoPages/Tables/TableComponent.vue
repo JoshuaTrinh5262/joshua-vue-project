@@ -12,6 +12,7 @@
           <td>{{ item.id }}</td>
           <td>{{ item.source_text }}</td>
           <td>{{ item.target_text }}</td>
+          <td>{{ item.created_date }}</td>
           <td>
             <button type="button" class="btn btn-sm btn-primary" @click="updateRow(item.id)"><i class="pe-7s-file"></i></button>
             <button type="button" class="btn btn-sm btn-warning" @click="deleteRow(item.id)"><i class="pe-7s-trash"></i></button>
@@ -26,7 +27,7 @@
       </tfoot>
     </table>
 
-    <b-table :striped="striped"
+    <!-- <b-table :striped="striped"
             :bordered="bordered"
             :outlined="outlined"
             :small="small"
@@ -36,16 +37,15 @@
             :foot-clone="footer"
             :items="items"
             :fields="fields">
-    </b-table>
-    <pagination-component></pagination-component>
+    </b-table> -->
   </div>
 </template>
 
 <script>
-  import PaginationComponent from '../Components/PaginationComponent.vue';
+  // import PaginationComponent from '../../DemoPages/Components/PaginationComponent.vue';
 
   export default {
-    components: { PaginationComponent },
+    // components: { PaginationComponent },
     props: {
       fields: {
         type: Array,

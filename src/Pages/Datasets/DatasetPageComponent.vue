@@ -4,11 +4,12 @@
             :heading=heading
             :subheading=subheading
             :icon=icon
-            :clickCreateBtn="toggleCreateData"
+            @click-create-btn="toggleCreateData"
+            @click-export-btn="handleExport"
             :showImport=true
             :showExport=true
             ></page-title>
-            <div class="main-card mb-3 card">
+            <div class="main-card mb-3 card" v-if="showCreateData">
                 <div class="card-body">
                     <h5 class="card-title">Add New Data</h5>
                     <div class="position-relative form-group">
@@ -40,11 +41,19 @@
             @deleteRow="handleDeleteRow"
             @updateRow="handleUpdateRow">
         </table-component>
+        <pagination-component
+            :currentPage="currentPage"
+            :perPage="itemsPerPage"
+            :totalItems="totalItems"
+            :totalPages="totalPages"
+            @load-page="loadPage"
+            @change-page-size="changePageSize"></pagination-component>
     </div>
 </template>
 <script>
 import TableComponent from '../../DemoPages/Tables/TableComponent.vue';
-import PageTitle from "../../Layout/Components/PageTitle.vue";
+import PageTitle from "../../Layout/Components/PageTitle";
+import PaginationComponent from "../../DemoPages/Components/PaginationComponent.vue";
 import axios from 'axios';
 
 export default {
@@ -52,14 +61,19 @@ export default {
 
     components: {
         PageTitle,
+        PaginationComponent,
         TableComponent
     },
 
     data: () => ({
+        currentPage: 1,
+        itemsPerPage: 20,
+        totalItems: 0,
+        totalPages: 0,
         source_text: '',
         target_text: '',
         showCreateData: false,
-        fields: ['Id', 'Source Text', 'Target Text'],
+        fields: ['Id', 'Source Text', 'Target Text', 'Created Date'],
         items: [],
         heading: 'Chatbot Dataset',
         subheading: 'Chatbot Dataset',
@@ -67,7 +81,7 @@ export default {
     }),
 
     created() {
-        this.getDatasetData();
+        this.getDatasetData(this.currentPage, this.itemsPerPage);
     },
     methods: {
         handleCreate() {
@@ -80,7 +94,7 @@ export default {
             if(this.source_text && this.target_text) {
                 axios.post('http://127.0.0.1:5000/api/conversations', postData)
                 .then(() => {
-                    this.getDatasetData();
+                    this.getDatasetData(this.currentPage, this.itemsPerPage);
                     this.source_text = '';
                     this.target_text = '';
                 })
@@ -92,10 +106,27 @@ export default {
             }
         },
 
-        getDatasetData() {
-            axios.get('http://127.0.0.1:5000/api/conversations')
+        getDatasetData(newPage, newPageSize) {
+            axios.get('http://127.0.0.1:5000/api/conversations', {
+                params: {
+                    page: newPage,
+                    pagesize: newPageSize,
+                },
+            })
             .then(response => {
-                this.items = response.data;
+                this.items = response.data.data;
+                this.currentPage = response.data.current_page;
+                this.totalPages = response.data.total_pages;
+                this.totalItems = response.data.total_items;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        },
+
+        handleExport() {
+            axios.get('http://127.0.0.1:5000/api/export/csv')
+            .then(() => {
             })
             .catch(error => {
                 console.error(error);
@@ -103,13 +134,16 @@ export default {
         },
 
         handleDeleteRow(id) {
-            axios.delete('http://127.0.0.1:5000/api/conversations/' + id)
-            .then(() => {
-                this.getDatasetData();
-            })
-            .catch(error => {
-                console.error(error);
-            });
+            const isConfirmed = window.confirm('Are you sure you want to delete?');
+            if(isConfirmed) {
+                axios.delete('http://127.0.0.1:5000/api/conversations/' + id)
+                .then(() => {
+                    this.getDatasetData(this.currentPage, this.itemsPerPage);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+            }
         },
 
         handleUpdateRow() {
@@ -119,7 +153,16 @@ export default {
         toggleCreateData(){
             console.log(this.showCreateData)
             this.showCreateData = !this.showCreateData;
-        }
+        },
+        loadPage(page) {
+            this.currentPage = page;
+            this.getDatasetData(this.currentPage, this.itemsPerPage);
+        },
+
+        changePageSize(newPageSize) {
+            this.itemsPerPage = newPageSize;
+            this.getDatasetData(this.currentPage, this.itemsPerPage);
+        },
     }
 };
 </script>

@@ -81,16 +81,16 @@
 
         methods: {
             clickCreateBtn() {
-                this.$emit('clickCreateBtn');
+                this.$emit('click-create-btn');
             },
 
             clickImportBtn() {
-                this.$emit('clickImportBtn');
+                this.$emit('click-import-btn');
             },
 
             clickExportBtn() {
-                this.$emit('clickExportBtn');
+                this.$emit('click-export-btn');
             },
-            }
+        },
     }
 </script>
