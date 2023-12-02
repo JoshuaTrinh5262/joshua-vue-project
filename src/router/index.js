@@ -137,7 +137,7 @@ export default new Router({
         {
             path: '/components/pagination',
             name: 'pagination',
-            component: () => import('../DemoPages/Components/PaginationComponent.vue'),
+            component: () => import('../DemoPages/Components/PaginationPage.vue'),
         },
         {
             path: '/components/maps',
