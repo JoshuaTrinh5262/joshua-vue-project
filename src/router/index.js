@@ -15,7 +15,7 @@ export default new Router({
         {
             path: '/',
             name: 'analytics',
-            component: () => import('../DemoPages/Dashboards/Analytics.vue'),
+            component: () => import('../DemoPages/Dashboards/AnalyticsComponent.vue'),
         },
 
         // Pages
@@ -64,42 +64,42 @@ export default new Router({
         {
             path: '/elements/buttons-standard',
             name: 'buttons-standard',
-            component: () => import('../DemoPages/Elements/Buttons/Standard.vue'),
+            component: () => import('../DemoPages/Elements/Buttons/StandardComponent.vue'),
         },
         {
             path: '/elements/dropdowns',
             name: 'dropdowns',
-            component: () => import('../DemoPages/Elements/Dropdowns.vue'),
+            component: () => import('../DemoPages/Elements/DropdownsComponent.vue'),
         },
         {
             path: '/elements/icons',
             name: 'icons',
-            component: () => import('../DemoPages/Elements/Icons.vue'),
+            component: () => import('../DemoPages/Elements/IconsComponent.vue'),
         },
         {
             path: '/elements/badges-labels',
             name: 'badges',
-            component: () => import('../DemoPages/Elements/Badges.vue'),
+            component: () => import('../DemoPages/Elements/BadgesComponent.vue'),
         },
         {
             path: '/elements/cards',
             name: 'cards',
-            component: () => import('../DemoPages/Elements/Cards.vue'),
+            component: () => import('../DemoPages/Elements/CardsComponent.vue'),
         },
         {
             path: '/elements/list-group',
             name: 'list-group',
-            component: () => import('../DemoPages/Elements/ListGroups.vue'),
+            component: () => import('../DemoPages/Elements/ListGroupsComponent.vue'),
         },
         {
             path: '/elements/timelines',
             name: 'timeline',
-            component: () => import('../DemoPages/Elements/Timeline.vue'),
+            component: () => import('../DemoPages/Elements/TimelineComponent.vue'),
         },
         {
             path: '/elements/utilities',
             name: 'utilities',
-            component: () => import('../DemoPages/Elements/Utilities.vue'),
+            component: () => import('../DemoPages/Elements/UtilitiesComponent.vue'),
         },
 
         // Components
@@ -107,42 +107,42 @@ export default new Router({
         {
             path: '/components/tabs',
             name: 'tabs',
-            component: () => import('../DemoPages/Components/Tabs.vue'),
+            component: () => import('../DemoPages/Components/TabsComponent.vue'),
         },
         {
             path: '/components/accordions',
             name: 'accordions',
-            component: () => import('../DemoPages/Components/Accordions.vue'),
+            component: () => import('../DemoPages/Components/AccordionsComponent.vue'),
         },
         {
             path: '/components/modals',
             name: 'modals',
-            component: () => import('../DemoPages/Components/Modals.vue'),
+            component: () => import('../DemoPages/Components/ModalsComponent.vue'),
         },
         {
             path: '/components/progress-bar',
             name: 'progress-bar',
-            component: () => import('../DemoPages/Components/ProgressBar.vue'),
+            component: () => import('../DemoPages/Components/ProgressBarComponent.vue'),
         },
         {
             path: '/components/tooltips-popovers',
             name: 'tooltips-popovers',
-            component: () => import('../DemoPages/Components/TooltipsPopovers.vue'),
+            component: () => import('../DemoPages/Components/TooltipsPopoversComponent.vue'),
         },
         {
             path: '/components/carousel',
             name: 'carousel',
-            component: () => import('../DemoPages/Components/Carousel.vue'),
+            component: () => import('../DemoPages/Components/CarouselComponent.vue'),
         },
         {
             path: '/components/pagination',
             name: 'pagination',
-            component: () => import('../DemoPages/Components/Pagination.vue'),
+            component: () => import('../DemoPages/Components/PaginationComponent.vue'),
         },
         {
             path: '/components/maps',
             name: 'maps',
-            component: () => import('../DemoPages/Components/Maps.vue'),
+            component: () => import('../DemoPages/Components/MapsComponent.vue'),
         },
 
         // Tables
@@ -166,19 +166,19 @@ export default new Router({
         {
             path: '/forms/controls',
             name: 'controls',
-            component: () => import('../DemoPages/Forms/Elements/Controls.vue'),
+            component: () => import('../DemoPages/Forms/Elements/ControlsComponent.vue'),
         },
         {
             path: '/forms/layouts',
             name: 'layouts',
-            component: () => import('../DemoPages/Forms/Elements/Layouts.vue'),
+            component: () => import('../DemoPages/Forms/Elements/LayoutsComponent.vue'),
         },
         // Charts
 
         {
             path: '/charts/chartjs',
             name: 'chartjs',
-            component: () => import('../DemoPages/Charts/Chartjs.vue'),
+            component: () => import('../DemoPages/Charts/ChartjsComponent.vue'),
         },
 
         // Kanban

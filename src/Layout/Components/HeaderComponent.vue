@@ -45,7 +45,7 @@
         faEllipsisV,
     );
     export default {
-        name: "Header",
+        name: "header-componenent",
         components: {
             SearchBox,
             UserArea,

@@ -24,6 +24,8 @@
     import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 
     export default {
+        name: "sidebar-componenent",
+
         components: {
             SidebarMenu,
             VuePerfectScrollbar
