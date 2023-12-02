@@ -4,12 +4,13 @@
             :heading=heading
             :subheading=subheading
             :icon=icon
-            @click-create-btn="toggleCreateData"
-            @click-export-btn="handleExport"
+            @click-create-btn="toggleCreate"
+            @click-import-btn="toggleImport"
+            @click-export-btn="toggleExport"
             :showImport=true
             :showExport=true
             ></page-title>
-            <div class="main-card mb-3 card" v-if="showCreateData">
+            <div class="main-card mb-3 card" v-if="showCreate">
                 <div class="card-body">
                     <h5 class="card-title">Add New Data</h5>
                     <div class="position-relative form-group">
@@ -21,6 +22,7 @@
                             type="text"
                             class="form-control">
                     </div>
+        
                     <div class="position-relative form-group">
                         <label for="target_text" class="">Target Text</label>
                         <input name="target_text"
@@ -31,6 +33,12 @@
                             class="form-control">
                     </div>
                     <button class="btn-primary btn-sm"  @click="handleCreate">Submit</button>
+                </div>
+            </div>
+            <div class="main-card mb-3 card" v-if="showImport">
+                <div class="card-body">
+                    <h5 class="card-title">Import</h5>
+                    <button class="btn-primary btn-sm"  @click="handleImport">Import</button>
                 </div>
             </div>
         <table-component 
@@ -72,7 +80,9 @@ export default {
         totalPages: 0,
         source_text: '',
         target_text: '',
-        showCreateData: false,
+        showCreate: false,
+        showImport: false,
+        showExport: false,
         fields: ['Id', 'Source Text', 'Target Text', 'Created Date'],
         items: [],
         heading: 'Chatbot Dataset',
@@ -124,9 +134,24 @@ export default {
             });
         },
 
+        handleImport() {
+            
+        },
+
         handleExport() {
-            axios.get('http://127.0.0.1:5000/api/export/csv')
-            .then(() => {
+            axios({
+                method: 'get',
+                url: 'http://127.0.0.1:5000/api/export/csv',
+                responseType: 'blob',
+            })
+            .then(response => {
+                const blob = new Blob([response.data], { type: response.headers['content-type'] });
+
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+
+                link.download = 'conversations.csv';
+                link.click();
             })
             .catch(error => {
                 console.error(error);
@@ -150,10 +175,24 @@ export default {
             console.log("update")
         },
 
-        toggleCreateData(){
-            console.log(this.showCreateData)
-            this.showCreateData = !this.showCreateData;
+        toggleCreate(){
+            this.showImport = false;
+            this.showExport = false;
+            this.showCreate = !this.showCreate;
         },
+
+        toggleImport(){
+            this.showImport = !this.showImport;
+            this.showExport = false;
+            this.showCreate = false;
+        },
+
+        toggleExport(){
+            this.showImport = false;
+            this.showExport = !this.showExport;
+            this.showCreate = false;
+        },
+
         loadPage(page) {
             this.currentPage = page;
             this.getDatasetData(this.currentPage, this.itemsPerPage);
@@ -161,7 +200,7 @@ export default {
 
         changePageSize(newPageSize) {
             this.itemsPerPage = newPageSize;
-            this.getDatasetData(this.currentPage, this.itemsPerPage);
+            this.getDatasetData(1, this.itemsPerPage);
         },
     }
 };
