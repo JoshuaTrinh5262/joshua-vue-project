@@ -1,17 +1,17 @@
 <template>
     <div class="app-container app-theme-white">
         <transition name="fade" mode="out-in" appear>
-            <Header />
+            <HeaderComponent />
         </transition>
         <transition name="fade" mode="out-in" appear>
-            <Sidebar />
+            <SidebarComponent />
         </transition>
         <div class="app-main__outer">
             <div class="app-main__inner">
                 <slot></slot>
             </div>
             <transition name="fade" mode="out-in" appear>
-                <Footer/>
+                <FooterComponent/>
             </transition>
         </div>
         <!-- Modal Component -->
@@ -28,9 +28,9 @@
 </template>
 
 <script>
-    import Header from "../Components/Header";
-    import Sidebar from "../Components/Sidebar";
-    import Footer from "../Components/Footer";
+    import HeaderComponent from "../Components/HeaderComponent";
+    import SidebarComponent from "../Components/SidebarComponent";
+    import FooterComponent from "../Components/FooterComponent";
     // import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 
     import {library} from '@fortawesome/fontawesome-svg-core'
@@ -45,9 +45,9 @@
     export default {
         name: 'app',
         components: {
-            Header,
-            Sidebar,
-            Footer,
+            HeaderComponent,
+            SidebarComponent,
+            FooterComponent,
         },
         methods: {
         },

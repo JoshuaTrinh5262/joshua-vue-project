@@ -16,7 +16,7 @@
         faEllipsisV,
     );
     export default {
-        name: "Footer",
+        name: "footer-componenent",
         components: {
         }
     };
