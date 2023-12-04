@@ -43,7 +43,7 @@ export default new Router({
         {
             path: '/dataset',
             name: 'dataset',
-            component: () => import('../Pages/Datasets/DatasetPageComponent.vue'),
+            component: () => import('../Pages/Datasets/DatasetPage.vue'),
         },
         {
             path: '/translations',

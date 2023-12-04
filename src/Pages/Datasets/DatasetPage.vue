@@ -65,7 +65,7 @@ import PaginationComponent from "../../DemoPages/Components/PaginationComponent.
 import axios from 'axios';
 
 export default {
-    name: "DatasetPageComponent",
+    name: "dataset page",
 
     components: {
         PageTitle,
