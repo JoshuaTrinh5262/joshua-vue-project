@@ -1,6 +1,9 @@
 <template>
   <div>
-    <page-title :heading=heading :subheading=subheading :icon=icon></page-title>
+    <page-title-component
+      :heading=heading
+      :subheading=subheading
+      :icon=icon></page-title-component>
     <div class="d-flex justify-content-center">
       <div class="min-vh-100 d-flex overflow-auto py-5">
         <div
@@ -26,7 +29,7 @@
 </template>
 <script>
 import draggable from "vuedraggable";
-import PageTitle from "../../Layout/Components/PageTitle.vue";
+import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 import TaskComponent from "./TaskComponent";
 
 export default {
@@ -34,7 +37,7 @@ export default {
   components: {
     TaskComponent,
     draggable,
-    PageTitle
+    PageTitleComponent
   },
   data() {
     return {

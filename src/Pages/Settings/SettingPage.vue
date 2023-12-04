@@ -1,16 +1,16 @@
 <template>
     <div>
-        <page-title :heading=heading :subheading=subheading :icon=icon></page-title>
+        <page-title-component :heading=heading :subheading=subheading :icon=icon></page-title-component>
     </div>
 </template>
 <script>
-import PageTitle from "../../Layout/Components/PageTitle.vue";
+import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 
 export default {
     name: "SettingComponent",
 
     components: {
-        PageTitle
+        PageTitleComponent
     },
 
     data: () => ({

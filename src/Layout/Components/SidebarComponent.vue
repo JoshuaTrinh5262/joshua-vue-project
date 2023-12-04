@@ -51,6 +51,30 @@
                         ]
                     },
                     {
+                        title: 'DataSet',
+                        icon: 'pe-7s-rocket',
+                        child: [
+                            {
+                                href: '/dataset',
+                                title: 'Dataset',
+                            },
+                            {
+                                href: '/translations',
+                                title: 'Translations',
+                            },
+                        ]
+                    },
+                    {
+                        title: 'Settings',
+                        icon: 'pe-7s-rocket',
+                        child: [
+                            {
+                                href: '/settings',
+                                title: 'Settings',
+                            },
+                        ]
+                    },
+                    {
                         title: 'Pages',
                         icon: 'pe-7s-browser',
                         child: [
@@ -68,16 +92,7 @@
                             },
                         ]
                     },
-                    {
-                        title: 'Settings',
-                        icon: 'pe-7s-rocket',
-                        child: [
-                            {
-                                href: '/settings',
-                                title: 'Settings',
-                            },
-                        ]
-                    },
+                    
                     {
                         header: true,
                         title: 'UI Components',

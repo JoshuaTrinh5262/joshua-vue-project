@@ -39,12 +39,23 @@ export default new Router({
             component: () => import('../DemoPages/UserPages/ForgotPasswordBoxed.vue'),
         },
 
-        // Settings
+        // DataSet
+        {
+            path: '/dataset',
+            name: 'dataset',
+            component: () => import('../Pages/Datasets/DatasetPage.vue'),
+        },
+        {
+            path: '/translations',
+            name: 'translations',
+            component: () => import('../Pages/Datasets/LanguaguePage.vue'),
+        },
 
+        // Settings
         {
             path: '/settings',
             name: 'settings',
-            component: () => import('../Pages/Settings/SettingComponent.vue'),
+            component: () => import('../Pages/Settings/SettingPage.vue'),
         },
         
 
@@ -126,7 +137,7 @@ export default new Router({
         {
             path: '/components/pagination',
             name: 'pagination',
-            component: () => import('../DemoPages/Components/PaginationComponent.vue'),
+            component: () => import('../DemoPages/Components/PaginationPage.vue'),
         },
         {
             path: '/components/maps',

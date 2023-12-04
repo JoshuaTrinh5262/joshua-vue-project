@@ -1,6 +1,9 @@
 <template>
     <div>
-        <page-title :heading=heading :subheading=subheading :icon=icon></page-title>
+        <page-title-component
+            :heading=heading
+            :subheading=subheading
+            :icon=icon></page-title-component>
         <div class="mb-3 card">
             <div class="card-header-tab card-header">
                 <div class="card-header-title font-size-lg text-capitalize font-weight-normal">
@@ -109,6 +112,12 @@
                                     </div>
                                     <div class="widget-chart-wrapper he-auto opacity-10 m-0">
                                         <chart1 :height="145"/>
+                                    </div>
+                                    <div class="widget-chart-wrapper he-auto opacity-10 m-0">
+                                        <chart2 :height="145"/>
+                                    </div>
+                                    <div class="widget-chart-wrapper he-auto opacity-10 m-0">
+                                        <chart3 :height="145"/>
                                     </div>
                                 </div>
                             </div>
@@ -801,12 +810,12 @@
 
 <script>
 
-    import PageTitle from "../../Layout/Components/PageTitle.vue";
+    import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
     import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 
     import chart1 from './Analytics/chart1';
-    // import chart2 from './Analytics/chart2';
-    // import chart3 from './Analytics/chart3';
+    import chart2 from './Analytics/chart2';
+    import chart3 from './Analytics/chart3';
 
     import {library} from '@fortawesome/fontawesome-svg-core'
     import {
@@ -830,12 +839,12 @@
 
     export default {
         components: {
-            PageTitle,
+            PageTitleComponent,
             VuePerfectScrollbar,
             'font-awesome-icon': FontAwesomeIcon,
             chart1,
-            // chart2,
-            // chart3,
+            chart2,
+            chart3,
 
         },
         data: () => ({
