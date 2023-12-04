@@ -48,8 +48,13 @@
                                 href: '/',
                                 title: 'Analytics',
                             },
+                            {
+                                href: '/word-counter',
+                                title: 'Word Counter',
+                            },
                         ]
                     },
+                    
                     {
                         title: 'Pages',
                         icon: 'pe-7s-browser',
