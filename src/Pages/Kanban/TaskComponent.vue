@@ -18,6 +18,8 @@
 <script>
 import BadgeComponent from "./BadgeComponent.vue";
 export default {
+  name: "TaskComponent",
+
   components: {
     BadgeComponent
   },

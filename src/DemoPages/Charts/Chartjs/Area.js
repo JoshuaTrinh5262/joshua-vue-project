@@ -4,7 +4,7 @@ export default {
     extends: Line,
     mounted() {
         this.renderChart({
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
             options: {
                 legend: {
                     display: false
@@ -30,7 +30,7 @@ export default {
                     pointHoverBorderWidth: 2,
                     pointRadius: 1,
                     pointHitRadius: 10,
-                    data: [65, 59, 80, 81, 56, 55, 40]
+                    data: [65, 59, 80, 81, 56, 55, 40, 59, 80, 81, 56, 55, 40]
                 }
             ]
         }, {responsive: true, maintainAspectRatio: false})

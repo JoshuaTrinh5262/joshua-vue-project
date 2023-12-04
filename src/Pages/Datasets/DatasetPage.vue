@@ -11,34 +11,33 @@
             :showExport=true
             ></page-title-component>
             <div class="main-card mb-3 card" v-if="showCreate">
-                <div class="card-body">
+                <div class="card-header">
                     <h5 class="card-title">Add New Data</h5>
+                </div>
+                <div class="card-body">
                     <div class="position-relative form-group">
-                        <label for="source_text" class="">Source Text</label>
-                        <input name="source_text"
-                            v-model="source_text"
-                            id="source_text"
-                            placeholder="with a placeholder"
-                            type="text"
-                            class="form-control">
+                        <div class="form-inline">
+                            <input name="source" v-model="source_text" id="source_text" placeholder="Source Text" type="text" class="form-control">
+                            <input name="target" v-model="target_text" id="target_text" placeholder="Target Text" type="text" class="form-control">
+                        </div>
                     </div>
-        
                     <div class="position-relative form-group">
-                        <label for="target_text" class="">Target Text</label>
-                        <input name="target_text"
-                            v-model="target_text"
-                            id="target_text"
-                            placeholder="with a placeholder"
-                            type="text"
-                            class="form-control">
+                        <button class="btn-primary btn"  @click="handleCreate">Submit</button>
                     </div>
-                    <button class="btn-primary btn-sm"  @click="handleCreate">Submit</button>
                 </div>
             </div>
             <div class="main-card mb-3 card" v-if="showImport">
-                <div class="card-body">
+                <div class="card-header">
                     <h5 class="card-title">Import</h5>
-                    <button class="btn-primary btn-sm"  @click="handleImport">Import</button>
+                </div>
+                <div class="card-body">
+                    <div class="position-relative form-group">
+                        <label for="exampleFile" class="">File</label>
+                        <input name="file" id="exampleFile" type="file" class="form-control-file">
+                    </div>
+                    <div class="position-relative form-group">
+                        <button class="btn-primary btn"  @click="handleImport">Import</button>
+                    </div>
                 </div>
             </div>
         <table-component 
@@ -65,7 +64,7 @@ import PaginationComponent from "../../Layout/Components/PaginationComponent.vue
 import axios from 'axios';
 
 export default {
-    name: "dataset page",
+    name: "DatasetPage",
 
     components: {
         PageTitleComponent,

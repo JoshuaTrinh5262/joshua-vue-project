@@ -9,7 +9,7 @@ import TableComponent from '../../Layout/Components/TableComponent.vue';
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 
 export default {
-    name: "Languague Page",
+    name: "LanguaguePage",
 
     components: {
         PageTitleComponent,

@@ -4,7 +4,7 @@ export default {
   extends: Bar,
   mounted() {
     this.renderChart({
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
       datasets: [
         {
           label: 'My First dataset',
@@ -14,7 +14,7 @@ export default {
           hoverBackgroundColor: 'rgba(255,99,132,0.4)',
           hoverBorderColor: 'rgba(255,99,132,1)',
           borderCapStyle: 'round',
-          data: [65, 59, 80, 81, 56, 55, 40]
+          data: [65, 59, 80, 81, 56, 55, 65, 59, 80, 81, 56, 55, 40]
         }
       ]
     }, {responsive: true, maintainAspectRatio: false})

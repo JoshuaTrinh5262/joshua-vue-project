@@ -30,10 +30,9 @@
 </template>
 
 <script>
-  // import PaginationComponent from '../../DemoPages/Components/PaginationComponent.vue';
-
   export default {
-    // components: { PaginationComponent },
+    name: "TableComponent",
+
     props: {
       fields: {
         type: Array,
@@ -59,7 +58,7 @@
       striped: false,
       bordered: false,
       outlined: false,
-      // small: false,
+      small: false,
       hover: false,
       dark: false,
       fixed: false,
