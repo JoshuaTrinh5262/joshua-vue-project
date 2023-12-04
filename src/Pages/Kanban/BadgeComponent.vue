@@ -11,6 +11,8 @@
 </template>
 <script>
 export default {
+  name: 'badgeComponent',
+
   props: {
     color: {
       type: String,

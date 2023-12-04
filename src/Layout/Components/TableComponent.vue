@@ -26,18 +26,6 @@
         </tr>
       </tfoot>
     </table>
-
-    <!-- <b-table :striped="striped"
-            :bordered="bordered"
-            :outlined="outlined"
-            :small="small"
-            :hover="hover"
-            :dark="dark"
-            :fixed="fixed"
-            :foot-clone="footer"
-            :items="items"
-            :fields="fields">
-    </b-table> -->
   </div>
 </template>
 

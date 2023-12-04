@@ -48,14 +48,14 @@ export default new Router({
         {
             path: '/translations',
             name: 'translations',
-            component: () => import('../Pages/Datasets/LanguagueComponent.vue'),
+            component: () => import('../Pages/Datasets/LanguaguePage.vue'),
         },
 
         // Settings
         {
             path: '/settings',
             name: 'settings',
-            component: () => import('../Pages/Settings/SettingComponent.vue'),
+            component: () => import('../Pages/Settings/SettingPage.vue'),
         },
         
 

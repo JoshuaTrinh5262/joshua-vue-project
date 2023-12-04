@@ -41,14 +41,16 @@
       subheading: 'Tables are the backbone of almost all web applications.',
       icon: 'pe-7s-drawer icon-gradient bg-happy-itmeo',
 
-      fields: [ 'first_name', 'last_name', 'age' ],
+      fields: [ 'first_name', 'last_name', 'age' , 'gender'],
       items: [
-        { age: 40, first_name: 'Dickerson', last_name: 'Macdonald' },
-        { age: 21, first_name: 'Larsen', last_name: 'Shaw' },
-        { age: 89, first_name: 'Geneva', last_name: 'Wilson' },
-        { age: 40, first_name: 'Dickerson', last_name: 'Macdonald' },
-        { age: 21, first_name: 'Larsen', last_name: 'Shaw' },
-        { age: 89, first_name: 'Geneva', last_name: 'Wilson' }
+        { age: 40, first_name: 'Dickerson', last_name: 'Macdonald', gender: "Male" },
+        { age: 21, first_name: 'Larsen', last_name: 'Shaw', gender: "Male" },
+        { age: 89, first_name: 'Geneva', last_name: 'Wilson', gender: "Male" },
+        { age: 40, first_name: 'Dickerson', last_name: 'Macdonald', gender: "Male" },
+        { age: 21, first_name: 'Larsen', last_name: 'Shaw', gender: "Male" },
+        { age: 89, first_name: 'Geneva', last_name: 'Wilson', gender: "Male" },
+        { age: 20, first_name: 'Anna', last_name: 'Ashley', gender: "Female" },
+        { age: 20, first_name: 'Annie', last_name: 'Ashley', gender: "Female" }
       ],
       striped: false,
       bordered: false,

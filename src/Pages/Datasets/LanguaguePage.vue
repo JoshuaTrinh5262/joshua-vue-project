@@ -1,18 +1,18 @@
 <template>
     <div>
-        <page-title :heading=heading :subheading=subheading :icon=icon></page-title>
+        <page-title-component :heading=heading :subheading=subheading :icon=icon></page-title-component>
         <table-component></table-component>
     </div>
 </template>
 <script>
-import TableComponent from '../../DemoPages/Tables/TableComponent.vue';
-import PageTitle from "../../Layout/Components/PageTitle.vue";
+import TableComponent from '../../Layout/Components/TableComponent.vue';
+import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 
 export default {
-    name: "LanguagueComponent",
+    name: "Languague Page",
 
     components: {
-        PageTitle,
+        PageTitleComponent,
         TableComponent
     },
 

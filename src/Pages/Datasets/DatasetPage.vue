@@ -1,6 +1,6 @@
 <template>
     <div>
-        <page-title
+        <page-title-component
             :heading=heading
             :subheading=subheading
             :icon=icon
@@ -9,7 +9,7 @@
             @click-export-btn="toggleExport"
             :showImport=true
             :showExport=true
-            ></page-title>
+            ></page-title-component>
             <div class="main-card mb-3 card" v-if="showCreate">
                 <div class="card-body">
                     <h5 class="card-title">Add New Data</h5>
@@ -59,16 +59,16 @@
     </div>
 </template>
 <script>
-import TableComponent from '../../DemoPages/Tables/TableComponent.vue';
-import PageTitle from "../../Layout/Components/PageTitle";
-import PaginationComponent from "../../DemoPages/Components/PaginationComponent.vue";
+import TableComponent from '../../Layout/Components/TableComponent.vue';
+import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
+import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
 import axios from 'axios';
 
 export default {
     name: "dataset page",
 
     components: {
-        PageTitle,
+        PageTitleComponent,
         PaginationComponent,
         TableComponent
     },
