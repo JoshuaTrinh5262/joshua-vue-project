@@ -47,22 +47,8 @@
         default: false,
         required: false,
       },
-      small: {
-        type: Boolean,
-        default: false,
-        required: false,
-      },
-    },
 
-    data: () => ({
-      striped: false,
-      bordered: false,
-      outlined: false,
-      small: false,
-      hover: false,
-      dark: false,
-      fixed: false,
-    }),
+    },
 
     created() {
 
