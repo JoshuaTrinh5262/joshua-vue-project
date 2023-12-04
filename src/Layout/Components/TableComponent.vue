@@ -3,7 +3,7 @@
     <table class="table b-table">
       <thead>
         <tr>
-          <th v-for="(field, key) in fields" :key="key">{{ field }}</th>
+          <th v-for="field in fields" :key="field.key" :id="field.key">{{ field.value }}</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -21,7 +21,7 @@
       </tbody>
       <tfoot v-if="footer">
         <tr>
-          <th v-for="(field, key) in fields" :key="key">{{ field }}</th>
+          <th v-for="field in fields" :key="field.key" :id="field.key">{{ field.value }}</th>
           <th>Action</th>
         </tr>
       </tfoot>
@@ -58,7 +58,7 @@
       striped: false,
       bordered: false,
       outlined: false,
-      small: false,
+      // small: false,
       hover: false,
       dark: false,
       fixed: false,

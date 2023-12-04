@@ -10,6 +10,7 @@
             :showImport=true
             :showExport=true
             ></page-title-component>
+            <notification-component :notification="notification"></notification-component>
             <div class="main-card mb-3 card" v-if="showCreate">
                 <div class="card-header">
                     <h5 class="card-title">Add New Data</h5>
@@ -61,6 +62,7 @@
 import TableComponent from '../../Layout/Components/TableComponent.vue';
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
+import NotificationComponent from '../../Layout/Components/NotificationComponent.vue';
 import axios from 'axios';
 
 export default {
@@ -69,7 +71,8 @@ export default {
     components: {
         PageTitleComponent,
         PaginationComponent,
-        TableComponent
+        TableComponent,
+        NotificationComponent
     },
 
     data: () => ({
@@ -82,11 +85,29 @@ export default {
         showCreate: false,
         showImport: false,
         showExport: false,
-        fields: ['Id', 'Source Text', 'Target Text', 'Created Date'],
+        fields: [
+            {
+                key:'Id',
+                value: 'Id'
+            },
+            {
+                key:'source_text',
+                value: 'Source Text'
+            },
+            {
+                key:'target_text',
+                value: 'Target Text'
+            },
+            {
+                key:'created_date',
+                value: 'Created Date'
+            },
+        ],
         items: [],
         heading: 'Chatbot Dataset',
         subheading: 'Chatbot Dataset',
         icon: 'pe-7s-phone icon-gradient bg-premium-dark',
+        notification: {}
     }),
 
     created() {
@@ -102,13 +123,22 @@ export default {
             
             if(this.source_text && this.target_text) {
                 axios.post('http://127.0.0.1:5000/api/conversations', postData)
-                .then(() => {
+                .then((response) => {
                     this.getDatasetData(this.currentPage, this.itemsPerPage);
                     this.source_text = '';
                     this.target_text = '';
+                    this.notification = {
+                        title: 'Success',
+                        content: response.data.message,
+                        type: 'success'
+                    };
                 })
                 .catch(error => {
-                    console.error(error);
+                    this.notification = {
+                        title: 'Error',
+                        content: error,
+                        type: 'error'
+                    };
                 });
             } else {
                 alert('Please enter data before submitting.');
