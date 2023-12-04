@@ -51,30 +51,12 @@
                         ]
                     },
                     {
-                        title: 'Pages',
-                        icon: 'pe-7s-browser',
-                        child: [
-                            {
-                                href: '/pages/login-boxed',
-                                title: 'Login Boxed',
-                            },
-                            {
-                                href: '/pages/register-boxed',
-                                title: 'Register Boxed',
-                            },
-                            {
-                                href: '/pages/forgot-password-boxed',
-                                title: 'Forgot Password Boxed',
-                            },
-                        ]
-                    },
-                    {
                         title: 'DataSet',
                         icon: 'pe-7s-rocket',
                         child: [
                             {
                                 href: '/dataset',
-                                title: 'dataset',
+                                title: 'Dataset',
                             },
                             {
                                 href: '/translations',
@@ -92,6 +74,25 @@
                             },
                         ]
                     },
+                    {
+                        title: 'Pages',
+                        icon: 'pe-7s-browser',
+                        child: [
+                            {
+                                href: '/pages/login-boxed',
+                                title: 'Login Boxed',
+                            },
+                            {
+                                href: '/pages/register-boxed',
+                                title: 'Register Boxed',
+                            },
+                            {
+                                href: '/pages/forgot-password-boxed',
+                                title: 'Forgot Password Boxed',
+                            },
+                        ]
+                    },
+                    
                     {
                         header: true,
                         title: 'UI Components',
