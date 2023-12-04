@@ -48,8 +48,13 @@
                                 href: '/',
                                 title: 'Analytics',
                             },
+                            {
+                                href: '/word-counter',
+                                title: 'Word Counter',
+                            },
                         ]
                     },
+                    
                     {
                         title: 'DataSet',
                         icon: 'pe-7s-rocket',

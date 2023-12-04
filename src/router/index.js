@@ -17,6 +17,11 @@ export default new Router({
             name: 'analytics',
             component: () => import('../DemoPages/Dashboards/AnalyticsComponent.vue'),
         },
+        {
+            path: '/word-counter',
+            name: 'word-counter',
+            component: () => import('../Pages/WordCounter/WordCounterPage.vue'),
+        },
 
         // Pages
 
