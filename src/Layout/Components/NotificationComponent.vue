@@ -1,15 +1,13 @@
 <template>
-    <div class="alert" :class="`alert-${notification.type}`">
+    <div v-if="notification !== null" class="alert notification" :class="`alert-${notification.type}`">
         <div class="d-flex align-items-start">
-            <div class="me-3">
-            </div>
             <div class="flex-1">
                 <h4 class="alert-heading" v-if="notification.title">{{ notification.title }}</h4>
                 <p :class="{ 'mt-1': notification.title }">{{ notification.content }}</p>
             </div>
-            <div class="ms-3">
-                <button @click="closeNotification" type="button" class="btn-close" aria-label="Close"></button>
-            </div>
+            <button @click="closeNotification" class="close">
+              <span>x</span>
+            </button>
         </div>
     </div>
 </template>
@@ -22,13 +20,33 @@
       notification: {
         type: Object,
         require: false,
-
-    },
-    },
-    methods: {
-      closeNotification() {
-
       },
     },
+    data() {
+      return {
+      };
+    },
+
+    methods: {
+      closeNotification() {
+        this.$emit('update:notification', null);
+      },
+    },
+
+    mounted() {
+      setTimeout(() => {
+        this.closeNotification();
+      }, 6000);
+    },
+
   };
   </script>
+
+<style scoped>
+  .notification {
+    position: fixed;
+    top: 70px;
+    right: 50px;
+    z-index: 1050;
+  }
+</style>
