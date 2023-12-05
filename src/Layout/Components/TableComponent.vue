@@ -1,6 +1,6 @@
 <template>
   <div>
-    <table class="table b-table">
+    <table class="table table-sm ">
       <thead>
         <tr>
           <th v-for="field in fields" :key="field.key" :id="field.key">{{ field.value }}</th>
