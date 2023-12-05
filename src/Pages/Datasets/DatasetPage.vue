@@ -61,7 +61,6 @@
             </div>
         <table-component 
             :footer=true
-            :small=true
             :fields="fields"
             :items="items"
             @deleteRow="handleDeleteRow"
