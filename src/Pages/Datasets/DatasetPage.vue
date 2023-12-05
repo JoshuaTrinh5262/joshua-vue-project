@@ -10,25 +10,28 @@
             :showImport=true
             :showExport=true
             ></page-title-component>
+            <notification-component :notification.sync="notification"></notification-component>
             <div class="main-card mb-3 card" v-if="showCreate">
                 <div class="card-header">
                     <h5 class="card-title">Add New Data</h5>
                 </div>
                 <div class="card-body">
-                    <div class="position-relative form-group">
-                        <div class="form-inline">
-                            <input name="source" v-model="source_text" id="source_text" placeholder="Source Text" type="text" class="form-control">
-                            <input name="target" v-model="target_text" id="target_text" placeholder="Target Text" type="text" class="form-control">
+                    <form @submit.prevent="handleCreate">
+                        <div class="position-relative form-group">
+                            <div class="form-inline">
+                                <input name="source" v-model="source_text" required id="source_text" placeholder="Source Text" type="text" class="form-control">
+                                <input name="target" v-model="target_text" required id="target_text" placeholder="Target Text" type="text" class="form-control">
+                            </div>
                         </div>
-                    </div>
-                    <div class="position-relative form-group">
-                        <button class="btn-primary btn"  @click="handleCreate">Submit</button>
-                    </div>
+                        <div class="position-relative form-group">
+                            <button type="submit" class="btn-primary btn">Submit</button>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="main-card mb-3 card" v-if="showImport">
                 <div class="card-header">
-                    <h5 class="card-title">Import</h5>
+                    <h5 class="card-title">Import Data</h5>
                 </div>
                 <div class="card-body">
                     <div class="position-relative form-group">
@@ -37,6 +40,22 @@
                     </div>
                     <div class="position-relative form-group">
                         <button class="btn-primary btn"  @click="handleImport">Import</button>
+                    </div>
+                </div>
+            </div>
+            <div class="main-card mb-3 card" v-if="showExport">
+                <div class="card-header">
+                    <h5 class="card-title">Export Data</h5>
+                </div>
+                <div class="card-body">
+                    <div class="position-relative form-group">
+                        <div class="form-group">
+                            <label for="file_name" class="">File Name</label>
+                            <input name="file_name" v-model="file_name" id="file_name" placeholder="file name" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="position-relative form-group">
+                        <button class="btn-primary btn"  @click="handleExport">Export</button>
                     </div>
                 </div>
             </div>
@@ -60,6 +79,7 @@
 import TableComponent from '../../Layout/Components/TableComponent.vue';
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
+import NotificationComponent from '../../Layout/Components/NotificationComponent.vue';
 import axios from 'axios';
 
 export default {
@@ -68,7 +88,8 @@ export default {
     components: {
         PageTitleComponent,
         PaginationComponent,
-        TableComponent
+        TableComponent,
+        NotificationComponent
     },
 
     data: () => ({
@@ -81,11 +102,29 @@ export default {
         showCreate: false,
         showImport: false,
         showExport: false,
-        fields: ['Id', 'Source Text', 'Target Text', 'Created Date'],
+        fields: [
+            {
+                key:'Id',
+                value: 'Id'
+            },
+            {
+                key:'source_text',
+                value: 'Source Text'
+            },
+            {
+                key:'target_text',
+                value: 'Target Text'
+            },
+            {
+                key:'created_date',
+                value: 'Created Date'
+            },
+        ],
         items: [],
         heading: 'Chatbot Dataset',
         subheading: 'Chatbot Dataset',
         icon: 'pe-7s-phone icon-gradient bg-premium-dark',
+        notification: null
     }),
 
     created() {
@@ -101,13 +140,22 @@ export default {
             
             if(this.source_text && this.target_text) {
                 axios.post('http://127.0.0.1:5000/api/conversations', postData)
-                .then(() => {
+                .then((response) => {
                     this.getDatasetData(this.currentPage, this.itemsPerPage);
                     this.source_text = '';
                     this.target_text = '';
+                    this.notification = {
+                        title: 'Success',
+                        content: response.data.message,
+                        type: 'success'
+                    };
                 })
                 .catch(error => {
-                    console.error(error);
+                    this.notification = {
+                        title: 'Error',
+                        content: error,
+                        type: 'error'
+                    };
                 });
             } else {
                 alert('Please enter data before submitting.');
@@ -160,11 +208,20 @@ export default {
             const isConfirmed = window.confirm('Are you sure you want to delete?');
             if(isConfirmed) {
                 axios.delete('http://127.0.0.1:5000/api/conversations/' + id)
-                .then(() => {
+                .then(response => {
                     this.getDatasetData(this.currentPage, this.itemsPerPage);
+                    this.notification = {
+                        title: 'Success',
+                        content: response.data.message,
+                        type: 'success'
+                    };
                 })
                 .catch(error => {
-                    console.error(error);
+                    this.notification = {
+                        title: 'Error',
+                        content: error,
+                        type: 'error'
+                    };
                 });
             }
         },

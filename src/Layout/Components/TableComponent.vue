@@ -1,9 +1,9 @@
 <template>
   <div>
-    <table class="table b-table">
+    <table class="table table-sm ">
       <thead>
         <tr>
-          <th v-for="(field, key) in fields" :key="key">{{ field }}</th>
+          <th v-for="field in fields" :key="field.key" :id="field.key">{{ field.value }}</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -21,7 +21,7 @@
       </tbody>
       <tfoot v-if="footer">
         <tr>
-          <th v-for="(field, key) in fields" :key="key">{{ field }}</th>
+          <th v-for="field in fields" :key="field.key" :id="field.key">{{ field.value }}</th>
           <th>Action</th>
         </tr>
       </tfoot>
