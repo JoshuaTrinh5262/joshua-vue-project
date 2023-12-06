@@ -14,7 +14,7 @@
           <td>{{ item.target_text }}</td>
           <td>{{ item.created_date }}</td>
           <td>
-            <button type="button" class="btn btn-sm btn-primary" @click="updateRow(item.id)"><i class="pe-7s-file"></i></button>
+            <button type="button" class="btn btn-sm btn-success" @click="updateRow(item.id)"><i class="pe-7s-file"></i></button>
             <button type="button" class="btn btn-sm btn-warning" @click="deleteRow(item.id)"><i class="pe-7s-trash"></i></button>
           </td>
         </tr>

@@ -43,9 +43,12 @@ $grays: map-merge(
 
 //--#{$color}
 $brand: #69aa8a;
+$brand_2: #ff0000;
 $blue: #007bff;
 $indigo: #6610f2;
 $purple: #6f42c1;
+$crimson:#DC143C;
+$brown: #964B00;
 $pink: #e83e8c;
 $red: #FF7851;
 $orange: #fd7e14;
@@ -55,7 +58,7 @@ $teal: #20c997;
 $cyan: #6CC3D5;
 $blue-light: #cceed6;
 
-$primary: $brand;
+$primary: $brand_2;
 $secondary: #e9908c;
 $success: $green;
 $info: $cyan;
