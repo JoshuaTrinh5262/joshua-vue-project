@@ -130,6 +130,7 @@ export default {
     created() {
         this.getDatasetData(this.currentPage, this.itemsPerPage);
     },
+
     methods: {
         handleCreate() {
             const postData = {
@@ -181,7 +182,25 @@ export default {
         },
 
         handleImport() {
-            
+            const fileInput = this.$refs.fileInput;
+            const file = fileInput.files[0];
+
+            if (!file) {
+                console.error('No file selected');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const response = axios.post('http://127.0.0.1:5000/api/import/csv', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+
+            // Handle the response as needed
+            console.log('API response:', response.data);
         },
 
         handleExport() {
