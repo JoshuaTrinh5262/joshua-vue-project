@@ -5,18 +5,16 @@
       :subheading=subheading
       :icon=icon></page-title-component>
     <div class="d-flex justify-content-center">
-      <div class="min-vh-100 d-flex overflow-auto py-5">
+      <div class="min-vh-100 d-flex overflow-auto">
         <div
           v-for="column in columns"
           :key="column.title"
-          class="bg-light rounded p-3 column-width rounded mr-4"
+          class="bg-light rounded p-2 column-width rounded mr-1"
         >
           <p class="text-gray-700 font-weight-bold font-sans tracking-wide small">{{ column.title }}</p>
-          <!-- Draggable component comes from vuedraggable. It provides drag & drop functionality -->
           <draggable :list="column.tasks" :animation="200" ghost-class="ghost-card" group="tasks">
-            <!-- Each element from here will be draggable and animated. Note :key is very important here to be unique both for draggable and animations to be smooth & consistent. -->
             <task-component
-              v-for="(task) in column.tasks"
+              v-for="task in column.tasks"
               :key="task.id"
               :task="task"
               class="mt-3 cursor-move"

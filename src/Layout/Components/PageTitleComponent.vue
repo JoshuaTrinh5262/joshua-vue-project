@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="page-title-actions">
-                <button type="button" @click=clickCreateBtn class="btn-shadow d-inline-flex align-items-center btn btn-success">
+                <button type="button" @click=clickCreateBtn class="btn-shadow d-inline-flex align-items-center btn btn-primary">
                     <font-awesome-icon class="mr-2" icon="plus"/>
                     Create New
                 </button>

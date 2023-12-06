@@ -39,7 +39,7 @@
                         <input name="file" id="exampleFile" type="file" class="form-control-file">
                     </div>
                     <div class="position-relative form-group">
-                        <button class="btn-primary btn"  @click="handleImport">Import</button>
+                        <button class="btn-success btn"  @click="handleImport">Import</button>
                     </div>
                 </div>
             </div>
