@@ -30,6 +30,12 @@ export default {
     methods: {
         changeColor() {
             this.dynamicColor = '#ff0000';
+            this.updateTheme();
+        },
+        updateTheme() {
+            console.log('test')
+            document.documentElement.style.setProperty('--brand_2', 'black');
+            document.documentElement.style.setProperty('--secondary', '#000000');
         },
     },
 };
