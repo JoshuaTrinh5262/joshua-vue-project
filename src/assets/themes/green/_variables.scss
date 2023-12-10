@@ -58,7 +58,7 @@ $teal: #20c997;
 $cyan: #6CC3D5;
 $blue-light: #cceed6;
 
-$primary: $brand_2;
+$primary: $brand;
 $secondary: #e9908c;
 $success: $green;
 $info: $cyan;
@@ -108,7 +108,7 @@ $card-cap-bg: $white;
 $card-border-color: rgba(darken($primary, 25%), .125);
 
 $dropdown-min-width: 15rem;
-$dropdown-link-hover-bg: #eafff4;
+$dropdown-link-hover-bg: lighten($primary, 25%);
 $dropdown-item-padding-y: .4rem;
 $dropdown-padding-y: .65rem;
 
