@@ -35,8 +35,8 @@
                 </div>
                 <div class="card-body">
                     <div class="position-relative form-group">
-                        <label for="exampleFile" class="">File</label>
-                        <input name="file" id="exampleFile" type="file" class="form-control-file">
+                        <label for="inputFile" class="">File</label>
+                        <input name="inputFile" id="inputFile" ref="inputFile" type="file" class="form-control-file">
                     </div>
                     <div class="position-relative form-group">
                         <button class="btn-primary btn"  @click="handleImport">Import</button>
@@ -124,7 +124,7 @@ export default {
         heading: 'Chatbot Dataset',
         subheading: 'Chatbot Dataset',
         icon: 'pe-7s-phone icon-gradient bg-premium-dark',
-        notification: null
+        notification: null,
     }),
 
     created() {
@@ -163,8 +163,8 @@ export default {
             }
         },
 
-        getDatasetData(newPage, newPageSize) {
-            axios.get('http://127.0.0.1:5000/api/conversations', {
+        async getDatasetData(newPage, newPageSize) {
+            await axios.get('http://127.0.0.1:5000/api/conversations', {
                 params: {
                     page: newPage,
                     pagesize: newPageSize,
@@ -181,26 +181,35 @@ export default {
             });
         },
 
-        handleImport() {
-            const fileInput = this.$refs.fileInput;
-            const file = fileInput.files[0];
+        async handleImport() {
+            const InputFile = this.$refs.inputFile;
+            const file = InputFile.files[0];
 
             if (!file) {
-                console.error('No file selected');
+                this.notification = {
+                        title: 'Error',
+                        content: 'No file selected',
+                        type: 'error'
+                    };
                 return;
             }
 
             const formData = new FormData();
             formData.append('file', file);
 
-            const response = axios.post('http://127.0.0.1:5000/api/import/csv', formData, {
+            await axios.post('http://127.0.0.1:5000/api/import/csv', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
+            }).then(() => {
+                this.getDatasetData(this.newPage, this.newPageSize);
+            }).catch(error => {
+                this.notification = {
+                        title: 'Error',
+                        content: error,
+                        type: 'error'
+                    };
             });
-
-            // Handle the response as needed
-            console.log('API response:', response.data);
         },
 
         handleExport() {
