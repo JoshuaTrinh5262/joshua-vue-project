@@ -1,7 +1,7 @@
 <template>
   <div>
     <page-title :heading=heading :subheading=subheading :icon=icon></page-title>
-    <b-row>
+    <!-- <b-row>
       <b-col md="6">
         <b-card title="Basic" class="mb-3">
           <b-progress :value="counter" :max="max" show-progress animated></b-progress>
@@ -41,7 +41,7 @@
           </b-button>
         </b-card>
       </b-col>
-    </b-row>
+    </b-row> -->
   </div>
 </template>
 

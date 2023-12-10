@@ -1,7 +1,7 @@
 <template>
   <div>
     <page-title :heading=heading :subheading=subheading :icon=icon></page-title>
-    <b-row>
+    <!-- <b-row>
       <b-col md="6">
         <b-card title="Sizing" class="main-card mb-3">
           <b-pagination size="md" :total-rows="100" v-model="currentPage" :per-page="10">
@@ -49,7 +49,7 @@
       <div class="text-center">
         Current Page: {{currentPage}}
       </div>
-    </b-card>
+    </b-card> -->
   </div>
 </template>
 

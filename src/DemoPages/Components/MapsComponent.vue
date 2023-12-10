@@ -1,15 +1,14 @@
 <template>
   <div>
     <page-title :heading=heading :subheading=subheading :icon=icon></page-title>
-
     <div class="content">
-        <b-card class="main-card mb-4">
+        <div class="card main-card mb-4">
           <div id="maps-root">
             <google-map :center="center" :zoom="7" style="width: 100%; height: 500px">
               <google-marker v-for="m in markers" :key="m.position" :position="m.position" :clickable="true" :draggable="true" @click="center=m.position"></google-marker>
             </google-map>
           </div>
-        </b-card>
+        </div>
     </div>
   </div>
 </template>
@@ -32,7 +31,6 @@
   export default {
     components: {
       PageTitle,
-
       'google-map': VueGoogleMaps.Map,
       'google-marker': VueGoogleMaps.Marker
     },

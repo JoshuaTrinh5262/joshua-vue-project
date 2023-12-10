@@ -1,7 +1,7 @@
 <template>
   <div>
     <page-title :heading=heading :subheading=subheading :icon=icon></page-title>
-    <div class="main-card mb-3 card">
+    <!-- <div class="main-card mb-3 card">
       <div class="card-body">
         <h5 class="card-title">Tooltips</h5>
         <div class="text-center">
@@ -46,7 +46,7 @@
           </b-col>
         </b-row>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 

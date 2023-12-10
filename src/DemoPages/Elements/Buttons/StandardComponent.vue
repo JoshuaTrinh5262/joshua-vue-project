@@ -2,7 +2,7 @@
   <div>
     <page-title :heading=heading :subheading=subheading :icon=icon></page-title>
     <div class="content">
-        <b-row>
+        <!-- <b-row>
           <b-col lg="6">
             <div class="main-card mb-3 card">
               <div class="card-body">
@@ -162,7 +162,7 @@
               </div>
             </div>
           </b-col>
-        </b-row>
+        </b-row> -->
     </div>
   </div>
 </template>

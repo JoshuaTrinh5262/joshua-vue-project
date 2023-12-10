@@ -1,8 +1,9 @@
 import Vue from 'vue';
 import router from './router';
 import store from './store/store';
-
-import BootstrapVue from "bootstrap-vue";
+import "bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.min.js";
 
 import App from './App';
 
@@ -11,11 +12,8 @@ import Pages from './Layout/Wrappers/pagesLayout.vue';
 
 Vue.config.productionTip = false;
 
-Vue.use(BootstrapVue);
-
 Vue.component('default-layout', Default);
 Vue.component('userpages-layout', Pages);
-
 
 new Vue({
   el: '#app',

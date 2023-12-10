@@ -1,7 +1,7 @@
 <template>
   <div>
     <page-title :heading=heading :subheading=subheading :icon=icon></page-title>
-    <div class="content">
+    <!-- <div class="content">
         <b-row>
           <b-col md="6">
             <b-card title="Doughnut" class="main-card mb-3">
@@ -38,7 +38,7 @@
             </b-card>
           </b-col>
         </b-row>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -46,27 +46,27 @@
 
   import PageTitle from "../../Layout/Components/PageTitle.vue";
 
-  import doughnut from './Chartjs/Doughnut'
-  import radar from './Chartjs/Radar'
-  import polar from './Chartjs/Polar'
-  import pie from './Chartjs/Pie'
-  import lineeg from './Chartjs/Line'
-  import areaeg from './Chartjs/Area'
-  import bar from './Chartjs/Bar'
-  import barhoriz from './Chartjs/BarHoriz'
+  // import doughnut from './Chartjs/Doughnut'
+  // import radar from './Chartjs/Radar'
+  // import polar from './Chartjs/Polar'
+  // import pie from './Chartjs/Pie'
+  // import lineeg from './Chartjs/Line'
+  // import areaeg from './Chartjs/Area'
+  // import bar from './Chartjs/Bar'
+  // import barhoriz from './Chartjs/BarHoriz'
 
   export default {
     components: {
       PageTitle,
 
-      doughnut,
-      radar,
-      polar,
-      pie,
-      lineeg,
-      areaeg,
-      bar,
-      barhoriz,
+      // doughnut,
+      // radar,
+      // polar,
+      // pie,
+      // lineeg,
+      // areaeg,
+      // bar,
+      // barhoriz,
 
     },
     data: () => ({

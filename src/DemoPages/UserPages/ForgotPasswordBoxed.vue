@@ -2,9 +2,8 @@
     <div>
         <div class="h-100 bg-plum-plate bg-animation">
             <div class="d-flex h-100 justify-content-center align-items-center">
-                <b-col md="6" class="mx-auto app-login-box">
-                    <div class="app-logo-inverse mx-auto mb-3"/>
-
+                <div class="col-md-6 mx-auto app-login-box">
+                    <div class="app-logo-inverse mx-auto mb-3"></div>
                     <div class="modal-dialog w-100">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -18,25 +17,24 @@
                             <div class="modal-body">
                                 <div>
                                     <Form>
-                                        <b-row form>
-                                            <b-col md="12">
-                                                <b-form-group>
-                                                    <Label for="exampleEmail">Email</Label>
-                                                    <b-form-input type="email" name="email" id="exampleEmail"
-                                                                  placeholder="Email here..."/>
-                                                </b-form-group>
-                                            </b-col>
-                                        </b-row>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="exampleEmail">Email</label>
+                                                    <input type="email" class="form-control" name="email" id="exampleEmail" placeholder="Email here...">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </Form>
                                 </div>
-                                <div class="divider"/>
+                                <div class="divider"></div>
                                 <h6 class="mb-0">
                                     <a href="javascript:void(0);" class="text-primary">Sign in existing account</a>
                                 </h6>
                             </div>
                             <div class="modal-footer clearfix">
                                 <div class="float-right">
-                                    <b-button variant="primary" size="lg">Recover Password</b-button>
+                                    <button class="btn btn-primary btn-lg">Recover Password</button>
                                 </div>
                             </div>
                         </div>
@@ -44,7 +42,7 @@
                     <div class="text-center text-white opacity-8 mt-3">
                         Copyright &copy; JoshuaTrinh 2019
                     </div>
-                </b-col>
+                </div>
             </div>
         </div>
     </div>

@@ -3,7 +3,7 @@
     <page-title :heading=heading :subheading=subheading :icon=icon></page-title>
 
     <div class="content">
-        <b-row>
+        <!-- <b-row>
           <b-col md="6">
             <b-card class="mb-3" no-body>
               <b-tabs pills card>
@@ -44,7 +44,7 @@
               </b-tabs>
             </b-card>
           </b-col>
-        </b-row>
+        </b-row> -->
     </div>
   </div>
 </template>

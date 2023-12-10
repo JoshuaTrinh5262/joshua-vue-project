@@ -1,6 +1,6 @@
 <template>
     <div class="app-header header-shadow">
-        <div class="logo-src"/>
+        <div class="logo-src"></div>
         <div class="app-header__content">
             <div class="app-header-left">
                 <SearchBox/>
@@ -20,11 +20,11 @@
         </div>
         <div class="app-header__menu">
             <span>
-                <b-button class="btn-icon btn-icon-only" variant="primary" size="sm" v-bind:class="{ 'active' : isOpenMobileMenu }" @click="toggleMobile2('header-menu-open')">
+                <button class="btn btn-primary btn-sm btn-icon btn-icon-only" v-bind:class="{ 'active' : isOpenMobileMenu }" @click="toggleMobile2('header-menu-open')">
                     <div class="btn-icon-wrapper">
                         <font-awesome-icon icon="ellipsis-v"/>
                     </div>
-                </b-button>
+                </button>
             </span>
         </div>
     </div>

@@ -2,7 +2,7 @@
   <div>
     <page-title :heading=heading :subheading=subheading :icon=icon></page-title>
 
-    <div class="content">
+    <!-- <div class="content">
         <div class="row">
           <div class="col-lg-6">
             <div class="main-card mb-3 card">
@@ -562,7 +562,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
   </div>
 </template>
 
@@ -577,7 +577,7 @@
     faTrashAlt,
     faCheck
   } from '@fortawesome/free-solid-svg-icons'
-  import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
+  // import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 
   library.add(
     faTrashAlt,
@@ -587,7 +587,7 @@
   export default {
     components: {
       PageTitle,
-      'font-awesome-icon': FontAwesomeIcon,
+      // 'font-awesome-icon': FontAwesomeIcon,
     },
     data: () => ({
       heading: 'List Groups',

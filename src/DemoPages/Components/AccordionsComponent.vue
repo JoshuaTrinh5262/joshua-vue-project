@@ -1,24 +1,34 @@
 <template>
   <div>
     <page-title :heading=heading :subheading=subheading :icon=icon></page-title>
-    <b-row>
-      <b-col md="6">
-        <b-card class="main-card mb-3" title="Collapse">
-          <b-btn v-b-toggle.collapse1 variant="primary">Toggle Collapse</b-btn>
-          <b-collapse id="collapse1" class="mt-2">
-            <b-card>
-              <p class="card-text">Collapse contents Here</p>
-              <b-btn v-b-toggle.collapse1_inner size="sm">Toggle Inner Collapse</b-btn>
-              <b-collapse id=collapse1_inner class="mt-2">
-                <b-card>Hello!</b-card>
-              </b-collapse>
-            </b-card>
-          </b-collapse>
-        </b-card>
+    <!-- <div class="row">
+      <div class="col-md-6">
+        <div class="card main-card mb-3">
+          <div class="card-header">
+              <h5 class="card-title">Collapse</h5>
+          </div>
+          <div class="card-body">
+              <button class="btn btn-primary" type="button" data-bs-toggle="collapse1" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                  Toggle Collapse
+              </button>
+              <div class="collapse mt-2" id="collapse1">
+                  <div class="card card-body">
+                      <p class="card-text">Collapse contents here</p>
+                      <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapse1_inner" aria-expanded="false" aria-controls="collapse1_inner">
+                          Toggle Inner Collapse
+                      </button>
+                      <div class="collapse mt-2" id="collapse1_inner">
+                          <div class="card card-body">
+                              Hello!
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
         <b-card class="main-card mb-3" title="Collapse">
           <b-btn v-b-toggle.collapseA.collapseB>Toggle Both Collapse A and B</b-btn>
 
-          <!-- elements to collapse -->
           <b-collapse id="collapseA" class="mt-2">
             <b-card>
               I am collapsable content A!
@@ -39,8 +49,8 @@
             </b-card>
           </b-collapse>
         </b-card>
-      </b-col>
-      <b-col md="6">
+      </div>
+      <div class="col-md-6">
         <template>
           <div role="tablist">
             <b-card no-body class="mb-1">
@@ -91,8 +101,8 @@
           </div>
         </template>
 
-      </b-col>
-    </b-row>
+      </div>
+    </div> -->
   </div>
 </template>
 
