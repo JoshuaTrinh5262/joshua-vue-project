@@ -3,7 +3,7 @@
         <div class="page-title-wrapper">
             <div class="page-title-heading">
                 <div class="page-title-icon">
-                    <i :class="icon"/>
+                    <i :class="icon"></i>
                 </div>
                 <div>
                     {{heading}}
@@ -20,7 +20,7 @@
                 </button>
                 <button v-if="showImport" @click=clickImportBtn type="button" class="btn-shadow d-inline-flex align-items-center btn btn-info">
                     <font-awesome-icon class="mr-2" icon="plus"/>
-                    import
+                    Import
                 </button>
                 <button v-if="showExport" @click=clickExportBtn type="button" class="btn-shadow d-inline-flex align-items-center btn btn-info">
                     <font-awesome-icon class="mr-2" icon="plus"/>
