@@ -42,7 +42,6 @@
                                         Password</a>
                                 </div>
                                 <div class="float-right">
-                                    <b-button variant="primary" size="lg">Login to Dashboard</b-button>
                                     <button class="btn btn-primary btn-lg">Login to Dashboard</button>
                                 </div>
                             </div>

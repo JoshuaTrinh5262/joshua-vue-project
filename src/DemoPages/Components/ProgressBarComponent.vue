@@ -1,47 +1,119 @@
 <template>
   <div>
     <page-title :heading=heading :subheading=subheading :icon=icon></page-title>
-    <!-- <b-row>
-      <b-col md="6">
-        <b-card title="Basic" class="mb-3">
-          <b-progress :value="counter" :max="max" show-progress animated></b-progress>
-          <b-progress class="mt-1" :max="max" show-value>
-            <b-progress-bar :value="counter*(6/10)" variant="success"></b-progress-bar>
-            <b-progress-bar :value="counter*(2.5/10)" variant="warning"></b-progress-bar>
-            <b-progress-bar :value="counter*(1.5/10)" variant="danger"></b-progress-bar>
-          </b-progress>
-          <b-btn class="mt-4" @click="clicked">Click me</b-btn>
-        </b-card>
-        <b-card title="Colors" class="mb-3">
-          <div v-for="bar in bars" class="row mb-1" :key="bar">
-            <div class="col-sm-2">{{ bar.variant }}:</div>
-            <div class="col-sm-10 pt-1">
-              <b-progress :value="bar.value"
-                          :variant="bar.variant"
-                          :key="bar.variant"
-              ></b-progress>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card main-card mb-3">
+          <div class="card-body">
+            <h3 class="card-title">Basic</h3>
+            <div class="progress">
+              <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" :style="{ width: (counter / max) * 100 + '%' }" aria-valuenow="counter" aria-valuemin="0" aria-valuemax="max">
+                  {{ counter.toFixed(2) }}
+              </div>
+            </div>
+
+            <div class="progress mt-1">
+              <div class="progress-bar bg-success" role="progressbar" :style="{ width: (counter * (6/10) / max) * 100 + '%' }" aria-valuenow="counter * (6/10)" aria-valuemin="0" aria-valuemax="max">
+                  Success: {{ (counter * (6/10)).toFixed(0) }}
+              </div>
+              <div class="progress-bar bg-warning" role="progressbar" :style="{ width: (counter * (2.5/10) / max) * 100 + '%' }" aria-valuenow="counter * (2.5/10)" aria-valuemin="0" aria-valuemax="max">
+                  Warning: {{ (counter * (2.5/10)).toFixed(0) }}
+              </div>
+              <div class="progress-bar bg-danger" role="progressbar" :style="{ width: (counter * (1.5/10) / max) * 100 + '%' }" aria-valuenow="counter * (1.5/10)" aria-valuemin="0" aria-valuemax="max">
+                  Danger: {{ (counter * (1.5/10)).toFixed(0) }}
+              </div>
+            </div>
+            <div class="progress mt-1">
+              <div class="progress-bar bg-success" role="progressbar" :style="{ width: (counter * (6/10) / max) * 100 + '%' }" aria-valuenow="counter * (6/10)" aria-valuemin="0" aria-valuemax="max">
+                  {{ (counter * (6/10)).toFixed(0) }}%
+              </div>
+              <div class="progress-bar bg-warning" role="progressbar" :style="{ width: (counter * (2.5/10) / max) * 100 + '%' }" aria-valuenow="counter * (2.5/10)" aria-valuemin="0" aria-valuemax="max">
+                  {{ (counter * (2.5/10)).toFixed(0) }}%
+              </div>
+              <div class="progress-bar bg-danger" role="progressbar" :style="{ width: (counter * (1.5/10) / max) * 100 + '%' }" aria-valuenow="counter * (1.5/10)" aria-valuemin="0" aria-valuemax="max">
+                  {{ (counter * (1.5/10)).toFixed(0) }}%
+              </div>
+            </div>
+            <button class="btn btn-primary mt-4" @click="clicked">Click me</button>
+          </div>
+        </div>
+        <div class="card main-card mb-3">
+          <div class="card-body">
+            <h3 class="card-title">Colors</h3>
+            <div v-for="bar in bars" class="row mb-1" :key="bar.variant">
+                <div class="col-sm-2">{{ bar.variant }}:</div>
+                <div class="col-sm-10 pt-1">
+                    <div class="progress">
+                        <div class="progress-bar" :style="{ width: bar.value + '%' }" :class="'bg-' + bar.variant" role="progressbar" aria-valuenow="bar.value" aria-valuemin="0" aria-valuemax="100">
+                            {{ bar.value }}%
+                        </div>
+                    </div>
+                </div>
             </div>
           </div>
-        </b-card>
-      </b-col>
-      <b-col md="6">
-        <b-card title="Sizing" class="mb-3">
-          <b-progress :value="value" show-progress class="mb-3"></b-progress>
-          <b-progress height="2rem" :value="value" show-progress class="mb-2"></b-progress>
-          <b-progress height="20px" :value="value" show-progress class="mb-2"></b-progress>
-          <b-progress height="2px" :value="value"></b-progress>
-        </b-card>
-        <b-card title="Striped" class="mb-3">
-          <b-progress :value="25" variant="success" :striped="striped" class="mb-2"></b-progress>
-          <b-progress :value="50" variant="info" :striped="striped" class="mb-2"></b-progress>
-          <b-progress :value="75" variant="warning" :striped="striped" class="mb-2"></b-progress>
-          <b-progress :value="100" variant="danger" :striped="striped" class="mb-2"></b-progress>
-          <b-button variant="secondary" @click="striped = !striped">
-            {{ striped ? 'Remove' : 'Add'}} Striped
-          </b-button>
-        </b-card>
-      </b-col>
-    </b-row> -->
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card main-card mb-3">
+          <div class="card-body">
+            <h3 class="card-title">Sizing</h3>
+              <div class="progress mb-3">
+                  <div class="progress-bar" :style="{ width: value + '%' }" role="progressbar" aria-valuenow="value" aria-valuemin="0" aria-valuemax="100">
+                      {{ value }}%
+                  </div>
+              </div>
+              <div class="progress mb-2" style="height: 2rem;">
+                  <div class="progress-bar" :style="{ width: value + '%' }" role="progressbar" aria-valuenow="value" aria-valuemin="0" aria-valuemax="100">
+                      {{ value }}%
+                  </div>
+              </div>
+              <div class="progress mb-2" style="height: 20px;">
+                  <div class="progress-bar" :style="{ width: value + '%' }" role="progressbar" aria-valuenow="value" aria-valuemin="0" aria-valuemax="100">
+                      {{ value }}%
+                  </div>
+              </div>
+              <div class="progress" style="height: 2px;">
+                  <div class="progress-bar" :style="{ width: value + '%' }" role="progressbar" aria-valuenow="value" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+          </div>
+        </div>
+        <div class="card main-card mb-3">
+          <div class="card-body">
+            <h3 class="card-title">Striped</h3>
+            <!-- Success variant -->
+            <div class="progress mb-2">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width: 25%" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                    25%
+                </div>
+            </div>
+
+            <!-- Info variant -->
+            <div class="progress mb-2">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" style="width: 50%" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+                    50%
+                </div>
+            </div>
+
+            <!-- Warning variant -->
+            <div class="progress mb-2">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" style="width: 75%" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                    75%
+                </div>
+            </div>
+
+            <!-- Danger variant -->
+            <div class="progress mb-2">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" style="width: 100%" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                    100%
+                </div>
+            </div>
+            <button class="btn btn-secondary" variant="secondary" @click="striped = !striped">
+              {{ striped ? 'Remove' : 'Add'}} Striped
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -79,12 +151,11 @@
     methods: {
       clicked () {
         this.counter = Math.random() * this.max
-        // console.log('Change progress to ' + Math.round(this.counter * 100) / 100)
       }
     },
     mounted () {
       this.timer = setInterval(() => {
-        this.bars.forEach(bar => bar.value = 25 + (Math.random() * 75))
+        this.bars.forEach(bar => bar.value = (25 + (Math.random() * 75)).toFixed(0))
       }, 2000)
     },
     beforeDestroy () {
