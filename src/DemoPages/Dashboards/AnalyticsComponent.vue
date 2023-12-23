@@ -110,15 +110,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="widget-chart-wrapper he-auto opacity-10 m-0">
-                                        <chart1 :height="145"/>
-                                    </div>
-                                    <div class="widget-chart-wrapper he-auto opacity-10 m-0">
-                                        <chart2 :height="145"/>
-                                    </div>
-                                    <div class="widget-chart-wrapper he-auto opacity-10 m-0">
-                                        <chart3 :height="145"/>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -812,11 +803,6 @@
 
     import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
     import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-
-    import chart1 from './Analytics/chart1';
-    import chart2 from './Analytics/chart2';
-    import chart3 from './Analytics/chart3';
-
     import {library} from '@fortawesome/fontawesome-svg-core'
     import {
         faTrashAlt,
@@ -842,16 +828,15 @@
             PageTitleComponent,
             VuePerfectScrollbar,
             'font-awesome-icon': FontAwesomeIcon,
-            chart1,
-            chart2,
-            chart3,
-
         },
-        data: () => ({
+
+        data() {
+          return {
             heading: 'Analytics Dashboard',
             subheading: 'This is an example dashboard created using build-in elements and components.',
             icon: 'pe-7s-plane icon-gradient bg-tempting-azure',
-        }),
+          }
+        },
 
         methods: {},
 

@@ -1,7 +1,7 @@
 <template>
     <div class="app-sidebar sidebar-shadow" @mouseover="toggleSidebarHover('add','closed-sidebar-open')" @mouseleave="toggleSidebarHover('remove','closed-sidebar-open')">
         <div class="app-header__logo">
-            <div class="logo-src"/>
+            <div class="logo-src"></div>
             <div class="header__pane ml-auto">
                 <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" v-bind:class="{ 'is-active' : isOpen }" @click="toggleBodyClass('closed-sidebar')">
                     <span class="hamburger-box">
@@ -233,15 +233,6 @@
                                 href: '/forms/layouts',
                             },
                         ],
-                    },
-                    {
-                        header: true,
-                        title: 'Charts',
-                    },
-                    {
-                        icon: 'pe-7s-graph2',
-                        title: 'ChartJS',
-                        href: '/charts/chartjs',
                     },
                 ],
                 collapsed: true,
