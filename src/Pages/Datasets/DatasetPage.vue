@@ -76,11 +76,11 @@
     </div>
 </template>
 <script>
+import axios from 'axios';
 import TableComponent from '../../Layout/Components/TableComponent.vue';
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
 import NotificationComponent from '../../Layout/Components/NotificationComponent.vue';
-import axios from 'axios';
 
 export default {
     name: "DatasetPage",
@@ -92,45 +92,66 @@ export default {
         NotificationComponent
     },
 
-    data: () => ({
-        currentPage: 1,
-        itemsPerPage: 20,
-        totalItems: 0,
-        totalPages: 0,
-        source_text: '',
-        target_text: '',
-        showCreate: false,
-        showImport: false,
-        showExport: false,
-        fields: [
-            {
-                key:'Id',
-                value: 'Id'
-            },
-            {
-                key:'source_text',
-                value: 'Source Text'
-            },
-            {
-                key:'target_text',
-                value: 'Target Text'
-            },
-            {
-                key:'created_date',
-                value: 'Created Date'
-            },
-        ],
-        items: [],
-        heading: 'Chatbot Dataset',
-        subheading: 'Chatbot Dataset',
-        icon: 'pe-7s-phone icon-gradient bg-premium-dark',
-        notification: null
-    }),
+    data() {
+        return {
+            currentPage: 1,
+            itemsPerPage: 20,
+            totalItems: 0,
+            totalPages: 0,
+            source_text: '',
+            target_text: '',
+            showCreate: false,
+            showImport: false,
+            showExport: false,
+            fields: [
+                {
+                    key:'id',
+                    value:'Id'
+                },
+                {
+                    key:'source_text',
+                    value:'Source Text'
+                },
+                {
+                    key:'target_text',
+                    value:'Target Text'
+                },
+                {
+                    key:'created_date',
+                    value:'Created Date'
+                },
+            ],
+            items: [],
+            heading: 'Chatbot Dataset',
+            subheading: 'Chatbot Dataset',
+            icon: 'pe-7s-phone icon-gradient bg-premium-dark',
+            notification: null
+        }
+    },
 
     created() {
         this.getDatasetData(this.currentPage, this.itemsPerPage);
     },
+
     methods: {
+        getDatasetData(newPage, newPageSize) {
+            axios.get('http://127.0.0.1:5000/api/conversations', {
+                params: {
+                    page: newPage,
+                    pagesize: newPageSize,
+                },
+            })
+            .then(response => {
+                this.items = response.data.data;
+                this.currentPage = response.data.current_page;
+                this.totalPages = response.data.total_pages;
+                this.totalItems = response.data.total_items;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        },
+
         handleCreate() {
             const postData = {
                 source_text: this.source_text,
@@ -160,24 +181,6 @@ export default {
             } else {
                 alert('Please enter data before submitting.');
             }
-        },
-
-        getDatasetData(newPage, newPageSize) {
-            axios.get('http://127.0.0.1:5000/api/conversations', {
-                params: {
-                    page: newPage,
-                    pagesize: newPageSize,
-                },
-            })
-            .then(response => {
-                this.items = response.data.data;
-                this.currentPage = response.data.current_page;
-                this.totalPages = response.data.total_pages;
-                this.totalItems = response.data.total_items;
-            })
-            .catch(error => {
-                console.error(error);
-            });
         },
 
         handleImport() {

@@ -60,6 +60,10 @@
                         icon: 'pe-7s-rocket',
                         child: [
                             {
+                                href: '/users',
+                                title: 'Users',
+                            },
+                            {
                                 href: '/dataset',
                                 title: 'Dataset',
                             },

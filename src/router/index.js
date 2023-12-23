@@ -46,6 +46,11 @@ export default new Router({
 
         // DataSet
         {
+            path: '/users',
+            name: 'users',
+            component: () => import('../Pages/Datasets/UserPage.vue'),
+        },
+        {
             path: '/dataset',
             name: 'dataset',
             component: () => import('../Pages/Datasets/DatasetPage.vue'),
