@@ -2,7 +2,7 @@
   <div>
     <page-title :heading=heading :subheading=subheading :icon=icon></page-title>
 
-    <!-- <div class="content">
+    <div class="content">
         <div class="row">
           <div class="col-lg-6">
             <div class="main-card mb-3 card">
@@ -172,8 +172,9 @@
                   <div class="widget-content p-0">
                     <div class="widget-content-wrapper">
                       <div class="widget-content-left mr-2">
-                        <div class="custom-checkbox custom-control"><input type="checkbox" id="exampleCustomCheckbox12" class="custom-control-input"><label class="custom-control-label"
-                                                                                                                                                            for="exampleCustomCheckbox12">&nbsp;</label>
+                        <div class="custom-checkbox custom-control">
+                          <input type="checkbox" id="exampleCustomCheckbox12" class="custom-control-input">
+                          <label class="custom-control-label" for="exampleCustomCheckbox12">&nbsp;</label>
                         </div>
                       </div>
                       <div class="widget-content-left">
@@ -212,28 +213,31 @@
                       </div>
                       <div class="widget-content-right widget-content-actions">
                         <div class="d-inline-block">
-                          <b-dropdown toggle-class="btn-icon btn-icon-only" right variant="link" no-caret>
-                            <span slot="button-content"><i class="pe-7s-menu btn-icon-wrapper"></i></span>
-                            <ul class="nav flex-column">
-                              <li class="nav-item-header nav-item">Activity</li>
-                              <li class="nav-item"><a href="javascript:void(0);" class="nav-link">Chat
-                                <div class="ml-auto badge badge-pill badge-info">8</div>
-                              </a></li>
-                              <li class="nav-item"><a href="javascript:void(0);" class="nav-link">Recover Password</a></li>
-                              <li class="nav-item-header nav-item">My Account</li>
-                              <li class="nav-item"><a href="javascript:void(0);" class="nav-link">Settings
-                                <div class="ml-auto badge badge-success">New</div>
-                              </a></li>
-                              <li class="nav-item"><a href="javascript:void(0);" class="nav-link">Messages
-                                <div class="ml-auto badge badge-warning">512</div>
-                              </a></li>
-                              <li class="nav-item"><a href="javascript:void(0);" class="nav-link">Logs</a></li>
-                              <li class="nav-item-divider nav-item"></li>
-                              <li class="nav-item-btn nav-item">
-                                <button class="btn-wide btn-shadow btn btn-danger btn-sm">Cancel</button>
-                              </li>
-                            </ul>
-                          </b-dropdown>
+                          <div class="btn-group">
+                            <button type="button" class="btn btn-icon btn-icon-only" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="pe-7s-menu btn-icon-wrapper"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <h6 class="dropdown-header">Activity</h6>
+                                <a class="dropdown-item" href="javascript:void(0)">
+                                    Chat
+                                    <div class="ml-auto badge badge-pill badge-info">8</div>
+                                </a>
+                                <a class="dropdown-item" href="javascript:void(0)">Recover Password</a>
+                                <h6 class="dropdown-header">My Account</h6>
+                                <a class="dropdown-item" href="javascript:void(0)">
+                                    Settings
+                                    <div class="ml-auto badge badge-success">New</div>
+                                </a>
+                                <a class="dropdown-item" href="javascript:void(0)">
+                                    Messages
+                                    <div class="ml-auto badge badge-warning">512</div>
+                                </a>
+                                <a class="dropdown-item" href="javascript:void(0)">Logs</a>
+                                <div class="dropdown-divider"></div>
+                                <button class="btn btn-danger btn-sm" type="button">Cancel</button>
+                            </div>
+                        </div>
                         </div>
                       </div>
                     </div>
@@ -244,8 +248,8 @@
                   <div class="widget-content p-0">
                     <div class="widget-content-wrapper">
                       <div class="widget-content-left mr-2">
-                        <div class="custom-checkbox custom-control"><input type="checkbox" id="exampleCustomCheckbox4" class="custom-control-input"><label class="custom-control-label"
-                                                                                                                                                           for="exampleCustomCheckbox4">&nbsp;</label>
+                        <div class="custom-checkbox custom-control"><input type="checkbox" id="exampleCustomCheckbox4" class="custom-control-input">
+                          <label class="custom-control-label" for="exampleCustomCheckbox4">&nbsp;</label>
                         </div>
                       </div>
                       <div class="widget-content-left flex2">
@@ -268,8 +272,9 @@
                   <div class="widget-content p-0">
                     <div class="widget-content-wrapper">
                       <div class="widget-content-left mr-2">
-                        <div class="custom-checkbox custom-control"><input type="checkbox" id="exampleCustomCheckbox2" class="custom-control-input"><label class="custom-control-label"
-                                                                                                                                                           for="exampleCustomCheckbox2">&nbsp;</label>
+                        <div class="custom-checkbox custom-control">
+                          <input type="checkbox" id="exampleCustomCheckbox2" class="custom-control-input">
+                          <label class="custom-control-label" for="exampleCustomCheckbox2">&nbsp;</label>
                         </div>
                       </div>
                       <div class="widget-content-left mr-3">
@@ -297,8 +302,9 @@
                   <div class="widget-content p-0">
                     <div class="widget-content-wrapper">
                       <div class="widget-content-left mr-2">
-                        <div class="custom-checkbox custom-control"><input type="checkbox" id="exampleCustomCheckbox3" class="custom-control-input"><label class="custom-control-label"
-                                                                                                                                                           for="exampleCustomCheckbox3">&nbsp;</label>
+                        <div class="custom-checkbox custom-control">
+                          <input type="checkbox" id="exampleCustomCheckbox3" class="custom-control-input">
+                          <label class="custom-control-label" for="exampleCustomCheckbox3">&nbsp;</label>
                         </div>
                       </div>
                       <div class="widget-content-left flex2">
@@ -533,12 +539,26 @@
             <div class="main-card mb-3 card">
               <div class="card-body"><h5 class="card-title">List group custom content</h5>
                 <ul class="list-group">
-                  <li class="active list-group-item"><h5 class="list-group-item-heading">List group item heading</h5>
-                    <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p></li>
-                  <li class="list-group-item"><h5 class="list-group-item-heading">List group item heading</h5>
-                    <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p></li>
-                  <li class="list-group-item"><h5 class="list-group-item-heading">List group item heading</h5>
-                    <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p></li>
+                  <li class="active list-group-item">
+                    <h5 class="list-group-item-heading">List group item heading</h5>
+                    <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+                  </li>
+                  <li class="list-group-item">
+                    <h4 class="list-group-item-heading">List group item heading</h4>
+                    <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+                  </li>
+                  <li class="list-group-item">
+                    <h3 class="list-group-item-heading">List group item heading</h3>
+                    <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+                  </li>
+                  <li class="list-group-item">
+                    <h2 class="list-group-item-heading">List group item heading</h2>
+                    <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+                  </li>
+                  <li class="list-group-item">
+                    <h1 class="list-group-item-heading">List group item heading</h1>
+                    <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -546,23 +566,41 @@
           <div class="col-md-6">
             <div class="main-card mb-3 card">
               <div class="card-body"><h5 class="card-title">List group disabled items</h5>
-                <ul class="list-group"><a href="javascript:void(0);" class="disabled list-group-item">Cras justo odio</a><a href="javascript:void(0);" class="list-group-item">Dapibus ac facilisis in</a><a
-                  href="javascript:void(0);" class="list-group-item">Morbi leo risus</a><a href="javascript:void(0);" class="list-group-item">Porta ac consectetur ac</a><a href="javascript:void(0);" class="list-group-item">Vestibulum
-                  at eros</a></ul>
+                <ul class="list-group">
+                  <a href="javascript:void(0);" class="disabled list-group-item">Cras justo odio</a>
+                  <a href="javascript:void(0);" class="list-group-item">Dapibus ac facilisis in</a>
+                  <a href="javascript:void(0);" class="list-group-item">Morbi leo risus</a>
+                  <a href="javascript:void(0);" class="list-group-item">Porta ac consectetur ac</a>
+                  <a href="javascript:void(0);" class="list-group-item">Vestibulum at eros</a>
+                  <a href="javascript:void(0);" class="list-group-item">Cras justo odio</a>
+                  <a href="javascript:void(0);" class="list-group-item">Dapibus ac facilisis in</a>
+                  <a href="javascript:void(0);" class="list-group-item">Morbi leo risus</a>
+                  <a href="javascript:void(0);" class="list-group-item">Porta ac consectetur ac</a>
+                  <a href="javascript:void(0);" class="list-group-item">Vestibulum at eros</a>
+                </ul>
               </div>
             </div>
           </div>
           <div class="col-md-6">
             <div class="main-card mb-3 card">
               <div class="card-body"><h5 class="card-title">List group without border</h5>
-                <ul class="list-group list-group-flush"><a href="javascript:void(0);" class="disabled list-group-item">Cras justo odio</a><a href="javascript:void(0);" class="list-group-item">Dapibus ac facilisis in</a><a
-                  href="javascript:void(0);" class="list-group-item">Morbi leo risus</a><a href="javascript:void(0);" class="list-group-item">Porta ac consectetur ac</a><a href="javascript:void(0);" class="list-group-item">Vestibulum
-                  at eros</a></ul>
+                <ul class="list-group list-group-flush">
+                  <a href="javascript:void(0);" class="disabled list-group-item">Cras justo odio</a>
+                  <a href="javascript:void(0);" class="list-group-item">Dapibus ac facilisis in</a>
+                  <a href="javascript:void(0);" class="list-group-item">Morbi leo risus</a>
+                  <a href="javascript:void(0);" class="list-group-item">Porta ac consectetur ac</a>
+                  <a href="javascript:void(0);" class="list-group-item">Vestibulum at eros</a>
+                  <a href="javascript:void(0);" class="list-group-item">Cras justo odio</a>
+                  <a href="javascript:void(0);" class="list-group-item">Dapibus ac facilisis in</a>
+                  <a href="javascript:void(0);" class="list-group-item">Morbi leo risus</a>
+                  <a href="javascript:void(0);" class="list-group-item">Porta ac consectetur ac</a>
+                  <a href="javascript:void(0);" class="list-group-item">Vestibulum at eros</a>
+                </ul>
               </div>
             </div>
           </div>
         </div>
-      </div> -->
+      </div>
   </div>
 </template>
 
