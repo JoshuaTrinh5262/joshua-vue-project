@@ -4,9 +4,12 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="alert alert-warning fade show" role="alert"><h5>Bootstrap Helpers</h5>
-                    <p class="mb-0">All Bootstrap 4 helper classes available in the official Bootstrap documentation are
+                    <p class="mb-0">
+                        All Bootstrap 4 helper classes available in the official Bootstrap documentation are
                         also available in JoshuaTrinh Framework: Spacing, resets, typography utilities, sizing and
-                        others.</p></div>
+                        others.
+                    </p>
+                </div>
             </div>
             <div class="col-lg-6">
                 <div class="main-card mb-3 card">

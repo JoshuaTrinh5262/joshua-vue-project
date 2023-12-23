@@ -27,17 +27,17 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-primary">Save</button>
                 </div>
             </div>
         </div>
     </div>
     <!-- Modal Lagre -->
-    <div class="modal fade" id="modalLagre" tabindex="-1" role="dialog" aria-labelledby="modallgLabel" aria-hidden="true">
+    <div class="modal fade mt-5" id="modalLagre" tabindex="-2" role="dialog" data-backdrop="false" aria-labelledby="modallgLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modallgLabel">Modal Title</h5>
+                    <h5 class="modal-title" id="modallgLabel">Large Modal Title</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -48,17 +48,17 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-primary">Save </button>
                 </div>
             </div>
         </div>
     </div>
     <!-- Modal Small-->
-    <div class="modal fade" id="modalSmall" tabindex="-1" role="dialog" aria-labelledby="modalsmLabel" aria-hidden="true">
+    <div class="modal fade mt-5" id="modalSmall" tabindex="-2" role="dialog" data-backdrop="false" aria-labelledby="modalsmLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
           <div class="modal-content">
               <div class="modal-header">
-                  <h5 class="modal-title" id="modalsmLabel">Modal Title</h5>
+                  <h5 class="modal-title" id="modalsmLabel">Small Modal Title</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                   </button>
