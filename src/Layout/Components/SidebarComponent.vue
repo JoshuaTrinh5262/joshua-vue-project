@@ -84,6 +84,16 @@
                         ]
                     },
                     {
+                        title: 'Generals',
+                        icon: 'pe-7s-rocket',
+                        child: [
+                            {
+                                href: '/tabs',
+                                title: 'Tabs',
+                            },
+                        ]
+                    },
+                    {
                         title: 'Pages',
                         icon: 'pe-7s-browser',
                         child: [

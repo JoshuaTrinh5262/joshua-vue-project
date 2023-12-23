@@ -67,6 +67,11 @@ export default new Router({
             name: 'settings',
             component: () => import('../Pages/Settings/SettingPage.vue'),
         },
+        {
+            path: '/tabs',
+            name: 'tabs',
+            component: () => import('../Pages/TabsPage.vue'),
+        },
         
 
         // Elements
@@ -182,13 +187,6 @@ export default new Router({
             path: '/forms/layouts',
             name: 'layouts',
             component: () => import('../DemoPages/Forms/Elements/LayoutsComponent.vue'),
-        },
-        // Charts
-
-        {
-            path: '/charts/chartjs',
-            name: 'chartjs',
-            component: () => import('../DemoPages/Charts/ChartjsComponent.vue'),
         },
 
         // Kanban
