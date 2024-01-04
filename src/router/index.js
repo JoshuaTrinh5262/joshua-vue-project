@@ -22,7 +22,11 @@ export default new Router({
             name: 'word-counter',
             component: () => import('../Pages/WordCounter/WordCounterPage.vue'),
         },
-
+        {
+            path: '/calculator',
+            name: 'calculator',
+            component: () => import('../Pages/CalculatorPage.vue'),
+        },
         // Pages
 
         {

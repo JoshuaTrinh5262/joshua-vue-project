@@ -52,9 +52,12 @@
                                 href: '/word-counter',
                                 title: 'Word Counter',
                             },
+                            {
+                                href: '/calculator',
+                                title: 'Calculator',
+                            },
                         ]
                     },
-                    
                     {
                         title: 'DataSet',
                         icon: 'pe-7s-rocket',
@@ -111,7 +114,31 @@
                             },
                         ]
                     },
-                    
+                    {
+                        header: true,
+                        title: 'Vtuber Data',
+                    },
+                    {
+                        title: 'Talents',
+                        icon: 'pe-7s-rocket',
+                        href: '/#',
+
+                    },
+                    {
+                        title: 'Agencies',
+                        icon: 'pe-7s-rocket',
+                        href: '/#',
+                    },
+                    {
+                        title: 'Discographies',
+                        icon: 'pe-7s-rocket',
+                        href: '/#',
+                    },
+                    {
+                        title: 'Events',
+                        icon: 'pe-7s-rocket',
+                        href: '/#',
+                    },
                     {
                         header: true,
                         title: 'UI Components',
