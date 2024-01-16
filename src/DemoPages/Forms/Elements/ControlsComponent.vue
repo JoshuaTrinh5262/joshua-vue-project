@@ -389,13 +389,32 @@
                         </div>
                     </div>
                     <div class="main-card mb-3 card">
-                        <div class="card-body"><h5 class="card-title">Input Group Button</h5>
+                        <div class="card-body">
+                            <h5 class="card-title">Input Group Button</h5>
                             <div>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <button class="btn btn-secondary">I'm a button</button>
                                     </div>
-                                    <input type="text" class="form-control"></div>
+                                    <input type="text" class="form-control">
+                                </div>
+                                <br>
+                                <div class="input-group">
+                                    <input type="text" class="form-control">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary">I'm a button</button>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <button class="btn btn-secondary">I'm a button</button>
+                                    </div>
+                                    <input type="text" placeholder="and..."  class="form-control">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary">I'm a button</button>
+                                    </div>
+                                </div>
                                 <br>
                                 <b-input-group>
                                     <b-form-input></b-form-input>
