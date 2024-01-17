@@ -18,8 +18,8 @@
   
       data() {
           return {
-              heading: 'Tabs',
-              subheading: 'Tab Demo pages',
+              heading: 'Calculator',
+              subheading: 'Calculator Pages',
               icon: 'pe-7s-phone icon-gradient bg-tempting-azure',
               mode: 'light'
           };

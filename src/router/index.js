@@ -65,6 +65,34 @@ export default new Router({
             component: () => import('../Pages/Datasets/LanguaguePage.vue'),
         },
 
+        // Vtuber Data
+        {
+            path: '/talents',
+            name: 'talents',
+            component: () => import('../Pages/Datasets/UserPage.vue'),
+        },
+        {
+            path: '/discographies',
+            name: 'discographies',
+            component: () => import('../Pages/Datasets/DatasetPage.vue'),
+        },
+        {
+            path: '/galleries',
+            name: 'galleries',
+            component: () => import('../Pages/Datasets/LanguaguePage.vue'),
+        },
+        {
+            path: '/agencies',
+            name: 'agencies',
+            component: () => import('../Pages/Datasets/LanguaguePage.vue'),
+        },
+        {
+            path: '/events',
+            name: 'events',
+            component: () => import('../Pages/Datasets/LanguaguePage.vue'),
+        },
+
+
         // Settings
         {
             path: '/settings',
