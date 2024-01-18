@@ -60,7 +60,6 @@
             </div>
         </div>
         <div class="input-group">
-
             <input placeholder="Searching..." @input="onSearchChange" v-model="search" type="text" class="form-control">
             <div class="input-group-append">
                 <button class="btn btn-primary">Search</button>
@@ -71,6 +70,7 @@
             :footer=true
             :fields="fields"
             :items="items"
+            @changeOrder="handleChangeOrder"
             @deleteRow="handleDeleteRow"
             @updateRow="handleUpdateRow">
         </table-component>
@@ -244,6 +244,12 @@ export default {
                     };
                 });
             }
+        },
+        handleChangeOrder({ orderDirection, orderBy }) {
+            this.orderDirection = orderDirection;
+            this.orderBy = orderBy;
+
+            this.getDatasetData(this.currentPage, this.itemsPerPage);
         },
 
         handleUpdateRow() {

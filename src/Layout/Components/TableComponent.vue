@@ -92,6 +92,11 @@
           this.orderBy = field;
           this.orderDirection = 'asc';
         }
+
+        this.$emit('changeOrder', {
+          orderDirection: this.orderDirection,
+          orderBy: this.orderBy,
+        });
       },
     },
   }
