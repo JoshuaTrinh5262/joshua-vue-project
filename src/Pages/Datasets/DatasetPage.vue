@@ -35,8 +35,8 @@
             </div>
             <div class="card-body">
                 <div class="position-relative form-group">
-                    <label for="exampleFile" class="">File</label>
-                    <input name="file" id="exampleFile" type="file" class="form-control-file">
+                    <label for="fileInput" class="">File</label>
+                    <input name="file" id="fileInput" type="file" @change="handleFileChange" class="form-control-file">
                 </div>
                 <div class="position-relative form-group">
                     <button class="btn-success btn"  @click="handleImport">Import</button>
@@ -108,9 +108,10 @@ export default {
             totalPages: 0,
             orderBy: '',
             orderDirection: '',
-            source_text: '',
-            target_text: '',
+            sourceText: '',
+            targetText: '',
             search: '',
+            selectedFile: null,
             showCreate: false,
             showImport: false,
             showExport: false,
@@ -171,8 +172,8 @@ export default {
 
         handleCreate() {
             const postData = {
-                source_text: this.source_text,
-                target_text: this.target_text,
+                source_text: this.sourceText,
+                target_text: this.targettext,
                 language: 'en',
             };
             
@@ -199,15 +200,36 @@ export default {
                 alert('Please enter data before submitting.');
             }
         },
+        handleFileChange(event) {
+            this.selectedFile = event.target.files[0];
+        },
 
         handleImport() {
-            
+            const formData = new FormData();
+            formData.append('file', this.selectedFile);
+
+            axios.post('http://127.0.0.1:5000/api/import', formData, {
+                headers: {
+                'Content-Type': 'multipart/form-data',
+                },
+            })
+            .then(response => {
+                this.selectedFile = null;
+                this.notification = {
+                        title: 'Success',
+                        content: response.data.message,
+                        type: 'success'
+                    };
+            })
+            .catch(error => {
+                console.error(error);
+            });
         },
 
         handleExport() {
             axios({
                 method: 'get',
-                url: 'http://127.0.0.1:5000/api/export/csv',
+                url: 'http://127.0.0.1:5000/api/export',
                 responseType: 'blob',
             })
             .then(response => {

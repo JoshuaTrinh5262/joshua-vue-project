@@ -36,7 +36,7 @@
     mounted() {
       setTimeout(() => {
         this.closeNotification();
-      }, 6000);
+      }, 3000);
     },
 
   };
