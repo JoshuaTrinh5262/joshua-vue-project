@@ -106,6 +106,8 @@ export default {
             itemsPerPage: 20,
             totalItems: 0,
             totalPages: 0,
+            orderBy: '',
+            orderDirection: '',
             source_text: '',
             target_text: '',
             search: '',
@@ -149,6 +151,8 @@ export default {
                     page: newPage,
                     pagesize: newPageSize,
                     search: this.search,
+                    orderby: this.orderBy,
+                    orderDirection: this.orderDirection,
                 },
             })
             .then(response => {
@@ -162,7 +166,6 @@ export default {
             });
         },
         onSearchChange() {
-            // Trigger fetchData when the search query changes
             this.getDatasetData(1, this.itemsPerPage);
         },
 

@@ -3,7 +3,12 @@
     <table class="table table-sm">
       <thead>
         <tr>
-          <th v-for="field in fields" :key="field.key" :id="field.key">{{ field.value }}</th>
+          <th v-for="field in fields" :key="field.key" :id="field.key" @click="changeOrder(field.key)">
+            {{ field.value }}
+            <span v-if="orderBy === field.key && orderDirection === 'asc'">&#9660;</span>
+            <span v-else-if="orderBy === field.key && orderDirection === 'desc'">&#9650;</span>
+            <span v-else>&#9670;</span>
+          </th>
           <th>Action</th>
         </tr>
       </thead>
@@ -20,7 +25,12 @@
       </tbody>
       <tfoot v-if="footer">
         <tr>
-          <th v-for="field in fields" :key="field.key" :id="field.key">{{ field.value }}</th>
+          <th v-for="field in fields" :key="field.key" :id="field.key" @click="changeOrder(field.key)">
+            {{ field.value }}
+            <span v-if="orderBy === field.key && orderDirection === 'asc'">&#9660;</span>
+            <span v-else-if="orderBy === field.key && orderDirection === 'desc'">&#9650;</span>
+            <span v-else>&#9670;</span>
+          </th>
           <th>Action</th>
         </tr>
       </tfoot>
@@ -49,6 +59,13 @@
 
     },
 
+    data() {
+      return {
+        orderDirection: '',
+        orderBy: '',
+      }
+    },
+
     created() {
 
     },
@@ -59,8 +76,23 @@
       },
 
       updateRow(id) {
-         this.$emit('updateRow', id);
+        this.$emit('updateRow', id);
       },
-    }
+
+      changeOrder(field) {
+        if (field === this.orderBy) {
+          if (this.orderDirection === 'asc') {
+            this.orderDirection = 'desc';
+          } else if (this.orderDirection === 'desc') {
+            this.orderDirection = '';
+          } else {
+            this.orderDirection = 'asc';
+          }
+        } else {
+          this.orderBy = field;
+          this.orderDirection = 'asc';
+        }
+      },
+    },
   }
 </script>
