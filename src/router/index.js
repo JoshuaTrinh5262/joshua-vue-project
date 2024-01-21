@@ -228,5 +228,13 @@ export default new Router({
             name: 'kanban',
             component: () => import('../Pages/Kanban/KanbanComponent.vue'),
         },
+
+        // Chatbox
+
+        {
+            path: '/chatbox',
+            name: 'chatbox',
+            component: () => import('../DemoPages/ChatBox/ChatBox.vue'),
+        },
     ]
 })
