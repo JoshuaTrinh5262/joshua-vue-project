@@ -4,7 +4,6 @@
       <select 
         :disabled="currentChatHasMessages"
         v-model="currentModel"
-        @change=""
         class="mb-2 form-control">
           <option :value="null" disabled>Select A Model</option>
           <option v-for="model in availableModels"

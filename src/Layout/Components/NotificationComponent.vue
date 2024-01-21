@@ -2,7 +2,7 @@
     <div v-if="notification !== null" class="alert notification" :class="`alert-${notification.type}`">
         <div class="d-flex align-items-start">
             <div class="flex-1">
-                <h4 class="alert-heading" v-if="notification.title">{{ notification.title }}</h4>
+                <h5 class="alert-heading" v-if="notification.title">{{ notification.title }}</h5>
                 <p :class="{ 'mt-1': notification.title }">{{ notification.content }}</p>
             </div>
             <button @click="closeNotification" class="close">
@@ -36,7 +36,7 @@
     mounted() {
       setTimeout(() => {
         this.closeNotification();
-      }, 3000);
+      }, 2000);
     },
 
   };

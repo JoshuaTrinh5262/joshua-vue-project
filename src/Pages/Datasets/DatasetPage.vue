@@ -128,10 +128,6 @@ export default {
                     key:'target_text',
                     value:'Target Text'
                 },
-                {
-                    key:'created_date',
-                    value:'Created Date'
-                },
             ],
             items: [],
             heading: 'Chatbot Dataset',
@@ -153,7 +149,7 @@ export default {
                     pagesize: newPageSize,
                     search: this.search,
                     orderby: this.orderBy,
-                    orderDirection: this.orderDirection,
+                    orderdirection: this.orderDirection,
                 },
             })
             .then(response => {

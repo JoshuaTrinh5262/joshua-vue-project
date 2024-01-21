@@ -236,5 +236,11 @@ export default new Router({
             name: 'chatbox',
             component: () => import('../DemoPages/ChatBox/ChatBox.vue'),
         },
+
+        {
+            path: '/chatgroup',
+            name: 'chatgroup',
+            component: () => import('../DemoPages/ChatBox/ChatGroup.vue'),
+        },
     ]
 })

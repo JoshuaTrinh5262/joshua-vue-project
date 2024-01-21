@@ -54,6 +54,10 @@ export default {
                     key:'last_name',
                     value:'Last Name'
                 },
+                {
+                    key:'nickname',
+                    value:'Nickname'
+                },
             ],
       items: [],
     }

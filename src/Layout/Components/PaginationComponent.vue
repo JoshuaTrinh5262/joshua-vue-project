@@ -20,8 +20,8 @@
       </ul>
     </div>
     <div class="form-group page-info-group">
-      <span>Page {{ currentPage }} of {{ totalPages }}</span>
-      <span>total Items: {{totalItems}}</span>
+      <span>Page {{ currentPage }} of {{ totalPages }} </span>
+      <span> Total Items: {{totalItems}}</span>
     </div>
     <div class="form-group page-size-group">
         <select v-model="selectedPageSize" @change="changePageSize" class="form-control">
@@ -67,7 +67,7 @@
 
     data: () => ({
       selectedPageSize: 20,
-      pageSizes: [5, 10, 20, 50, 100],
+      pageSizes: [5, 10, 20, 40, 60, 80,100],
     }),
 
     computed: {

@@ -12,16 +12,15 @@
         </div>
         <div class="app-sidebar-content">
             <VuePerfectScrollbar class="app-sidebar-scroll" v-once>
-                <sidebar-menu showOneChild :menu="menu"/>
+                <sidebar-menu showOneChild :menu="menu"></sidebar-menu>
             </VuePerfectScrollbar>
         </div>
-
     </div>
 </template>
 
 <script>
-    import {SidebarMenu} from 'vue-sidebar-menu'
-    import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+    import {SidebarMenu} from 'vue-sidebar-menu';
+    import VuePerfectScrollbar from 'vue-perfect-scrollbar';
 
     export default {
         name: "sidebar-componenent",
@@ -121,23 +120,28 @@
                     {
                         title: 'Talents',
                         icon: 'pe-7s-rocket',
-                        href: '/#',
+                        href: '/talents',
 
                     },
                     {
                         title: 'Agencies',
                         icon: 'pe-7s-rocket',
-                        href: '/#',
+                        href: '/agencies',
                     },
                     {
                         title: 'Discographies',
                         icon: 'pe-7s-rocket',
-                        href: '/#',
+                        href: '/discographies',
                     },
                     {
                         title: 'Events',
                         icon: 'pe-7s-rocket',
-                        href: '/#',
+                        href: '/events',
+                    },
+                    {
+                        title: 'Galleries',
+                        icon: 'pe-7s-rocket',
+                        href: '/galleries',
                     },
                     {
                         header: true,
@@ -149,12 +153,7 @@
                         child: [
                             {
                                 title: 'Buttons',
-                                child: [
-                                    {
-                                        title: 'Standard',
-                                        href: '/elements/buttons-standard',
-                                    },
-                                ]
+                                href: '/elements/buttons-standard',
                             },
                             {
                                 title: 'Dropdowns',
@@ -251,6 +250,10 @@
                             {
                                 title: 'Chatbox',
                                 href: '/Chatbox',
+                            },
+                            {
+                                title: 'Chatgroup',
+                                href: '/Chatgroup',
                             },
                         ]
                     },
