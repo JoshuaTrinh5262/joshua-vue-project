@@ -1,8 +1,16 @@
 <template>
-  <div class="outline-primary">
-    <SystemMessage v-if="message.role == 'system'" :message="message" />
-    <UserMessage v-if="message.role == 'user'" :message="message" />
-    <AiMessage v-if="message.role == 'ai'" :message="message" />
+  <div>
+    <div v-if="message.role" class="outline-primary">
+      <SystemMessage v-if="message.role == 'system'" :message="message" />
+      <UserMessage v-if="message.role == 'user'" :message="message" />
+      <AiMessage v-if="message.role == 'ai'" :message="message" />
+    </div>
+
+    <div v-if="message.user_id" class="outline-primary">
+      <SystemMessage v-if="message.user_id == 'system'" :message="message" />
+      <UserMessage v-if="message.user_id == 2" :message="message" />
+      <AiMessage v-if="message.user_id == 1" :message="message" />
+    </div>
   </div>
 </template>
 

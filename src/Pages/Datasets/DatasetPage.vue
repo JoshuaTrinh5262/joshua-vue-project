@@ -19,8 +19,8 @@
                 <form @submit.prevent="handleCreate">
                     <div class="position-relative form-group">
                         <div class="form-inline">
-                            <input name="source" v-model="source_text" required id="source_text" placeholder="Source Text" type="text" class="form-control">
-                            <input name="target" v-model="target_text" required id="target_text" placeholder="Target Text" type="text" class="form-control">
+                            <input name="source" v-model="sourceText" required id="source_text" placeholder="Source Text" type="text" class="form-control">
+                            <input name="target" v-model="targetText" required id="target_text" placeholder="Target Text" type="text" class="form-control">
                         </div>
                     </div>
                     <div class="position-relative form-group">
@@ -162,6 +162,7 @@ export default {
                 console.error(error);
             });
         },
+
         onSearchChange() {
             this.getDatasetData(1, this.itemsPerPage);
         },
@@ -169,11 +170,11 @@ export default {
         handleCreate() {
             const postData = {
                 source_text: this.sourceText,
-                target_text: this.targettext,
+                target_text: this.targetText,
                 language: 'en',
             };
             
-            if(this.source_text && this.target_text) {
+            if(this.sourceText && this.targetText) {
                 axios.post('http://127.0.0.1:5000/api/conversations', postData)
                 .then((response) => {
                     this.getDatasetData(this.currentPage, this.itemsPerPage);
@@ -192,8 +193,15 @@ export default {
                         type: 'error'
                     };
                 });
+
+                this.sourceText = '';
+                this.targetText = '';
             } else {
-                alert('Please enter data before submitting.');
+                this.notification = {
+                        title: 'Error',
+                        content: 'Please enter data before submitting.',
+                        type: 'error'
+                    };
             }
         },
         handleFileChange(event) {
