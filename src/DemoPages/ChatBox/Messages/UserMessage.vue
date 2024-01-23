@@ -1,9 +1,7 @@
 <template>
   <div class="d-flex rounded-circle">
     <img
-      class="rounded-circle mr-2"
-      width="50" height="50"
-      src="@/assets/images/avatars/1.jpg"
+      class="rounded-circle mr-2" width="50" height="50" src="@/assets/images/avatars/1.jpg"
     />
     <div class="flex p-1">
       <p class="whitespace-pre-line">{{ message.content }}</p>
