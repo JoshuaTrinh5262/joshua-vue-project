@@ -168,11 +168,11 @@ export default {
         },
 
         handleCreate() {
-            const postData = {
+            const postData = [{
                 source_text: this.sourceText,
                 target_text: this.targetText,
                 language: 'en',
-            };
+            }];
             
             if(this.sourceText && this.targetText) {
                 axios.post('http://127.0.0.1:5000/api/conversations', postData)
