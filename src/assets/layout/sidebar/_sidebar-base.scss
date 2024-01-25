@@ -270,9 +270,15 @@ $sidebar-box-shadow: 7px 0 60px rgba(0, 0, 0, 0.05);
 // Modifiers
 
 @import "modifiers/closed-sidebar";
+// @import "./modifiers/_closed-sidebar.scss";
 
 
 // Sidebar Themes
 
-@import "themes/sidebar-light";
-@import "themes/sidebar-dark";
+// @import "themes/sidebar-light";
+@import "./themes/_sidebar-light.scss";
+
+// @import "themes/sidebar-dark";
+@import "./themes/_sidebar-dark.scss";
+
+@import "@/assets/layout/_layout-variables.scss";

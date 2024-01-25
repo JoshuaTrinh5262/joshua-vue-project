@@ -6,9 +6,9 @@
         </div>
       </div>
     </transition>
-  </template>
+</template>
   
-  <script>
+<script>
   export default {
     name: "base-dialog-component",
 
@@ -25,9 +25,9 @@
       }
     },
   };
-  </script>
+</script>
   
-  <style scoped>
+<style scoped>
   .dialog-backdrop {
     position: fixed;
     top: 0;
@@ -35,12 +35,13 @@
     left: 0;
     right: 0;
     background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10;
   }
   
   .dialog-container {
     max-width: 768px;
     box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2), 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12);
-    margin-top: 30px;
+    margin-top: 150px;
     margin-left: auto;
     margin-right: auto;
     padding: 15px;
@@ -64,4 +65,4 @@
   .dialog-leave-to .dialog-container {
     transform: scale(0.9);
   }
-  </style>
+</style>

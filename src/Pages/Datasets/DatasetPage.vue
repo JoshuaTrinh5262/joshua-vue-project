@@ -82,7 +82,7 @@
             @load-page="loadPage"
             @change-page-size="changePageSize"></pagination-component>
         <base-dialog-component :active.sync="show">
-            <h1>Test</h1>
+            <h1>Test Big Black Xoc</h1>
             <button type="button" class="btn btn-primary">Save</button>
             <button type="button" class="btn btn-warning" @click="toggleDialog()">Close</button>
         </base-dialog-component>
@@ -93,10 +93,10 @@
 <script>
 import axios from 'axios';
 import TableComponent from '../../Layout/Components/TableComponent.vue';
-import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
-import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
-import BaseDialogComponent from '../../Layout/Components/BaseDialogComponent';
-import NotificationComponent from '../../Layout/Components/NotificationComponent';
+import PageTitleComponent from '../../Layout/Components/PageTitleComponent.vue';
+import PaginationComponent from '../../Layout/Components/PaginationComponent.vue';
+import BaseDialogComponent from '../../Layout/Components/BaseDialogComponent.vue';
+import NotificationComponent from '../../Layout/Components/NotificationComponent.vue';
 
 export default {
     name: "DatasetPage",
@@ -157,7 +157,8 @@ export default {
 
     methods: {
         toggleDialog() {
-            return !this.show;
+            console.log(this.show);
+            return this.show = !this.show;
         },
 
         getDatasetData(newPage, newPageSize) {
@@ -289,6 +290,7 @@ export default {
                 });
             }
         },
+
         handleChangeOrder({ orderDirection, orderBy }) {
             this.orderDirection = orderDirection;
             this.orderBy = orderBy;

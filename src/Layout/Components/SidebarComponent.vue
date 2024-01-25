@@ -19,9 +19,9 @@
 </template>
 
 <script>
-    import {SidebarMenu} from 'vue-sidebar-menu';
-    import VuePerfectScrollbar from 'vue-perfect-scrollbar';
 
+    import VuePerfectScrollbar from 'vue-perfect-scrollbar';
+    import SidebarMenu from './Sidebar/SidebarMenu.vue';
     export default {
         name: "sidebar-componenent",
 
