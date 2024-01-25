@@ -81,14 +81,22 @@
             :totalPages="totalPages"
             @load-page="loadPage"
             @change-page-size="changePageSize"></pagination-component>
+        <base-dialog-component :active.sync="show">
+            <h1>Test</h1>
+            <button type="button" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-warning" @click="toggleDialog()">Close</button>
+        </base-dialog-component>
+        <button type="button" @click="toggleDialog()">Toggle</button>
     </div>
+
 </template>
 <script>
 import axios from 'axios';
 import TableComponent from '../../Layout/Components/TableComponent.vue';
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
-import NotificationComponent from '../../Layout/Components/NotificationComponent.vue';
+import BaseDialogComponent from '../../Layout/Components/BaseDialogComponent';
+import NotificationComponent from '../../Layout/Components/NotificationComponent';
 
 export default {
     name: "DatasetPage",
@@ -97,11 +105,13 @@ export default {
         PageTitleComponent,
         PaginationComponent,
         TableComponent,
+        BaseDialogComponent,
         NotificationComponent
     },
 
     data() {
         return {
+            show: false,
             currentPage: 1,
             itemsPerPage: 20,
             totalItems: 0,
@@ -128,6 +138,10 @@ export default {
                     key:'target_text',
                     value:'Target Text'
                 },
+                {
+                    key:'intense',
+                    value:'Intense'
+                },
             ],
             items: [],
             heading: 'Chatbot Dataset',
@@ -142,6 +156,10 @@ export default {
     },
 
     methods: {
+        toggleDialog() {
+            return !this.show;
+        },
+
         getDatasetData(newPage, newPageSize) {
             axios.get('http://127.0.0.1:5000/api/conversations', {
                 params: {
