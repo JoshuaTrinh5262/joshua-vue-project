@@ -18,10 +18,16 @@
             <div class="card-body">
                 <form @submit.prevent="handleCreate">
                     <div class="position-relative form-group">
-                        <div class="form-inline">
-                            <input name="source" v-model="sourceText" required id="source_text" placeholder="Source Text" type="text" class="form-control">
-                            <input name="target" v-model="targetText" required id="target_text" placeholder="Target Text" type="text" class="form-control">
-                        </div>
+                        <label for="source_text">Source Text</label>
+                        <input name="source_text" placeholder="Source Text" v-model="sourceText" type="text" class="form-control">
+                    </div>
+                    <div class="position-relative form-group">
+                        <label for="target_text">Target Text</label>
+                        <input name="target_text" placeholder="Source Text" v-model="targetText" type="text" class="form-control">
+                    </div>
+                    <div class="position-relative form-group">
+                        <label for="intense">Intense</label>
+                        <input name="intense" placeholder="Intense" v-model="intense" type="text" class="form-control">
                     </div>
                     <div class="position-relative form-group">
                         <button type="submit" class="btn-primary btn">Submit</button>
@@ -50,8 +56,8 @@
             <div class="card-body">
                 <div class="position-relative form-group">
                     <div class="form-group">
-                        <label for="file_name" class="">File Name</label>
-                        <input name="file_name" v-model="file_name" id="file_name" placeholder="file name" type="text" class="form-control">
+                        <label for="fileName" class="">File Name</label>
+                        <input name="fileName" v-model="fileName" id="fileName" placeholder="File Name" type="text" class="form-control">
                     </div>
                 </div>
                 <div class="position-relative form-group">
@@ -82,7 +88,7 @@
             @load-page="loadPage"
             @change-page-size="changePageSize"></pagination-component>
         <base-dialog-component :active.sync="show">
-            <h1>Test Big Black Xoc</h1>
+            <h1>Test</h1>
             <button type="button" class="btn btn-primary">Save</button>
             <button type="button" class="btn btn-warning" @click="toggleDialog()">Close</button>
         </base-dialog-component>
@@ -120,6 +126,8 @@ export default {
             orderDirection: '',
             sourceText: '',
             targetText: '',
+            intense: '',
+            fileName: '',
             search: '',
             selectedFile: null,
             showCreate: false,
@@ -190,6 +198,7 @@ export default {
             const postData = [{
                 source_text: this.sourceText,
                 target_text: this.targetText,
+                intense: this.intense,
                 language: 'en',
             }];
             
@@ -199,6 +208,7 @@ export default {
                     this.getDatasetData(this.currentPage, this.itemsPerPage);
                     this.source_text = '';
                     this.target_text = '';
+                    this.intense = '',
                     this.notification = {
                         title: 'Success',
                         content: response.data.message,
