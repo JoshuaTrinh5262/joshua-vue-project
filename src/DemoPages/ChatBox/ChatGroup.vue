@@ -2,46 +2,47 @@
   <div>
     <page-title :heading="heading" :subheading="subHeading" :icon="icon"></page-title>
     <div class="chatgroup row">
-      <div class="col-3">
-        <div class="chatgroup-sidebar h-auto space-4 overflow-y-auto px-2 py-4">
+      <div class="col-3 p-0">
+        <div class="chatgroup-sidebar h-auto space-4 overflow-y-auto px-1 py-1">
           <button class="btn btn-outline-primary"><i class="pe-7s-plus"></i> New Chat</button>
           <button :key="chat.id" v-for="chat in chatGroups" :class="{'active': currentChat?.id == chat.id}"
           class="btn btn-outline-success h-300 w-100 flex-column">
             {{ chat.id}}_{{ chat.chat_group_name }} - {{ formatDate(chat.created_date) }}
+            <i class="pe-7s-close ml-auto"></i>
           </button>
         </div>
       </div>
-      <div class="col-9">
-        <div class="chatgroup-box border border-primary p-1">
+      <div class="col-9 chatgroup-container">
+        <div class="chatgroup-box p-1">
           <div v-for="message in messages" :key="message.id">
             <div v-if="message.user_id % 2 == 0" class="d-flex pb-1">
-              <img class="rounded-circle mr-2" width="30" height="30" src="@/assets/images/avatars/1.jpg"/>
+              <img class="rounded-circle mr-2" width="35" height="35" src="@/assets/images/avatars/1.jpg"/>
               <div class="flex">
                 <p class="whitespace-pre-line">{{ message.content }}</p>
               </div>
+              <i class="pe-7s-close ml-auto"></i>
             </div>
             <div v-else class="d-flex pb-1">
-              <img class="rounded-circle mr-2" width="30" height="30" src="@/assets/images/avatars/default.jpg"/>
+              <img class="rounded-circle mr-2" width="35" height="35" src="@/assets/images/avatars/default.jpg"/>
               <div class="flex">
                 <p class="whitespace-pre-line">{{ message.content }}</p>
               </div>
+              <i class="pe-7s-close ml-auto"></i>
             </div>
           </div>
         </div>
-        <form class="chat_input mt-2">
-          <div class="position-relative">
-            <div class="input-group">
-              <input 
-              v-model="userInput" 
-              placeholder="Enter your prompt"
-              :disabled="isUserInputDisabled"
-              type="text" class="form-control">
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-primary">Send message</button>
-                </div>
-            </div>
+        <div class="chat-input position-relative">
+          <div class="input-group">
+            <input 
+            v-model="userInput" 
+            placeholder="Enter your prompt"
+            :disabled="isUserInputDisabled"
+            type="text" class="form-control">
+              <div class="input-group-append">
+                  <button type="submit" class="btn btn-primary">Send message</button>
+              </div>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   </div>
@@ -110,3 +111,29 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.chatgroup {
+  margin-bottom: 50px;
+  height: 50vh;
+}
+
+.chatgroup-sidebar {
+  height: 100%;
+  border: 1px solid #69aa8a;
+}
+
+.chatgroup-container {
+  padding: 0 0 0 0;
+}
+
+.chatgroup-box {
+  height: 100%;
+  margin: 1px;
+  border: 1px solid #69aa8a;
+}
+
+.chatgroup-input {
+  margin-top: 1px;
+}
+</style>

@@ -70,6 +70,10 @@
                                 title: 'Dataset',
                             },
                             {
+                                title: 'Chatgroup',
+                                href: '/Chatgroup',
+                            },
+                            {
                                 href: '/translations',
                                 title: 'Translations',
                             },
@@ -250,10 +254,6 @@
                             {
                                 title: 'Chatbox',
                                 href: '/Chatbox',
-                            },
-                            {
-                                title: 'Chatgroup',
-                                href: '/Chatgroup',
                             },
                         ]
                     },

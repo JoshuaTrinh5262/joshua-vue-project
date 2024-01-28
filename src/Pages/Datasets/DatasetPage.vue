@@ -80,8 +80,7 @@
             @deleteRow="handleDeleteRow"
             @updateRow="handleUpdateRow">
         </table-component>
-        <pagination-component
-            :currentPage="currentPage"
+        <pagination-component            :currentPage="currentPage"
             :perPage="itemsPerPage"
             :totalItems="totalItems"
             :totalPages="totalPages"
@@ -247,7 +246,6 @@ export default {
                 },
             })
             .then(response => {
-                this.selectedFile = null;
                 this.notification = {
                         title: 'Success',
                         content: response.data.message,
@@ -271,7 +269,7 @@ export default {
                 const link = document.createElement('a');
                 link.href = window.URL.createObjectURL(blob);
 
-                link.download = 'conversations.csv';
+                link.download = this.fileName ? this.fileName + '.csv' : 'chatbot_dataset.csv';
                 link.click();
             })
             .catch(error => {
