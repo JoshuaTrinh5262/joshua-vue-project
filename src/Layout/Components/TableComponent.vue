@@ -1,6 +1,6 @@
 <template>
   <div>
-    <table class="table table-sm">
+    <table :class="customClass" class="table table-sm">
       <thead>
         <tr>
           <th v-for="field in fields" :key="field.key" :id="field.key" @click="changeOrder(field.key)">
@@ -50,6 +50,11 @@
       items: {
         type: Array,
         required: true,
+      },
+      customClass: {
+        type: String,
+        default: '',
+        required: false,
       },
       footer: {
         type: Boolean,
