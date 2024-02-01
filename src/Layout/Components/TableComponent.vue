@@ -15,7 +15,7 @@
       <tbody>
         <tr v-for="(item, index) in items" :key="index">
           <td v-for="field in fields" :key="field.key">
-            {{ item[field.key] }}
+            {{ item[field.key] }} <span v-if="field.key=='source_text' || field.key=='target_text'" span>{{ item[field.key].trim().split(/\s+/).length }}</span>
           </td>
           <td>
             <button type="button" class="btn btn-sm btn-success" @click="updateRow(item.id)"><i class="pe-7s-file"></i></button>

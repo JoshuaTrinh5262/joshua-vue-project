@@ -76,11 +76,13 @@
             :footer=true
             :fields="fields"
             :items="items"
+            custom-class="datase-table"
             @changeOrder="handleChangeOrder"
             @deleteRow="handleDeleteRow"
             @updateRow="handleUpdateRow">
         </table-component>
-        <pagination-component            :currentPage="currentPage"
+        <pagination-component
+            :currentPage="currentPage"
             :perPage="itemsPerPage"
             :totalItems="totalItems"
             :totalPages="totalPages"
