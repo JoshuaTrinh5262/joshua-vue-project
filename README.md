@@ -21,3 +21,9 @@ npm run build
 ```sh
 npm run lint
 ```
+
+##
+
+```sh
+npm run serve
+```
