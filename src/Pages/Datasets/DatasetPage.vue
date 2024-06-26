@@ -59,6 +59,14 @@
                         <label for="fileName" class="">File Name</label>
                         <input name="fileName" v-model="fileName" id="fileName" placeholder="File Name" type="text" class="form-control">
                     </div>
+                    <div class="form-group">
+                        <label for="source_text_max_length" class="">Source Text Max Length</label>
+                        <input name="source_text_max_length" v-model="sourceTextMaxLength" type="number" placeholder="Source Text Max Length" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="target_text_max_length"  class="">Target Text Max Length</label>
+                        <input name="target_text_max_length" v-model="targetTextMaxLength" type="number" placeholder="Target Text Max Length" class="form-control">
+                    </div>
                 </div>
                 <div class="position-relative form-group">
                     <button class="btn-primary btn"  @click="handleExport">Export</button>
@@ -129,6 +137,8 @@ export default {
             targetText: '',
             intense: '',
             fileName: '',
+            sourceTextMaxLength: 0,
+            targetTextMaxLength: 0,
             search: '',
             selectedFile: null,
             showCreate: false,
@@ -260,10 +270,12 @@ export default {
         },
 
         handleExport() {
-            axios({
-                method: 'get',
-                url: 'http://127.0.0.1:5000/api/export',
-                responseType: 'blob',
+            axios.get('http://127.0.0.1:5000/api/export', {
+                params: {
+                    targetTextMaxLength: this.targetTextMaxLength,
+                    sourceTextMaxLength: this.sourceTextMaxLength
+                },
+                responseType: 'blob'
             })
             .then(response => {
                 const blob = new Blob([response.data], { type: response.headers['content-type'] });
