@@ -361,6 +361,11 @@ const router = new Router({
             component: () => import('../DemoPages/UserPages/ForgotPasswordBoxed.vue'),
         },
         {
+            path: '/',
+            name: 'Home',
+            component: () => import('../Pages/HomePage.vue'),
+        },
+        {
             path: '*',
             name: 'not-found',
             meta: {
