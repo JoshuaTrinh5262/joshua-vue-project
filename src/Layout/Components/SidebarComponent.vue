@@ -40,112 +40,111 @@
                         title: 'Main Navigation',
                     },
                     {
+                        href: '/admin/dashboard',
                         title: 'Dashboards',
+                        icon: 'pe-7s-rocket',
+                    },
+                    {
+                        href: '/admin/users',
+                        title: 'Users',
+                        icon: 'pe-7s-users',
+                    },
+                    {
+                        title: 'Analytics',
                         icon: 'pe-7s-rocket',
                         child: [
                             {
-                                href: '/',
+                                href: '/admin/',
                                 title: 'Analytics',
                             },
                             {
-                                href: '/word-counter',
+                                href: '/admin/word-counter',
                                 title: 'Word Counter',
                             },
                             {
-                                href: '/calculator',
+                                href: '/admin/calculator',
                                 title: 'Calculator',
                             },
                         ]
                     },
                     {
-                        title: 'DataSet',
-                        icon: 'pe-7s-rocket',
-                        child: [
-                            {
-                                href: '/users',
-                                title: 'Users',
-                            },
-                            {
-                                href: '/dataset',
-                                title: 'Dataset',
-                            },
-                            {
-                                title: 'Chatgroup',
-                                href: '/Chatgroup',
-                            },
-                            {
-                                href: '/translations',
-                                title: 'Translations',
-                            },
-                        ]
-                    },
-                    {
                         title: 'Settings',
-                        icon: 'pe-7s-rocket',
-                        child: [
-                            {
-                                href: '/settings',
-                                title: 'Settings',
-                            },
-                        ]
+                        icon: 'pe-7s-settings',
+                        href: '/admin/settings',
                     },
                     {
-                        title: 'Generals',
+                        title: 'Tabs',
                         icon: 'pe-7s-rocket',
-                        child: [
-                            {
-                                href: '/tabs',
-                                title: 'Tabs',
-                            },
-                        ]
+                        href: '/admin/tabs',
                     },
                     {
                         title: 'Pages',
                         icon: 'pe-7s-browser',
                         child: [
                             {
-                                href: '/pages/login-boxed',
+                                href: '/pages/login',
                                 title: 'Login Boxed',
                             },
                             {
-                                href: '/pages/register-boxed',
+                                href: '/pages/register',
                                 title: 'Register Boxed',
                             },
                             {
-                                href: '/pages/forgot-password-boxed',
+                                href: '/pages/forgot-password',
                                 title: 'Forgot Password Boxed',
                             },
                         ]
                     },
+                    // Vtuber
                     {
                         header: true,
                         title: 'Vtuber Data',
                     },
                     {
                         title: 'Talents',
-                        icon: 'pe-7s-rocket',
-                        href: '/talents',
+                        icon: 'pe-7s-user-female',
+                        href: '/admin/talents',
 
                     },
                     {
                         title: 'Agencies',
                         icon: 'pe-7s-rocket',
-                        href: '/agencies',
+                        href: '/admin/agencies',
                     },
                     {
                         title: 'Discographies',
                         icon: 'pe-7s-rocket',
-                        href: '/discographies',
+                        href: '/admin/discographies',
                     },
                     {
                         title: 'Events',
                         icon: 'pe-7s-rocket',
-                        href: '/events',
+                        href: '/admin/events',
                     },
                     {
                         title: 'Galleries',
                         icon: 'pe-7s-rocket',
-                        href: '/galleries',
+                        href: '/admin/galleries',
+                    },
+                    // Dataset
+                    {
+                        header: true,
+                        title: 'DataSet',
+                    },
+                    {
+                        href: '/admin/dataset',
+                        title: 'Dataset',
+                        icon: 'pe-7s-rocket',
+                    },
+                    {
+                        title: 'Chatgroup',
+                        href: '/admin/Chatgroup',
+                        icon: 'pe-7s-rocket',
+                    },
+                    {
+                        href: '/admin/translations',
+                        title: 'Translations',
+                        icon: 'pe-7s-rocket',
                     },
                     {
                         header: true,
@@ -157,35 +156,31 @@
                         child: [
                             {
                                 title: 'Buttons',
-                                href: '/elements/buttons-standard',
-                            },
-                            {
-                                title: 'Dropdowns',
-                                href: '/elements/dropdowns',
+                                href: '/admin/elements/buttons-standard',
                             },
                             {
                                 title: 'Icons',
-                                href: '/elements/icons',
+                                href: '/admin/elements/icons',
                             },
                             {
                                 title: 'Badges',
-                                href: '/elements/badges-labels',
+                                href: '/admin/elements/badges-labels',
                             },
                             {
                                 title: 'Cards',
-                                href: '/elements/cards',
+                                href: '/admin/elements/cards',
                             },
                             {
                                 title: 'List Groups',
-                                href: '/elements/list-group',
+                                href: '/admin/elements/list-group',
                             },
                             {
                                 title: 'Timeline',
-                                href: '/elements/timelines',
+                                href: '/admin/elements/timelines',
                             },
                             {
                                 title: 'Utilities',
-                                href: '/elements/utilities',
+                                href: '/admin/elements/utilities',
                             },
                         ],
                     },
@@ -195,35 +190,35 @@
                         child: [
                             {
                                 title: 'Tabs',
-                                href: '/components/tabs',
+                                href: '/admin/components/tabs',
                             },
                             {
                                 title: 'Accordions',
-                                href: '/components/accordions',
+                                href: '/admin/components/accordions',
                             },
                             {
                                 title: 'Modals',
-                                href: '/components/modals',
+                                href: '/admin/components/modals',
                             },
                             {
                                 title: 'Progress Bar',
-                                href: '/components/progress-bar',
+                                href: '/admin/components/progress-bar',
                             },
                             {
                                 title: 'Tooltips & Popovers',
-                                href: '/components/tooltips-popovers',
+                                href: '/admin/components/tooltips-popovers',
                             },
                             {
                                 title: 'Carousel',
-                                href: '/components/carousel',
+                                href: '/admin/components/carousel',
                             },
                             {
                                 title: 'Pagination',
-                                href: '/components/pagination',
+                                href: '/admin/components/pagination',
                             },
                             {
                                 title: 'Maps',
-                                href: '/components/maps',
+                                href: '/admin/components/maps',
                             },
                         ],
                     },
@@ -233,7 +228,7 @@
                         child: [
                             {
                                 title: 'Regular Tables',
-                                href: '/tables/regular-tables',
+                                href: '/admin/tables/regular-tables',
                             },
                         ]
                     },
@@ -243,7 +238,7 @@
                         child: [
                             {
                                 title: 'Kanban',
-                                href: '/kanban',
+                                href: '/admin/kanban',
                             },
                         ]
                     },
@@ -253,7 +248,7 @@
                         child: [
                             {
                                 title: 'Chatbox',
-                                href: '/Chatbox',
+                                href: '/admin/Chatbox',
                             },
                         ]
                     },
@@ -264,7 +259,7 @@
                     {
                         icon: 'pe-7s-graph2',
                         title: 'Chart Boxes',
-                        href: '/widgets/chart-boxes-3',
+                        href: '/admin/widgets/chart-boxes-3',
                     },
                     {
                         header: true,
@@ -276,11 +271,11 @@
                         child: [
                             {
                                 title: 'Controls',
-                                href: '/forms/controls',
+                                href: '/admin/forms/controls',
                             },
                             {
                                 title: 'Layouts',
-                                href: '/forms/layouts',
+                                href: '/admin/forms/layouts',
                             },
                         ],
                     },

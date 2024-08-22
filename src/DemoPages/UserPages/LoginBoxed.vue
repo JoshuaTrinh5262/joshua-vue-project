@@ -3,7 +3,6 @@
         <div class="h-100 bg-plum-plate bg-animation">
             <div class="d-flex h-100 justify-content-center align-items-center">
                 <div class="col-md-8 mx-auto app-login-box">
-                    <div class="app-logo-inverse mx-auto mb-3"></div>
                     <div class="modal-dialog w-100 mx-auto">
                         <div class="modal-content">
                             <div class="modal-body">
@@ -14,14 +13,14 @@
                                     </h4>
                                 </div>
                                 <div class="form-group" id="exampleInputGroup1">
-                                    <label for="exampleInput1">Email address</label>
-                                    <input type="email" class="form-control" id="exampleInput1" required placeholder="Enter email...">
+                                    <label for="email">Email address</label>
+                                    <input type="email" class="form-control" id="email" v-model="email" required placeholder="Enter email...">
                                     <small id="exampleInput1Help" class="form-text text-muted">We'll never share your email with anyone else.</small>
                                 </div>
 
                                 <div class="form-group" id="exampleInputGroup2">
-                                    <label for="exampleInput2">Password</label>
-                                    <input type="password" class="form-control" id="exampleInput2" required placeholder="Enter password...">
+                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control" id="password" v-model="password" required placeholder="Enter password...">
                                 </div>
 
                                 <div class="form-check">
@@ -42,7 +41,7 @@
                                         Password</a>
                                 </div>
                                 <div class="float-right">
-                                    <button class="btn btn-primary btn-lg">Login to Dashboard</button>
+                                    <button class="btn btn-primary btn-lg" @click="handleLogin">Login to Dashboard</button>
                                 </div>
                             </div>
                         </div>
@@ -55,3 +54,27 @@
         </div>
     </div>
 </template>
+<script>
+import { signup } from "../../supabase/auth";
+
+export default {
+  data() {
+    return {
+      email: '',
+      password: '',
+      error: null,
+    }
+  },
+  methods: {
+    async handleLogin() {
+    const { error } = await signup(this.email, this.password);
+    if (error) {
+      this.error = error;
+    } else {
+      this.error = null;
+      this.$router.push('admin/dashboard');
+    }
+  },
+  },
+}
+</script>

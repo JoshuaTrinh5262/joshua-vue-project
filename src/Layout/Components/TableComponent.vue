@@ -1,6 +1,6 @@
 <template>
   <div>
-    <table :class="customClass" class="table table-sm">
+    <table :class="customClass" class="table table-dark table-sm">
       <thead>
         <tr>
           <th v-for="field in fields" :key="field.key" :id="field.key" @click="changeOrder(field.key)">

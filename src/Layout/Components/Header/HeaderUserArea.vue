@@ -7,7 +7,7 @@
                         <div class="dropdown">
                             <button class="btn p-0 mr-2 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <div class="icon-wrapper icon-wrapper-alt rounded-circle">
-                                    <img width="42" class="rounded-circle" src="@/assets/images/avatars/1.jpg" alt="">
+                                    <img width="40" class="rounded-circle" src="@/assets/images/avatars/0.jpg" alt="">
                                 </div>
                             </button>
                             <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="dropdownMenuButton">
@@ -29,9 +29,7 @@
                     </div>
                     <div class="widget-content-right header-user-info ml-3">
                         <div class="btn-shadow p-1">
-                            <button class="btn btn-info btn-sm">
-                                <i class="pe-7s-portfolio"></i>
-                            </button>
+                            <button class="btn btn-primary btn-sm">Login</button>
                         </div>
                     </div>
                 </div>

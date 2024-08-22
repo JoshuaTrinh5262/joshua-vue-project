@@ -2,9 +2,23 @@
     <div>
         <page-title-component :heading=heading :subheading=subheading :icon=icon></page-title-component>
         <div>
-            <button :style="{ backgroundColor: dynamicColor }" @click="changeColor">
-            My Custom Button
-            </button>
+            <div class="main-card mb-3 card">
+            <div class="card-body"><h5 class="card-title">System Setting</h5>
+              <form class="">
+                <div class="position-relative row form-group">
+                    <label for="exampleEmail" class="col-sm-2 col-form-label">Test</label>
+                    <div class="col-sm-10">
+                        <input name="text" id="exampleEmail" placeholder="with a placeholder" type="email" class="form-control">
+                    </div>
+                </div>
+                <div class="position-relative row form-check">
+                  <div class="col-sm-10 offset-sm-2">
+                    <button class="btn btn-primary">Save Setting</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
     </div>
 </template>

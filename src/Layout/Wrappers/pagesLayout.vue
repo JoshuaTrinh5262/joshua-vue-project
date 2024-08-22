@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container app-theme-white">
+  <div class="app-container app-theme-dark">
     <slot></slot>
   </div>
 </template>

@@ -1,11 +1,13 @@
 <template>
   <div class="bg-white shadow-sm rounded p-3 pt-3 pb-5 border border-white">
     <div class="d-flex justify-content-between">
-      <p class="text-gray-700 font-weight-bold font-sans tracking-wide small">{{ task.title }}</p>
+      <p class="font-weight-bold font-sans tracking-wide small">{{ task.title }}</p>
 
       <img
         class="img-fluid rounded-circle ml-3"
-        src="@/assets/images/avatars/1.jpg"
+        height="30"
+        width="30"
+        src="@/assets/images/avatars/0.jpg"
         alt="Avatar"
       >
     </div>

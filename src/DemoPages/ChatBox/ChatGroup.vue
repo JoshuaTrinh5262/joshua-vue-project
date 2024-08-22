@@ -16,7 +16,7 @@
         <div class="chatgroup-box p-1">
           <div v-for="message in messages" :key="message.id">
             <div v-if="message.user_id % 2 == 0" class="d-flex pb-1">
-              <img class="rounded-circle mr-2" width="35" height="35" src="@/assets/images/avatars/1.jpg"/>
+              <img class="rounded-circle mr-2" width="35" height="35" src="@/assets/images/avatars/0.jpg"/>
               <div class="flex">
                 <p class="whitespace-pre-line">{{ message.content }}</p>
               </div>

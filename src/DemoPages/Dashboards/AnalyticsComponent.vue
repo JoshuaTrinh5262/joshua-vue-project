@@ -725,7 +725,7 @@
                     </ul>
                 </div>
                 <div class="col-md-12 col-lg-4">
-                    <ul class="list-group list-group-flush">
+                    <ul class="list-group list-group-flush"> 
                         <li class="bg-transparent list-group-item">
                             <div class="widget-content p-0">
                                 <div class="widget-content-outer">
@@ -746,7 +746,10 @@
                                 <div class="widget-content-outer">
                                     <div class="widget-content-wrapper">
                                         <div class="widget-content-left">
-                                            <div class="widget-heading">Products Sold</div>
+                                            <div class="widget-heading">
+                                                
+
+                                            </div>
                                             <div class="widget-subheading">Total revenue streams</div>
                                         </div>
                                         <div class="widget-content-right">

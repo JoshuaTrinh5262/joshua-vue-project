@@ -11,7 +11,7 @@
           :key="column.title"
           class="bg-light rounded p-2 column-width rounded mr-1"
         >
-          <p class="text-gray-700 font-weight-bold font-sans tracking-wide small">{{ column.title }}</p>
+          <p class="font-weight-bold font-sans tracking-wide small">{{ column.title }}</p>
           <draggable :list="column.tasks" :animation="200" ghost-class="ghost-card" group="tasks">
             <task-component
               v-for="task in column.tasks"
