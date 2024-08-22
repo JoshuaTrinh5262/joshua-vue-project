@@ -50,16 +50,24 @@ export default {
       totalPages: 0,
       fields: [
                 {
-                    key:'agency_id',
-                    value:'agency_id'
+                    key:'id',
+                    value:'id'
                 },
                 {
-                    key:'agency_name',
-                    value:'agency_name'
+                    key:'name',
+                    value:'name'
                 },
                 {
-                    key:'description',
-                    value:'description'
+                    key:'original_name',
+                    value:'original_name'
+                },
+                {
+                    key:'talent',
+                    value:'talent'
+                },
+                {
+                    key:'album',
+                    value:'album'
                 },
             ],
       items: [],
@@ -67,7 +75,7 @@ export default {
   },
 
   created() {
-        this.getAgenciesData(this.currentPage, this.itemsPerPage);
+        this.getDiscographiesData(this.currentPage, this.itemsPerPage);
     },
 
   methods: {
@@ -79,18 +87,23 @@ export default {
       console.log("close");
       this.showModal = false;
     },
-     async getAgenciesData(newPage, newPageSize) {
+     async getDiscographiesData(newPage, newPageSize) {
       const start = (newPage- 1) * newPageSize;
       const end = start + newPageSize - 1;
 
       const { data, error } = await supabase
-        .from('agency')
-        .select('*')
+        .from('discography')
+        .select('*, album(name), talent(name)')
         .range(start, end);
 
         if (!error) {
           this.totalItems = data.length;
-          this.items = data;
+          const transformedData = data.map(item => ({
+          ...item,
+          album: item.album?.name,
+          talent: item.talent?.name,
+}));
+          this.items = transformedData;
         }
       },
 
@@ -98,16 +111,16 @@ export default {
           this.orderDirection = orderDirection;
           this.orderBy = orderBy;
 
-          await this.getAgenciesData(this.currentPage, this.itemsPerPage);
+          await this.getDiscographiesData(this.currentPage, this.itemsPerPage);
       },
         loadPage(page) {
           this.currentPage = page;
-            this.getAgenciesData(this.currentPage, this.itemsPerPage);
+            this.getDiscographiesData(this.currentPage, this.itemsPerPage);
       },
 
       async changePageSize(newPageSize) {
           this.itemsPerPage = newPageSize;
-          await this.getAgenciesData(1, this.itemsPerPage);
+          await this.getDiscographiesData(1, this.itemsPerPage);
       },
     },
   }
