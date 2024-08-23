@@ -104,6 +104,15 @@ const router = new Router({
             component: () => import('../Pages/Vtubers/AgenciesPage.vue'),
         },
         {
+            path: '/admin/albums',
+            name: 'albums',
+            meta: {
+                layout: 'admin',
+                requiresAuth: true
+            },
+            component: () => import('../Pages/Vtubers/AlbumsPage.vue'),
+        },
+        {
             path: '/admin/discographies',
             name: 'Discographies',
             meta: {
@@ -121,7 +130,6 @@ const router = new Router({
             },
             component: () => import('../Pages/Vtubers/GalleriesPage.vue'),
         },
-
         {
             path: '/admin/events',
             name: 'events',
@@ -333,16 +341,11 @@ const router = new Router({
             },
             component: () => import('../DemoPages/ChatBox/ChatGroup.vue'),
         },
+        // Pages
         {
             path: '/login',
             name: 'login',
-            component: () => import('../DemoPages/UserPages/LoginBoxed.vue'),
-        },
-        // Pages
-        {
-            path: '/pages/login',
-            name: 'login',
-            component: () => import('../DemoPages/UserPages/LoginBoxed.vue'),
+            component: () => import('../DemoPages/UserPages/LoginPage.vue'),
         },
         {
             path: '/pages/register',
