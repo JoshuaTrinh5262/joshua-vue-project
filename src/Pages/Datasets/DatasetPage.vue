@@ -4,12 +4,19 @@
             :heading=heading
             :subheading=subheading
             :icon=icon
-            @click-create-btn="toggleCreate"
-            @click-import-btn="toggleImport"
-            @click-export-btn="toggleExport"
-            :showImport=true
-            :showExport=true
-            ></page-title-component>
+            >
+            <template v-slot:actions>
+                <button type="button" @click=toggleCreate class="btn btn-primary mr-2">
+                    Create New
+                </button>
+                <button @click=toggleImport type="button" class="btn btn-info mr-2">
+                    Import
+                </button>
+                <button @click=toggleExport type="button" class=" btn btn-info mr-2">
+                    Export
+                </button>
+            </template>
+        </page-title-component>
         <notification-component :notification.sync="notification"></notification-component>
         <div class="main-card mb-3 card" v-if="showCreate">
             <div class="card-header">
@@ -121,7 +128,7 @@ export default {
         PaginationComponent,
         TableComponent,
         BaseDialogComponent,
-        NotificationComponent
+        NotificationComponent,
     },
 
     data() {

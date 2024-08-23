@@ -1,38 +1,64 @@
 <template>
   <div>
-      <table-component
-        :footer=true
-        :fields="fields"
-        :items="items"></table-component>
-        <pagination-component
-            :currentPage="currentPage"
-            :perPage="itemsPerPage"
-            :totalItems="totalItems"
-            :totalPages="totalPages"
-            @load-page="loadPage"
-            @change-page-size="changePageSize"
-          ></pagination-component>
+    <page-title-component :heading=heading :subheading=subheading :icon=icon>
+      <template v-slot:actions>
+        <button type="button" @click="openModal" class="btn-shadow d-inline-flex align-items-center btn btn-primary">
+          Create New
+        </button>
+        <modal-component title="Create New" :isOpen="showModal" @closeModal="closeModal" >
+          <template #body>
+            <p>This is the content of the modal body.</p>
+          </template>
+          <template #footer>
+            <button @click="closeModal" class="btn btn-outline-primary">Cancel</button>
+            <button @click="closeModal" class="btn btn-primary">Submit</button>
+          </template>
+        </modal-component>
+      </template>
+    </page-title-component>
+    <table-component
+      :footer=true
+      :fields="fields"
+      :items="items"
+      @changeOrder="handleChangeOrder"/>
+      <pagination-component
+          :currentPage="currentPage"
+          :perPage="itemsPerPage"
+          :totalItems="totalItems"
+          :totalPages="totalPages"
+          @load-page="loadPage"
+          @change-page-size="changePageSize"
+        />
   </div>
 </template>
 <script>
+import ModalComponent from '../../DemoPages/Components/ModalComponent.vue';
 import TableComponent from '../../Layout/Components/TableComponent.vue';
+import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
 import { supabase } from '../../supabase/supabase';
 
 export default {
   name: "TalentsPage",
-
   components: {
-      TableComponent,
-      PaginationComponent
+    ModalComponent,
+    PageTitleComponent,
+    TableComponent,
+    PaginationComponent
   },
 
   data() {
     return {
+      heading: 'Talents',
+      subheading: 'Explore the Profiles of Emerging and Established Talents.',
+      icon: 'pe-7s-phone icon-gradient bg-premium-dark',
+      showModal: false,
       currentPage: 1,
       itemsPerPage: 20,
       totalItems: 0,
       totalPages: 0,
+      orderBy: 'id',
+      orderDirection: 'asc',
       fields: [
                 {
                     key:'id',
@@ -44,7 +70,15 @@ export default {
                 },
                 {
                     key:'original_name',
-                    value:'original name'
+                    value:'Original Name'
+                },
+                {
+                    key:'agency',
+                    value:'Agency'
+                },
+                {
+                    key:'talent_status',
+                    value:'Status'
                 },
                 {
                     key:'debut_date',
@@ -60,18 +94,30 @@ export default {
     },
 
   methods: {
-     async getTalentsData(newPage, newPageSize) {
+    openModal() {
+      this.showModal = true;
+    },
+    closeModal() {
+      this.showModal = false;
+    },
+
+    async getTalentsData(newPage, newPageSize) {
       const start = (newPage- 1) * newPageSize;
       const end = start + newPageSize - 1;
 
       const { data, count, error } = await supabase
         .from('talent')
-        .select('*', { count: 'exact' })
+        .select('*, agency(agency_name)' , { count: 'exact' })
+        .order(this.orderBy, { ascending: this.orderDirection === 'asc' })  
         .range(start, end);
 
         if (!error) {
           this.totalItems = count;
-          this.items = data;
+          const transformedData = data.map(item => ({
+            ...item,
+            agency: item.agency?.agency_name,
+          }));
+          this.items = transformedData;
           this.totalPages = Math.ceil(count / newPageSize);
         }
       },

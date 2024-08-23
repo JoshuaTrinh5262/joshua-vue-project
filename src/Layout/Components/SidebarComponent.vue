@@ -117,6 +117,11 @@
                         href: '/admin/discographies',
                     },
                     {
+                        title: 'Albums',
+                        icon: 'pe-7s-rocket',
+                        href: '/admin/albums',
+                    },
+                    {
                         title: 'Events',
                         icon: 'pe-7s-rocket',
                         href: '/admin/events',

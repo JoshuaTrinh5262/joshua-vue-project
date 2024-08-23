@@ -7,24 +7,18 @@
         </button>
         <modal-component title="Create New" :isOpen="showModal" @closeModal="closeModal">
           <template #body>
-            <p>This is the content of the modal body.</p>
+              <div class="position-relative form-group">
+                <label for="name">Albumn Name</label>
+                <input name="album_name" placeholder="Albumn Name" v-model="albumName" type="text" class="form-control">
+              </div>
           </template>
           <template #footer>
-            <button @click="closeModal">Cancel</button>
-            <button @click="closeModal">Submit</button>
+            <button @click="closeModal" class="btn btn-primary">Cancel</button>
+            <button @click="createAlbum" class="btn btn-primary">Submit</button>
           </template>
         </modal-component>
       </template>
     </page-title-component>
-    <modal-component :isOpen="showModal" @closeModal="closeModal">
-      <template #body>
-        <p>This is the content of the modal body.</p>
-      </template>
-      <template #footer>
-        <button @click="closeModal">Cancel</button>
-        <button @click="closeModal">Cancel</button>
-      </template>
-    </modal-component>
     <table-component :footer=true :fields="fields" :items="items"></table-component>
     <pagination-component :currentPage="currentPage" :perPage="itemsPerPage" :totalItems="totalItems"
       :totalPages="totalPages" @load-page="loadPage" @change-page-size="changePageSize"></pagination-component>
@@ -38,7 +32,7 @@ import PaginationComponent from "../../Layout/Components/PaginationComponent.vue
 import { supabase } from '../../supabase/supabase';
 
 export default {
-  name: "EventsPage",
+  name: "AlbumsPage",
 
   components: {
     ModalComponent,
@@ -50,25 +44,22 @@ export default {
   data() {
     return {
       showModal: false,
-      heading: 'Events',
-      subheading: 'Explore the Profiles of Emerging and Established Talents.',
+      heading: 'Albums',
+      subheading: 'Albums',
       icon: 'pe-7s-phone icon-gradient bg-premium-dark',
       currentPage: 1,
       itemsPerPage: 20,
       totalItems: 0,
       totalPages: 0,
+      albumName: '',
       fields: [
         {
-          key: 'agency_id',
-          value: 'agency_id'
+          key: 'id',
+          value: 'id'
         },
         {
-          key: 'agency_name',
-          value: 'agency_name'
-        },
-        {
-          key: 'description',
-          value: 'description'
+          key: 'name',
+          value: 'name'
         },
       ],
       items: [],
@@ -76,48 +67,69 @@ export default {
   },
 
   created() {
-    this.getAgenciesData(this.currentPage, this.itemsPerPage);
+    this.getAlbumsData(this.currentPage, this.itemsPerPage);
   },
 
   methods: {
     openModal() {
-      console.log("open");
       this.showModal = true;
     },
     closeModal() {
-      console.log("close");
       this.showModal = false;
     },
-    async getAgenciesData(newPage, newPageSize) {
+    async getAlbumsData(newPage, newPageSize) {
       const start = (newPage - 1) * newPageSize;
       const end = start + newPageSize - 1;
 
       const { data, error } = await supabase
-        .from('agency')
+        .from('album')
         .select('*')
         .range(start, end);
 
       if (!error) {
         this.totalItems = data.length;
-        this.items = data;
+        const transformedData = data.map(item => ({
+          ...item,
+          album: item.album?.name,
+          talent: item.talent?.name,
+        }));
+        this.items = transformedData;
+      }
+    },
+
+    async createAlbum() {
+      try {
+        const { error } = await supabase
+          .from('album')
+          .insert([{ name: this.albumName }]);
+
+        if (error) {
+          this.errorMessage = `Error: ${error.message}`;
+        } else {
+          this.talentName = '';
+        }
+        this.getAlbumsData(this.currentPage, this.itemsPerPage);
+        this.albumName = '';
+      } catch (error) {
+        this.errorMessage = `Unexpected error: ${error.message}`;
       }
     },
 
     async handleChangeOrder({ orderDirection, orderBy }) {
-      this.orderDirection = orderDirection;
-      this.orderBy = orderBy;
+        this.orderDirection = orderDirection;
+        this.orderBy = orderBy;
 
-      await this.getAgenciesData(this.currentPage, this.itemsPerPage);
-    },
-    loadPage(page) {
-      this.currentPage = page;
-      this.getAgenciesData(this.currentPage, this.itemsPerPage);
-    },
+        await this.getAlbumsData(this.currentPage, this.itemsPerPage);
+      },
+      loadPage(page) {
+        this.currentPage = page;
+        this.getAlbumsData(this.currentPage, this.itemsPerPage);
+      },
 
     async changePageSize(newPageSize) {
-      this.itemsPerPage = newPageSize;
-      await this.getAgenciesData(1, this.itemsPerPage);
+        this.itemsPerPage = newPageSize;
+        await this.getAlbumsData(1, this.itemsPerPage);
+      },
     },
-  },
-}
+  }
 </script>

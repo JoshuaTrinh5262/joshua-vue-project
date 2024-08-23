@@ -17,6 +17,7 @@
   
   <script>
   export default {
+    name: "ModalComponent",
     props: {
       isOpen: {
         type: Boolean,

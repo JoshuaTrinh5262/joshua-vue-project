@@ -20,12 +20,13 @@
 <script>
     import HeaderComponent from "../Components/HeaderComponent";
     import SidebarComponent from "../Components/SidebarComponent";
-
+    import FooterComponent from "../Components/FooterComponent"
     export default {
         name: 'app',
         components: {
             HeaderComponent,
             SidebarComponent,
+            FooterComponent,
         },
         methods: {
         },

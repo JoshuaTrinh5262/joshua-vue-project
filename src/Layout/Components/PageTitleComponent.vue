@@ -6,7 +6,7 @@
                     <i :class="icon"></i>
                 </div>
                 <div>
-                    {{heading}}
+                    <h2>{{heading}}</h2>
                     <div
                         class="page-title-subheading">
                         {{subheading}}
@@ -14,18 +14,7 @@
                 </div>
             </div>
             <div class="page-title-actions">
-                <button type="button" @click=clickCreateBtn class="btn-shadow d-inline-flex align-items-center btn btn-primary">
-                    <font-awesome-icon class="mr-2" icon="plus"/>
-                    Create New
-                </button>
-                <button v-if="showImport" @click=clickImportBtn type="button" class="btn-shadow d-inline-flex align-items-center btn btn-info">
-                    <font-awesome-icon class="mr-2" icon="plus"/>
-                    Import
-                </button>
-                <button v-if="showExport" @click=clickExportBtn type="button" class="btn-shadow d-inline-flex align-items-center btn btn-info">
-                    <font-awesome-icon class="mr-2" icon="plus"/>
-                    Export
-                </button>
+                <slot name="actions"></slot>
             </div>
         </div>
     </div>
@@ -37,7 +26,6 @@
         faStar,
         faPlus
     } from '@fortawesome/free-solid-svg-icons'
-    import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 
     library.add(
         faStar,
@@ -45,10 +33,6 @@
     );
 
     export default {
-        components: {
-            'font-awesome-icon': FontAwesomeIcon,
-        },
-
         props: {
             icon: {
                 type: String,

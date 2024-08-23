@@ -1,22 +1,14 @@
 <template>
     <div class="app-footer">
         <div class="app-footer__inner text-center">
-            Copyright 2019 JoshuaTrinh
+            Copyright 2024 JoshuaTrinh
         </div>
     </div>
 </template>
 
 <script>
-
-    import {library} from '@fortawesome/fontawesome-svg-core'
-    import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
-    // import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
-
-    library.add(
-        faEllipsisV,
-    );
     export default {
-        name: "footer-componenent",
+        name: "FooterComponenent",
         components: {
         }
     };
