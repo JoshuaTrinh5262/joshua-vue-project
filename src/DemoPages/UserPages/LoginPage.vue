@@ -55,7 +55,7 @@
     </div>
 </template>
 <script>
-import { signup } from "../../supabase/auth";
+import { login } from '../../supabase/authService';
 
 export default {
   data() {
@@ -67,14 +67,15 @@ export default {
   },
   methods: {
     async handleLogin() {
-    const { error } = await signup(this.email, this.password);
-    if (error) {
-      this.error = error;
-    } else {
-      this.error = null;
-      this.$router.push('admin/dashboard');
-    }
-  },
+        await login(this.email, this.password).then(({ error }) => {
+          if (!error) {
+            this.$router.push('admin/dashboard');
+          }
+        })
+        .catch(err => {
+          console.error('Unexpected error:', err);
+        });
+    },
   },
 }
 </script>

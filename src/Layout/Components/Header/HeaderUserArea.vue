@@ -5,7 +5,8 @@
                 <div class="widget-content-wrapper">
                     <div class="widget-content-left">
                         <div class="dropdown">
-                            <button class="btn p-0 mr-2 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button class="btn p-0 mr-2 dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <div class="icon-wrapper icon-wrapper-alt rounded-circle">
                                     <img width="40" class="rounded-circle" src="@/assets/images/avatars/0.jpg" alt="">
                                 </div>
@@ -29,7 +30,7 @@
                     </div>
                     <div class="widget-content-right header-user-info ml-3">
                         <div class="btn-shadow p-1">
-                            <button class="btn btn-primary btn-sm">Login</button>
+                            <button class="btn btn-primary btn-sm" @click="handleLogout">Logout</button>
                         </div>
                     </div>
                 </div>
@@ -39,15 +40,30 @@
 </template>
 
 <script>
-    export default {
-        components: {
-        },
-        data: () => ({
+import { logout } from '../../../supabase/authService';
 
-        }),
+export default {
 
-        methods: {}
+    components: {
+    },
+    data: () => ({
+
+    }),
+
+    methods: {
+        async handleLogout() {
+            await logout().then(({ error }) => {
+                this.$1srouter.push("/login");
+                if (error) {
+                    console.error('Logout error:', error);
+                } else {
+                    console.log('User logged out successfully.');
+                }
+            })
+            .catch(err => {
+                console.error('Unexpected error:', err);
+            });
+        }
     }
-
-
+}
 </script>
