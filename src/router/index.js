@@ -161,15 +161,6 @@ const router = new Router({
         },
         // Elements
         {
-            path: '/admin/elements/buttons-standard',
-            name: 'buttons-standard',
-            meta: {
-                layout: 'admin',
-                requiresAuth: true
-            },
-            component: () => import('../DemoPages/Elements/Buttons/StandardComponent.vue'),
-        },
-        {
             path: '/admin/elements/icons',
             name: 'icons',
             meta: {
@@ -223,56 +214,14 @@ const router = new Router({
             },
             component: () => import('../DemoPages/Elements/UtilitiesComponent.vue'),
         },
-        // Components
         {
-            path: '/admin/components/accordions',
-            name: 'accordions',
-            meta: {
-                layout: 'admin',
-                requiresAuth: true
-            },
-            component: () => import('../DemoPages/Components/AccordionsComponent.vue'),
-        },
-        {
-            path: '/admin/components/modals',
-            name: 'modals',
-            meta: {
-                layout: 'admin',
-                requiresAuth: true
-            },
-            component: () => import('../DemoPages/Components/ModalsComponent.vue'),
-        },
-        {
-            path: '/admin/components/progress-bar',
+            path: '/admin/elements/progress-bar',
             name: 'progress-bar',
             meta: {
                 layout: 'admin',
                 requiresAuth: true
             },
             component: () => import('../DemoPages/Components/ProgressBarComponent.vue'),
-        },
-        {
-            path: '/admin/components/tooltips-popovers',
-            name: 'tooltips-popovers',
-            meta: {
-                layout: 'admin',
-                requiresAuth: true
-            },
-            component: () => import('../DemoPages/Components/TooltipsPopoversComponent.vue'),
-        },
-        {
-            path: '/admin/components/carousel',
-            name: 'carousel',
-            meta: {
-                layout: 'admin',
-                requiresAuth: true
-            },
-            component: () => import('../DemoPages/Components/CarouselComponent.vue'),
-        },
-        {
-            path: '/admin/components/maps',
-            name: 'maps',
-            component: () => import('../DemoPages/Components/MapsComponent.vue'),
         },
         // Tables
         {
@@ -302,7 +251,7 @@ const router = new Router({
                 layout: 'admin',
                 requiresAuth: true
             },
-            component: () => import('../DemoPages/Forms/Elements/ControlsComponent.vue'),
+            component: () => import('../DemoPages/Forms/ControlsComponent.vue'),
         },
         {
             path: '/admin/forms/layouts',
@@ -311,7 +260,7 @@ const router = new Router({
                 layout: 'admin',
                 requiresAuth: true
             },
-            component: () => import('../DemoPages/Forms/Elements/LayoutsComponent.vue'),
+            component: () => import('../DemoPages/Forms/LayoutsComponent.vue'),
         },
         // Kanban
         {
@@ -383,15 +332,27 @@ const router = new Router({
 router.beforeEach(async (to, from, next) => {
     const { data: { user } } = await supabase.auth.getUser();
     const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-    if(requiresAuth && !user) {
+
+    // Check if the route requires authentication and user is not logged in
+    if (requiresAuth && !user) {
         next('/login');
-        console.log("login")
-    } else if(!requiresAuth && user) {
+        console.log("Redirecting to login because authentication is required.");
+    }
+    // Check if the route is for /admin and user is not logged in
+    else if (to.path.startsWith('/admin') && !user) {
+        next('/login');
+        console.log("Redirecting to login because user is not authenticated for admin route.");
+    }
+    // If user is logged in and trying to access a public route, redirect to /admin
+    else if (!requiresAuth && user && to.path === '/login') {
         next("/admin");
-        console.log("admin")
-    } else {
-        console.log("in")
+        console.log("Redirecting to admin dashboard because user is already logged in.");
+    } 
+    // Allow access to the route
+    else {
+        console.log("Allowing access to the route.");
         next();
     }
-  })
+});
+
 export default router;
