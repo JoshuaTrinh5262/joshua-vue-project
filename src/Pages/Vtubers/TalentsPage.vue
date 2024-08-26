@@ -11,73 +11,38 @@
               <div class="form-row">
                 <div class="col-md-6">
                   <div class="position-relative form-group">
-                    <label for="name" class="">Name</label>
-                    <input name="name" id="name" placeholder="Name" type="text" class="form-control">
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="position-relative form-group">
-                    <label for="original_name" class="">Original Name</label>
-                    <input name="original_name" id="original_name" placeholder="Original Name" type="text"
+                    <label for="name">Name</label>
+                    <input name="name" id="name" placeholder="Name" type="text" v-model=newTalent.name
                       class="form-control">
                   </div>
                 </div>
+                <div class="col-md-6">
+                  <div class="position-relative form-group">
+                    <label for="original_name">Original Name</label>
+                    <input name="original_name" id="original_name" placeholder="Original Name"
+                      v-model=newTalent.original_name type="text" class="form-control">
+                  </div>
+                </div>
               </div>
               <div class="form-row">
                 <div class="col-md-6">
                   <div class="position-relative form-group">
-                    <label for="exampleSelect" class="">Agency</label>
-                    <select name="select" id="exampleSelect" class="form-control">
-                      <option value="0">Zero</option>
-                      <option value="1">One</option>
-                      <option value="2">Two</option>
-                      <option value="3">Three</option>
-                      <option value="4">Four</option>
-                      <option value="5">Five</option>
-                      <option value="6">Six</option>
-                      <option value="7">Seven</option>
-                      <option value="8">Eight</option>
-                      <option value="9">Nine</option>
+                    <label for="agency">Agency</label>
+                    <select name="select" id="agency" v-model=newTalent.agency_id class="form-control">
+                      <option v-for="agency in agencies" :key="agency.agency_id" :value="agency.agency_id">
+                        {{ agency.agency_name }}
+                      </option>
                     </select>
                   </div>
                 </div>
-                <div class="col-sm-6">
-                  <div class="container">
-                    <div class="form-group">
-                      <div class='input-group date' id='datetimepicker1'>
-                        <input type='text' class="form-control" />
-                        <span class="input-group-addon">
-                          <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="position-relative form-group">
-                <label for="exampleAddress" class="">Address</label>
-                <input name="address" id="exampleAddress" placeholder="1234 Main St" type="text" class="form-control">
-              </div>
-              <div class="position-relative form-group">
-                <label for="exampleAddress2" class="">Address 2</label>
-                <input name="address2" id="exampleAddress2" placeholder="Apartment, studio, or floor" type="text"
-                  class="form-control">
-              </div>
-              <div class="form-row">
                 <div class="col-md-6">
                   <div class="position-relative form-group">
-                    <label for="exampleCity" class="">City</label>
-                    <input name="city" id="exampleCity" type="text" class="form-control">
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="position-relative form-group"><label for="exampleState" class="">State</label>
-                    <input name="state" id="exampleState" type="text" class="form-control">
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="position-relative form-group"><label for="exampleZip" class="">Zip</label>
-                    <input name="zip" id="exampleZip" type="text" class="form-control">
+                    <label for="talent_status">Talent Status</label>
+                    <select name="select" id="talent_status" v-model=newTalent.talent_status class="form-control">
+                      <option value="active">Active</option>
+                      <option value="graduation">Graduation</option>
+                      <option value="terminated">Terminated</option>
+                    </select>
                   </div>
                 </div>
               </div>
@@ -85,7 +50,7 @@
           </template>
           <template #footer>
             <button @click="closeModal" class="btn btn-outline-primary">Cancel</button>
-            <button @click="closeModal" class="btn btn-primary">Submit</button>
+            <button @click="submitTalent" class="btn btn-primary">Submit</button>
           </template>
         </modal-component>
       </template>
@@ -101,6 +66,9 @@ import TableComponent from '../../Layout/Components/TableComponent.vue';
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
 import { supabase } from '../../supabase/supabase';
+import { getAgencies } from '../../supabase/api/agencyApi';
+import { createTalent } from '../../supabase/api/talentApi';
+
 
 export default {
   name: "TalentsPage",
@@ -126,8 +94,8 @@ export default {
       newTalent: {
         name: '',
         original_name: "",
-        agency: "",
-
+        agency_id: "",
+        talent_status: "",
       },
       fields: [
         {
@@ -156,19 +124,31 @@ export default {
         },
       ],
       items: [],
+      agencies: []
     }
   },
 
   created() {
     this.getTalentsData(this.currentPage, this.itemsPerPage);
+    this.getAgencyData();
   },
 
   methods: {
     openModal() {
       this.showModal = true;
     },
+
     closeModal() {
       this.showModal = false;
+    },
+
+    async getAgencyData() {
+      try {
+        const response = await getAgencies();
+        this.agencies = response;
+      } catch (error) {
+        console.error("Error fetching agency data:", error);
+      }
     },
 
     async getTalentsData(newPage, newPageSize) {
@@ -190,6 +170,25 @@ export default {
         this.items = transformedData;
         this.totalPages = Math.ceil(count / newPageSize);
       }
+    },
+
+    async submitTalent() {
+      createTalent(this.newTalent)
+        .then(() => {
+            this.newTalent = {
+              name: '',
+              original_name: '',
+              agency: '',
+              status: '',
+            };
+            this.successMessage = 'Talent created successfully!';
+            this.showModal = false;
+            this.getTalentsData(this.currentPage, this.itemsPerPage);
+        })
+        .catch(err => {
+          console.error('Error submitting talent:', err);
+          this.error = 'An unexpected error occurred.';
+        });
     },
 
     async handleChangeOrder({ orderDirection, orderBy }) {
