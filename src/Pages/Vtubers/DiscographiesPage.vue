@@ -62,8 +62,8 @@ export default {
           value: 'original_name'
         },
         {
-          key: 'talent',
-          value: 'talent'
+          key: 'released_date',
+          value: 'Released Date'
         },
         {
           key: 'album',

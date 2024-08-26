@@ -19,9 +19,9 @@
 </template>
 
 <script>
-
     import VuePerfectScrollbar from 'vue-perfect-scrollbar';
     import SidebarMenu from './Sidebar/SidebarMenu.vue';
+
     export default {
         name: "sidebar-componenent",
 
@@ -81,10 +81,6 @@
                         title: 'Pages',
                         icon: 'pe-7s-browser',
                         child: [
-                            {
-                                href: '/pages/login',
-                                title: 'Login Boxed',
-                            },
                             {
                                 href: '/pages/register',
                                 title: 'Register Boxed',
@@ -153,16 +149,12 @@
                     },
                     {
                         header: true,
-                        title: 'UI Components',
+                        title: 'Other Components',
                     },
                     {
                         icon: 'pe-7s-diamond',
                         title: 'Elements',
                         child: [
-                            {
-                                title: 'Buttons',
-                                href: '/admin/elements/buttons-standard',
-                            },
                             {
                                 title: 'Icons',
                                 href: '/admin/elements/icons',
@@ -187,43 +179,9 @@
                                 title: 'Utilities',
                                 href: '/admin/elements/utilities',
                             },
-                        ],
-                    },
-                    {
-                        icon: 'pe-7s-car',
-                        title: 'Components',
-                        child: [
-                            {
-                                title: 'Tabs',
-                                href: '/admin/components/tabs',
-                            },
-                            {
-                                title: 'Accordions',
-                                href: '/admin/components/accordions',
-                            },
-                            {
-                                title: 'Modals',
-                                href: '/admin/components/modals',
-                            },
                             {
                                 title: 'Progress Bar',
-                                href: '/admin/components/progress-bar',
-                            },
-                            {
-                                title: 'Tooltips & Popovers',
-                                href: '/admin/components/tooltips-popovers',
-                            },
-                            {
-                                title: 'Carousel',
-                                href: '/admin/components/carousel',
-                            },
-                            {
-                                title: 'Pagination',
-                                href: '/admin/components/pagination',
-                            },
-                            {
-                                title: 'Maps',
-                                href: '/admin/components/maps',
+                                href: '/admin/elements/progress-bar',
                             },
                         ],
                     },
@@ -240,35 +198,17 @@
                     {
                         icon: 'pe-7s-display2',
                         title: 'Kanban',
-                        child: [
-                            {
-                                title: 'Kanban',
-                                href: '/admin/kanban',
-                            },
-                        ]
+                        href: '/admin/kanban',
                     },
                     {
                         icon: 'pe-7s-display2',
                         title: 'Chatbox',
-                        child: [
-                            {
-                                title: 'Chatbox',
-                                href: '/admin/Chatbox',
-                            },
-                        ]
-                    },
-                    {
-                        header: true,
-                        title: 'Dashboard Boxes',
+                        href: '/admin/Chatbox',
                     },
                     {
                         icon: 'pe-7s-graph2',
                         title: 'Chart Boxes',
                         href: '/admin/widgets/chart-boxes-3',
-                    },
-                    {
-                        header: true,
-                        title: 'Forms',
                     },
                     {
                         icon: 'pe-7s-light',
@@ -333,12 +273,8 @@
             },
         },
         mounted() {
-            this.$nextTick(function () {
-                window.addEventListener('resize', this.getWindowWidth);
-
-                //Init
-                this.getWindowWidth()
-            })
+            window.addEventListener('resize', this.getWindowWidth);
+            this.getWindowWidth()
         },
 
         beforeDestroy() {

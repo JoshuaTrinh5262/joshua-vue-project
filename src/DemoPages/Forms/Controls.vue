@@ -271,25 +271,6 @@
                         </div>
                     </div>
                     <div class="main-card mb-3 card">
-                        <div class="card-body"><h5 class="card-title">Input Group Button Dropdown</h5>
-                            <b-input-group>
-                                <b-dropdown text="Dropdown" variant="info" slot="prepend" v-for="i in 1" :key="i">
-                                    <b-dropdown-item>Action A</b-dropdown-item>
-                                    <b-dropdown-item>Action B</b-dropdown-item>
-                                </b-dropdown>
-
-                                <b-form-input></b-form-input>
-
-                                <b-dropdown text="Dropdown" variant="outline-secondary" slot="append" v-for="i in 1"
-                                            :key="i">
-                                    <b-dropdown-item>Action C</b-dropdown-item>
-                                    <b-dropdown-item>Action D</b-dropdown-item>
-                                </b-dropdown>
-                            </b-input-group>
-
-                        </div>
-                    </div>
-                    <div class="main-card mb-3 card">
                         <div class="card-body"><h5 class="card-title">Input Group Button Shorthand</h5>
                             <div>
                                 <div class="input-group">
@@ -355,28 +336,6 @@
                                     <div class="input-group-append"><span class="input-group-text">To the Right!</span>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="main-card mb-3 card">
-                        <div class="card-body"><h5 class="card-title">Input Group Button</h5>
-                            <div>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <button class="btn btn-secondary">I'm a button</button>
-                                    </div>
-                                    <input type="text" class="form-control"></div>
-                                <br>
-                                <b-input-group>
-                                    <b-form-input></b-form-input>
-
-                                    <b-dropdown text="Dropdown" right variant="secondary" slot="append" v-for="i in 1"
-                                                :key="i">
-                                        <b-dropdown-item>Action C</b-dropdown-item>
-                                        <b-dropdown-item>Action D</b-dropdown-item>
-                                    </b-dropdown>
-                                </b-input-group>
-                                <br>
                             </div>
                         </div>
                     </div>

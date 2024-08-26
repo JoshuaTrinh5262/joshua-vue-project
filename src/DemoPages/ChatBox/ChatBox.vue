@@ -44,15 +44,15 @@ export default {
 
   computed: {
     availableModels() {
-      return this.$store.getters.getAvailableModels;
+      // return this.$store.getters.getAvailableModels;
     },
 
     isDarkMode() {
-      return this.$store.getters.isDarkMode;
+      // return this.$store.getters.isDarkMode;
     },
 
     currentChat() {
-      return this.$store.getters.currentChat;
+      // return this.$store.getters.currentChat;
     },
   },
 

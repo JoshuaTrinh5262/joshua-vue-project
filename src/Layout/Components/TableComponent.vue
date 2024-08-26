@@ -1,8 +1,9 @@
 <template>
   <div>
-    <table :class="customClass" class="table table-dark table-sm">
+    <table :class="customClass" class="table table-dark table-sm table-bordered">
       <thead>
         <tr>
+          <th><input type="checkbox" class=""></th>
           <th v-for="field in fields" :key="field.key" :id="field.key" @click="changeOrder(field.key)">
             {{ field.value }}
             <span v-if="orderBy === field.key && orderDirection === 'asc'">&#9660;</span>
@@ -14,6 +15,7 @@
       </thead>
       <tbody>
         <tr v-for="(item, index) in items" :key="index">
+          <td><input type="checkbox"></td>
           <td v-for="field in fields" :key="field.key">
             {{ item[field.key] }} <span v-if="field.key=='source_text' || field.key=='target_text'" span>{{ item[field.key].trim().split(/\s+/).length }}</span>
           </td>
@@ -25,7 +27,9 @@
       </tbody>
       <tfoot v-if="footer">
         <tr>
+          <th><input type="checkbox"></th>
           <th v-for="field in fields" :key="field.key" :id="field.key" @click="changeOrder(field.key)">
+            
             {{ field.value }}
             <span v-if="orderBy === field.key && orderDirection === 'asc'">&#9660;</span>
             <span v-else-if="orderBy === field.key && orderDirection === 'desc'">&#9650;</span>

@@ -8,6 +8,9 @@
         <tab-component title="Tab 4">Hello From Tab 4</tab-component>
         <tab-component title="Tab 5">Hello From Tab 5</tab-component>
         <tab-component title="Tab 6">Hello From Tab 6</tab-component>
+        <tab-component title="Tab 7">Hello From Tab 4</tab-component>
+        <tab-component title="Tab 8">Hello From Tab 5</tab-component>
+        <tab-component title="Tab 9">Hello From Tab 6</tab-component>
     </tabs-component>
   </div>
 </template>

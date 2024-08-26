@@ -1,9 +1,6 @@
 <template>
     <div>
-        <page-title-component
-            :heading=heading
-            :subheading=subheading
-            :icon=icon></page-title-component>
+        <page-title-component :heading=heading :subheading=subheading :icon=icon></page-title-component>
         <div class="mb-3 card">
             <div class="card-header-tab card-header">
                 <div class="card-header-title font-size-lg text-capitalize font-weight-normal">
@@ -16,13 +13,14 @@
                     <div class="card no-shadow rm-border bg-transparent widget-chart text-left">
                         <div class="icon-wrapper rounded-circle">
                             <div class="icon-wrapper-bg opacity-10 bg-warning"></div>
-                            <i class="pe-7s-scissors text-white opacity-8"></i></div>
+                            <i class="pe-7s-scissors text-white opacity-8"></i>
+                        </div>
                         <div class="widget-chart-content">
                             <div class="widget-subheading">Cash Deposits</div>
                             <div class="widget-numbers">1,7M</div>
                             <div class="widget-description opacity-8 text-focus">
                                 <div class="d-inline text-danger pr-1">
-                                    <font-awesome-icon icon="angle-down"/>
+                                    <font-awesome-icon icon="angle-down" />
                                     <span class="pl-1">54.1%</span>
                                 </div>
                                 less earnings
@@ -35,14 +33,15 @@
                     <div class="card no-shadow rm-border bg-transparent widget-chart text-left">
                         <div class="icon-wrapper rounded-circle">
                             <div class="icon-wrapper-bg opacity-9 bg-danger"></div>
-                            <i class="pe-7s-radio text-white"></i></div>
+                            <i class="pe-7s-radio text-white"></i>
+                        </div>
                         <div class="widget-chart-content">
                             <div class="widget-subheading">Invested Dividents</div>
                             <div class="widget-numbers"><span>9M</span></div>
                             <div class="widget-description opacity-8 text-focus">
                                 Grow Rate:
                                 <span class="text-info pl-1">
-                                    <font-awesome-icon icon="angle-down"/>
+                                    <font-awesome-icon icon="angle-down" />
                                     <span class="pl-1">14.1%</span>
                                 </span>
                             </div>
@@ -54,14 +53,15 @@
                     <div class="card no-shadow rm-border bg-transparent widget-chart text-left">
                         <div class="icon-wrapper rounded-circle">
                             <div class="icon-wrapper-bg opacity-9 bg-success"></div>
-                            <i class="pe-7s-musiclist text-white"></i></div>
+                            <i class="pe-7s-musiclist text-white"></i>
+                        </div>
                         <div class="widget-chart-content">
                             <div class="widget-subheading">Capital Gains</div>
                             <div class="widget-numbers text-success"><span>$563</span></div>
                             <div class="widget-description text-focus">
                                 Increased by
                                 <span class="text-warning pl-1">
-                                    <font-awesome-icon icon="angle-up"/>
+                                    <font-awesome-icon icon="angle-up" />
                                     <span class="pl-1">7.35%</span>
                                 </span>
                             </div>
@@ -71,9 +71,9 @@
             </div>
             <div class="text-center d-block p-3 card-footer">
                 <button class="btn-pill btn-shadow btn-wide fsize-1 btn btn-primary btn-lg">
-                  <span class="mr-2 opacity-7">
-                      <i class="icon icon-anim-pulse ion-ios-analytics-outline"></i>
-                  </span>
+                    <span class="mr-2 opacity-7">
+                        <i class="icon icon-anim-pulse ion-ios-analytics-outline"></i>
+                    </span>
                     <span class="mr-1">View Complete Report</span>
                 </button>
             </div>
@@ -113,7 +113,33 @@
                                 </div>
                             </div>
                         </div>
-
+                    </div>
+                    <div class="p-0 card-body">
+                        <div class="p-1 slick-slider-sm mx-auto">
+                            <div class="widget-chart widget-chart2 text-left p-0">
+                                <div class="widget-chat-wrapper-outer">
+                                    <div class="widget-chart-content widget-chart-content-lg pb-0">
+                                        <div class="widget-chart-flex">
+                                            <div class="widget-title opacity-5 text-muted text-uppercase">Helpdesk
+                                                Tickets
+                                            </div>
+                                        </div>
+                                        <div class="widget-numbers">
+                                            <div class="widget-chart-flex">
+                                                <div>
+                                                    <span class="text-danger">30</span>
+                                                </div>
+                                                <div
+                                                    class="widget-title ml-2 font-size-lg font-weight-normal text-dark">
+                                                    <span class="opacity-5 text-muted pl-2 pr-1">10%</span>
+                                                    decrease
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <h6 class="text-muted text-uppercase font-size-md opacity-5 pl-3 pr-3 pb-1 font-weight-normal">
                             Sales Progress</h6>
                         <ul class="list-group list-group-flush">
@@ -135,8 +161,8 @@
                                         <div class="widget-progress-wrapper">
                                             <div class="progress-bar-sm progress-bar-animated-alt progress">
                                                 <div class="progress-bar bg-primary" role="progressbar"
-                                                     aria-valuenow="43" aria-valuemin="0" aria-valuemax="100"
-                                                     style="width: 43%;"></div>
+                                                    aria-valuenow="43" aria-valuemin="0" aria-valuemax="100"
+                                                    style="width: 43%;"></div>
                                             </div>
                                             <div class="progress-sub-label">
                                                 <div class="sub-label-left">YoY Growth</div>
@@ -292,7 +318,8 @@
                                     <div class="widget-chart-flex">
                                         <div class="fsize-4">
                                             <small class="opacity-5">$</small>
-                                            <span>874</span></div>
+                                            <span>874</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -311,7 +338,8 @@
                                     <div class="widget-chart-flex">
                                         <div class="fsize-4">
                                             <small class="opacity-5">$</small>
-                                            <span>1283</span></div>
+                                            <span>1283</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -330,7 +358,8 @@
                                     <div class="widget-chart-flex">
                                         <div class="fsize-4">
                                             <small class="opacity-5">$</small>
-                                            <span>1286</span></div>
+                                            <span>1286</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -349,7 +378,8 @@
                                     <div class="widget-chart-flex">
                                         <div class="fsize-4">
                                             <small class="opacity-5">$</small>
-                                            <span>564</span></div>
+                                            <span>564</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -364,7 +394,7 @@
                 <div class="card-hover-shadow-2x mb-3 card">
                     <div class="card-header-tab card-header">
                         <div class="card-header-title font-size-lg text-capitalize font-weight-normal"><i
-                            class="header-icon lnr-database icon-gradient bg-malibu-beach"> </i>Tasks List
+                                class="header-icon lnr-database icon-gradient bg-malibu-beach"> </i>Tasks List
                         </div>
                     </div>
                     <div class="scroll-area-lg">
@@ -376,10 +406,9 @@
                                         <div class="widget-content-wrapper">
                                             <div class="widget-content-left mr-2">
                                                 <div class="custom-checkbox custom-control"><input type="checkbox"
-                                                                                                   id="exampleCustomCheckbox"
-                                                                                                   class="custom-control-input"><label
-                                                    class="custom-control-label"
-                                                    for="exampleCustomCheckbox">&nbsp;</label>
+                                                        id="exampleCustomCheckbox" class="custom-control-input"><label
+                                                        class="custom-control-label"
+                                                        for="exampleCustomCheckbox">&nbsp;</label>
                                                 </div>
                                             </div>
                                             <div class="widget-content-left">
@@ -390,10 +419,10 @@
                                             </div>
                                             <div class="widget-content-right widget-content-actions">
                                                 <button class="border-0 btn-transition btn btn-outline-success">
-                                                    <font-awesome-icon icon="check"/>
+                                                    <font-awesome-icon icon="check" />
                                                 </button>
                                                 <button class="border-0 btn-transition btn btn-outline-danger">
-                                                    <font-awesome-icon icon="trash-alt"/>
+                                                    <font-awesome-icon icon="trash-alt" />
                                                 </button>
                                             </div>
                                         </div>
@@ -405,10 +434,9 @@
                                         <div class="widget-content-wrapper">
                                             <div class="widget-content-left mr-2">
                                                 <div class="custom-checkbox custom-control"><input type="checkbox"
-                                                                                                   id="exampleCustomCheckbox1"
-                                                                                                   class="custom-control-input"><label
-                                                    class="custom-control-label"
-                                                    for="exampleCustomCheckbox1">&nbsp;</label>
+                                                        id="exampleCustomCheckbox1" class="custom-control-input"><label
+                                                        class="custom-control-label"
+                                                        for="exampleCustomCheckbox1">&nbsp;</label>
                                                 </div>
                                             </div>
                                             <div class="widget-content-left">
@@ -428,10 +456,9 @@
                                         <div class="widget-content-wrapper">
                                             <div class="widget-content-left mr-2">
                                                 <div class="custom-checkbox custom-control"><input type="checkbox"
-                                                                                                   id="exampleCustomCheckbox4"
-                                                                                                   class="custom-control-input"><label
-                                                    class="custom-control-label"
-                                                    for="exampleCustomCheckbox4">&nbsp;</label>
+                                                        id="exampleCustomCheckbox4" class="custom-control-input"><label
+                                                        class="custom-control-label"
+                                                        for="exampleCustomCheckbox4">&nbsp;</label>
                                                 </div>
                                             </div>
                                             <div class="widget-content-left flex2">
@@ -441,7 +468,7 @@
                                             </div>
                                             <div class="widget-content-right widget-content-actions">
                                                 <button class="border-0 btn-transition btn btn-outline-success">
-                                                    <font-awesome-icon icon="check"/>
+                                                    <font-awesome-icon icon="check" />
                                                 </button>
                                             </div>
                                             <div class="widget-content-right ml-3">
@@ -456,16 +483,15 @@
                                         <div class="widget-content-wrapper">
                                             <div class="widget-content-left mr-2">
                                                 <div class="custom-checkbox custom-control"><input type="checkbox"
-                                                                                                   id="exampleCustomCheckbox2"
-                                                                                                   class="custom-control-input"><label
-                                                    class="custom-control-label"
-                                                    for="exampleCustomCheckbox2">&nbsp;</label>
+                                                        id="exampleCustomCheckbox2" class="custom-control-input"><label
+                                                        class="custom-control-label"
+                                                        for="exampleCustomCheckbox2">&nbsp;</label>
                                                 </div>
                                             </div>
                                             <div class="widget-content-left mr-3">
                                                 <div class="widget-content-left">
                                                     <img width="42" class="rounded" src="@/assets/images/avatars/1.jpg"
-                                                         alt="">
+                                                        alt="">
                                                 </div>
                                             </div>
                                             <div class="widget-content-left">
@@ -475,10 +501,10 @@
                                             </div>
                                             <div class="widget-content-right widget-content-actions">
                                                 <button class="border-0 btn-transition btn btn-outline-success">
-                                                    <font-awesome-icon icon="check"/>
+                                                    <font-awesome-icon icon="check" />
                                                 </button>
                                                 <button class="border-0 btn-transition btn btn-outline-danger">
-                                                    <font-awesome-icon icon="trash-alt"/>
+                                                    <font-awesome-icon icon="trash-alt" />
                                                 </button>
                                             </div>
                                         </div>
@@ -490,10 +516,9 @@
                                         <div class="widget-content-wrapper">
                                             <div class="widget-content-left mr-2">
                                                 <div class="custom-checkbox custom-control"><input type="checkbox"
-                                                                                                   id="exampleCustomCheckbox2"
-                                                                                                   class="custom-control-input"><label
-                                                    class="custom-control-label"
-                                                    for="exampleCustomCheckbox2">&nbsp;</label>
+                                                        id="exampleCustomCheckbox2" class="custom-control-input"><label
+                                                        class="custom-control-label"
+                                                        for="exampleCustomCheckbox2">&nbsp;</label>
                                                 </div>
                                             </div>
                                             <div class="widget-content-left">
@@ -504,10 +529,10 @@
                                             </div>
                                             <div class="widget-content-right widget-content-actions">
                                                 <button class="border-0 btn-transition btn btn-outline-success">
-                                                    <font-awesome-icon icon="check"/>
+                                                    <font-awesome-icon icon="check" />
                                                 </button>
                                                 <button class="border-0 btn-transition btn btn-outline-danger">
-                                                    <font-awesome-icon icon="trash-alt"/>
+                                                    <font-awesome-icon icon="trash-alt" />
                                                 </button>
                                             </div>
                                         </div>
@@ -519,10 +544,9 @@
                                         <div class="widget-content-wrapper">
                                             <div class="widget-content-left mr-2">
                                                 <div class="custom-checkbox custom-control"><input type="checkbox"
-                                                                                                   id="exampleCustomCheckbox3"
-                                                                                                   class="custom-control-input"><label
-                                                    class="custom-control-label"
-                                                    for="exampleCustomCheckbox3">&nbsp;</label>
+                                                        id="exampleCustomCheckbox3" class="custom-control-input"><label
+                                                        class="custom-control-label"
+                                                        for="exampleCustomCheckbox3">&nbsp;</label>
                                                 </div>
                                             </div>
                                             <div class="widget-content-left">
@@ -535,10 +559,10 @@
                                             </div>
                                             <div class="widget-content-right widget-content-actions">
                                                 <button class="border-0 btn-transition btn btn-outline-success">
-                                                    <font-awesome-icon icon="check"/>
+                                                    <font-awesome-icon icon="check" />
                                                 </button>
                                                 <button class="border-0 btn-transition btn btn-outline-danger">
-                                                    <font-awesome-icon icon="trash-alt"/>
+                                                    <font-awesome-icon icon="trash-alt" />
                                                 </button>
                                             </div>
                                         </div>
@@ -550,10 +574,9 @@
                                         <div class="widget-content-wrapper">
                                             <div class="widget-content-left mr-2">
                                                 <div class="custom-checkbox custom-control"><input type="checkbox"
-                                                                                                   id="exampleCustomCheckbox4"
-                                                                                                   class="custom-control-input"><label
-                                                    class="custom-control-label"
-                                                    for="exampleCustomCheckbox4">&nbsp;</label>
+                                                        id="exampleCustomCheckbox4" class="custom-control-input"><label
+                                                        class="custom-control-label"
+                                                        for="exampleCustomCheckbox4">&nbsp;</label>
                                                 </div>
                                             </div>
                                             <div class="widget-content-left flex2">
@@ -563,7 +586,7 @@
                                             </div>
                                             <div class="widget-content-right widget-content-actions">
                                                 <button class="border-0 btn-transition btn btn-outline-success">
-                                                    <font-awesome-icon icon="check"/>
+                                                    <font-awesome-icon icon="check" />
                                                 </button>
                                             </div>
                                             <div class="widget-content-right ml-3">
@@ -578,10 +601,9 @@
                                         <div class="widget-content-wrapper">
                                             <div class="widget-content-left mr-2">
                                                 <div class="custom-checkbox custom-control"><input type="checkbox"
-                                                                                                   id="exampleCustomCheckbox3"
-                                                                                                   class="custom-control-input"><label
-                                                    class="custom-control-label"
-                                                    for="exampleCustomCheckbox3">&nbsp;</label>
+                                                        id="exampleCustomCheckbox3" class="custom-control-input"><label
+                                                        class="custom-control-label"
+                                                        for="exampleCustomCheckbox3">&nbsp;</label>
                                                 </div>
                                             </div>
                                             <div class="widget-content-left flex2">
@@ -593,10 +615,10 @@
                                             </div>
                                             <div class="widget-content-right">
                                                 <button class="border-0 btn-transition btn btn-outline-success">
-                                                    <font-awesome-icon icon="check"/>
+                                                    <font-awesome-icon icon="check" />
                                                 </button>
                                                 <button class="border-0 btn-transition btn btn-outline-danger">
-                                                    <font-awesome-icon icon="trash-alt"/>
+                                                    <font-awesome-icon icon="trash-alt" />
                                                 </button>
                                             </div>
                                         </div>
@@ -621,67 +643,69 @@
                     </div>
                     <div class="card-body">
                         <table aria-busy="false" aria-colcount="3"
-                               class="table b-table table-striped table-hover table-bordered border mb-0">
+                            class="table table-dark table-striped table-hover table-bordered border mb-0">
                             <!----><!---->
                             <thead role="rowgroup" class=""><!---->
-                            <tr role="row">
-                                <th role="columnheader" scope="col" aria-colindex="1" class="">First Name</th>
-                                <th role="columnheader" scope="col" aria-colindex="2" class="">Last Name</th>
-                                <th role="columnheader" scope="col" aria-colindex="3" class="">Age</th>
-                            </tr>
+                                <tr role="row">
+                                    <th role="columnheader" scope="col" aria-colindex="1" class="">First Name</th>
+                                    <th role="columnheader" scope="col" aria-colindex="2" class="">Last Name</th>
+                                    <th role="columnheader" scope="col" aria-colindex="3" class="">Age</th>
+                                </tr>
                             </thead>
                             <tfoot role="rowgroup" class="">
-                            <tr role="row">
-                                <th role="columnheader" scope="col" aria-colindex="1" class="">First Name</th>
-                                <th role="columnheader" scope="col" aria-colindex="2" class="">Last Name</th>
-                                <th role="columnheader" scope="col" aria-colindex="3" class="">Age</th>
-                            </tr>
+                                <tr role="row">
+                                    <th role="columnheader" scope="col" aria-colindex="1" class="">First Name</th>
+                                    <th role="columnheader" scope="col" aria-colindex="2" class="">Last Name</th>
+                                    <th role="columnheader" scope="col" aria-colindex="3" class="">Age</th>
+                                </tr>
                             </tfoot>
                             <tbody role="rowgroup" class=""><!---->
-                            <tr role="row" class="">
-                                <td role="cell" aria-colindex="1" class="">Dickerson</td>
-                                <td role="cell" aria-colindex="2" class="">Macdonald</td>
-                                <td role="cell" aria-colindex="3" class="">40</td>
-                            </tr>
-                            <tr role="row" class="">
-                                <td role="cell" aria-colindex="1" class="">Larsen</td>
-                                <td role="cell" aria-colindex="2" class="">Shaw</td>
-                                <td role="cell" aria-colindex="3" class="">21</td>
-                            </tr>
-                            <tr role="row" class="">
-                                <td role="cell" aria-colindex="1" class="">Geneva</td>
-                                <td role="cell" aria-colindex="2" class="">Wilson</td>
-                                <td role="cell" aria-colindex="3" class="">89</td>
-                            </tr>
-                            <tr role="row" class="">
-                                <td role="cell" aria-colindex="1" class="">Dickerson</td>
-                                <td role="cell" aria-colindex="2" class="">Macdonald</td>
-                                <td role="cell" aria-colindex="3" class="">40</td>
-                            </tr>
-                            <tr role="row" class="">
-                                <td role="cell" aria-colindex="1" class="">Larsen</td>
-                                <td role="cell" aria-colindex="2" class="">Shaw</td>
-                                <td role="cell" aria-colindex="3" class="">21</td>
-                            </tr>
-                            <tr role="row" class="">
-                                <td role="cell" aria-colindex="1" class="">Geneva</td>
-                                <td role="cell" aria-colindex="2" class="">Wilson</td>
-                                <td role="cell" aria-colindex="3" class="">89</td>
-                            </tr><tr role="row" class="">
-                                <td role="cell" aria-colindex="1" class="">Dickerson</td>
-                                <td role="cell" aria-colindex="2" class="">Macdonald</td>
-                                <td role="cell" aria-colindex="3" class="">40</td>
-                            </tr>
-                            <tr role="row" class="">
-                                <td role="cell" aria-colindex="1" class="">Larsen</td>
-                                <td role="cell" aria-colindex="2" class="">Shaw</td>
-                                <td role="cell" aria-colindex="3" class="">21</td>
-                            </tr>
-                            <tr role="row" class="">
-                                <td role="cell" aria-colindex="1" class="">Geneva</td>
-                                <td role="cell" aria-colindex="2" class="">Wilson</td>
-                                <td role="cell" aria-colindex="3" class="">89</td>
-                            </tr><!----><!----></tbody>
+                                <tr role="row" class="">
+                                    <td role="cell" aria-colindex="1" class="">Dickerson</td>
+                                    <td role="cell" aria-colindex="2" class="">Macdonald</td>
+                                    <td role="cell" aria-colindex="3" class="">40</td>
+                                </tr>
+                                <tr role="row" class="">
+                                    <td role="cell" aria-colindex="1" class="">Larsen</td>
+                                    <td role="cell" aria-colindex="2" class="">Shaw</td>
+                                    <td role="cell" aria-colindex="3" class="">21</td>
+                                </tr>
+                                <tr role="row" class="">
+                                    <td role="cell" aria-colindex="1" class="">Geneva</td>
+                                    <td role="cell" aria-colindex="2" class="">Wilson</td>
+                                    <td role="cell" aria-colindex="3" class="">89</td>
+                                </tr>
+                                <tr role="row" class="">
+                                    <td role="cell" aria-colindex="1" class="">Dickerson</td>
+                                    <td role="cell" aria-colindex="2" class="">Macdonald</td>
+                                    <td role="cell" aria-colindex="3" class="">40</td>
+                                </tr>
+                                <tr role="row" class="">
+                                    <td role="cell" aria-colindex="1" class="">Larsen</td>
+                                    <td role="cell" aria-colindex="2" class="">Shaw</td>
+                                    <td role="cell" aria-colindex="3" class="">21</td>
+                                </tr>
+                                <tr role="row" class="">
+                                    <td role="cell" aria-colindex="1" class="">Geneva</td>
+                                    <td role="cell" aria-colindex="2" class="">Wilson</td>
+                                    <td role="cell" aria-colindex="3" class="">89</td>
+                                </tr>
+                                <tr role="row" class="">
+                                    <td role="cell" aria-colindex="1" class="">Dickerson</td>
+                                    <td role="cell" aria-colindex="2" class="">Macdonald</td>
+                                    <td role="cell" aria-colindex="3" class="">40</td>
+                                </tr>
+                                <tr role="row" class="">
+                                    <td role="cell" aria-colindex="1" class="">Larsen</td>
+                                    <td role="cell" aria-colindex="2" class="">Shaw</td>
+                                    <td role="cell" aria-colindex="3" class="">21</td>
+                                </tr>
+                                <tr role="row" class="">
+                                    <td role="cell" aria-colindex="1" class="">Geneva</td>
+                                    <td role="cell" aria-colindex="2" class="">Wilson</td>
+                                    <td role="cell" aria-colindex="3" class="">89</td>
+                                </tr><!----><!---->
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -725,7 +749,7 @@
                     </ul>
                 </div>
                 <div class="col-md-12 col-lg-4">
-                    <ul class="list-group list-group-flush"> 
+                    <ul class="list-group list-group-flush">
                         <li class="bg-transparent list-group-item">
                             <div class="widget-content p-0">
                                 <div class="widget-content-outer">
@@ -747,7 +771,7 @@
                                     <div class="widget-content-wrapper">
                                         <div class="widget-content-left">
                                             <div class="widget-heading">
-                                                
+
 
                                             </div>
                                             <div class="widget-subheading">Total revenue streams</div>
@@ -804,46 +828,46 @@
 
 <script>
 
-    import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
-    import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-    import {library} from '@fortawesome/fontawesome-svg-core'
-    import {
-        faTrashAlt,
-        faCheck,
-        faCalendarAlt,
-        faAngleDown,
-        faAngleUp,
-        faTh,
-    } from '@fortawesome/free-solid-svg-icons'
-    import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
+import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
+import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import {
+    faTrashAlt,
+    faCheck,
+    faCalendarAlt,
+    faAngleDown,
+    faAngleUp,
+    faTh,
+} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-    library.add(
-        faTrashAlt,
-        faCheck,
-        faAngleDown,
-        faAngleUp,
-        faTh,
-        faCalendarAlt,
-    );
+library.add(
+    faTrashAlt,
+    faCheck,
+    faAngleDown,
+    faAngleUp,
+    faTh,
+    faCalendarAlt,
+);
 
-    export default {
-        components: {
-            PageTitleComponent,
-            VuePerfectScrollbar,
-            'font-awesome-icon': FontAwesomeIcon,
-        },
+export default {
+    components: {
+        PageTitleComponent,
+        VuePerfectScrollbar,
+        'font-awesome-icon': FontAwesomeIcon,
+    },
 
-        data() {
-          return {
+    data() {
+        return {
             heading: 'Analytics Dashboard',
             subheading: 'This is an example dashboard created using build-in elements and components.',
             icon: 'pe-7s-plane icon-gradient bg-tempting-azure',
-          }
-        },
+        }
+    },
 
-        methods: {},
+    methods: {},
 
-    }
+}
 
 
 </script>

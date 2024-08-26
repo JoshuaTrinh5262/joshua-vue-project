@@ -57,10 +57,6 @@ export default {
           key: 'agency_name',
           value: 'agency_name'
         },
-        {
-          key: 'description',
-          value: 'description'
-        },
       ],
       items: [],
     }

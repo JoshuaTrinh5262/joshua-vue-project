@@ -38,8 +38,10 @@
                     id="exampleZip" type="text" class="form-control"></div>
               </div>
             </div>
-            <div class="position-relative form-check"><input name="check" id="exampleCheck" type="checkbox"
-                class="form-check-input"><label for="exampleCheck" class="form-check-label">Check me out</label></div>
+            <div class="position-relative form-check">
+              <input name="check" id="exampleCheck" type="checkbox" class="form-check-input">
+              <label for="exampleCheck" class="form-check-label">Check me out</label>
+            </div>
             <button class="mt-2 btn btn-primary">Sign in</button>
           </form>
         </div>
@@ -131,7 +133,8 @@
             </div>
             <div class="position-relative row form-group"><label for="exampleFile"
                 class="col-sm-2 col-form-label">File</label>
-              <div class="col-sm-10"><input name="file" id="exampleFile" type="file" class=" date-picker form-control-file">
+              <div class="col-sm-10"><input name="file" id="exampleFile" type="file"
+                  class=" date-picker form-control-file">
                 <small class="form-text text-muted">This is some placeholder block-level help text for the above input.
                   It's a bit lighter and easily wraps to a new line.</small>
               </div>
@@ -152,8 +155,10 @@
             <div class="position-relative row form-group"><label for="checkbox2"
                 class="col-sm-2 col-form-label">Checkbox</label>
               <div class="col-sm-10">
-                <div class="position-relative form-check"><label class="form-check-label"><input id="checkbox2"
-                      type="checkbox" class="form-check-input"> Check me out</label></div>
+                <div class="position-relative form-check">
+                  <label class="form-check-label">Check me out</label>
+                    <input type="checkbox" class="form-check-input">
+                  </div>
               </div>
             </div>
             <div class="position-relative row form-check">
@@ -170,7 +175,7 @@
 
 <script>
 
-import PageTitle from "../../../Layout/Components/PageTitle.vue";
+import PageTitle from "../../Layout/Components/PageTitle.vue";
 
 export default {
   components: {
