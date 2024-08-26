@@ -1,6 +1,7 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-// import {supabase} from "@/supabase/supabase"
+import Vue from 'vue';
+import Router from 'vue-router';
+import {supabase} from "@/supabase/supabase";
+
 Vue.use(Router);
 
 const router = new Router({
@@ -379,18 +380,18 @@ const router = new Router({
     ]
 })
 
-// router.beforeEach(async (to, from, next) => {
-//     const { data: { user } } = await supabase.auth.getUser();
-//     const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-//     if(requiresAuth && !user) {
-//         next('/login');
-//         console.log("login")
-//     } else if(!requiresAuth && user) {
-//         next("/admin");
-//         console.log("admin")
-//     } else {
-//         console.log("in")
-//         next();
-//     }
-//   })
+router.beforeEach(async (to, from, next) => {
+    const { data: { user } } = await supabase.auth.getUser();
+    const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+    if(requiresAuth && !user) {
+        next('/login');
+        console.log("login")
+    } else if(!requiresAuth && user) {
+        next("/admin");
+        console.log("admin")
+    } else {
+        console.log("in")
+        next();
+    }
+  })
 export default router;
