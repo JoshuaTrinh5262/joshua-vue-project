@@ -7,10 +7,22 @@ export async function signup(email, password) {
     });
 
     if (error) {
-        console.log(error);
         this.error = error.message;
     } else {
         this.error = null;
+        return user;
+    }
+}
+
+export async function login(email, password) {
+    const { user, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password,
+    });
+
+    if (error) {
+        return { error: error.message };
+    } else {
         return user;
     }
 }
