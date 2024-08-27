@@ -3,9 +3,9 @@
     <page-title-component :heading=heading :subheading=subheading :icon=icon>
       <template v-slot:actions>
         <button type="button" @click="openModal" class="btn-shadow d-inline-flex align-items-center btn btn-primary">
-          Create New
+          Add New Talent
         </button>
-        <modal-component title="Create New" :isOpen="showModal" @closeModal="closeModal">
+        <modal-component title="Add New Talent" :isOpen="showModal" @closeModal="closeModal">
           <template #body>
             <form class="">
               <div class="form-row">
@@ -43,6 +43,22 @@
                       <option value="graduation">Graduation</option>
                       <option value="terminated">Terminated</option>
                     </select>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-md-6">
+                  <div class="position-relative form-group">
+                    <label for="debut_date">Debut Date</label>
+                    <input name="debut_date" id="debut_date" placeholder="Debut Date" type="date" v-model=newTalent.debut_date
+                      class="form-control">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="position-relative form-group">
+                    <label for="original_name">Original Name</label>
+                    <input name="original_name" id="original_name" placeholder="Original Name"
+                      v-model=newTalent.original_name type="text" class="form-control">
                   </div>
                 </div>
               </div>
@@ -96,6 +112,8 @@ export default {
         original_name: "",
         agency_id: "",
         talent_status: "",
+        debut_date: "",
+
       },
       fields: [
         {

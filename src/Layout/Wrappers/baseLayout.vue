@@ -1,18 +1,24 @@
 <template>
-    <div class="app-container app-theme-dark">
-      <slot></slot>
+  <div class="app-container app-theme-dark">
+    <transition name="fade" mode="out-in" appear>
+      <MainHeaderComponent />
+    </transition>
+    <div class="">
+        <slot></slot>
     </div>
-  </template>
-  
-  <script>
-  
-    export default {
-      name: 'app',
-      components: {
-      },
-      methods:{
-  
-      }
-    }
-  </script>
-  
+  </div>
+</template>
+
+<script>
+import MainHeaderComponent from "../Components/MainHeaderComponent";
+
+export default {
+  name: 'app',
+  components: {
+    MainHeaderComponent,
+  },
+  methods: {
+
+  }
+}
+</script>
