@@ -1,7 +1,6 @@
 <template>
   <div>
-    <page-title :heading=heading :subheading=subheading :icon=icon></page-title>
-
+    <page-title-component :heading=heading :subheading=subheading :icon=icon></page-title-component>
     <div class="content">
       <div class="row">
         <div class="col-md-4">
@@ -132,8 +131,8 @@
             <p>With supporting text below as a natural lead-in to additional content.</p>
           </div>
           <div class="mb-3 card text-white">
-            <img src="@/assets/images/sidebar/abstract6.jpg" width="318" height="300"
-              alt="Card image cap" class="card-img">
+            <img src="@/assets/images/sidebar/abstract6.jpg" width="318" height="300" alt="Card image cap"
+              class="card-img">
             <div class="card-img-overlay">
               <h5 class="text-white card-title">Card Title With Image Background</h5>
               <p>This is a wider card with supporting text below as a natural lead-in to additional content. This
@@ -145,8 +144,8 @@
             </div>
           </div>
           <div class="mb-3 card text-white">
-            <img src="@/assets/images/sidebar/abstract6.jpg" width="318" height="300"
-              alt="Card image cap" class="card-img">
+            <img src="@/assets/images/sidebar/abstract6.jpg" width="318" height="300" alt="Card image cap"
+              class="card-img">
             <div class="card-img-overlay">
               <h5 class="text-white card-title">Card Title With Image Background</h5>
               <p>This is a wider card with supporting text below as a natural lead-in to additional content. This
@@ -231,12 +230,11 @@
 
 <script>
 
-import PageTitle from "../../Layout/Components/PageTitle.vue";
+import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 
 export default {
   components: {
-    PageTitle,
-
+    PageTitleComponent,
   },
   data: () => ({
     heading: 'Cards',

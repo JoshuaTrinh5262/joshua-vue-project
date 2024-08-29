@@ -1,6 +1,6 @@
 <template>
     <div>
-        <page-title :heading=heading :subheading=subheading :icon=icon></page-title>
+        <page-title-component :heading=heading :subheading=subheading :icon=icon></page-title-component>
         <div class="row">
             <div class="col-md-6">
                 <div class="main-card mb-3 card">
@@ -9,11 +9,13 @@
                         <form class="">
                             <div class="position-relative form-group">
                                 <label for="exampleEmail" class="">Email</label>
-                                <input name="email" id="exampleEmail" placeholder="with a placeholder" type="email" class="form-control">
+                                <input name="email" id="exampleEmail" placeholder="with a placeholder" type="email"
+                                    class="form-control">
                             </div>
                             <div class="position-relative form-group">
                                 <label for="examplePassword" class="">Password</label>
-                                <input name="password" id="examplePassword" placeholder="password placeholder" type="password" class="form-control">
+                                <input name="password" id="examplePassword" placeholder="password placeholder"
+                                    type="password" class="form-control">
                             </div>
                             <div class="position-relative form-group">
                                 <label for="exampleSelect" class="">Select</label>
@@ -41,10 +43,7 @@
                             </div>
                             <div class="position-relative form-group">
                                 <label for="exampleFile" class="">File</label>
-                                <input name="file"
-                                        id="exampleFile"
-                                        type="file"
-                                        class="form-control-file">
+                                <input name="file" id="exampleFile" type="file" class="form-control-file">
                                 <small class="form-text text-muted">
                                     This is some placeholder block-level help text for
                                     the above input. It's a bit lighter and easily wraps to a new line.
@@ -83,17 +82,20 @@
                             <fieldset class="position-relative form-group">
                                 <div class="position-relative form-check">
                                     <label class="form-check-label">
-                                        <input name="radio1" type="radio" class="form-check-input">Option one is this and that—be sure to include why it's great
+                                        <input name="radio1" type="radio" class="form-check-input">Option one is this
+                                        and that—be sure to include why it's great
                                     </label>
                                 </div>
                                 <div class="position-relative form-check">
                                     <label class="form-check-label">
-                                        <input name="radio1" type="radio" class="form-check-input">Option two can be something else and selecting it will deselect option one
+                                        <input name="radio1" type="radio" class="form-check-input">Option two can be
+                                        something else and selecting it will deselect option one
                                     </label>
                                 </div>
                                 <div class="position-relative form-check disabled">
                                     <label class="form-check-label">
-                                        <input name="radio1" disabled type="radio" class="form-check-input">Option three is disabled
+                                        <input name="radio1" disabled type="radio" class="form-check-input">Option three
+                                        is disabled
                                     </label>
                                 </div>
                             </fieldset>
@@ -117,15 +119,19 @@
                                 <div>
                                     <div class="custom-checkbox custom-control">
                                         <input type="checkbox" id="exampleCustomCheckbox" class="custom-control-input">
-                                        <label class="custom-control-label" for="exampleCustomCheckbox">Check this custom checkbox</label>
+                                        <label class="custom-control-label" for="exampleCustomCheckbox">Check this
+                                            custom checkbox</label>
                                     </div>
                                     <div class="custom-checkbox custom-control">
                                         <input type="checkbox" id="exampleCustomCheckbox2" class="custom-control-input">
-                                        <label class="custom-control-label" for="exampleCustomCheckbox2">Or this one</label>
+                                        <label class="custom-control-label" for="exampleCustomCheckbox2">Or this
+                                            one</label>
                                     </div>
                                     <div class="custom-checkbox custom-control">
-                                        <input type="checkbox" id="exampleCustomCheckbox3" disabled class="custom-control-input">
-                                        <label class="custom-control-label" for="exampleCustomCheckbox3">But not this disabled one</label>
+                                        <input type="checkbox" id="exampleCustomCheckbox3" disabled
+                                            class="custom-control-input">
+                                        <label class="custom-control-label" for="exampleCustomCheckbox3">But not this
+                                            disabled one</label>
                                     </div>
                                 </div>
                             </div>
@@ -138,11 +144,13 @@
                                 <div>
                                     <div class="custom-checkbox custom-control custom-control-inline">
                                         <input type="checkbox" id="exampleCustomInline" class="custom-control-input">
-                                        <label class="custom-control-label" for="exampleCustomInline">An inline custom input</label>
+                                        <label class="custom-control-label" for="exampleCustomInline">An inline custom
+                                            input</label>
                                     </div>
                                     <div class="custom-checkbox custom-control custom-control-inline">
                                         <input type="checkbox" id="exampleCustomInline2" class="custom-control-input">
-                                        <label class="custom-control-label" for="exampleCustomInline2">and another one</label>
+                                        <label class="custom-control-label" for="exampleCustomInline2">and another
+                                            one</label>
                                     </div>
                                 </div>
                             </div>
@@ -156,16 +164,22 @@
                             <div class="position-relative form-group">
                                 <div>
                                     <div class="custom-radio custom-control">
-                                        <input type="radio" id="exampleCustomRadio" name="customRadio" class="custom-control-input">
-                                        <label class="custom-control-label" for="exampleCustomRadio">Select this custom radio</label>
+                                        <input type="radio" id="exampleCustomRadio" name="customRadio"
+                                            class="custom-control-input">
+                                        <label class="custom-control-label" for="exampleCustomRadio">Select this custom
+                                            radio</label>
                                     </div>
                                     <div class="custom-radio custom-control">
-                                        <input type="radio" id="exampleCustomRadio2" name="customRadio" class="custom-control-input">
-                                        <label class="custom-control-label" for="exampleCustomRadio2">Or this one</label>
+                                        <input type="radio" id="exampleCustomRadio2" name="customRadio"
+                                            class="custom-control-input">
+                                        <label class="custom-control-label" for="exampleCustomRadio2">Or this
+                                            one</label>
                                     </div>
                                     <div class="custom-radio custom-control">
-                                        <input type="radio" id="exampleCustomRadio3" disabled class="custom-control-input">
-                                        <label class="custom-control-label" for="exampleCustomRadio3">But not this disabled one</label>
+                                        <input type="radio" id="exampleCustomRadio3" disabled
+                                            class="custom-control-input">
+                                        <label class="custom-control-label" for="exampleCustomRadio3">But not this
+                                            disabled one</label>
                                     </div>
                                 </div>
                             </div>
@@ -178,7 +192,8 @@
                                 <div class="col-md-6">
                                     <div class="position-relative form-group">
                                         <label for="exampleCustomSelect" class="">Custom Select</label>
-                                        <select type="select" id="exampleCustomSelect" name="customSelect" class="custom-select">
+                                        <select type="select" id="exampleCustomSelect" name="customSelect"
+                                            class="custom-select">
                                             <option value="">Select</option>
                                             <option>Value 1</option>
                                             <option>Value 2</option>
@@ -189,7 +204,8 @@
                                     </div>
                                     <div class="position-relative form-group">
                                         <label for="exampleCustomMutlipleSelect" class="">Custom Multiple Select</label>
-                                        <select multiple="" type="select" id="exampleCustomMutlipleSelect" name="customSelect" class="custom-select">
+                                        <select multiple="" type="select" id="exampleCustomMutlipleSelect"
+                                            name="customSelect" class="custom-select">
                                             <option value="">Select</option>
                                             <option>Value 1</option>
                                             <option>Value 2</option>
@@ -202,7 +218,8 @@
                                 <div class="col-md-6">
                                     <div class="position-relative form-group">
                                         <label for="exampleCustomSelectDisabled" class="">Custom Select Disabled</label>
-                                        <select type="select" id="exampleCustomSelectDisabled" name="customSelect" disabled class="custom-select">
+                                        <select type="select" id="exampleCustomSelectDisabled" name="customSelect"
+                                            disabled class="custom-select">
                                             <option value="">Select</option>
                                             <option>Value 1</option>
                                             <option>Value 2</option>
@@ -212,8 +229,10 @@
                                         </select>
                                     </div>
                                     <div class="position-relative form-group">
-                                        <label for="exampleCustomMutlipleSelectDisabled" class="">Custom Multiple Select Disabled</label>
-                                        <select multiple="" type="select" id="exampleCustomMutlipleSelectDisabled" name="customSelect" disabled class="custom-select">
+                                        <label for="exampleCustomMutlipleSelectDisabled" class="">Custom Multiple Select
+                                            Disabled</label>
+                                        <select multiple="" type="select" id="exampleCustomMutlipleSelectDisabled"
+                                            name="customSelect" disabled class="custom-select">
                                             <option value="">Select</option>
                                             <option>Value 1</option>
                                             <option>Value 2</option>
@@ -246,7 +265,8 @@
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            <input aria-label="Checkbox for following text input" type="checkbox" class="">
+                                            <input aria-label="Checkbox for following text input" type="checkbox"
+                                                class="">
                                         </span>
                                     </div>
                                     <input placeholder="Check it out" type="text" class="form-control">
@@ -284,15 +304,18 @@
                         </div>
                     </div>
                     <div class="main-card mb-3 card">
-                        <div class="card-body"><h5 class="card-title">Input Group Button Shorthand</h5>
+                        <div class="card-body">
+                            <h5 class="card-title">Input Group Button Shorthand</h5>
                             <div>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <button class="btn btn-secondary">To the Left!</button>
                                     </div>
-                                    <input type="text" class="form-control"></div>
+                                    <input type="text" class="form-control">
+                                </div>
                                 <br>
-                                <div class="input-group"><input type="text" class="form-control">
+                                <div class="input-group">
+                                    <input type="text" class="form-control">
                                     <div class="input-group-append">
                                         <button class="btn btn-secondary">To the Right!</button>
                                     </div>
@@ -391,7 +414,7 @@
                                     <div class="input-group-prepend">
                                         <button class="btn btn-secondary">I'm a button</button>
                                     </div>
-                                    <input type="text" placeholder="and..."  class="form-control">
+                                    <input type="text" placeholder="and..." class="form-control">
                                     <div class="input-group-append">
                                         <button class="btn btn-secondary">I'm a button</button>
                                     </div>
@@ -408,21 +431,20 @@
 
 <script>
 
-    import PageTitle from "../../Layout/Components/PageTitle.vue";
+import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 
-    export default {
-        components: {
-            PageTitle,
-
-        },
-        data: () => ({
-            heading: 'Form Controls',
-            subheading: 'Wide selection of forms controls, using the Bootstrap 4 code base, but built with Vue.',
-            icon: 'pe-7s-display1 icon-gradient bg-premium-dark',
-
-
-        }),
+export default {
+    components: {
+        PageTitleComponent,
+    },
+    data: () => ({
+        heading: 'Form Controls',
+        subheading: 'Wide selection of forms controls, using the Bootstrap 4 code base, but built with Vue.',
+        icon: 'pe-7s-display1 icon-gradient bg-premium-dark',
 
 
-    }
+    }),
+
+
+}
 </script>

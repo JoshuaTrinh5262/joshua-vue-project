@@ -80,18 +80,12 @@
                 </div>
             </div>
         </div>
-        <div class="input-group">
-            <input placeholder="Searching..." @input="onSearchChange" v-model="search" type="text" class="form-control">
-            <div class="input-group-append">
-                <button class="btn btn-primary">Search</button>
-            </div>
-        </div>
-        <br>
         <table-component 
             :footer=true
             :fields="fields"
             :items="items"
             custom-class="datase-table"
+            @search="onSearchChange"
             @changeOrder="handleChangeOrder"
             @deleteRow="handleDeleteRow"
             @updateRow="handleUpdateRow">
@@ -103,21 +97,13 @@
             :totalPages="totalPages"
             @load-page="loadPage"
             @change-page-size="changePageSize"></pagination-component>
-        <base-dialog-component :active.sync="show">
-            <h1>Test</h1>
-            <button type="button" class="btn btn-primary">Save</button>
-            <button type="button" class="btn btn-warning" @click="toggleDialog()">Close</button>
-        </base-dialog-component>
-        <button type="button" @click="toggleDialog()">Toggle</button>
     </div>
-
 </template>
 <script>
 import axios from 'axios';
 import TableComponent from '../../Layout/Components/TableComponent.vue';
 import PageTitleComponent from '../../Layout/Components/PageTitleComponent.vue';
 import PaginationComponent from '../../Layout/Components/PaginationComponent.vue';
-import BaseDialogComponent from '../../Layout/Components/BaseDialogComponent.vue';
 import NotificationComponent from '../../Layout/Components/NotificationComponent.vue';
 
 export default {
@@ -127,7 +113,6 @@ export default {
         PageTitleComponent,
         PaginationComponent,
         TableComponent,
-        BaseDialogComponent,
         NotificationComponent,
     },
 
@@ -208,7 +193,8 @@ export default {
             });
         },
 
-        onSearchChange() {
+        onSearchChange(searchTerm) {
+            this.search = searchTerm;
             this.getDatasetData(1, this.itemsPerPage);
         },
 

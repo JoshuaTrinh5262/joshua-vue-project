@@ -1,6 +1,6 @@
 <template>
     <div>
-        <page-title :heading=heading :subheading=subheading :icon=icon></page-title>
+        <page-title-component :heading=heading :subheading=subheading :icon=icon></page-title-component>
         <div class="row mt-4">
             <div class="col-lg-6 col-xl-4">
                 <div class="card mb-3 widget-content">
@@ -722,11 +722,11 @@
 
 <script>
 
-    import PageTitle from "../../Layout/Components/PageTitle.vue";
+    import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 
     export default {
         components: {
-            PageTitle,
+            PageTitleComponent,
         },
         data: () => ({
             heading: 'Chart Boxes III',

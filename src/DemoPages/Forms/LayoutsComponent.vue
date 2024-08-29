@@ -1,6 +1,6 @@
 <template>
   <div>
-    <page-title :heading=heading :subheading=subheading :icon=icon></page-title>
+    <page-title-component :heading=heading :subheading=subheading :icon=icon></page-title-component>
 
     <div class="content">
       <div class="main-card mb-3 card card-dark">
@@ -175,11 +175,11 @@
 
 <script>
 
-import PageTitle from "../../Layout/Components/PageTitle.vue";
+import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 
 export default {
   components: {
-    PageTitle,
+    PageTitleComponent,
   },
   data: () => ({
     heading: 'Form Layouts',

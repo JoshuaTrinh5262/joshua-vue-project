@@ -1,6 +1,6 @@
 <template>
   <div :class="{ dark: isDarkMode }" >
-    <page-title :heading="heading" :subheading="subHeading" :icon="icon"></page-title>
+    <page-title-component :heading="heading" :subheading="subHeading" :icon="icon"></page-title-component>
     <div class="card-body bg-light">
       <div class="row">
         <div class="col-3">
@@ -23,7 +23,7 @@ import ChatInput from './ChatInput.vue';
 import ChatMessages from './ChatMessages.vue';
 import ChatSettings from './ChatSettings.vue';
 import ModelSelector from './ModelSelector.vue';
-import PageTitle from '../../Layout/Components/PageTitle.vue';
+import PageTitleComponent from '../../Layout/Components/PageTitleComponent.vue';
 
 export default {
   data() {
@@ -39,7 +39,7 @@ export default {
     ChatMessages,
     ChatSettings,
     ModelSelector,
-    PageTitle,
+    PageTitleComponent,
   },
 
   computed: {

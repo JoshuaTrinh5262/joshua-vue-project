@@ -1,9 +1,10 @@
 <template>
     <div>
-        <page-title :heading=heading :subheading=subheading :icon=icon></page-title>
+        <page-title-component :heading=heading :subheading=subheading :icon=icon></page-title-component>
         <div class="row">
             <div class="col-md-12">
-                <div class="alert alert-warning fade show" role="alert"><h5>Bootstrap Helpers</h5>
+                <div class="alert alert-warning fade show" role="alert">
+                    <h5>Bootstrap Helpers</h5>
                     <p class="mb-0">
                         All Bootstrap 4 helper classes available in the official Bootstrap documentation are
                         also available in JoshuaTrinh Framework: Spacing, resets, typography utilities, sizing and
@@ -13,25 +14,26 @@
             </div>
             <div class="col-lg-6">
                 <div class="main-card mb-3 card">
-                    <div class="card-body"><h5 class="card-title">Opacity</h5>
+                    <div class="card-body">
+                        <h5 class="card-title">Opacity</h5>
                         <table class="mb-0 table table-bordered">
                             <tbody>
-                            <tr>
-                                <th scope="row"><b>.opacity-01 </b> - <b>.opacity-09</b></th>
-                                <td>Adding this class to any element sets the opacity to <b>1% ... 9%</b></td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><b>.opacity-2 </b> - <b>.opacity-10</b></th>
-                                <td>Adding this class to any element sets the opacity to <b>10% ... 100%</b></td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><b>.opacity-01</b></th>
-                                <td>Adding this class to any element sets the opacity to <b>10%</b></td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><b>.opacity-15</b></th>
-                                <td>Adding this class to any element sets the opacity to <b>15%</b></td>
-                            </tr>
+                                <tr>
+                                    <th scope="row"><b>.opacity-01 </b> - <b>.opacity-09</b></th>
+                                    <td>Adding this class to any element sets the opacity to <b>1% ... 9%</b></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><b>.opacity-2 </b> - <b>.opacity-10</b></th>
+                                    <td>Adding this class to any element sets the opacity to <b>10% ... 100%</b></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><b>.opacity-01</b></th>
+                                    <td>Adding this class to any element sets the opacity to <b>10%</b></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><b>.opacity-15</b></th>
+                                    <td>Adding this class to any element sets the opacity to <b>15%</b></td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -39,7 +41,8 @@
             </div>
             <div class="col-lg-6">
                 <div class="main-card mb-3 card">
-                    <div class="card-body"><h5 class="card-title">Breadcrumbs</h5>
+                    <div class="card-body">
+                        <h5 class="card-title">Breadcrumbs</h5>
                         <div>
                             <nav class="" aria-label="breadcrumb">
                                 <ol class="breadcrumb">
@@ -78,30 +81,30 @@
                         <div class="table-wrap mt-40">
                             <table class="table table-bordered mb-0">
                                 <thead>
-                                <tr>
-                                    <th class="w-35">Class</th>
-                                    <th class="w-65">Values</th>
-                                </tr>
+                                    <tr>
+                                        <th class="w-35">Class</th>
+                                        <th class="w-65">Values</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td><code class="bg-transparent pa-0">class="h-[value]p"</code></td>
-                                    <td class="font-14">25 / 30 / 35 / 40 / 45 / 50 ... / 800 (step of 5)</td>
-                                </tr>
-                                <tr>
-                                    <td><code class="bg-transparent pa-0">class="mh-[value]p"</code></td>
-                                    <td class="font-14">100 / 125 / 150 / 200 / 225 ... / 800 (step of 25)<br>Set
-                                        max-height
-                                        of an element
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><code class="bg-transparent pa-0">class="mnh-[value]p"</code></td>
-                                    <td class="font-14">100 / 125 / 150 / 200 / 225 ... / 800 (step of 25)<br>Set
-                                        min-height
-                                        of an element
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td><code class="bg-transparent pa-0">class="h-[value]p"</code></td>
+                                        <td class="font-14">25 / 30 / 35 / 40 / 45 / 50 ... / 800 (step of 5)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="bg-transparent pa-0">class="mh-[value]p"</code></td>
+                                        <td class="font-14">100 / 125 / 150 / 200 / 225 ... / 800 (step of 25)<br>Set
+                                            max-height
+                                            of an element
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="bg-transparent pa-0">class="mnh-[value]p"</code></td>
+                                        <td class="font-14">100 / 125 / 150 / 200 / 225 ... / 800 (step of 25)<br>Set
+                                            min-height
+                                            of an element
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -124,24 +127,24 @@
                         <div class="table-wrap mt-40">
                             <table class="table table-bordered mb-0">
                                 <thead>
-                                <tr>
-                                    <th class="w-35">Class</th>
-                                    <th class="w-65">Values</th>
-                                </tr>
+                                    <tr>
+                                        <th class="w-35">Class</th>
+                                        <th class="w-65">Values</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td><code class="bg-transparent pa-0">class="h-[value]"</code></td>
-                                    <td class="font-14">25 / 30 / 35 / 40 / 45 / 50 ... / 100 (step of 5)</td>
-                                </tr>
-                                <tr>
-                                    <td><code class="bg-transparent pa-0">class="h-auto"</code></td>
-                                    <td class="font-14">Set the height to auto</td>
-                                </tr>
-                                <tr>
-                                    <td><code class="bg-transparent pa-0">class="mh-100"</code></td>
-                                    <td class="font-14">Set max-height of an element to 100%</td>
-                                </tr>
+                                    <tr>
+                                        <td><code class="bg-transparent pa-0">class="h-[value]"</code></td>
+                                        <td class="font-14">25 / 30 / 35 / 40 / 45 / 50 ... / 100 (step of 5)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="bg-transparent pa-0">class="h-auto"</code></td>
+                                        <td class="font-14">Set the height to auto</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="bg-transparent pa-0">class="mh-100"</code></td>
+                                        <td class="font-14">Set max-height of an element to 100%</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -163,35 +166,37 @@
                         <div class="table-wrap mt-40">
                             <table class="table table-bordered mb-0">
                                 <thead>
-                                <tr>
-                                    <th class="w-35">Class</th>
-                                    <th class="w-65">Values</th>
-                                </tr>
+                                    <tr>
+                                        <th class="w-35">Class</th>
+                                        <th class="w-65">Values</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>
-                                        <code class="d-block bg-transparent pa-0">class="w-[value]p"</code>
-                                        <code class="d-block bg-transparent pa-0">class="w-sm-[value]p"</code>
-                                        <code class="d-block bg-transparent pa-0">class="w-md-[value]p"</code>
-                                        <code class="d-block bg-transparent pa-0">class="w-lg-[value]p"</code>
-                                        <code class="d-block bg-transparent pa-0">class="w-xl-[value]p"</code>
-                                        <code class="d-block bg-transparent pa-0">class="w-xxl-[value]p"</code>
-                                    </td>
-                                    <td class="font-14">25 / 30 / 35 / 40 / 45 / 50 ... / 800 (step of 5)</td>
-                                </tr>
-                                <tr>
-                                    <td><code class="bg-transparent pa-0">class="mw-[value]p"</code></td>
-                                    <td class="font-14">25 / 50 / 75 / 100 / 125 / 150 / 200 / 225 ... / 800 (step of
-                                        25)<br>Set max-width of an element
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><code class="bg-transparent pa-0">class="mnw-[value]p"</code></td>
-                                    <td class="font-14">25 / 50 / 75 / 100 / 125 / 150 / 200 / 225 ... / 800 (step of
-                                        25)<br>Set min-width of an element
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td>
+                                            <code class="d-block bg-transparent pa-0">class="w-[value]p"</code>
+                                            <code class="d-block bg-transparent pa-0">class="w-sm-[value]p"</code>
+                                            <code class="d-block bg-transparent pa-0">class="w-md-[value]p"</code>
+                                            <code class="d-block bg-transparent pa-0">class="w-lg-[value]p"</code>
+                                            <code class="d-block bg-transparent pa-0">class="w-xl-[value]p"</code>
+                                            <code class="d-block bg-transparent pa-0">class="w-xxl-[value]p"</code>
+                                        </td>
+                                        <td class="font-14">25 / 30 / 35 / 40 / 45 / 50 ... / 800 (step of 5)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="bg-transparent pa-0">class="mw-[value]p"</code></td>
+                                        <td class="font-14">25 / 50 / 75 / 100 / 125 / 150 / 200 / 225 ... / 800 (step
+                                            of
+                                            25)<br>Set max-width of an element
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="bg-transparent pa-0">class="mnw-[value]p"</code></td>
+                                        <td class="font-14">25 / 50 / 75 / 100 / 125 / 150 / 200 / 225 ... / 800 (step
+                                            of
+                                            25)<br>Set min-width of an element
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -214,33 +219,34 @@
                         <div class="table-wrap mt-40">
                             <table class="table table-bordered mb-0">
                                 <thead>
-                                <tr>
-                                    <th class="w-35">Class</th>
-                                    <th class="w-65">Values</th>
-                                </tr>
+                                    <tr>
+                                        <th class="w-35">Class</th>
+                                        <th class="w-65">Values</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>
-                                        <code class="d-block bg-transparent pa-0">class="w-[value]"</code>
-                                        <code class="d-block bg-transparent pa-0">class="w-sm-[value]"</code>
-                                        <code class="d-block bg-transparent pa-0">class="w-md-[value]"</code>
-                                        <code class="d-block bg-transparent pa-0">class="w-lg-[value]"</code>
-                                        <code class="d-block bg-transparent pa-0">class="w-xl-[value]"</code>
-                                        <code class="d-block bg-transparent pa-0">class="w-xxl-[value]"</code>
-                                    </td>
-                                    <td class="font-14">5 / 10 / 15 / 20 / 25 / 30 / 35 / 40 / 45 / 50 ... / 100 (step of
-                                        5)
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><code class="bg-transparent pa-0">class="w-auto"</code></td>
-                                    <td class="font-14">Set the width to auto</td>
-                                </tr>
-                                <tr>
-                                    <td><code class="bg-transparent pa-0">class="mw-100"</code></td>
-                                    <td class="font-14">Set max-width of an element to 100%</td>
-                                </tr>
+                                    <tr>
+                                        <td>
+                                            <code class="d-block bg-transparent pa-0">class="w-[value]"</code>
+                                            <code class="d-block bg-transparent pa-0">class="w-sm-[value]"</code>
+                                            <code class="d-block bg-transparent pa-0">class="w-md-[value]"</code>
+                                            <code class="d-block bg-transparent pa-0">class="w-lg-[value]"</code>
+                                            <code class="d-block bg-transparent pa-0">class="w-xl-[value]"</code>
+                                            <code class="d-block bg-transparent pa-0">class="w-xxl-[value]"</code>
+                                        </td>
+                                        <td class="font-14">5 / 10 / 15 / 20 / 25 / 30 / 35 / 40 / 45 / 50 ... / 100
+                                            (step of
+                                            5)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="bg-transparent pa-0">class="w-auto"</code></td>
+                                        <td class="font-14">Set the width to auto</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="bg-transparent pa-0">class="mw-100"</code></td>
+                                        <td class="font-14">Set max-width of an element to 100%</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -267,27 +273,29 @@
                         <div class="table-wrap mt-40">
                             <table class="table table-bordered mb-0">
                                 <thead>
-                                <tr>
-                                    <th class="w-35">Class</th>
-                                    <th class="w-65">Values</th>
-                                </tr>
+                                    <tr>
+                                        <th class="w-35">Class</th>
+                                        <th class="w-65">Values</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td><code class="bg-transparent pa-0">class="d-[value]"</code></td>
-                                    <td class="font-14">8 / 10 / 12 / 14 / 16 / 18 / 20 / 22 / 24 ... / 50 (step of 2)
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><code class="bg-transparent pa-0">class="d-[value]"</code></td>
-                                    <td class="font-14">54 / 58 / 62 / 66 / 70 / 74 / 78 / 82 / 86 / 90 / 94 / 98 (step
-                                        of 4)
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><code class="bg-transparent pa-0">class="d-[value]"</code></td>
-                                    <td class="font-14">100 / 110 / 120 / 130 / 140 / 150 (step of 10)</td>
-                                </tr>
+                                    <tr>
+                                        <td><code class="bg-transparent pa-0">class="d-[value]"</code></td>
+                                        <td class="font-14">8 / 10 / 12 / 14 / 16 / 18 / 20 / 22 / 24 ... / 50 (step of
+                                            2)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="bg-transparent pa-0">class="d-[value]"</code></td>
+                                        <td class="font-14">54 / 58 / 62 / 66 / 70 / 74 / 78 / 82 / 86 / 90 / 94 / 98
+                                            (step
+                                            of 4)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><code class="bg-transparent pa-0">class="d-[value]"</code></td>
+                                        <td class="font-14">100 / 110 / 120 / 130 / 140 / 150 (step of 10)</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -297,19 +305,16 @@
         </div>
     </div>
 </template>
-
 <script>
-
-    import PageTitle from "../../Layout/Components/PageTitle.vue";
-
-    export default {
-        components: {
-            PageTitle,
-        },
-        data: () => ({
-            heading: 'Utilities',
-            subheading: 'These are helpers that speed up the dev time for various components and effects.',
-            icon: 'pe-7s-wristwatch icon-gradient bg-deep-blue',
-        }),
-    }
+import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
+export default {
+    components: {
+        PageTitleComponent,
+    },
+    data: () => ({
+        heading: 'Utilities',
+        subheading: 'These are helpers that speed up the dev time for various components and effects.',
+        icon: 'pe-7s-wristwatch icon-gradient bg-deep-blue',
+    }),
+}
 </script>

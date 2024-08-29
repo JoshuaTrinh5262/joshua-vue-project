@@ -3,4 +3,9 @@ import * as albumApi from './api/albumApi';
 import * as discographyApi from './api/discographyApi';
 import * as talentApi from './api/talentApi';
 
-export { agencyApi, albumApi, discographyApi, talentApi };
+export const apiService = { 
+    ...agencyApi,
+    ...albumApi,
+    ...discographyApi,
+    ...talentApi
+};

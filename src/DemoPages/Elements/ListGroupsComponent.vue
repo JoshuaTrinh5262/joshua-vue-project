@@ -1,7 +1,6 @@
 <template>
   <div>
-    <page-title :heading=heading :subheading=subheading :icon=icon></page-title>
-
+    <page-title-component :heading=heading :subheading=subheading :icon=icon></page-title-component>
     <div class="content">
       <div class="row">
         <div class="col-lg-6">
@@ -621,7 +620,7 @@
 </template>
 
 <script>
-import PageTitle from "../../Layout/Components/PageTitle.vue";
+import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faTrashAlt,
@@ -636,7 +635,7 @@ library.add(
 
 export default {
   components: {
-    PageTitle,
+    PageTitleComponent,
     'font-awesome-icon': FontAwesomeIcon,
   },
   data: () => ({

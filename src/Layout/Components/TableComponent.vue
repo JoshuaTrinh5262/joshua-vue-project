@@ -1,6 +1,13 @@
 <template>
   <div>
+    <div class="input-group mb-2">
+      <input placeholder="Searching..." @input="onSearch" v-model="searchTerm" type="text" class="form-control">
+      <div class="input-group-append">
+        <button class="btn btn-primary"><i class="pe-7s-search"></i></button>
+      </div>
+    </div>
     <table :class="customClass" class="table table-dark table-sm table-bordered">
+
       <thead>
         <tr>
           <th><input type="checkbox" class=""></th>
@@ -17,11 +24,13 @@
         <tr v-for="(item, index) in items" :key="index">
           <td><input type="checkbox"></td>
           <td v-for="field in fields" :key="field.key">
-            {{ item[field.key] }} <span v-if="field.key=='source_text' || field.key=='target_text'" span>{{ item[field.key].trim().split(/\s+/).length }}</span>
+            {{ item[field.key] }}
           </td>
           <td>
-            <button type="button" class="btn btn-sm btn-success" @click="updateRow(item.id)"><i class="pe-7s-file"></i></button>
-            <button type="button" class="btn btn-sm btn-warning" @click="deleteRow(item.id)"><i class="pe-7s-trash"></i></button>
+            <button type="button" class="btn btn-sm btn-success" @click="updateRow(item.id)"><i
+                class="pe-7s-file"></i></button>
+            <button type="button" class="btn btn-sm btn-warning" @click="deleteRow(item.id)"><i
+                class="pe-7s-trash"></i></button>
           </td>
         </tr>
       </tbody>
@@ -29,7 +38,7 @@
         <tr>
           <th><input type="checkbox"></th>
           <th v-for="field in fields" :key="field.key" :id="field.key" @click="changeOrder(field.key)">
-            
+
             {{ field.value }}
             <span v-if="orderBy === field.key && orderDirection === 'asc'">&#9660;</span>
             <span v-else-if="orderBy === field.key && orderDirection === 'desc'">&#9650;</span>
@@ -43,70 +52,75 @@
 </template>
 
 <script>
-  export default {
-    name: "TableComponent",
+export default {
+  name: "TableComponent",
 
-    props: {
-      fields: {
-        type: Array,
-        required: true,
-      },
-      items: {
-        type: Array,
-        required: true,
-      },
-      customClass: {
-        type: String,
-        default: '',
-        required: false,
-      },
-      footer: {
-        type: Boolean,
-        default: false,
-        required: false,
-      },
-
+  props: {
+    fields: {
+      type: Array,
+      required: true,
+    },
+    items: {
+      type: Array,
+      required: true,
+    },
+    customClass: {
+      type: String,
+      default: '',
+      required: false,
+    },
+    footer: {
+      type: Boolean,
+      default: false,
+      required: false,
     },
 
-    data() {
-      return {
-        orderDirection: '',
-        orderBy: '',
-      }
+  },
+
+  data() {
+    return {
+      orderDirection: '',
+      orderBy: '',
+      searchTerm: null,
+    }
+  },
+
+  created() {
+
+  },
+
+  methods: {
+    deleteRow(id) {
+      this.$emit('deleteRow', id);
     },
 
-    created() {
-
+    updateRow(id) {
+      this.$emit('updateRow', id);
     },
 
-    methods: {
-      deleteRow(id) {
-        this.$emit('deleteRow', id);
-      },
+    onSearch() {
+      this.$emit("search", this.searchTerm);
+    },
 
-      updateRow(id) {
-        this.$emit('updateRow', id);
-      },
-
-      changeOrder(field) {
-        if (field === this.orderBy) {
-          if (this.orderDirection === 'asc') {
-            this.orderDirection = 'desc';
-          } else if (this.orderDirection === 'desc') {
-            this.orderDirection = '';
-          } else {
-            this.orderDirection = 'asc';
-          }
+    changeOrder(field) {
+      if (field === this.orderBy) {
+        if (this.orderDirection === 'asc') {
+          this.orderDirection = 'desc';
+        } else if (this.orderDirection === 'desc') {
+          this.orderDirection = '';
         } else {
-          this.orderBy = field;
           this.orderDirection = 'asc';
         }
+      } else {
+        this.orderBy = field;
+        this.orderDirection = 'asc';
+      }
 
-        this.$emit('changeOrder', {
-          orderDirection: this.orderDirection,
-          orderBy: this.orderBy,
-        });
-      },
+      this.$emit('changeOrder', {
+        orderDirection: this.orderDirection,
+        orderBy: this.orderBy,
+      });
     },
-  }
+  },
+}
 </script>

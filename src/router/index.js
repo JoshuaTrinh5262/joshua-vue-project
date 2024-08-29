@@ -17,27 +17,9 @@ const router = new Router({
                 layout: 'admin',
                 requiresAuth: true
             },
-            component: () => import('../DemoPages/Dashboards/AnalyticsComponent.vue'),
-        },
-        {
-            path: '/admin/dashboard',
-            name: 'dashboard',
-            meta: {
-                layout: 'admin',
-                requiresAuth: true
-            },
-            component: () => import('../DemoPages/Dashboards/AnalyticsComponent.vue'),
+            component: () => import('../DemoPages/Dashboards/DashboardComponent.vue'),
         },
         // Dashboards
-        {
-            path: '/admin',
-            name: 'analytics',
-            meta: {
-                layout: 'admin',
-                requiresAuth: true
-            },
-            component: () => import('../DemoPages/Dashboards/AnalyticsComponent.vue'),
-        },
         {
             path: '/admin/word-counter',
             name: 'word-counter',

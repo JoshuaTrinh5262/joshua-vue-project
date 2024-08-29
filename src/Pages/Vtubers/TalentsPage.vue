@@ -27,8 +27,26 @@
               <div class="form-row">
                 <div class="col-md-6">
                   <div class="position-relative form-group">
+                    <label for="name">Gender</label>
+                    <select name="gender" id="gender" v-model=newTalent.gender class="form-control">
+                      <option value="male">Male</option>
+                      <option value="female">female</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="position-relative form-group">
+                    <label for="date_of_birth">Date Of Birth</label>
+                    <input name="date_of_birth" id="date_of_birth" placeholder="Date Of Birth"
+                      v-model=newTalent.date_of_birth type="date" class="form-control">
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-md-6">
+                  <div class="position-relative form-group">
                     <label for="agency">Agency</label>
-                    <select name="select" id="agency" v-model=newTalent.agency_id class="form-control">
+                    <select name="select" id="agency" v-model=newTalent.agency_id class="form-control" required>
                       <option v-for="agency in agencies" :key="agency.agency_id" :value="agency.agency_id">
                         {{ agency.agency_name }}
                       </option>
@@ -38,7 +56,8 @@
                 <div class="col-md-6">
                   <div class="position-relative form-group">
                     <label for="talent_status">Talent Status</label>
-                    <select name="select" id="talent_status" v-model=newTalent.talent_status class="form-control">
+                    <select name="talent_status" id="talent_status" v-model=newTalent.talent_status
+                      class="form-control">
                       <option value="active">Active</option>
                       <option value="graduation">Graduation</option>
                       <option value="terminated">Terminated</option>
@@ -50,28 +69,45 @@
                 <div class="col-md-6">
                   <div class="position-relative form-group">
                     <label for="debut_date">Debut Date</label>
-                    <input name="debut_date" id="debut_date" placeholder="Debut Date" type="date" v-model=newTalent.debut_date
+                    <input name="debut_date" id="debut_date" placeholder="Debut Date" type="date"
+                      v-model=newTalent.debut_date class="form-control">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="position-relative form-group" v-if="showRetirementDate()">
+                    <label for="retirement_date">Retirement Date</label>
+                    <input name="retirement_date" id="retirement_date" placeholder="Retirement Date" type="date"
+                      v-model=newTalent.retirement_date class="form-control">
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-md-6">
+                  <div class="position-relative form-group">
+                    <label for="height">Height</label>
+                    <input name="height" id="height" placeholder="Height" type="number" v-model=newTalent.height
                       class="form-control">
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="position-relative form-group">
-                    <label for="original_name">Original Name</label>
-                    <input name="original_name" id="original_name" placeholder="Original Name"
-                      v-model=newTalent.original_name type="text" class="form-control">
+                    <label for="emoji">Emoji</label>
+                    <input name="emoji" id="emoji" placeholder="Emoji" v-model=newTalent.emoji type="text"
+                      class="form-control">
                   </div>
                 </div>
               </div>
             </form>
           </template>
           <template #footer>
-            <button @click="closeModal" class="btn btn-outline-primary">Cancel</button>
-            <button @click="submitTalent" class="btn btn-primary">Submit</button>
+            <button-spinner :isLoading="onSubmit" buttonClass="btn btn-primary" @click="submitTalent"
+              normalText="Submit" />
           </template>
         </modal-component>
       </template>
     </page-title-component>
-    <table-component :footer=true :fields="fields" :items="items" @changeOrder="handleChangeOrder" />
+    <table-component :footer=true :fields="fields" :items="items" @changeOrder="handleChangeOrder"
+      @deleteRow="deleteTalent" />
     <pagination-component :currentPage="currentPage" :perPage="itemsPerPage" :totalItems="totalItems"
       :totalPages="totalPages" @load-page="loadPage" @change-page-size="changePageSize" />
   </div>
@@ -81,10 +117,8 @@ import ModalComponent from '../../DemoPages/Components/ModalComponent.vue';
 import TableComponent from '../../Layout/Components/TableComponent.vue';
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
-import { supabase } from '../../supabase/supabase';
-import { getAgencies } from '../../supabase/api/agencyApi';
-import { createTalent } from '../../supabase/api/talentApi';
-
+import ButtonSpinner from "../../Layout/Components/ButtonSpinner.vue";
+import { apiService } from '../../supabase/apiService';
 
 export default {
   name: "TalentsPage",
@@ -92,7 +126,8 @@ export default {
     ModalComponent,
     PageTitleComponent,
     TableComponent,
-    PaginationComponent
+    PaginationComponent,
+    ButtonSpinner,
   },
 
   data() {
@@ -107,13 +142,18 @@ export default {
       totalPages: 0,
       orderBy: 'id',
       orderDirection: 'asc',
+      onSubmit: false,
       newTalent: {
-        name: '',
-        original_name: "",
-        agency_id: "",
-        talent_status: "",
-        debut_date: "",
-
+        name: null,
+        original_name: null,
+        gender: null,
+        date_of_birth: null,
+        agency_id: null,
+        talent_status: "active",
+        debut_date: null,
+        retirement_date: null,
+        height: null,
+        emoji: null,
       },
       fields: [
         {
@@ -138,7 +178,7 @@ export default {
         },
         {
           key: 'debut_date',
-          value: 'debut date'
+          value: 'Debut Date'
         },
       ],
       items: [],
@@ -160,9 +200,13 @@ export default {
       this.showModal = false;
     },
 
+    showRetirementDate() {
+      return this.newTalent.talent_status === 'terminated' || this.newTalent.talent_status === 'graduation';
+    },
+
     async getAgencyData() {
       try {
-        const response = await getAgencies();
+        const response = await apiService.getAgencies();
         this.agencies = response;
       } catch (error) {
         console.error("Error fetching agency data:", error);
@@ -170,43 +214,54 @@ export default {
     },
 
     async getTalentsData(newPage, newPageSize) {
-      const start = (newPage - 1) * newPageSize;
-      const end = start + newPageSize - 1;
+      const result = await apiService.getTalents(newPage, newPageSize, this.orderBy, this.orderDirection);
 
-      const { data, count, error } = await supabase
-        .from('talent')
-        .select('*, agency(agency_name)', { count: 'exact' })
-        .order(this.orderBy, { ascending: this.orderDirection === 'asc' })
-        .range(start, end);
-
-      if (!error) {
-        this.totalItems = count;
-        const transformedData = data.map(item => ({
-          ...item,
-          agency: item.agency?.agency_name,
-        }));
-        this.items = transformedData;
-        this.totalPages = Math.ceil(count / newPageSize);
+      if (!result.error) {
+        this.items = result.items;
+        this.totalItems = result.totalItems;
+        this.totalPages = result.totalPages;
+      } else {
+        console.error('Error:', result.error);
       }
     },
 
     async submitTalent() {
-      createTalent(this.newTalent)
+      this.onSubmit = true;
+      apiService.createTalent(this.newTalent)
         .then(() => {
-            this.newTalent = {
-              name: '',
-              original_name: '',
-              agency: '',
-              status: '',
-            };
-            this.successMessage = 'Talent created successfully!';
-            this.showModal = false;
-            this.getTalentsData(this.currentPage, this.itemsPerPage);
+          this.newTalent = {
+            name: null,
+            original_name: null,
+            gender: null,
+            date_of_birth: null,
+            agency_id: null,
+            talent_status: "active",
+            debut_date: null,
+            retirement_date: null,
+            height: null,
+            emoji: null,
+          };
+          this.successMessage = 'Talent created successfully!';
+          this.getTalentsData(this.currentPage, this.itemsPerPage);
+          this.onSubmit = false;
         })
         .catch(err => {
           console.error('Error submitting talent:', err);
-          this.error = 'An unexpected error occurred.';
         });
+    },
+
+    async deleteTalent(id) {
+      console.log(id);
+      const confirmDelete = confirm("Are you sure you want to delete this talent?");
+      if (confirmDelete) {
+        await apiService.deleteTalent(id).then(async () => {
+          alert("Talent deleted successfully");
+          await this.getTalentsData(1, this.itemsPerPage);
+        })
+          .catch(err => {
+            console.error('Error delete talent:', err);
+          });;
+      }
     },
 
     async handleChangeOrder({ orderDirection, orderBy }) {
@@ -215,6 +270,7 @@ export default {
 
       await this.getTalentsData(this.currentPage, this.itemsPerPage);
     },
+
     loadPage(page) {
       this.currentPage = page;
       this.getTalentsData(this.currentPage, this.itemsPerPage);

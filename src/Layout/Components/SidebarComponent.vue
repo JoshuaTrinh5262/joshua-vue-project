@@ -40,7 +40,7 @@
                         title: 'Main Navigation',
                     },
                     {
-                        href: '/admin/dashboard',
+                        href: '/admin',
                         title: 'Dashboards',
                         icon: 'pe-7s-rocket',
                     },
@@ -50,13 +50,9 @@
                         icon: 'pe-7s-users',
                     },
                     {
-                        title: 'Analytics',
+                        title: 'Tools',
                         icon: 'pe-7s-rocket',
                         child: [
-                            {
-                                href: '/admin/',
-                                title: 'Analytics',
-                            },
                             {
                                 href: '/admin/word-counter',
                                 title: 'Word Counter',

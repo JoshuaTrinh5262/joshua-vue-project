@@ -1,6 +1,6 @@
 <template>
   <div>
-    <page-title :heading="heading" :subheading="subHeading" :icon="icon"></page-title>
+    <page-title-component :heading="heading" :subheading="subHeading" :icon="icon"></page-title-component>
     <div class="chatgroup row">
       <div class="col-3 p-0">
         <div class="chatgroup-sidebar h-auto space-4 overflow-y-auto px-1 py-1">
@@ -51,7 +51,7 @@
 <script>
 import moment from 'moment';
 import axios from 'axios';
-import PageTitle from '../../Layout/Components/PageTitle.vue';
+import PageTitleComponent from '../../Layout/Components/PageTitleComponent.vue';
 
 export default {
   data() {
@@ -67,7 +67,7 @@ export default {
   },
 
   components: {
-    PageTitle,
+    PageTitleComponent,
   },
 
   created() {

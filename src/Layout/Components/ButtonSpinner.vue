@@ -1,5 +1,5 @@
 <template>
-    <button :disabled="isLoading" @click="handleClick" class="button-spinner">
+    <button :disabled="isLoading" @click="handleClick" :class="buttonClass" class="btn btn-spinner">
         <span v-if="isLoading" class="spinner-icon"></span>
         <span v-if="!isLoading">{{ normalText }}</span>
         <span v-else>{{ loadingText }}</span>
@@ -9,6 +9,10 @@
 <script>
 export default {
     props: {
+        buttonClass:{
+            type: String,
+            default: 'btn-success',
+        },
         normalText: {
             type: String,
             default: 'Submit',
@@ -24,26 +28,22 @@ export default {
     },
     methods: {
         handleClick() {
-            this.$emit('submit');
+            this.$emit('click');
         },
     },
 };
 </script>
 
 <style scoped>
-.button-spinner {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
+.btn-spinner {
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.button-spinner:disabled {
+.btn-spinner:disabled {
+    border: 1px solid #9E9E9E;
     background-color: #9E9E9E;
     cursor: not-allowed;
 }
@@ -52,10 +52,10 @@ export default {
     border: 4px solid rgba(255, 255, 255, 0.3);
     border-left-color: #fff;
     border-radius: 50%;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     animation: spin 1s linear infinite;
-    margin-right: 10px;
+    margin-right: 5px;
 }
 
 @keyframes spin {

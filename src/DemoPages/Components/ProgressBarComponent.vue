@@ -1,6 +1,6 @@
 <template>
   <div>
-    <page-title :heading=heading :subheading=subheading :icon=icon></page-title>
+    <page-title-component :heading=heading :subheading=subheading :icon=icon></page-title-component>
     <div class="row">
       <div class="col-md-6">
         <div class="card main-card mb-3">
@@ -119,11 +119,11 @@
 
 <script>
 
-  import PageTitle from "../../Layout/Components/PageTitle.vue";
+  import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 
   export default {
     components: {
-      PageTitle,
+      PageTitleComponent,
     },
     data: () => ({
       heading: 'Progress Bar',

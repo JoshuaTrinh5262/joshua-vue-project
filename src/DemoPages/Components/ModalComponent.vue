@@ -1,42 +1,48 @@
 <template>
-      <div v-if="isOpen" class="modal-overlay" @click="closeModal">
-    <div class="modal-content" @click.stop>
-      <div class="modal-header">
-        <h3>{{ title }}</h3>
-        <button class="close-button" @click="closeModal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <slot name="body"></slot>
-      </div>
-      <div class="modal-footer">
-        <slot name="footer"></slot>
+  <transition name="modal">
+    <div v-if="isOpen"  :class="['modal-overlay', { 'modal-dark': isDarkMode }]" @click="closeModal">
+      <div class="modal-content" @click.stop>
+        <div class="modal-header">
+          <h3>{{ title }}</h3>
+          <button class="close-button" @click="closeModal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <slot name="body"></slot>
+        </div>
+        <div class="modal-footer">
+          <slot name="footer"></slot>
+        </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
-  
-  <script>
-  export default {
-    name: "ModalComponent",
-    props: {
-      isOpen: {
-        type: Boolean,
-        required: true,
-      },
-      title: {
+
+<script>
+export default {
+  name: "ModalComponent",
+  props: {
+    isOpen: {
+      type: Boolean,
+      required: true,
+    },
+    title: {
       type: String,
       default: 'Default Title',
     },
+    isDarkMode: {
+      type: Boolean,
+      default: true,
     },
-    methods: {
-      closeModal() {
-        this.$emit('closeModal');
-      },
+  },
+  methods: {
+    closeModal() {
+      this.$emit('closeModal');
     },
-  };
-  </script>
-  
-  <style scoped>
+  },
+};
+</script>
+
+<style scoped>
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -52,7 +58,7 @@
 }
 
 .modal-content {
-  max-width: 500px;
+  max-width: 600px;
   width: 100%;
   position: relative;
   display: flex;
@@ -85,4 +91,43 @@
   font-size: 24px;
   cursor: pointer;
 }
-  </style>
+
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.2s;
+}
+
+.modal-enter,
+.modal-leave-to {
+  opacity: 0;
+}
+
+.modal-enter-active .modal-content,
+.modal-leave-active .modal-content {
+  transition: transform 0.4s;
+}
+
+.modal-enter .modal-content,
+.modal-leave-to .modal-content {
+  transform: scale(0.9);
+}
+
+.modal-dark .modal-content {
+  background-color: #2c2c2c;
+  color: #fff;
+}
+
+.modal-dark .modal-content .modal-header,
+.modal-dark .modal-content .modal-footer{
+  background-color: #2c2c2c;
+}
+
+.modal-dark .modal-overlay {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-dark .close-button {
+  color: #f5f5f5;
+}
+
+</style>
