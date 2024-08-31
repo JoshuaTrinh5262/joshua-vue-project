@@ -1,5 +1,5 @@
 <template>
-  <div class="not-found">
+  <div class="not-found bg-premium-dark">
     <div class="not-found-content">
       <h1>404 - Page Not Found</h1>
       <p>Sorry, the page you are looking for does not exist.</p>

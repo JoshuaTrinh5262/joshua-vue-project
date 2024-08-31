@@ -5,3 +5,12 @@ const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
+// supabase.auth.onAuthStateChange((event, session) => {
+//     if (event === 'SIGNED_IN') {
+//         console.log('User signed in:');
+//     } else if (event === 'SIGNED_OUT') {
+//         console.log('User signed out.');
+//     } else if (event === 'USER_UPDATED') {
+//         console.log('User updated:');
+//     }
+// });

@@ -106,6 +106,7 @@
         </modal-component>
       </template>
     </page-title-component>
+    <notification-component :notification.sync="showNotification"></notification-component>
     <table-component :footer=true :fields="fields" :items="items" @changeOrder="handleChangeOrder"
       @deleteRow="deleteTalent" />
     <pagination-component :currentPage="currentPage" :perPage="itemsPerPage" :totalItems="totalItems"
@@ -118,6 +119,7 @@ import TableComponent from '../../Layout/Components/TableComponent.vue';
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
 import ButtonSpinner from "../../Layout/Components/ButtonSpinner.vue";
+import NotificationComponent from "../..//Layout/Components/NotificationComponent.vue"
 import { apiService } from '../../supabase/apiService';
 
 export default {
@@ -128,6 +130,7 @@ export default {
     TableComponent,
     PaginationComponent,
     ButtonSpinner,
+    NotificationComponent,
   },
 
   data() {
@@ -137,12 +140,13 @@ export default {
       icon: 'pe-7s-phone icon-gradient bg-premium-dark',
       showModal: false,
       currentPage: 1,
-      itemsPerPage: 20,
+      itemsPerPage: 100,
       totalItems: 0,
       totalPages: 0,
       orderBy: 'id',
       orderDirection: 'asc',
       onSubmit: false,
+      showNotification: null,
       newTalent: {
         name: null,
         original_name: null,
@@ -220,6 +224,7 @@ export default {
         this.items = result.items;
         this.totalItems = result.totalItems;
         this.totalPages = result.totalPages;
+        this.itemsPerPage = newPageSize;
       } else {
         console.error('Error:', result.error);
       }
@@ -241,12 +246,20 @@ export default {
             height: null,
             emoji: null,
           };
-          this.successMessage = 'Talent created successfully!';
+          this.showNotification = {
+            title: 'Success',
+            content: 'Talent created successfully!',
+            type: 'success'
+          };
           this.getTalentsData(this.currentPage, this.itemsPerPage);
           this.onSubmit = false;
         })
-        .catch(err => {
-          console.error('Error submitting talent:', err);
+        .catch(error => {
+          this.showNotification = {
+            title: 'Error',
+            content: `Error when submitting talent: ${error}`,
+            type: 'danger'
+          };
         });
     },
 
@@ -255,11 +268,19 @@ export default {
       const confirmDelete = confirm("Are you sure you want to delete this talent?");
       if (confirmDelete) {
         await apiService.deleteTalent(id).then(async () => {
-          alert("Talent deleted successfully");
+          this.showNotification = {
+            title: 'Success',
+            content: 'Talent deleted successfully!',
+            type: 'success'
+          };
           await this.getTalentsData(1, this.itemsPerPage);
         })
-          .catch(err => {
-            console.error('Error delete talent:', err);
+          .catch(error => {
+            this.showNotification = {
+              title: 'Error',
+              content: `Error when deleting talent: ${error}`,
+              type: 'danger'
+            };
           });;
       }
     },
@@ -271,9 +292,9 @@ export default {
       await this.getTalentsData(this.currentPage, this.itemsPerPage);
     },
 
-    loadPage(page) {
+    async loadPage(page) {
       this.currentPage = page;
-      this.getTalentsData(this.currentPage, this.itemsPerPage);
+      await this.getTalentsData(this.currentPage, this.itemsPerPage);
     },
 
     async changePageSize(newPageSize) {

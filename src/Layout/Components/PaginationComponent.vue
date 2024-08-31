@@ -70,6 +70,10 @@ export default {
     pageSizes: [5, 10, 20, 40, 60, 80, 100],
   }),
 
+  mounted() {
+    this.selectedPageSize = this.perPage;
+  },
+
   computed: {
     visiblePages() {
       const startPage = Math.max(1, this.currentPage - Math.floor(this.maxVisiblePages / 2));
