@@ -12,7 +12,9 @@
   </div>
 </template>
 <script>
-export default {
+import { ref, provide, onMounted, defineComponent } from 'vue';
+
+export default defineComponent({
   name: 'tabs-component',
 
   props: {
@@ -21,31 +23,34 @@ export default {
       default: 'dark'
     }
   },
-  data() {
+  setup() {
+    const selectedIndex = ref(0);
+    const tabs = ref([]);
+
+    const selectTab = (index) => {
+      selectedIndex.value = index;
+      tabs.value.forEach((tab, i) => {
+        tab.isActive = (i === index);
+      });
+    };
+
+    const registerTab = (tab) => {
+      tabs.value.push(tab);
+    };
+
+    provide('registerTab', registerTab);
+
+    onMounted(() => {
+      selectTab(0);
+    });
+
     return {
-      selectedIndex: 0,
-      tabs: [],
-    }
-  },
-
-  created() {
-    this.tabs = this.$children
-  },
-
-  mounted() {
-    this.selectTab(0)
-  },
-
-  methods: {
-    selectTab(i) {
-      this.selectedIndex = i
-
-      this.tabs.forEach((tab, index) => {
-        tab.isActive = (index === i)
-      })
-    }
+      selectedIndex,
+      tabs,
+      selectTab,
+    };
   }
-}
+});
 </script>
 
 <style lang="css">
