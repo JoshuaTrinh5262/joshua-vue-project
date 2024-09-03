@@ -1,21 +1,21 @@
-import Vue from 'vue';
+import { createApp } from 'vue';
 import router from './router';
 
-import App from './App';
+import App from './App.vue';
 
 import Admin from './Layout/Wrappers/adminLayout.vue';
 import Default from './Layout/Wrappers/baseLayout.vue';
 import Pages from './Layout/Wrappers/pagesLayout.vue';
 
-Vue.config.productionTip = false;
+const app = createApp(App);
 
-Vue.component('admin-layout', Admin);
-Vue.component('default-layout', Default);
-Vue.component('userpages-layout', Pages);
+// Register global components
+app.component('admin-layout', Admin);
+app.component('default-layout', Default);
+app.component('userpages-layout', Pages);
 
-new Vue({
-  el: '#app',
-  router,
-  template: '<App/>',
-  components: { App }
-});
+// Use the router
+app.use(router);
+
+// Mount the app
+app.mount('#app');

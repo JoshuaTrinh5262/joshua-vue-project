@@ -1,23 +1,24 @@
 <template>
   <div id="app">
     <component :is="layout">
+      <router-view v-slot="{ Component }">
         <transition name="fade" mode="out-in">
-            <router-view></router-view>
+          <component :is="Component" />
         </transition>
+      </router-view>
     </component>
   </div>
 </template>
 
 <script>
-  const default_layout = "default";
-
-  export default {
-    computed: {
-      layout() {
-        return (this.$route.meta.layout || default_layout) + '-layout';
-      }
+export default {
+  computed: {
+    layout() {
+      const default_layout = "default";
+      return (this.$route.meta.layout || default_layout) + '-layout';
     }
   }
+}
 </script>
 
 <style lang="scss">
