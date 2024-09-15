@@ -1,14 +1,14 @@
 <template>
   <div
     class="vsm-item"
-    :class="[
-      {'first-item' : firstItem },
-      {'mobile-item' : mobileItem},
-      {'open-item' : show},
-      {'active-item' : active},
-      {'parent-active-item' : childActive}
-    ]"
-    @mouseenter="mouseEnter($event)"
+    :class="{
+      'first-item': firstItem,
+      'mobile-item': mobileItem,
+      'open-item': show,
+      'active-item': active,
+      'parent-active-item': childActive
+    }"
+    @mouseenter="mouseEnter"
   >
     <template v-if="isRouterLink">
       <router-link
@@ -16,18 +16,18 @@
         :class="item.class"
         :to="item.href"
         :disabled="item.disabled"
-        :tabindex="item.disabled ? -1 : ''"
+        :tabindex="item.disabled ? -1 : null"
         v-bind="item.attributes"
-        @click.native="clickEvent"
+        @click="clickEvent"
       >
         <template v-if="item.icon">
           <i
-            v-if="typeof item.icon === 'string' || (item.icon instanceof String)"
+            v-if="typeof item.icon === 'string' || item.icon instanceof String"
             class="vsm-icon"
             :class="item.icon"
           ></i>
           <component
-            :is="item.icon.element ? item.icon.element : 'i'"
+            :is="item.icon.element || 'i'"
             v-else
             class="vsm-icon"
             :class="item.icon.class"
@@ -38,9 +38,9 @@
         </template>
         <template v-if="!isCollapsed || mobileItem">
           <component
-            :is="item.badge.element ? item.badge.element : 'span'"
+            :is="item.badge.element || 'span'"
             v-if="item.badge"
-            :style="[rtl ? (item.child ? {'margin-left' : '30px'} : '') : (item.child ? {'margin-right' : '30px'} : '')]"
+            :style="rtl ? (item.child ? { 'margin-left': '30px' } : {}) : (item.child ? { 'margin-right': '30px' } : {})"
             class="vsm-badge"
             :class="item.badge.class"
             v-bind="item.badge.attributes"
@@ -51,9 +51,9 @@
           <div
             v-if="item.child"
             class="vsm-arrow"
-            :class="[{'open-arrow' : show}, {'slot-icon' : $slots['dropdown-icon']}]"
+            :class="{ 'open-arrow': show, 'slot-icon': $slots['dropdown-icon'] }"
           >
-            <slot name="dropdown-icon" ></slot>
+            <slot name="dropdown-icon"></slot>
           </div>
         </template>
       </router-link>
@@ -62,20 +62,20 @@
       <a
         class="vsm-link"
         :class="item.class"
-        :href="item.href ? item.href : '#'"
+        :href="item.href || '#'"
         :disabled="item.disabled"
-        :tabindex="item.disabled ? -1 : ''"
+        :tabindex="item.disabled ? -1 : null"
         v-bind="item.attributes"
         @click="clickEvent"
       >
         <template v-if="item.icon">
           <i
-            v-if="typeof item.icon === 'string' || (item.icon instanceof String)"
+            v-if="typeof item.icon === 'string' || item.icon instanceof String"
             class="vsm-icon"
             :class="item.icon"
           ></i>
           <component
-            :is="item.icon.element ? item.icon.element : 'i'"
+            :is="item.icon.element || 'i'"
             v-else
             class="vsm-icon"
             :class="item.icon.class"
@@ -86,18 +86,20 @@
         </template>
         <template v-if="!isCollapsed || mobileItem">
           <component
-            :is="item.badge.element ? item.badge.element : 'span'"
+            :is="item.badge.element || 'span'"
             v-if="item.badge"
-            :style="[rtl ? (item.child ? {'margin-left' : '30px'} : '') : (item.child ? {'margin-right' : '30px'} : '')]"
+            :style="rtl ? (item.child ? { 'margin-left': '30px' } : {}) : (item.child ? { 'margin-right': '30px' } : {})"
             class="vsm-badge"
             :class="item.badge.class"
             v-bind="item.badge.attributes"
-          >{{ item.badge.text }}</component>
+          >
+            {{ item.badge.text }}
+          </component>
           <span class="vsm-title">{{ item.title }}</span>
           <div
             v-if="item.child"
             class="vsm-arrow"
-            :class="[{'open-arrow' : show}, {'slot-icon' : $slots['dropdown-icon']}]"
+            :class="{ 'open-arrow': show, 'slot-icon': $slots['dropdown-icon'] }"
           >
             <slot name="dropdown-icon" />
           </div>
@@ -109,22 +111,16 @@
         <transition
           name="expand"
           @enter="expandEnter"
-          @afterEnter="expandAfterEnter"
-          @beforeLeave="expandBeforeLeave"
+          @after-enter="expandAfterEnter"
+          @before-leave="expandBeforeLeave"
         >
-          <div
-            v-if="show"
-            class="vsm-dropdown"
-          >
+          <div v-if="show" class="vsm-dropdown">
             <SidebarListItem
               :items="item.child"
               :show-child="showChild"
               :rtl="rtl"
             >
-              <slot
-                slot="dropdown-icon"
-                name="dropdown-icon"
-              ></slot>
+              <slot name="dropdown-icon"></slot>
             </SidebarListItem>
           </div>
         </transition>
@@ -134,62 +130,66 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
 import SidebarListItem from './SidebarListItem.vue';
 import { itemMixin, animationMixin } from './mixin';
 
-export default {
-  name: 'sidebar-item',
-
+export default defineComponent({
+  name: 'SidebarItem',
   components: {
     SidebarListItem,
   },
-
   mixins: [itemMixin, animationMixin],
   props: {
     item: {
       type: Object,
-      required: true
+      required: true,
     },
     firstItem: {
       type: Boolean,
-      default: false
+      default: false,
     },
     isCollapsed: {
-      type: Boolean
+      type: Boolean,
     },
     mobileItem: {
       type: Boolean,
-      default: false
+      default: false,
     },
     activeShow: {
       type: Number,
-      default: null
+      default: null,
     },
     showChild: {
       type: Boolean,
-      default: false
+      default: false,
     },
     showOneChild: {
       type: Boolean,
-      default: false
+      default: false,
     },
     rtl: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   methods: {
-    mouseEnter (event) {
-      if (this.isCollapsed && this.firstItem && !this.mobileItem && !this.item.disabled) {
-        this.$parent.$emit('mouseEnterItem', {
+    mouseEnter(event) {
+      if (
+        this.isCollapsed &&
+        this.firstItem &&
+        !this.mobileItem &&
+        !this.item.disabled
+      ) {
+        this.$emit('mouseEnterItem', {
           item: this.item,
           pos:
-              event.currentTarget.getBoundingClientRect().top -
-              this.$parent.$el.getBoundingClientRect().top,
-          height: this.$el.offsetHeight
-        })
+            event.currentTarget.getBoundingClientRect().top -
+            this.$el.getBoundingClientRect().top,
+          height: this.$el.offsetHeight,
+        });
       }
-    }
-  }
-}
+    },
+  },
+});
 </script>

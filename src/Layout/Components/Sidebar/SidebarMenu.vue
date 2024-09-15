@@ -20,7 +20,6 @@
               :key="index"
               class="vsm-header"
               :class="item.class"
-              v-bind="item.attributes"
             >
               {{ item.title }}
             </div>
@@ -36,6 +35,8 @@
           :show-one-child="showOneChild"
           :show-child="showChild"
           :rtl="rtl"
+          @mouseEnterItem="handleMouseEnterItem"
+          @touchClickItem="handleTouchClickItem"
         >
           <slot
             slot="dropdown-icon"
@@ -55,6 +56,8 @@
         :is-collapsed="isCollapsed"
         :show-child="showChild"
         :rtl="rtl"
+        @mouseEnterItem="handleMouseEnterItem"
+        @touchClickItem="handleTouchClickItem"
       >
         <slot
           slot="dropdown-icon"
@@ -171,33 +174,55 @@ export default {
       this.$nextTick(() => {
         this.initSidebarHeight()
       })
-    }
+    },
   },
   created () {
-    this.$on('mouseEnterItem', (val) => {
-      this.mobileItem = null
-      this.$nextTick(() => {
-        this.mobileItem = val.item
-        this.mobileItemPos = val.pos
-        this.mobileItemHeight = val.height
-      })
-    })
+    // this.$on('mouseEnterItem', (val) => {
+    //   this.mobileItem = null
+    //   this.$nextTick(() => {
+    //     this.mobileItem = val.item
+    //     this.mobileItemPos = val.pos
+    //     this.mobileItemHeight = val.height
+    //   })
+    // })
 
-    this.$on('touchClickItem', (clearCloseTimeout) => {
-      if (clearCloseTimeout) {
-        clearTimeout(this.closeTimeout)
-        return
-      }
-      if (this.closeTimeout) clearTimeout(this.closeTimeout)
-      this.closeTimeout = setTimeout(() => {
-        this.mouseLeave()
-      }, 600)
-    })
+    // this.$on('touchClickItem', (clearCloseTimeout) => {
+    //   if (clearCloseTimeout) {
+    //     clearTimeout(this.closeTimeout)
+    //     return
+    //   }
+    //   if (this.closeTimeout) clearTimeout(this.closeTimeout)
+    //   this.closeTimeout = setTimeout(() => {
+    //     this.mouseLeave()
+    //   }, 600)
+    // })
+    this.handleMouseEnterItem = this.handleMouseEnterItem.bind(this);
+    this.handleTouchClickItem = this.handleTouchClickItem.bind(this);
   },
   mounted () {
     this.initSidebarHeight()
   },
   methods: {
+    handleMouseEnterItem(val) {
+      console.log("mouseEnter");
+      this.mobileItem = null;
+      this.$nextTick(() => {
+        this.mobileItem = val.item;
+        this.mobileItemPos = val.pos;
+        this.mobileItemHeight = val.height;
+      });
+    },
+    handleTouchClickItem(clearCloseTimeout) {
+
+      if (clearCloseTimeout) {
+        clearTimeout(this.closeTimeout);
+        return;
+      }
+      if (this.closeTimeout) clearTimeout(this.closeTimeout);
+      this.closeTimeout = setTimeout(() => {
+        this.mouseLeave();
+      }, 600);
+    },
     mouseLeave () {
       this.mobileItem = null
     },

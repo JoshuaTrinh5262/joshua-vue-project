@@ -1,4 +1,6 @@
 import { createApp } from 'vue';
+import { PerfectScrollbarPlugin } from 'vue3-perfect-scrollbar';
+import 'vue3-perfect-scrollbar/style.css';
 import router from './router';
 
 import App from './App.vue';
@@ -16,6 +18,9 @@ app.component('userpages-layout', Pages);
 
 // Use the router
 app.use(router);
+
+// Use Perfect Scrollbar Plugin
+app.use(PerfectScrollbarPlugin);
 
 // Mount the app
 app.mount('#app');

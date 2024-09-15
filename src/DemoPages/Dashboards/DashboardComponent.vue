@@ -185,7 +185,7 @@
                         </div>
                     </div>
                     <div class="scroll-area-lg">
-                        <VuePerfectScrollbar class="scrollbar-container" v-once>
+                        <PerfectScrollbar class="scrollbar-container" v-once>
                             <div class="p-4">
                                 <div
                                     class="vertical-time-simple vertical-without-time vertical-timeline vertical-timeline--animate vertical-timeline--one-column">
@@ -297,7 +297,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </VuePerfectScrollbar>
+                        </PerfectScrollbar>
                     </div>
                     <div class="d-block text-center card-footer">
                         <button class="btn-shadow btn-wide btn-pill btn btn-focus">
@@ -398,7 +398,7 @@
                         </div>
                     </div>
                     <div class="scroll-area-lg">
-                        <VuePerfectScrollbar class="scrollbar-container" v-once>
+                        <PerfectScrollbar class="scrollbar-container" v-once>
                             <ul class="todo-list-wrapper list-group list-group-flush">
                                 <li class="list-group-item">
                                     <div class="todo-indicator bg-warning"></div>
@@ -625,7 +625,7 @@
                                     </div>
                                 </li>
                             </ul>
-                        </VuePerfectScrollbar>
+                        </PerfectScrollbar>
                     </div>
                     <div class="d-block text-right card-footer">
                         <button class="mr-2 btn btn-link btn-sm">Cancel</button>
@@ -829,7 +829,7 @@
 <script>
 
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
-import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+import { PerfectScrollbar } from 'vue3-perfect-scrollbar';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
     faTrashAlt,
@@ -853,7 +853,7 @@ library.add(
 export default {
     components: {
         PageTitleComponent,
-        VuePerfectScrollbar,
+        PerfectScrollbar,
         'font-awesome-icon': FontAwesomeIcon,
     },
 

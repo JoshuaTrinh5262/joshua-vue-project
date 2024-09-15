@@ -1,4 +1,7 @@
 <template>
+  <div class="banner">
+    <BannerComponent></BannerComponent>
+  </div>
   <div class="timeline">
     <div class="timeline-container right">
       <div class="timeline-content">
@@ -226,6 +229,16 @@
 </template>
 
 <script>
+import BannerComponent from '../BannerComponent.vue';
+export default {
+  data() {
+    return {
+    };
+  },
+  components: {
+    BannerComponent,
+  },
+}
 </script>
 
 <style scoped>

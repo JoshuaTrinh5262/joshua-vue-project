@@ -1,24 +1,16 @@
 <template>
   <div class="vsm-list">
-    <Item
-      v-for="(subItem, index) in items"
-      :key="index"
-      :item="subItem"
-      :show-child="showChild"
-      :rtl="rtl"
-    >
-      <slot
-        slot="dropdown-icon"
-        name="dropdown-icon"
-      ></slot>
+    <Item v-for="(subItem, index) in items" :key="index" :item="subItem" :show-child="showChild" :rtl="rtl">
+      <slot name="dropdown-icon"></slot>
     </Item>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'sidebar-list-item',
+import { defineComponent} from 'vue';
 
+export default defineComponent({
+  name: 'SidebarListItem',
   props: {
     items: {
       type: Array,
@@ -33,8 +25,9 @@ export default {
       default: false
     }
   },
-  beforeCreate () {
-    this.$options.components.Item = require('./SidebarItem.vue').default
-  }
-}
+  components: {},
+  beforeMount() {
+    this.$options.components.Item = require('./SidebarItem.vue').default;
+  },
+});
 </script>

@@ -228,7 +228,7 @@ export default {
       this.bars.forEach(bar => bar.value = (25 + (Math.random() * 75)).toFixed(0))
     }, 2000)
   },
-  beforeDestroy() {
+  beforeUnmount() {
     clearInterval(this.timer)
     this.timer = null
   }

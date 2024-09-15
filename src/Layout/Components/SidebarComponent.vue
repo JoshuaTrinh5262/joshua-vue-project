@@ -11,15 +11,15 @@
             </div>
         </div>
         <div class="app-sidebar-content">
-            <VuePerfectScrollbar class="app-sidebar-scroll" v-once>
+            <PerfectScrollbar class="app-sidebar-scroll" v-once>
                 <sidebar-menu showOneChild :menu="menu"></sidebar-menu>
-            </VuePerfectScrollbar>
+            </PerfectScrollbar>
         </div>
     </div>
 </template>
 
 <script>
-    import VuePerfectScrollbar from 'vue-perfect-scrollbar';
+    import PerfectScrollbar from 'vue3-perfect-scrollbar';
     import SidebarMenu from './Sidebar/SidebarMenu.vue';
 
     export default {
@@ -27,7 +27,7 @@
 
         components: {
             SidebarMenu,
-            VuePerfectScrollbar
+            PerfectScrollbar
         },
         data() {
             return {
@@ -273,7 +273,7 @@
             this.getWindowWidth()
         },
 
-        beforeDestroy() {
+        beforeUnmount() {
             window.removeEventListener('resize', this.getWindowWidth);
         }
     }
