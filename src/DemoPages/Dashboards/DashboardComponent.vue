@@ -829,8 +829,8 @@
 <script>
 
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
-import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-import { library } from '@fortawesome/fontawesome-svg-core'
+import { VuePerfectScrollbar } from 'vue3-perfect-scrollbar';
+import { library } from '@fortawesome/fontawesome-svg-core';
 import {
     faTrashAlt,
     faCheck,
@@ -838,8 +838,8 @@ import {
     faAngleDown,
     faAngleUp,
     faTh,
-} from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 library.add(
     faTrashAlt,
