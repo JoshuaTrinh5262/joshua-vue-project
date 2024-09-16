@@ -25,12 +25,11 @@ export default {
             title: "Joshua",
             isAuthenticated: false,
             navItems: [
-                { text: "Home", href: "/" },
-                { text: "Admin", href: "/admin" },
-                { text: "Hololive", href: "/hololive" },
-                { text: "Tool", href: "/tool" },
-                { text: "About", href: "/about" },
-                { text: "Contact", href: "/contact" }
+                { text: "HOME", href: "/" },
+                { text: "HOLOLIVE", href: "/hololive" },
+                { text: "TOOL", href: "/tool" },
+                { text: "ABOUT", href: "/about" },
+                { text: "CONTACT", href: "/contact" }
             ]
         };
     }
