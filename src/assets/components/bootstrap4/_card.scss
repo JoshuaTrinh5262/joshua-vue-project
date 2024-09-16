@@ -43,7 +43,7 @@
 }
 
 .card-subtitle {
-  margin-top: -$card-spacer-y / 2;
+  margin-top: calc(-1 * $card-spacer-y / 2);
   margin-bottom: 0;
 }
 
@@ -99,9 +99,9 @@
 //
 
 .card-header-tabs.nav-tabs {
-  margin-right: -$card-spacer-x / 2;
+  margin-right: calc(-1 * $card-spacer-x / 2);
   margin-bottom: 0;
-  margin-left: -$card-spacer-x / 2;
+  margin-left: calc(-1 * $card-spacer-x / 2);
   border-bottom: 0;
 
   .nav-link {
@@ -110,8 +110,8 @@
 }
 
 .card-header-pills.nav-pills {
-  margin-right: -$card-spacer-x / 2;
-  margin-left: -$card-spacer-x / 2;
+  margin-right: calc(-1 * $card-spacer-x / 2);
+  margin-left: calc(-1 * $card-spacer-x / 2);
   margin-bottom: 0;
 
   .nav-link {
