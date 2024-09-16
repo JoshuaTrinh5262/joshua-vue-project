@@ -19,7 +19,7 @@
 </template>
 
 <script>
-    import PerfectScrollbar from 'vue3-perfect-scrollbar';
+    import { PerfectScrollbar } from 'vue3-perfect-scrollbar';
     import SidebarMenu from './Sidebar/SidebarMenu.vue';
 
     export default {

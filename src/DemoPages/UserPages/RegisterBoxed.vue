@@ -7,13 +7,13 @@
                     <div class="modal-dialog w-100">
                         <div class="modal-content">
                             <div class="modal-body">
-                                <h5 class="modal-title">
+                                <div class="modal-title">
                                     <h4 class="mt-2">
                                         <div>Welcome,</div>
                                         <span>It only takes a <span class="text-success">few seconds</span> to create
                                             your account</span>
                                     </h4>
-                                </h5>
+                                </div>
                                 <div class="divider"></div>
                                 <form>
                                     <div class="form-group" id="exampleInputGroup1">

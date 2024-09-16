@@ -1,29 +1,23 @@
-const { defineConfig } = require('@vue/cli-service')
+const { defineConfig } = require('@vue/cli-service');
 const webpack = require('webpack');
 
 module.exports = defineConfig({
   configureWebpack: {
     plugins: [
       new webpack.DefinePlugin({
-        // Vue CLI is in maintenance mode, and probably won't merge my PR to fix this in their tooling
-        // https://github.com/vuejs/vue-cli/pull/7443
         __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false',
-      })
+      }),
     ],
   },
-});
-
-module.exports = {
   runtimeCompiler: true,
   productionSourceMap: false,
 
   publicPath: process.env.NODE_ENV === 'production'
-      ? './'
-      : '/',
-  chainWebpack: config => {
-    
-    config.resolve.alias.set('vue', '@vue/compat')
+    ? './' // Production base path
+    : '/', // Development base path
 
+  chainWebpack: config => {
+    config.resolve.alias.set('vue', '@vue/compat');
     config.module
       .rule('vue')
       .use('vue-loader')
@@ -32,10 +26,10 @@ module.exports = {
           ...options,
           compilerOptions: {
             compatConfig: {
-              MODE: 2
-            }
-          }
-        }
-      })
-    }
-  }
+              MODE: 2,
+            },
+          },
+        };
+      });
+  },
+});

@@ -3,7 +3,9 @@
     <component :is="layout">
       <router-view v-slot="{ Component }">
         <transition name="fade" mode="out-in">
-          <component :is="Component" />
+          <div>
+            <component :is="Component" />
+          </div>
         </transition>
       </router-view>
     </component>
@@ -22,5 +24,5 @@ export default {
 </script>
 
 <style lang="scss">
-  @import "assets/base.scss";
+@import "assets/base.scss";
 </style>
