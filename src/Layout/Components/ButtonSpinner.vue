@@ -1,5 +1,5 @@
 <template>
-    <button :disabled="isLoading" @click="handleClick" :class="buttonClass" class="btn btn-spinner">
+    <button :disabled="isLoading" :class="buttonClass" class="btn btn-spinner">
         <span v-if="isLoading" class="spinner-icon"></span>
         <span v-if="!isLoading">{{ normalText }}</span>
         <span v-else>{{ loadingText }}</span>
@@ -7,9 +7,13 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+    name: 'ButtonSpinner',
+
     props: {
-        buttonClass:{
+        buttonClass: {
             type: String,
             default: 'btn-success',
         },
@@ -26,12 +30,7 @@ export default {
             default: false,
         },
     },
-    methods: {
-        handleClick() {
-            this.$emit('click');
-        },
-    },
-};
+});
 </script>
 
 <style scoped>

@@ -185,7 +185,6 @@ export default {
 
         handleSubmit() {
             if (this.currentDataset.source_text && this.currentDataset.target_text) {
-                console.log(this.isUpdateMode)
                 if (this.isUpdateMode) {
                     this.updateDataset();
                 } else {
@@ -215,7 +214,7 @@ export default {
                         type: 'success'
                     };
                     this.getDatasetData(this.currentPage, this.itemsPerPage);
-                    this.updateDataset = false;
+                    this.isUpdateMode = false;
                 })
                 .catch(error => {
                     this.notification = {
@@ -223,7 +222,7 @@ export default {
                         content: `Error when submitting dataset: ${error}`,
                         type: 'danger'
                     };
-                    this.updateDataset = false;
+                    this.isUpdateMode = false;
                 });
         },
 
@@ -238,7 +237,7 @@ export default {
                         type: 'success'
                     };
                     this.getDatasetData(this.currentPage, this.itemsPerPage);
-                    this.updateDataset = false;
+                    this.isUpdateMode = false;
                 })
                 .catch(error => {
                     this.notification = {
@@ -246,7 +245,7 @@ export default {
                         content: `Error when updating dataset: ${error}`,
                         type: 'danger'
                     };
-                    this.updateDataset = false;
+                    this.isUpdateMode = false;
                 });
         },
 
