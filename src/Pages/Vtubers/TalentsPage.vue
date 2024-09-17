@@ -100,13 +100,14 @@
             </form>
           </template>
           <template #footer>
+            <button class="btn-primary btn" @click="closeModal">Cancel</button>
             <button-spinner :isLoading="onSubmit" buttonClass="btn btn-primary" @click="submitTalent"
               normalText="Submit" />
           </template>
         </modal-component>
       </template>
     </page-title-component>
-    <notification-component :notification.sync="showNotification"></notification-component>
+    <notification-component v-model:notification="showNotification"></notification-component>
     <table-component :footer=true :fields="fields" :items="items" @changeOrder="handleChangeOrder"
       @deleteRow="deleteTalent" />
     <pagination-component :currentPage="currentPage" :perPage="itemsPerPage" :totalItems="totalItems"
@@ -264,8 +265,7 @@ export default {
     },
 
     async deleteTalent(id) {
-      console.log(id);
-      const confirmDelete = confirm("Are you sure you want to delete this talent?");
+      const confirmDelete = confirm(`Are you sure you want to delete talent ${id}?`);
       if (confirmDelete) {
         await apiService.deleteTalent(id).then(async () => {
           this.showNotification = {
@@ -281,7 +281,7 @@ export default {
               content: `Error when deleting talent: ${error}`,
               type: 'danger'
             };
-          });;
+          });
       }
     },
 

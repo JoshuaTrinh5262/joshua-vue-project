@@ -1,12 +1,8 @@
 <template>
     <div>
-        <page-title-component
-            :heading=heading
-            :subheading=subheading
-            :icon=icon
-            >
+        <page-title-component :heading=heading :subheading=subheading :icon=icon>
             <template v-slot:actions>
-                <button type="button" @click=toggleCreate class="btn btn-primary mr-2">
+                <button type="button" @click=toggleCreateModal class="btn btn-primary mr-2">
                     Create New
                 </button>
                 <button @click=toggleImport type="button" class="btn btn-info mr-2">
@@ -17,31 +13,32 @@
                 </button>
             </template>
         </page-title-component>
-        <notification-component :notification.sync="notification"></notification-component>
-        <div class="main-card mb-3 card" v-if="showCreate">
-            <div class="card-header">
-                <h5 class="card-title">Add New Data</h5>
-            </div>
-            <div class="card-body">
-                <form @submit.prevent="handleCreate">
-                    <div class="position-relative form-group">
-                        <label for="source_text">Source Text</label>
-                        <input name="source_text" placeholder="Source Text" v-model="sourceText" type="text" class="form-control">
-                    </div>
-                    <div class="position-relative form-group">
-                        <label for="target_text">Target Text</label>
-                        <input name="target_text" placeholder="Source Text" v-model="targetText" type="text" class="form-control">
-                    </div>
-                    <div class="position-relative form-group">
-                        <label for="intense">Intense</label>
-                        <input name="intense" placeholder="Intense" v-model="intense" type="text" class="form-control">
-                    </div>
-                    <div class="position-relative form-group">
-                        <button type="submit" class="btn-primary btn">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+        <notification-component v-model:notification="notification"></notification-component>
+        <modal-component :title="isUpdateMode ? 'Update Dataset' : 'Add New Dataset'" :isOpen="showCreateModal"
+            @closeModal="toggleCreateModal">
+            <template #body>
+                <div class="position-relative form-group">
+                    <label for="source_text">Source Text</label>
+                    <input name="source_text" placeholder="Source Text" v-model="currentDataset.source_text" type="text"
+                        class="form-control">
+                </div>
+                <div class="position-relative form-group">
+                    <label for="target_text">Target Text</label>
+                    <input name="target_text" placeholder="Source Text" v-model="currentDataset.target_text" type="text"
+                        class="form-control">
+                </div>
+                <div class="position-relative form-group">
+                    <label for="category">Category</label>
+                    <input name="category" placeholder="category" v-model="currentDataset.category" type="text"
+                        class="form-control">
+                </div>
+            </template>
+            <template #footer>
+                <button type="text" class="btn-primary btn" @click="toggleCreateModal">Cancel</button>
+                <button-spinner :isLoading="onSubmit" buttonClass="btn btn-primary" @click="handleSubmit"
+                    :normalText="isUpdateMode ? 'Update Dataset' : 'Add New Dataset'" />
+            </template>
+        </modal-component>
         <div class="main-card mb-3 card" v-if="showImport">
             <div class="card-header">
                 <h5 class="card-title">Import Data</h5>
@@ -52,7 +49,7 @@
                     <input name="file" id="fileInput" type="file" @change="handleFileChange" class="form-control-file">
                 </div>
                 <div class="position-relative form-group">
-                    <button class="btn-success btn"  @click="handleImport">Import</button>
+                    <button class="btn-success btn" @click="handleImport">Import</button>
                 </div>
             </div>
         </div>
@@ -64,39 +61,32 @@
                 <div class="position-relative form-group">
                     <div class="form-group">
                         <label for="fileName" class="">File Name</label>
-                        <input name="fileName" v-model="fileName" id="fileName" placeholder="File Name" type="text" class="form-control">
+                        <input name="fileName" v-model="fileName" id="fileName" placeholder="File Name" type="text"
+                            class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="source_text_max_length" class="">Source Text Max Length</label>
-                        <input name="source_text_max_length" v-model="sourceTextMaxLength" type="number" placeholder="Source Text Max Length" class="form-control">
+                        <input name="source_text_max_length" v-model="sourceTextMaxLength" type="number"
+                            placeholder="Source Text Max Length" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label for="target_text_max_length"  class="">Target Text Max Length</label>
-                        <input name="target_text_max_length" v-model="targetTextMaxLength" type="number" placeholder="Target Text Max Length" class="form-control">
+                        <label for="target_text_max_length" class="">Target Text Max Length</label>
+                        <input name="target_text_max_length" v-model="targetTextMaxLength" type="number"
+                            placeholder="Target Text Max Length" class="form-control">
                     </div>
                 </div>
                 <div class="position-relative form-group">
-                    <button class="btn-primary btn"  @click="handleExport">Export</button>
+                    <button class="btn-primary btn" @click="toggleCreateModal">Cancel</button>
+                    <button class="btn-primary btn" @click="handleExport">Export</button>
                 </div>
             </div>
         </div>
-        <table-component 
-            :footer=true
-            :fields="fields"
-            :items="items"
-            custom-class="datase-table"
-            @search="onSearchChange"
-            @changeOrder="handleChangeOrder"
-            @deleteRow="handleDeleteRow"
+        <table-component :footer=true :fields="fields" :items="items" custom-class="datase-table"
+            @search="onSearchChange" @changeOrder="handleChangeOrder" @deleteRow="handleDeleteDataset"
             @updateRow="handleUpdateRow">
         </table-component>
-        <pagination-component
-            :currentPage="currentPage"
-            :perPage="itemsPerPage"
-            :totalItems="totalItems"
-            :totalPages="totalPages"
-            @load-page="loadPage"
-            @change-page-size="changePageSize"></pagination-component>
+        <pagination-component :currentPage="currentPage" :perPage="itemsPerPage" :totalItems="totalItems"
+            :totalPages="totalPages" @load-page="loadPage" @change-page-size="changePageSize" />
     </div>
 </template>
 <script>
@@ -105,6 +95,9 @@ import TableComponent from '../../Layout/Components/TableComponent.vue';
 import PageTitleComponent from '../../Layout/Components/PageTitleComponent.vue';
 import PaginationComponent from '../../Layout/Components/PaginationComponent.vue';
 import NotificationComponent from '../../Layout/Components/NotificationComponent.vue';
+import ModalComponent from '../../DemoPages/Components/ModalComponent.vue';
+import ButtonSpinner from "../../Layout/Components/ButtonSpinner.vue";
+import { apiService } from '../../supabase/apiService';
 
 export default {
     name: "DatasetPage",
@@ -114,44 +107,50 @@ export default {
         PaginationComponent,
         TableComponent,
         NotificationComponent,
+        ModalComponent,
+        ButtonSpinner
     },
 
     data() {
         return {
-            show: false,
+            onSubmit: false,
             currentPage: 1,
-            itemsPerPage: 20,
+            itemsPerPage: 100,
             totalItems: 0,
             totalPages: 0,
-            orderBy: '',
-            orderDirection: '',
-            sourceText: '',
-            targetText: '',
-            intense: '',
+            orderBy: 'id',
+            orderDirection: 'asc',
             fileName: '',
             sourceTextMaxLength: 0,
             targetTextMaxLength: 0,
             search: '',
             selectedFile: null,
-            showCreate: false,
+            showCreateModal: false,
             showImport: false,
             showExport: false,
+            isUpdateMode: false,
+            currentDataset: {
+                source_text: null,
+                target_text: null,
+                category: null,
+                language: 'en',
+            },
             fields: [
                 {
-                    key:'id',
-                    value:'Id'
+                    key: 'id',
+                    value: 'Id'
                 },
                 {
-                    key:'source_text',
-                    value:'Source Text'
+                    key: 'source_text',
+                    value: 'Source Text'
                 },
                 {
-                    key:'target_text',
-                    value:'Target Text'
+                    key: 'target_text',
+                    value: 'Target Text'
                 },
                 {
-                    key:'intense',
-                    value:'Intense'
+                    key: 'category',
+                    value: 'category'
                 },
             ],
             items: [],
@@ -167,30 +166,16 @@ export default {
     },
 
     methods: {
-        toggleDialog() {
-            console.log(this.show);
-            return this.show = !this.show;
-        },
-
-        getDatasetData(newPage, newPageSize) {
-            axios.get('http://127.0.0.1:5000/api/conversations', {
-                params: {
-                    page: newPage,
-                    pagesize: newPageSize,
-                    search: this.search,
-                    orderby: this.orderBy,
-                    orderdirection: this.orderDirection,
-                },
-            })
-            .then(response => {
-                this.items = response.data.data;
-                this.currentPage = response.data.current_page;
-                this.totalPages = response.data.total_pages;
-                this.totalItems = response.data.total_items;
-            })
-            .catch(error => {
-                console.error(error);
-            });
+        async getDatasetData(newPage, newPageSize) {
+            const result = await apiService.getDatasets(newPage, newPageSize, this.orderBy, this.orderDirection, this.search);
+            if (!result.error) {
+                this.items = result.items;
+                this.totalItems = result.totalItems;
+                this.totalPages = result.totalPages;
+                this.itemsPerPage = newPageSize;
+            } else {
+                console.error('Error:', result.error);
+            }
         },
 
         onSearchChange(searchTerm) {
@@ -198,47 +183,71 @@ export default {
             this.getDatasetData(1, this.itemsPerPage);
         },
 
-        handleCreate() {
-            const postData = [{
-                source_text: this.sourceText,
-                target_text: this.targetText,
-                intense: this.intense,
-                language: 'en',
-            }];
-            
-            if(this.sourceText && this.targetText) {
-                axios.post('http://127.0.0.1:5000/api/conversations', postData)
-                .then((response) => {
-                    this.getDatasetData(this.currentPage, this.itemsPerPage);
-                    this.source_text = '';
-                    this.target_text = '';
-                    this.intense = '',
+        handleSubmit() {
+            if (this.currentDataset.source_text && this.currentDataset.target_text) {
+                console.log(this.isUpdateMode)
+                if (this.isUpdateMode) {
+                    this.updateDataset();
+                } else {
+                    this.createDataset();
+                }
+            } else {
+                this.notification = {
+                    title: 'Error',
+                    content: 'Please enter data before submitting.',
+                    type: 'danger'
+                };
+            }
+        },
+
+        handleFileChange(event) {
+            this.selectedFile = event.target.files[0];
+        },
+
+        async createDataset() {
+            apiService.createDataset(this.currentDataset)
+                .then(() => {
+                    this.cleanCurrentDataset();
+                    this.toggleCreateModal();
                     this.notification = {
                         title: 'Success',
-                        content: response.data.message,
+                        content: 'Dataset created successfully!',
                         type: 'success'
                     };
+                    this.getDatasetData(this.currentPage, this.itemsPerPage);
+                    this.updateDataset = false;
                 })
                 .catch(error => {
                     this.notification = {
                         title: 'Error',
-                        content: error,
-                        type: 'error'
+                        content: `Error when submitting dataset: ${error}`,
+                        type: 'danger'
                     };
+                    this.updateDataset = false;
                 });
-
-                this.sourceText = '';
-                this.targetText = '';
-            } else {
-                this.notification = {
-                        title: 'Error',
-                        content: 'Please enter data before submitting.',
-                        type: 'error'
-                    };
-            }
         },
-        handleFileChange(event) {
-            this.selectedFile = event.target.files[0];
+
+        async updateDataset() {
+            apiService.updateDataset(this.currentDataset)
+                .then(() => {
+                    this.cleanCurrentDataset();
+                    this.toggleCreateModal();
+                    this.notification = {
+                        title: 'Success',
+                        content: 'Dataset updated successfully!',
+                        type: 'success'
+                    };
+                    this.getDatasetData(this.currentPage, this.itemsPerPage);
+                    this.updateDataset = false;
+                })
+                .catch(error => {
+                    this.notification = {
+                        title: 'Error',
+                        content: `Error when updating dataset: ${error}`,
+                        type: 'danger'
+                    };
+                    this.updateDataset = false;
+                });
         },
 
         handleImport() {
@@ -247,19 +256,19 @@ export default {
 
             axios.post('http://127.0.0.1:5000/api/import', formData, {
                 headers: {
-                'Content-Type': 'multipart/form-data',
+                    'Content-Type': 'multipart/form-data',
                 },
             })
-            .then(response => {
-                this.notification = {
+                .then(response => {
+                    this.notification = {
                         title: 'Success',
                         content: response.data.message,
                         type: 'success'
                     };
-            })
-            .catch(error => {
-                console.error(error);
-            });
+                })
+                .catch(error => {
+                    console.error(error);
+                });
         },
 
         handleExport() {
@@ -270,66 +279,68 @@ export default {
                 },
                 responseType: 'blob'
             })
-            .then(response => {
-                const blob = new Blob([response.data], { type: response.headers['content-type'] });
-
-                const link = document.createElement('a');
-                link.href = window.URL.createObjectURL(blob);
-
-                link.download = this.fileName ? this.fileName + '.csv' : 'chatbot_dataset.csv';
-                link.click();
-            })
-            .catch(error => {
-                console.error(error);
-            });
-        },
-
-        handleDeleteRow(id) {
-            const isConfirmed = window.confirm('Are you sure you want to delete?');
-            if(isConfirmed) {
-                axios.delete('http://127.0.0.1:5000/api/conversations/' + id)
                 .then(response => {
-                    this.getDatasetData(this.currentPage, this.itemsPerPage);
-                    this.notification = {
-                        title: 'Success',
-                        content: response.data.message,
-                        type: 'success'
-                    };
+                    const blob = new Blob([response.data], { type: response.headers['content-type'] });
+
+                    const link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+
+                    link.download = this.fileName ? this.fileName + '.csv' : 'chatbot_dataset.csv';
+                    link.click();
                 })
                 .catch(error => {
-                    this.notification = {
-                        title: 'Error',
-                        content: error,
-                        type: 'error'
-                    };
+                    console.error(error);
                 });
+        },
+
+        async handleDeleteDataset(id) {
+            const confirmDelete = confirm(`Are you sure you want to delete dataset ${id}?`);
+            if (confirmDelete) {
+                await apiService.deleteDataset(id).then(async () => {
+                    this.notification = {
+                        title: 'Success',
+                        content: 'Dataset deleted successfully!',
+                        type: 'success'
+                    };
+                    await this.getDatasetData(1, this.itemsPerPage);
+                })
+                    .catch(error => {
+                        this.notification = {
+                            title: 'Error',
+                            content: `Error when deleting dataset: ${error}`,
+                            type: 'danger'
+                        };
+                    });
             }
         },
 
         handleChangeOrder({ orderDirection, orderBy }) {
             this.orderDirection = orderDirection;
             this.orderBy = orderBy;
-
             this.getDatasetData(this.currentPage, this.itemsPerPage);
         },
 
-        handleUpdateRow() {
-            console.log("update")
+        handleUpdateRow(updateId) {
+            this.isUpdateMode = true;
+            const selectedItem = this.items.find(x => x.id === updateId);
+            this.currentDataset = JSON.parse(JSON.stringify(selectedItem));
+            this.showCreateModal = true;
         },
 
-        toggleCreate(){
+        toggleCreateModal() {
+            this.isUpdateMode = false;
             this.showImport = false;
             this.showExport = false;
-            this.showCreate = !this.showCreate;
+            this.showCreateModal = !this.showCreateModal;
         },
 
-        toggleImport(){
+        toggleImport() {
             this.showImport = !this.showImport;
             this.showExport = false;
             this.showCreate = false;
         },
 
-        toggleExport(){
+        toggleExport() {
             this.showImport = false;
             this.showExport = !this.showExport;
             this.showCreate = false;
@@ -344,7 +355,15 @@ export default {
             this.itemsPerPage = newPageSize;
             this.getDatasetData(1, this.itemsPerPage);
         },
+
+        cleanCurrentDataset() {
+            this.currentDataset = {
+                source_text: null,
+                target_text: null,
+                category: null,
+                language: 'en',
+            };
+        }
     }
 };
 </script>
-  

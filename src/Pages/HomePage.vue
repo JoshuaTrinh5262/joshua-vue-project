@@ -229,8 +229,11 @@
 </template>
 
 <script>
-import BannerComponent from '../BannerComponent.vue';
-export default {
+import { defineComponent } from 'vue';
+import BannerComponent from '../Layout/Components/BannerComponent.vue';
+
+export default defineComponent({
+  name: "HomePage",
   data() {
     return {
     };
@@ -238,7 +241,7 @@ export default {
   components: {
     BannerComponent,
   },
-}
+});
 </script>
 
 <style scoped>

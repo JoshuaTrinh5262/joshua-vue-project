@@ -139,11 +139,6 @@
                         icon: 'pe-7s-rocket',
                     },
                     {
-                        href: '/admin/translations',
-                        title: 'Translations',
-                        icon: 'pe-7s-rocket',
-                    },
-                    {
                         header: true,
                         title: 'Other Components',
                     },

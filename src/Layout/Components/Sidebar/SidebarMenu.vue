@@ -204,7 +204,6 @@ export default {
   },
   methods: {
     handleMouseEnterItem(val) {
-      console.log("mouseEnter");
       this.mobileItem = null;
       this.$nextTick(() => {
         this.mobileItem = val.item;

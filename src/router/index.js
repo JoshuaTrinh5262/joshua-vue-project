@@ -49,15 +49,6 @@ const routes = [
         },
         component: () => import('../Pages/Datasets/DatasetPage.vue'),
     },
-    {
-        path: '/admin/translations',
-        name: 'translations',
-        meta: {
-            layout: 'admin',
-            requiresAuth: true
-        },
-        component: () => import('../Pages/Datasets/LanguaguePage.vue'),
-    },
 
     // Vtubers Data
     {
