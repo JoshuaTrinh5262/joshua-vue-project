@@ -90,7 +90,6 @@
     </div>
 </template>
 <script>
-import axios from 'axios';
 import TableComponent from '../../Layout/Components/TableComponent.vue';
 import PageTitleComponent from '../../Layout/Components/PageTitleComponent.vue';
 import PaginationComponent from '../../Layout/Components/PaginationComponent.vue';
@@ -250,46 +249,46 @@ export default {
         },
 
         handleImport() {
-            const formData = new FormData();
-            formData.append('file', this.selectedFile);
+            // const formData = new FormData();
+            // formData.append('file', this.selectedFile);
 
-            axios.post('http://127.0.0.1:5000/api/import', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            })
-                .then(response => {
-                    this.notification = {
-                        title: 'Success',
-                        content: response.data.message,
-                        type: 'success'
-                    };
-                })
-                .catch(error => {
-                    console.error(error);
-                });
+            // axios.post('http://127.0.0.1:5000/api/import', formData, {
+            //     headers: {
+            //         'Content-Type': 'multipart/form-data',
+            //     },
+            // })
+            //     .then(response => {
+            //         this.notification = {
+            //             title: 'Success',
+            //             content: response.data.message,
+            //             type: 'success'
+            //         };
+            //     })
+            //     .catch(error => {
+            //         console.error(error);
+            //     });
         },
 
         handleExport() {
-            axios.get('http://127.0.0.1:5000/api/export', {
-                params: {
-                    targetTextMaxLength: this.targetTextMaxLength,
-                    sourceTextMaxLength: this.sourceTextMaxLength
-                },
-                responseType: 'blob'
-            })
-                .then(response => {
-                    const blob = new Blob([response.data], { type: response.headers['content-type'] });
+            // axios.get('http://127.0.0.1:5000/api/export', {
+            //     params: {
+            //         targetTextMaxLength: this.targetTextMaxLength,
+            //         sourceTextMaxLength: this.sourceTextMaxLength
+            //     },
+            //     responseType: 'blob'
+            // })
+            //     .then(response => {
+            //         const blob = new Blob([response.data], { type: response.headers['content-type'] });
 
-                    const link = document.createElement('a');
-                    link.href = window.URL.createObjectURL(blob);
+            //         const link = document.createElement('a');
+            //         link.href = window.URL.createObjectURL(blob);
 
-                    link.download = this.fileName ? this.fileName + '.csv' : 'chatbot_dataset.csv';
-                    link.click();
-                })
-                .catch(error => {
-                    console.error(error);
-                });
+            //         link.download = this.fileName ? this.fileName + '.csv' : 'chatbot_dataset.csv';
+            //         link.click();
+            //     })
+            //     .catch(error => {
+            //         console.error(error);
+            //     });
         },
 
         async handleDeleteDataset(id) {
@@ -328,6 +327,7 @@ export default {
 
         toggleCreateModal() {
             this.isUpdateMode = false;
+            this.cleanCurrentDataset();
             this.showImport = false;
             this.showExport = false;
             this.showCreateModal = !this.showCreateModal;

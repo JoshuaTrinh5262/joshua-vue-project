@@ -1,5 +1,5 @@
 <template>
-    <button :disabled="isLoading" :class="buttonClass" class="btn btn-spinner">
+    <button :disabled="isLoading" :class="buttonClass" @click="handleClick" class="btn btn-spinner">
         <span v-if="isLoading" class="spinner-icon"></span>
         <span v-if="!isLoading">{{ normalText }}</span>
         <span v-else>{{ loadingText }}</span>
@@ -30,6 +30,16 @@ export default defineComponent({
             default: false,
         },
     },
+    emits: ['click'],
+
+    methods: {
+        handleClick() {
+            if (!this.isLoading) {
+                this.$emit('click');
+            }
+        },
+    },
+
 });
 </script>
 

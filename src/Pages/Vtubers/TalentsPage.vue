@@ -120,7 +120,7 @@ import TableComponent from '../../Layout/Components/TableComponent.vue';
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
 import ButtonSpinner from "../../Layout/Components/ButtonSpinner.vue";
-import NotificationComponent from "../..//Layout/Components/NotificationComponent.vue"
+import NotificationComponent from "../..//Layout/Components/NotificationComponent.vue";
 import { apiService } from '../../supabase/apiService';
 
 export default {

@@ -1,6 +1,6 @@
 <template>
   <transition name="modal">
-    <div v-if="isOpen"  :class="['modal-overlay', { 'modal-dark': isDarkMode }]" @click="closeModal">
+    <div v-if="isOpen"  :class="['modal-overlay', { 'modal-dark': isDarkMode }]">
       <div class="modal-content" @click.stop>
         <div class="modal-header">
           <h3>{{ title }}</h3>
