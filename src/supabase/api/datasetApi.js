@@ -28,7 +28,7 @@ export const getDatasets = async (page, pageSize, orderBy, orderDirection, searc
             totalPages: Math.ceil(count / pageSize),
         };
     } catch (err) {
-        console.error('Error fetching talents:', err);
+        console.error('Error fetching datasets:', err);
         return { error: err.message };
     }
 };
