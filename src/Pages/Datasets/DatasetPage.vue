@@ -198,8 +198,17 @@ export default {
             }
         },
 
-        handleFileChange(event) {
-            this.selectedFile = event.target.files[0];
+        async handleImport() {
+            if (!this.selectedFile) {
+                alert("Please select a file to import.");
+                return;
+            }
+
+            try {
+                await apiService.importDataset(this.selectedFile);
+            } catch (error) {
+                console.error("Import failed", error.message);
+            }
         },
 
         async createDataset() {
@@ -248,47 +257,21 @@ export default {
                 });
         },
 
-        handleImport() {
-            // const formData = new FormData();
-            // formData.append('file', this.selectedFile);
-
-            // axios.post('http://127.0.0.1:5000/api/import', formData, {
-            //     headers: {
-            //         'Content-Type': 'multipart/form-data',
-            //     },
-            // })
-            //     .then(response => {
-            //         this.notification = {
-            //             title: 'Success',
-            //             content: response.data.message,
-            //             type: 'success'
-            //         };
-            //     })
-            //     .catch(error => {
-            //         console.error(error);
-            //     });
+        async handleImport(event) {
+            await apiService.importDataset(event);
         },
 
-        handleExport() {
-            // axios.get('http://127.0.0.1:5000/api/export', {
-            //     params: {
-            //         targetTextMaxLength: this.targetTextMaxLength,
-            //         sourceTextMaxLength: this.sourceTextMaxLength
-            //     },
-            //     responseType: 'blob'
-            // })
-            //     .then(response => {
-            //         const blob = new Blob([response.data], { type: response.headers['content-type'] });
-
-            //         const link = document.createElement('a');
-            //         link.href = window.URL.createObjectURL(blob);
-
-            //         link.download = this.fileName ? this.fileName + '.csv' : 'chatbot_dataset.csv';
-            //         link.click();
-            //     })
-            //     .catch(error => {
-            //         console.error(error);
-            //     });
+        async handleExport() {
+            try {
+                // Call the exportDataset function
+                await apiService.exportDataset();
+            } catch (error) {
+                this.notification = {
+                    title: 'Error',
+                    content: `Error when export dataset: ${error}`,
+                    type: 'danger'
+                };
+            }
         },
 
         async handleDeleteDataset(id) {

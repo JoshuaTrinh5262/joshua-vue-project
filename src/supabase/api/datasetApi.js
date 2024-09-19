@@ -96,3 +96,82 @@ export const countDatasetRecord = async () => {
         return { error: err.message };
     }
 };
+
+// Helper function to convert JSON to CSV
+const convertToCSV = (data) => {
+    const headers = Object.keys(data[0]).join(",") + "\n";
+    const rows = data.map(item => Object.values(item).join(",")).join("\n");
+    return headers + rows;
+  };
+  
+  // Helper function to parse CSV
+  const parseCSV = (csv) => {
+    const [headerLine, ...rows] = csv.split("\n");
+    const headers = headerLine.split(",");
+    return rows.map(row => {
+      const values = row.split(",");
+      return headers.reduce((obj, header, index) => {
+        obj[header.trim()] = values[index].trim();
+        return obj;
+      }, {});
+    });
+  };
+  
+  // Function to export data from Supabase to CSV
+  export const exportDataset = async () => {
+    try {
+      const { data, error } = await supabase.from("dataset").select("*");
+  
+      if (error) throw error;
+  
+      // Convert data to CSV
+      const csvData = convertToCSV(data);
+  
+      // Create a blob and initiate download
+      const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
+      const url = URL.createObjectURL(blob);
+      link.setAttribute("href", url);
+      link.setAttribute("download", "export.csv");
+      link.style.visibility = "hidden";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Error exporting data:", error.message);
+    }
+  };
+  
+  // Function to import data into Supabase from a file
+  export const importDataset = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+  
+    const fileReader = new FileReader();
+    fileReader.onload = async () => {
+      const fileContent = fileReader.result;
+  
+      // Parse JSON/CSV content based on file extension
+      let parsedData;
+      if (file.name.endsWith(".csv")) {
+        parsedData = parseCSV(fileContent);
+      } else if (file.name.endsWith(".json")) {
+        parsedData = JSON.parse(fileContent);
+      }
+  
+      if (parsedData) {
+        try {
+          // Insert parsed data into Supabase
+          const { error } = await supabase.from("your_table_name").insert(parsedData);
+  
+          if (error) throw error;
+          alert("Data imported successfully");
+        } catch (error) {
+          console.error("Error importing data:", error.message);
+        }
+      }
+    };
+  
+    // Read the file content as text
+    fileReader.readAsText(file);
+  };
