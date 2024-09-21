@@ -184,120 +184,116 @@
                             Timeline Example
                         </div>
                     </div>
-                    <div class="scroll-area-lg">
-                        <PerfectScrollbar class="scrollbar-container" v-once>
-                            <div class="p-4">
-                                <div
-                                    class="vertical-time-simple vertical-without-time vertical-timeline vertical-timeline--animate vertical-timeline--one-column">
-                                    <div class="dot-danger vertical-timeline-element">
-                                        <div>
-                                            <span class="vertical-timeline-element-icon bounce-in"></span>
-                                            <div class="vertical-timeline-element-content bounce-in">
-                                                <h4 class="timeline-title">All Hands Meeting</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="dot-warning vertical-timeline-element">
-                                        <div>
-                                            <span class="vertical-timeline-element-icon bounce-in"></span>
-                                            <div class="vertical-timeline-element-content bounce-in">
-                                                <p>Yet another one, at <span class="text-success">15:00 PM</span></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="dot-success vertical-timeline-element">
-                                        <div>
-                                            <span class="vertical-timeline-element-icon bounce-in"></span>
-                                            <div class="vertical-timeline-element-content bounce-in">
-                                                <h4 class="timeline-title">Build the production release
-                                                    <div class="badge badge-danger ml-2">NEW</div>
-                                                </h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="dot-primary vertical-timeline-element">
-                                        <div>
-                                            <span class="vertical-timeline-element-icon bounce-in"></span>
-                                            <div class="vertical-timeline-element-content bounce-in">
-                                                <h4 class="timeline-title">
-                                                    Something not important
-                                                </h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="dot-warning vertical-timeline-element">
-                                        <div>
-                                            <span class="vertical-timeline-element-icon bounce-in"></span>
-                                            <div class="vertical-timeline-element-content bounce-in">
-                                                <p>Yet another one, at <span class="text-success">15:00 PM</span></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="dot-success vertical-timeline-element">
-                                        <div>
-                                            <span class="vertical-timeline-element-icon bounce-in"></span>
-                                            <div class="vertical-timeline-element-content bounce-in">
-                                                <h4 class="timeline-title">Build the production release
-                                                    <div class="badge badge-danger ml-2">NEW</div>
-                                                </h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="dot-info vertical-timeline-element">
-                                        <div>
-                                            <span class="vertical-timeline-element-icon bounce-in"></span>
-                                            <div class="vertical-timeline-element-content bounce-in">
-                                                <h4 class="timeline-title">This dot has an info state</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="dot-dark vertical-timeline-element">
-                                        <div>
-                                            <span class="vertical-timeline-element-icon bounce-in"></span>
-                                            <div class="vertical-timeline-element-content bounce-in">
-                                                <h4 class="timeline-title">This dot has a dark state</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="dot-danger vertical-timeline-element">
-                                        <div>
-                                            <span class="vertical-timeline-element-icon bounce-in"></span>
-                                            <div class="vertical-timeline-element-content bounce-in">
-                                                <h4 class="timeline-title">All Hands Meeting</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="dot-warning vertical-timeline-element">
-                                        <div>
-                                            <span class="vertical-timeline-element-icon bounce-in"></span>
-                                            <div class="vertical-timeline-element-content bounce-in">
-                                                <p>Yet another one, at <span class="text-success">15:00 PM</span></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="dot-success vertical-timeline-element">
-                                        <div>
-                                            <span class="vertical-timeline-element-icon bounce-in"></span>
-                                            <div class="vertical-timeline-element-content bounce-in">
-                                                <h4 class="timeline-title">Build the production release
-                                                    <div class="badge badge-danger ml-2">NEW</div>
-                                                </h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="dot-primary vertical-timeline-element">
-                                        <div>
-                                            <span class="vertical-timeline-element-icon bounce-in"></span>
-                                            <div class="vertical-timeline-element-content bounce-in">
-                                                <h4 class="timeline-title">
-                                                    Something not important
-                                                </h4>
-                                            </div>
-                                        </div>
+                    <div class="p-4">
+                        <div
+                            class="vertical-time-simple vertical-without-time vertical-timeline vertical-timeline--animate vertical-timeline--one-column">
+                            <div class="dot-danger vertical-timeline-element">
+                                <div>
+                                    <span class="vertical-timeline-element-icon bounce-in"></span>
+                                    <div class="vertical-timeline-element-content bounce-in">
+                                        <h4 class="timeline-title">All Hands Meeting</h4>
                                     </div>
                                 </div>
                             </div>
-                        </PerfectScrollbar>
+                            <div class="dot-warning vertical-timeline-element">
+                                <div>
+                                    <span class="vertical-timeline-element-icon bounce-in"></span>
+                                    <div class="vertical-timeline-element-content bounce-in">
+                                        <p>Yet another one, at <span class="text-success">15:00 PM</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dot-success vertical-timeline-element">
+                                <div>
+                                    <span class="vertical-timeline-element-icon bounce-in"></span>
+                                    <div class="vertical-timeline-element-content bounce-in">
+                                        <h4 class="timeline-title">Build the production release
+                                            <div class="badge badge-danger ml-2">NEW</div>
+                                        </h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dot-primary vertical-timeline-element">
+                                <div>
+                                    <span class="vertical-timeline-element-icon bounce-in"></span>
+                                    <div class="vertical-timeline-element-content bounce-in">
+                                        <h4 class="timeline-title">
+                                            Something not important
+                                        </h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dot-warning vertical-timeline-element">
+                                <div>
+                                    <span class="vertical-timeline-element-icon bounce-in"></span>
+                                    <div class="vertical-timeline-element-content bounce-in">
+                                        <p>Yet another one, at <span class="text-success">15:00 PM</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dot-success vertical-timeline-element">
+                                <div>
+                                    <span class="vertical-timeline-element-icon bounce-in"></span>
+                                    <div class="vertical-timeline-element-content bounce-in">
+                                        <h4 class="timeline-title">Build the production release
+                                            <div class="badge badge-danger ml-2">NEW</div>
+                                        </h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dot-info vertical-timeline-element">
+                                <div>
+                                    <span class="vertical-timeline-element-icon bounce-in"></span>
+                                    <div class="vertical-timeline-element-content bounce-in">
+                                        <h4 class="timeline-title">This dot has an info state</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dot-dark vertical-timeline-element">
+                                <div>
+                                    <span class="vertical-timeline-element-icon bounce-in"></span>
+                                    <div class="vertical-timeline-element-content bounce-in">
+                                        <h4 class="timeline-title">This dot has a dark state</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dot-danger vertical-timeline-element">
+                                <div>
+                                    <span class="vertical-timeline-element-icon bounce-in"></span>
+                                    <div class="vertical-timeline-element-content bounce-in">
+                                        <h4 class="timeline-title">All Hands Meeting</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dot-warning vertical-timeline-element">
+                                <div>
+                                    <span class="vertical-timeline-element-icon bounce-in"></span>
+                                    <div class="vertical-timeline-element-content bounce-in">
+                                        <p>Yet another one, at <span class="text-success">15:00 PM</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dot-success vertical-timeline-element">
+                                <div>
+                                    <span class="vertical-timeline-element-icon bounce-in"></span>
+                                    <div class="vertical-timeline-element-content bounce-in">
+                                        <h4 class="timeline-title">Build the production release
+                                            <div class="badge badge-danger ml-2">NEW</div>
+                                        </h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dot-primary vertical-timeline-element">
+                                <div>
+                                    <span class="vertical-timeline-element-icon bounce-in"></span>
+                                    <div class="vertical-timeline-element-content bounce-in">
+                                        <h4 class="timeline-title">
+                                            Something not important
+                                        </h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="d-block text-center card-footer">
                         <button class="btn-shadow btn-wide btn-pill btn btn-focus">
@@ -310,20 +306,20 @@
         <div class="row">
             <div class="col-md-6 col-xl-3">
                 <div
-                    class="card mb-3 widget-chart widget-chart2 text-left card-btm-border card-shadow-success border-success">
+                    class="card mb-3 widget-chart widget-chart2 text-left card-btm-border card-shadow-primary border-primary">
                     <div class="widget-chat-wrapper-outer">
                         <div class="widget-chart-content pt-3 pl-3 pb-1">
                             <div class="widget-chart-flex">
                                 <div class="widget-numbers">
                                     <div class="widget-chart-flex">
                                         <div class="fsize-4">
-                                            <small class="opacity-5">$</small>
-                                            <span>874</span>
+                                            <small class="opacity-5"><i class="pe-7s-drawer"></i></small>
+                                            <span>{{ talentCount }}</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <h6 class="widget-subheading mb-0 opacity-5">sales last month</h6>
+                            <h6 class="widget-subheading mb-0 opacity-5">Talent Record</h6>
                         </div>
                     </div>
                 </div>
@@ -337,53 +333,116 @@
                                 <div class="widget-numbers">
                                     <div class="widget-chart-flex">
                                         <div class="fsize-4">
-                                            <small class="opacity-5">$</small>
-                                            <span>1283</span>
+                                            <small class="opacity-5"><i class="pe-7s-drawer"></i></small>
+                                            <span>{{ agencyCount }}</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <h6 class="widget-subheading mb-0 opacity-5">sales Income</h6>
+                            <h6 class="widget-subheading mb-0 opacity-5">Agency Record</h6>
                         </div>
                     </div>
                 </div>
+
             </div>
             <div class="col-md-6 col-xl-3">
                 <div
-                    class="card mb-3 widget-chart widget-chart2 text-left card-btm-border card-shadow-warning border-warning">
+                    class="card mb-3 widget-chart widget-chart2 text-left card-btm-border card-shadow-primary border-primary">
                     <div class="widget-chat-wrapper-outer">
                         <div class="widget-chart-content pt-3 pl-3 pb-1">
                             <div class="widget-chart-flex">
                                 <div class="widget-numbers">
                                     <div class="widget-chart-flex">
                                         <div class="fsize-4">
-                                            <small class="opacity-5">$</small>
-                                            <span>1286</span>
+                                            <small class="opacity-5"><i class="pe-7s-drawer"></i></small>
+                                            <span>{{ albumCount }}</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <h6 class="widget-subheading mb-0 opacity-5">last month sales</h6>
+                            <h6 class="widget-subheading mb-0 opacity-5">Album Record</h6>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-xl-3">
                 <div
-                    class="card mb-3 widget-chart widget-chart2 text-left card-btm-border card-shadow-danger border-danger">
+                    class="card mb-3 widget-chart widget-chart2 text-left card-btm-border card-shadow-primary border-primary">
                     <div class="widget-chat-wrapper-outer">
                         <div class="widget-chart-content pt-3 pl-3 pb-1">
                             <div class="widget-chart-flex">
                                 <div class="widget-numbers">
                                     <div class="widget-chart-flex">
                                         <div class="fsize-4">
-                                            <small class="opacity-5">$</small>
-                                            <span>564</span>
+                                            <small class="opacity-5"><i class="pe-7s-drawer"></i></small>
+                                            <span>{{ discographyCount }}</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <h6 class="widget-subheading mb-0 opacity-5">total revenue</h6>
+                            <h6 class="widget-subheading mb-0 opacity-5">Discography Record</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-xl-3">
+                <div
+                    class="card mb-3 widget-chart widget-chart2 text-left card-btm-border card-shadow-primary border-primary">
+                    <div class="widget-chat-wrapper-outer">
+                        <div class="widget-chart-content pt-3 pl-3 pb-1">
+                            <div class="widget-chart-flex">
+                                <div class="widget-numbers">
+                                    <div class="widget-chart-flex">
+                                        <div class="fsize-4">
+                                            <small class="opacity-5"><i class="pe-7s-drawer"></i></small>
+                                            <span>{{ datasetCount }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h6 class="widget-subheading mb-0 opacity-5">Dataset Record</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+                <div
+                    class="card mb-3 widget-chart widget-chart2 text-left card-btm-border card-shadow-primary border-primary">
+                    <div class="widget-chat-wrapper-outer">
+                        <div class="widget-chart-content pt-3 pl-3 pb-1">
+                            <div class="widget-chart-flex">
+                                <div class="widget-numbers">
+                                    <div class="widget-chart-flex">
+                                        <div class="fsize-4">
+                                            <small class="opacity-5"><i class="pe-7s-drawer"></i></small>
+                                            <span>{{ chatgroupCount }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h6 class="widget-subheading mb-0 opacity-5">Chatgroup Record</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3">
+                <div
+                    class="card mb-3 widget-chart widget-chart2 text-left card-btm-border card-shadow-primary border-primary">
+                    <div class="widget-chat-wrapper-outer">
+                        <div class="widget-chart-content pt-3 pl-3 pb-1">
+                            <div class="widget-chart-flex">
+                                <div class="widget-numbers">
+                                    <div class="widget-chart-flex">
+                                        <div class="fsize-4">
+                                            <small class="opacity-5"><i class="pe-7s-drawer"></i></small>
+                                            <span>{{ messageCount }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h6 class="widget-subheading mb-0 opacity-5">Message Record</h6>
                         </div>
                     </div>
                 </div>
@@ -398,234 +457,232 @@
                         </div>
                     </div>
                     <div class="scroll-area-lg">
-                        <PerfectScrollbar class="scrollbar-container" v-once>
-                            <ul class="todo-list-wrapper list-group list-group-flush">
-                                <li class="list-group-item">
-                                    <div class="todo-indicator bg-warning"></div>
-                                    <div class="widget-content p-0">
-                                        <div class="widget-content-wrapper">
-                                            <div class="widget-content-left mr-2">
-                                                <div class="custom-checkbox custom-control"><input type="checkbox"
-                                                        id="exampleCustomCheckbox" class="custom-control-input"><label
-                                                        class="custom-control-label"
-                                                        for="exampleCustomCheckbox">&nbsp;</label>
+                        <ul class="todo-list-wrapper list-group list-group-flush">
+                            <li class="list-group-item">
+                                <div class="todo-indicator bg-warning"></div>
+                                <div class="widget-content p-0">
+                                    <div class="widget-content-wrapper">
+                                        <div class="widget-content-left mr-2">
+                                            <div class="custom-checkbox custom-control"><input type="checkbox"
+                                                    id="exampleCustomCheckbox" class="custom-control-input"><label
+                                                    class="custom-control-label"
+                                                    for="exampleCustomCheckbox">&nbsp;</label>
+                                            </div>
+                                        </div>
+                                        <div class="widget-content-left">
+                                            <div class="widget-heading">Wash the car
+                                                <div class="badge badge-danger ml-2">Rejected</div>
+                                            </div>
+                                            <div class="widget-subheading"><i>Written by Bob</i></div>
+                                        </div>
+                                        <div class="widget-content-right widget-content-actions">
+                                            <button class="border-0 btn-transition btn btn-outline-success">
+                                                <font-awesome-icon icon="check" />
+                                            </button>
+                                            <button class="border-0 btn-transition btn btn-outline-danger">
+                                                <font-awesome-icon icon="trash-alt" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="todo-indicator bg-focus"></div>
+                                <div class="widget-content p-0">
+                                    <div class="widget-content-wrapper">
+                                        <div class="widget-content-left mr-2">
+                                            <div class="custom-checkbox custom-control"><input type="checkbox"
+                                                    id="exampleCustomCheckbox1" class="custom-control-input"><label
+                                                    class="custom-control-label"
+                                                    for="exampleCustomCheckbox1">&nbsp;</label>
+                                            </div>
+                                        </div>
+                                        <div class="widget-content-left">
+                                            <div class="widget-heading">Task with hover dropdown menu</div>
+                                            <div class="widget-subheading">
+                                                <div>By Johnny
+                                                    <div class="badge badge-pill badge-info ml-2">NEW</div>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="todo-indicator bg-primary"></div>
+                                <div class="widget-content p-0">
+                                    <div class="widget-content-wrapper">
+                                        <div class="widget-content-left mr-2">
+                                            <div class="custom-checkbox custom-control"><input type="checkbox"
+                                                    id="exampleCustomCheckbox4" class="custom-control-input"><label
+                                                    class="custom-control-label"
+                                                    for="exampleCustomCheckbox4">&nbsp;</label>
+                                            </div>
+                                        </div>
+                                        <div class="widget-content-left flex2">
+                                            <div class="widget-heading">Badge on the right task</div>
+                                            <div class="widget-subheading">This task has show on hover actions!
+                                            </div>
+                                        </div>
+                                        <div class="widget-content-right widget-content-actions">
+                                            <button class="border-0 btn-transition btn btn-outline-success">
+                                                <font-awesome-icon icon="check" />
+                                            </button>
+                                        </div>
+                                        <div class="widget-content-right ml-3">
+                                            <div class="badge badge-pill badge-success">Latest Task</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="todo-indicator bg-info"></div>
+                                <div class="widget-content p-0">
+                                    <div class="widget-content-wrapper">
+                                        <div class="widget-content-left mr-2">
+                                            <div class="custom-checkbox custom-control"><input type="checkbox"
+                                                    id="exampleCustomCheckbox2" class="custom-control-input"><label
+                                                    class="custom-control-label"
+                                                    for="exampleCustomCheckbox2">&nbsp;</label>
+                                            </div>
+                                        </div>
+                                        <div class="widget-content-left mr-3">
                                             <div class="widget-content-left">
-                                                <div class="widget-heading">Wash the car
-                                                    <div class="badge badge-danger ml-2">Rejected</div>
-                                                </div>
-                                                <div class="widget-subheading"><i>Written by Bob</i></div>
-                                            </div>
-                                            <div class="widget-content-right widget-content-actions">
-                                                <button class="border-0 btn-transition btn btn-outline-success">
-                                                    <font-awesome-icon icon="check" />
-                                                </button>
-                                                <button class="border-0 btn-transition btn btn-outline-danger">
-                                                    <font-awesome-icon icon="trash-alt" />
-                                                </button>
+                                                <img width="42" class="rounded" src="@/assets/images/avatars/1.jpg"
+                                                    alt="">
                                             </div>
                                         </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="todo-indicator bg-focus"></div>
-                                    <div class="widget-content p-0">
-                                        <div class="widget-content-wrapper">
-                                            <div class="widget-content-left mr-2">
-                                                <div class="custom-checkbox custom-control"><input type="checkbox"
-                                                        id="exampleCustomCheckbox1" class="custom-control-input"><label
-                                                        class="custom-control-label"
-                                                        for="exampleCustomCheckbox1">&nbsp;</label>
-                                                </div>
+                                        <div class="widget-content-left">
+                                            <div class="widget-heading">Go grocery shopping</div>
+                                            <div class="widget-subheading">A short description for this todo item
                                             </div>
-                                            <div class="widget-content-left">
-                                                <div class="widget-heading">Task with hover dropdown menu</div>
-                                                <div class="widget-subheading">
-                                                    <div>By Johnny
-                                                        <div class="badge badge-pill badge-info ml-2">NEW</div>
-                                                    </div>
+                                        </div>
+                                        <div class="widget-content-right widget-content-actions">
+                                            <button class="border-0 btn-transition btn btn-outline-success">
+                                                <font-awesome-icon icon="check" />
+                                            </button>
+                                            <button class="border-0 btn-transition btn btn-outline-danger">
+                                                <font-awesome-icon icon="trash-alt" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="todo-indicator bg-warning"></div>
+                                <div class="widget-content p-0">
+                                    <div class="widget-content-wrapper">
+                                        <div class="widget-content-left mr-2">
+                                            <div class="custom-checkbox custom-control"><input type="checkbox"
+                                                    id="exampleCustomCheckbox2" class="custom-control-input"><label
+                                                    class="custom-control-label"
+                                                    for="exampleCustomCheckbox2">&nbsp;</label>
+                                            </div>
+                                        </div>
+                                        <div class="widget-content-left">
+                                            <div class="widget-heading">Wash the car
+                                                <div class="badge badge-danger ml-2">Rejected</div>
+                                            </div>
+                                            <div class="widget-subheading"><i>Written by Bob</i></div>
+                                        </div>
+                                        <div class="widget-content-right widget-content-actions">
+                                            <button class="border-0 btn-transition btn btn-outline-success">
+                                                <font-awesome-icon icon="check" />
+                                            </button>
+                                            <button class="border-0 btn-transition btn btn-outline-danger">
+                                                <font-awesome-icon icon="trash-alt" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="todo-indicator bg-focus"></div>
+                                <div class="widget-content p-0">
+                                    <div class="widget-content-wrapper">
+                                        <div class="widget-content-left mr-2">
+                                            <div class="custom-checkbox custom-control"><input type="checkbox"
+                                                    id="exampleCustomCheckbox3" class="custom-control-input"><label
+                                                    class="custom-control-label"
+                                                    for="exampleCustomCheckbox3">&nbsp;</label>
+                                            </div>
+                                        </div>
+                                        <div class="widget-content-left">
+                                            <div class="widget-heading">Task with hover dropdown menu</div>
+                                            <div class="widget-subheading">
+                                                <div>By Johnny
+                                                    <div class="badge badge-pill badge-info ml-2">NEW</div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="todo-indicator bg-primary"></div>
-                                    <div class="widget-content p-0">
-                                        <div class="widget-content-wrapper">
-                                            <div class="widget-content-left mr-2">
-                                                <div class="custom-checkbox custom-control"><input type="checkbox"
-                                                        id="exampleCustomCheckbox4" class="custom-control-input"><label
-                                                        class="custom-control-label"
-                                                        for="exampleCustomCheckbox4">&nbsp;</label>
-                                                </div>
-                                            </div>
-                                            <div class="widget-content-left flex2">
-                                                <div class="widget-heading">Badge on the right task</div>
-                                                <div class="widget-subheading">This task has show on hover actions!
-                                                </div>
-                                            </div>
-                                            <div class="widget-content-right widget-content-actions">
-                                                <button class="border-0 btn-transition btn btn-outline-success">
-                                                    <font-awesome-icon icon="check" />
-                                                </button>
-                                            </div>
-                                            <div class="widget-content-right ml-3">
-                                                <div class="badge badge-pill badge-success">Latest Task</div>
-                                            </div>
+                                        <div class="widget-content-right widget-content-actions">
+                                            <button class="border-0 btn-transition btn btn-outline-success">
+                                                <font-awesome-icon icon="check" />
+                                            </button>
+                                            <button class="border-0 btn-transition btn btn-outline-danger">
+                                                <font-awesome-icon icon="trash-alt" />
+                                            </button>
                                         </div>
                                     </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="todo-indicator bg-info"></div>
-                                    <div class="widget-content p-0">
-                                        <div class="widget-content-wrapper">
-                                            <div class="widget-content-left mr-2">
-                                                <div class="custom-checkbox custom-control"><input type="checkbox"
-                                                        id="exampleCustomCheckbox2" class="custom-control-input"><label
-                                                        class="custom-control-label"
-                                                        for="exampleCustomCheckbox2">&nbsp;</label>
-                                                </div>
-                                            </div>
-                                            <div class="widget-content-left mr-3">
-                                                <div class="widget-content-left">
-                                                    <img width="42" class="rounded" src="@/assets/images/avatars/1.jpg"
-                                                        alt="">
-                                                </div>
-                                            </div>
-                                            <div class="widget-content-left">
-                                                <div class="widget-heading">Go grocery shopping</div>
-                                                <div class="widget-subheading">A short description for this todo item
-                                                </div>
-                                            </div>
-                                            <div class="widget-content-right widget-content-actions">
-                                                <button class="border-0 btn-transition btn btn-outline-success">
-                                                    <font-awesome-icon icon="check" />
-                                                </button>
-                                                <button class="border-0 btn-transition btn btn-outline-danger">
-                                                    <font-awesome-icon icon="trash-alt" />
-                                                </button>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="todo-indicator bg-primary"></div>
+                                <div class="widget-content p-0">
+                                    <div class="widget-content-wrapper">
+                                        <div class="widget-content-left mr-2">
+                                            <div class="custom-checkbox custom-control"><input type="checkbox"
+                                                    id="exampleCustomCheckbox4" class="custom-control-input"><label
+                                                    class="custom-control-label"
+                                                    for="exampleCustomCheckbox4">&nbsp;</label>
                                             </div>
                                         </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="todo-indicator bg-warning"></div>
-                                    <div class="widget-content p-0">
-                                        <div class="widget-content-wrapper">
-                                            <div class="widget-content-left mr-2">
-                                                <div class="custom-checkbox custom-control"><input type="checkbox"
-                                                        id="exampleCustomCheckbox2" class="custom-control-input"><label
-                                                        class="custom-control-label"
-                                                        for="exampleCustomCheckbox2">&nbsp;</label>
-                                                </div>
-                                            </div>
-                                            <div class="widget-content-left">
-                                                <div class="widget-heading">Wash the car
-                                                    <div class="badge badge-danger ml-2">Rejected</div>
-                                                </div>
-                                                <div class="widget-subheading"><i>Written by Bob</i></div>
-                                            </div>
-                                            <div class="widget-content-right widget-content-actions">
-                                                <button class="border-0 btn-transition btn btn-outline-success">
-                                                    <font-awesome-icon icon="check" />
-                                                </button>
-                                                <button class="border-0 btn-transition btn btn-outline-danger">
-                                                    <font-awesome-icon icon="trash-alt" />
-                                                </button>
+                                        <div class="widget-content-left flex2">
+                                            <div class="widget-heading">Badge on the right task</div>
+                                            <div class="widget-subheading">This task has show on hover actions!
                                             </div>
                                         </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="todo-indicator bg-focus"></div>
-                                    <div class="widget-content p-0">
-                                        <div class="widget-content-wrapper">
-                                            <div class="widget-content-left mr-2">
-                                                <div class="custom-checkbox custom-control"><input type="checkbox"
-                                                        id="exampleCustomCheckbox3" class="custom-control-input"><label
-                                                        class="custom-control-label"
-                                                        for="exampleCustomCheckbox3">&nbsp;</label>
-                                                </div>
-                                            </div>
-                                            <div class="widget-content-left">
-                                                <div class="widget-heading">Task with hover dropdown menu</div>
-                                                <div class="widget-subheading">
-                                                    <div>By Johnny
-                                                        <div class="badge badge-pill badge-info ml-2">NEW</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="widget-content-right widget-content-actions">
-                                                <button class="border-0 btn-transition btn btn-outline-success">
-                                                    <font-awesome-icon icon="check" />
-                                                </button>
-                                                <button class="border-0 btn-transition btn btn-outline-danger">
-                                                    <font-awesome-icon icon="trash-alt" />
-                                                </button>
-                                            </div>
+                                        <div class="widget-content-right widget-content-actions">
+                                            <button class="border-0 btn-transition btn btn-outline-success">
+                                                <font-awesome-icon icon="check" />
+                                            </button>
+                                        </div>
+                                        <div class="widget-content-right ml-3">
+                                            <div class="badge badge-pill badge-success">Latest Task</div>
                                         </div>
                                     </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="todo-indicator bg-primary"></div>
-                                    <div class="widget-content p-0">
-                                        <div class="widget-content-wrapper">
-                                            <div class="widget-content-left mr-2">
-                                                <div class="custom-checkbox custom-control"><input type="checkbox"
-                                                        id="exampleCustomCheckbox4" class="custom-control-input"><label
-                                                        class="custom-control-label"
-                                                        for="exampleCustomCheckbox4">&nbsp;</label>
-                                                </div>
-                                            </div>
-                                            <div class="widget-content-left flex2">
-                                                <div class="widget-heading">Badge on the right task</div>
-                                                <div class="widget-subheading">This task has show on hover actions!
-                                                </div>
-                                            </div>
-                                            <div class="widget-content-right widget-content-actions">
-                                                <button class="border-0 btn-transition btn btn-outline-success">
-                                                    <font-awesome-icon icon="check" />
-                                                </button>
-                                            </div>
-                                            <div class="widget-content-right ml-3">
-                                                <div class="badge badge-pill badge-success">Latest Task</div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="todo-indicator bg-success"></div>
+                                <div class="widget-content p-0">
+                                    <div class="widget-content-wrapper">
+                                        <div class="widget-content-left mr-2">
+                                            <div class="custom-checkbox custom-control"><input type="checkbox"
+                                                    id="exampleCustomCheckbox3" class="custom-control-input"><label
+                                                    class="custom-control-label"
+                                                    for="exampleCustomCheckbox3">&nbsp;</label>
                                             </div>
                                         </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="todo-indicator bg-success"></div>
-                                    <div class="widget-content p-0">
-                                        <div class="widget-content-wrapper">
-                                            <div class="widget-content-left mr-2">
-                                                <div class="custom-checkbox custom-control"><input type="checkbox"
-                                                        id="exampleCustomCheckbox3" class="custom-control-input"><label
-                                                        class="custom-control-label"
-                                                        for="exampleCustomCheckbox3">&nbsp;</label>
-                                                </div>
-                                            </div>
-                                            <div class="widget-content-left flex2">
-                                                <div class="widget-heading">Development Task</div>
-                                                <div class="widget-subheading">Finish Vue ToDo List App</div>
-                                            </div>
-                                            <div class="widget-content-right">
-                                                <div class="badge badge-warning mr-2">69</div>
-                                            </div>
-                                            <div class="widget-content-right">
-                                                <button class="border-0 btn-transition btn btn-outline-success">
-                                                    <font-awesome-icon icon="check" />
-                                                </button>
-                                                <button class="border-0 btn-transition btn btn-outline-danger">
-                                                    <font-awesome-icon icon="trash-alt" />
-                                                </button>
-                                            </div>
+                                        <div class="widget-content-left flex2">
+                                            <div class="widget-heading">Development Task</div>
+                                            <div class="widget-subheading">Finish Vue ToDo List App</div>
+                                        </div>
+                                        <div class="widget-content-right">
+                                            <div class="badge badge-warning mr-2">69</div>
+                                        </div>
+                                        <div class="widget-content-right">
+                                            <button class="border-0 btn-transition btn btn-outline-success">
+                                                <font-awesome-icon icon="check" />
+                                            </button>
+                                            <button class="border-0 btn-transition btn btn-outline-danger">
+                                                <font-awesome-icon icon="trash-alt" />
+                                            </button>
                                         </div>
                                     </div>
-                                </li>
-                            </ul>
-                        </PerfectScrollbar>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                     <div class="d-block text-right card-footer">
                         <button class="mr-2 btn btn-link btn-sm">Cancel</button>
@@ -642,69 +699,27 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table aria-busy="false" aria-colcount="3"
-                            class="table table-dark table-striped table-hover table-bordered border mb-0">
-                            <!----><!---->
-                            <thead role="rowgroup" class=""><!---->
+                        <table class="table table-dark table-striped table-hover table-bordered border mb-0">
+                            <thead role="rowgroup">
                                 <tr role="row">
-                                    <th role="columnheader" scope="col" aria-colindex="1" class="">First Name</th>
-                                    <th role="columnheader" scope="col" aria-colindex="2" class="">Last Name</th>
-                                    <th role="columnheader" scope="col" aria-colindex="3" class="">Age</th>
+                                    <th scope="col">First Name</th>
+                                    <th scope="col">Last Name</th>
+                                    <th scope="col">Age</th>
                                 </tr>
                             </thead>
-                            <tfoot role="rowgroup" class="">
+                            <tfoot role="rowgroup">
                                 <tr role="row">
-                                    <th role="columnheader" scope="col" aria-colindex="1" class="">First Name</th>
-                                    <th role="columnheader" scope="col" aria-colindex="2" class="">Last Name</th>
-                                    <th role="columnheader" scope="col" aria-colindex="3" class="">Age</th>
+                                    <th scope="col">First Name</th>
+                                    <th scope="col">Last Name</th>
+                                    <th scope="col">Age</th>
                                 </tr>
                             </tfoot>
-                            <tbody role="rowgroup" class=""><!---->
-                                <tr role="row" class="">
-                                    <td role="cell" aria-colindex="1" class="">Dickerson</td>
-                                    <td role="cell" aria-colindex="2" class="">Macdonald</td>
-                                    <td role="cell" aria-colindex="3" class="">40</td>
+                            <tbody role="rowgroup">
+                                <tr v-for="(person, index) in people" :key="index" role="row">
+                                    <td role="cell">{{ person.firstName }}</td>
+                                    <td role="cell">{{ person.lastName }}</td>
+                                    <td role="cell">{{ person.age }}</td>
                                 </tr>
-                                <tr role="row" class="">
-                                    <td role="cell" aria-colindex="1" class="">Larsen</td>
-                                    <td role="cell" aria-colindex="2" class="">Shaw</td>
-                                    <td role="cell" aria-colindex="3" class="">21</td>
-                                </tr>
-                                <tr role="row" class="">
-                                    <td role="cell" aria-colindex="1" class="">Geneva</td>
-                                    <td role="cell" aria-colindex="2" class="">Wilson</td>
-                                    <td role="cell" aria-colindex="3" class="">89</td>
-                                </tr>
-                                <tr role="row" class="">
-                                    <td role="cell" aria-colindex="1" class="">Dickerson</td>
-                                    <td role="cell" aria-colindex="2" class="">Macdonald</td>
-                                    <td role="cell" aria-colindex="3" class="">40</td>
-                                </tr>
-                                <tr role="row" class="">
-                                    <td role="cell" aria-colindex="1" class="">Larsen</td>
-                                    <td role="cell" aria-colindex="2" class="">Shaw</td>
-                                    <td role="cell" aria-colindex="3" class="">21</td>
-                                </tr>
-                                <tr role="row" class="">
-                                    <td role="cell" aria-colindex="1" class="">Geneva</td>
-                                    <td role="cell" aria-colindex="2" class="">Wilson</td>
-                                    <td role="cell" aria-colindex="3" class="">89</td>
-                                </tr>
-                                <tr role="row" class="">
-                                    <td role="cell" aria-colindex="1" class="">Dickerson</td>
-                                    <td role="cell" aria-colindex="2" class="">Macdonald</td>
-                                    <td role="cell" aria-colindex="3" class="">40</td>
-                                </tr>
-                                <tr role="row" class="">
-                                    <td role="cell" aria-colindex="1" class="">Larsen</td>
-                                    <td role="cell" aria-colindex="2" class="">Shaw</td>
-                                    <td role="cell" aria-colindex="3" class="">21</td>
-                                </tr>
-                                <tr role="row" class="">
-                                    <td role="cell" aria-colindex="1" class="">Geneva</td>
-                                    <td role="cell" aria-colindex="2" class="">Wilson</td>
-                                    <td role="cell" aria-colindex="3" class="">89</td>
-                                </tr><!----><!---->
                             </tbody>
                         </table>
                     </div>
@@ -821,16 +836,15 @@
                 </div>
             </div>
         </div>
-
     </div>
-
 </template>
-
 <script>
-
+import { defineComponent, ref, onMounted } from 'vue';
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
-import { PerfectScrollbar } from 'vue3-perfect-scrollbar';
-import { library } from '@fortawesome/fontawesome-svg-core'
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { apiService } from '../../supabase/apiService';
+
 import {
     faTrashAlt,
     faCheck,
@@ -838,8 +852,7 @@ import {
     faAngleDown,
     faAngleUp,
     faTh,
-} from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+} from '@fortawesome/free-solid-svg-icons';
 
 library.add(
     faTrashAlt,
@@ -850,24 +863,147 @@ library.add(
     faCalendarAlt,
 );
 
-export default {
+export default defineComponent({
+    name: "DashboardPage",
     components: {
         PageTitleComponent,
-        PerfectScrollbar,
-        'font-awesome-icon': FontAwesomeIcon,
+        FontAwesomeIcon,
     },
+    setup() {
+        const heading = ref('Analytics Dashboard');
+        const subheading = ref('This is an example dashboard created using build-in elements and components.');
+        const icon = ref('pe-7s-plane icon-gradient bg-tempting-azure');
+        const talentCount = ref(null);
+        const agencyCount = ref(null);
+        const albumCount = ref(null);
+        const discographyCount = ref(null);
+        const datasetCount = ref(null);
+        const chatgroupCount = ref(null);
+        const messageCount = ref(null);
+        const people = ref([
+            { firstName: 'Anna', lastName: 'Ashley', age: 20 },
+            { firstName: 'Bella', lastName: 'Bllodflame', age: 21 },
+            { firstName: 'Geneva', lastName: 'Wilson', age: 20 },
+            { firstName: 'Anna', lastName: 'Ashley', age: 20 },
+            { firstName: 'Bella', lastName: 'Bllodflame', age: 21 },
+            { firstName: 'Geneva', lastName: 'Wilson', age: 20 },
+            { firstName: 'Anna', lastName: 'Ashley', age: 20 },
+            { firstName: 'Bella', lastName: 'Bllodflame', age: 21 },
+            { firstName: 'Geneva', lastName: 'Wilson', age: 20 },
+            { firstName: 'Anna', lastName: 'Ashley', age: 20 },
+            { firstName: 'Bella', lastName: 'Bllodflame', age: 21 },
+            { firstName: 'Geneva', lastName: 'Wilson', age: 20 },
+        ]);
 
-    data() {
+        const getTalentCount = async () => {
+            try {
+                const count = await apiService.countTalentRecord();
+                if (count.error) {
+                    throw new Error(count.error);
+                }
+                talentCount.value = count;
+            } catch (err) {
+                errorMessage.value = `Error fetching talent count: ${err.message}`;
+            }
+        };
+
+        const getAgencyCount = async () => {
+            try {
+                const count = await apiService.countAgencyRecord();
+                if (count.error) {
+                    throw new Error(count.error);
+                }
+                agencyCount.value = count;
+            } catch (err) {
+                errorMessage.value = `Error fetching agency count: ${err.message}`;
+            }
+        };
+
+        const getAlbumCount = async () => {
+            try {
+                const count = await apiService.countAlbumRecord();
+                if (count.error) {
+                    throw new Error(count.error);
+                }
+                albumCount.value = count;
+            } catch (err) {
+                errorMessage.value = `Error fetching album count: ${err.message}`;
+            }
+        };
+
+        const getDiscographyCount = async () => {
+            try {
+                const count = await apiService.countDiscographyRecord();
+                if (count.error) {
+                    throw new Error(count.error);
+                }
+                discographyCount.value = count;
+            } catch (err) {
+                errorMessage.value = `Error fetching discography count: ${err.message}`;
+            }
+        };
+
+        const getDatasetCount = async () => {
+            try {
+                const count = await apiService.countDatasetRecord();
+                if (count.error) {
+                    throw new Error(count.error);
+                }
+                datasetCount.value = count;
+            } catch (err) {
+                errorMessage.value = `Error fetching dataset count: ${err.message}`;
+            }
+        };
+
+        const getChatgroupCount = async () => {
+            try {
+                const count = await apiService.countChatgroupRecord();
+                if (count.error) {
+                    throw new Error(count.error);
+                }
+                chatgroupCount.value = count;
+            } catch (err) {
+                errorMessage.value = `Error fetching chatgroup count: ${err.message}`;
+            }
+        };
+
+        const getMessageCount = async () => {
+            try {
+                const count = await apiService.countMessageRecord();
+                if (count.error) {
+                    throw new Error(count.error);
+                }
+                messageCount.value = count;
+            } catch (err) {
+                errorMessage.value = `Error fetching Message count: ${err.message}`;
+            }
+        };
+
+        onMounted(async () => {
+            getTalentCount();
+            getAgencyCount();
+            getAlbumCount();
+            getDiscographyCount();
+            getDatasetCount();
+            getChatgroupCount();
+            getMessageCount();
+        });
+
+
+
         return {
-            heading: 'Analytics Dashboard',
-            subheading: 'This is an example dashboard created using build-in elements and components.',
-            icon: 'pe-7s-plane icon-gradient bg-tempting-azure',
-        }
+            heading,
+            subheading,
+            icon,
+            people,
+            talentCount,
+            agencyCount,
+            albumCount,
+            discographyCount,
+            datasetCount,
+            chatgroupCount,
+            messageCount,
+        };
     },
-
-    methods: {},
-
-}
-
-
+});
 </script>

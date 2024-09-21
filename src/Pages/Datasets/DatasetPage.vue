@@ -28,6 +28,11 @@
                         class="form-control">
                 </div>
                 <div class="position-relative form-group">
+                    <label for="source">Source</label>
+                    <input name="source" placeholder="source" v-model="currentDataset.source" type="text"
+                        class="form-control">
+                </div>
+                <div class="position-relative form-group">
                     <label for="category">Category</label>
                     <input name="category" placeholder="category" v-model="currentDataset.category" type="text"
                         class="form-control">
@@ -119,7 +124,7 @@ export default {
             totalPages: 0,
             orderBy: 'id',
             orderDirection: 'asc',
-            fileName: '',
+            fileName: null,
             sourceTextMaxLength: 0,
             targetTextMaxLength: 0,
             search: '',
@@ -131,6 +136,7 @@ export default {
             currentDataset: {
                 source_text: null,
                 target_text: null,
+                source: null,
                 category: null,
                 language: 'en',
             },
@@ -146,6 +152,10 @@ export default {
                 {
                     key: 'target_text',
                     value: 'Target Text'
+                },
+                {
+                    key: 'source',
+                    value: 'source'
                 },
                 {
                     key: 'category',
@@ -263,8 +273,7 @@ export default {
 
         async handleExport() {
             try {
-                // Call the exportDataset function
-                await apiService.exportDataset();
+                await apiService.exportDataset(this.fileName, this.sourceTextMaxLength, this.targetTextMaxLength);
             } catch (error) {
                 this.notification = {
                     title: 'Error',
