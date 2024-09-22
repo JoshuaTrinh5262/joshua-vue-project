@@ -192,11 +192,6 @@
                         href: '/admin/kanban',
                     },
                     {
-                        icon: 'pe-7s-display2',
-                        title: 'Chatbox',
-                        href: '/admin/Chatbox',
-                    },
-                    {
                         icon: 'pe-7s-graph2',
                         title: 'Chart Boxes',
                         href: '/admin/widgets/chart-boxes-3',
