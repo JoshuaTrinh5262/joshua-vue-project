@@ -14,8 +14,6 @@
     "@supabase/supabase-js": "^2.45.1",
     "@vue/compat": "^3.4.38",
     "animate-sass": "^0.8.2",
-    "axios": "^1.5.1",
-    "moment": "^2.30.1",
     "pe7-icon": "^1.0.4",
     "sass": "^1.69.3",
     "sass-loader": "^16.0.1",

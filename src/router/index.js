@@ -237,16 +237,6 @@ const routes = [
         },
         component: () => import('../Pages/Kanban/KanbanComponent.vue'),
     },
-    // Chatbox
-    {
-        path: '/admin/chatbox',
-        name: 'chatbox',
-        meta: {
-            layout: 'admin',
-            requiresAuth: true
-        },
-        component: () => import('../DemoPages/ChatBox/ChatBox.vue'),
-    },
     {
         path: '/admin/chatgroup',
         name: 'chatgroup',
