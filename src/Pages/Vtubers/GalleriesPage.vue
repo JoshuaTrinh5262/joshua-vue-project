@@ -41,29 +41,20 @@ export default defineComponent({
 <style scoped>
 .image-gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  /* Responsive columns */
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 16px;
-  /* Space between images */
 }
 
 .image-container {
   opacity: 0;
-  /* Start invisible */
   transform: translateY(20px);
-  /* Start below the view */
   animation: slideUp 0.5s ease forwards;
-  /* Slide up animation */
 }
 
-/* Adjust delays for as many images as you have, or use JS to automate this */
-
-/* Animation for sliding up */
 @keyframes slideUp {
   to {
     opacity: 1;
     transform: translateY(0);
-    /* Slide into place */
   }
 }
 
@@ -71,14 +62,11 @@ export default defineComponent({
   width: 100%;
   height: auto;
   border-radius: 8px;
-  /* Optional: add rounded corners */
 }
 
 .image-container:hover img {
   transform: scale(1.1);
-  /* Slight zoom effect */
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);
-  /* Add shadow on hover */
 }
 .image-tag {
   position: absolute;
