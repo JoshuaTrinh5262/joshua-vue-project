@@ -1,16 +1,19 @@
 import { supabase } from "../supabase";
 
-export const getTalents = async (page, pageSize, orderBy, orderDirection) => {
+export const getTalents = async (page, pageSize, orderBy, orderDirection, search = '') => {
     try {
         const start = (page - 1) * pageSize;
         const end = start + pageSize - 1;
 
-        const { data, count, error } = await supabase
+        let query = supabase
             .from('talent')
             .select('*, agency(agency_name)', { count: 'exact' })
             .order(orderBy, { ascending: orderDirection === 'asc' })
             .range(start, end);
-
+        if (search) {
+            query = query.or(`name.ilike.%${search}%`);
+        }
+        const { data, count, error } = await query;
         if (error) {
             throw error;
         }

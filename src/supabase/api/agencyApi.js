@@ -1,5 +1,39 @@
 import { supabase } from "../supabase";
 
+export const getAgenciesWithPaging = async (page, pageSize, orderBy, orderDirection, search = '') => {
+    try {
+        const start = (page - 1) * pageSize;
+        const end = start + pageSize - 1;
+
+        let query = supabase
+            .from('agency')
+            .select('*, talent(count)')
+            .order(orderBy, { ascending: orderDirection === 'asc' })
+            .range(start, end);
+
+        if (search) {
+            query = query.or(`agency_name.ilike.%${search}%,agency_description.ilike.%${search}%`);
+        }
+
+        const { data, count, error } = await query;
+
+        if (error) {
+            throw error;
+        }
+        const agencies = data.map(agency => ({
+            ...agency,
+            talent_count: agency.talent.length ? agency.talent[0].count : 0
+        }));
+        return {
+            items: agencies,
+            totalItems: count,
+            totalPages: Math.ceil(count / pageSize),
+        };
+    } catch (err) {
+        return { error: err.message };
+    }
+};
+
 export const getAgencies = async () => {
     try {
         const { data, error } = await supabase.from('agency').select('*');
