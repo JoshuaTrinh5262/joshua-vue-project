@@ -1,13 +1,18 @@
 <template>
   <div>
-    <page-title-component :heading=heading :subheading=subheading :icon=icon>
+    <page-title-component :heading="heading" :subheading="subheading" :icon="icon">
       <template v-slot:actions>
-        <button type="button" @click=openModal class="btn-shadow d-inline-flex align-items-center btn btn-primary">
+        <button type="button" @click="openModal" class="btn-shadow d-inline-flex align-items-center btn btn-primary">
           Create New
         </button>
         <modal-component title="Create New" :isOpen="showModal" @closeModal="closeModal">
           <template #body>
-            <p>This is the content of the modal body.</p>
+            <div class="form-row">
+          <div class="position-relative form-group">
+            <label for="name">Name</label>
+            <input name="name" id="name" placeholder="Name" type="text" v-model="newAgency.name" class="form-control">
+          </div>
+        </div>
           </template>
           <template #footer>
             <button @click="closeModal">Cancel</button>
@@ -16,19 +21,24 @@
         </modal-component>
       </template>
     </page-title-component>
-    <table-component :footer=true :fields="fields" :items="items"></table-component>
+
+    <table-component :footer="true" :fields="fields" :items="items" @search="onSearchChange"></table-component>
+
     <pagination-component :currentPage="currentPage" :perPage="itemsPerPage" :totalItems="totalItems"
-      :totalPages="totalPages" @load-page="loadPage" @change-page-size="changePageSize"></pagination-component>
+      :totalPages="totalPages" @load-page="loadPage" @change-page-size="changePageSize">
+    </pagination-component>
   </div>
 </template>
+
 <script>
+import { defineComponent, ref, onMounted } from 'vue';
 import ModalComponent from '../../DemoPages/Components/ModalComponent.vue';
 import TableComponent from '../../Layout/Components/TableComponent.vue';
-import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
-import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
-import { supabase } from '../../supabase/supabase';
+import PageTitleComponent from '../../Layout/Components/PageTitleComponent.vue';
+import PaginationComponent from '../../Layout/Components/PaginationComponent.vue';
+import { apiService } from '../../supabase/apiService';
 
-export default {
+export default defineComponent({
   name: "AgenciesPage",
 
   components: {
@@ -38,71 +48,91 @@ export default {
     PaginationComponent
   },
 
-  data() {
-    return {
-      showModal: false,
-      heading: 'Agencies',
-      subheading: 'Explore the Profiles of Emerging and Established Talents.',
-      icon: 'pe-7s-user icon-gradient bg-premium-dark',
-      currentPage: 1,
-      itemsPerPage: 20,
-      totalItems: 0,
-      totalPages: 0,
-      fields: [
-        {
-          key: 'agency_id',
-          value: 'agency_id'
-        },
-        {
-          key: 'agency_name',
-          value: 'agency_name'
-        },
-      ],
-      items: [],
-    }
-  },
+  setup() {
+    const showModal = ref(false);
+    const heading = 'Agencies';
+    const subheading = 'Explore the Profiles of Emerging and Established Talents.';
+    const icon = 'pe-7s-user icon-gradient bg-premium-dark';
+    const orderBy = ref('agency_id');
+    const orderDirection = ref('asc');
+    const currentPage = ref(1);
+    const itemsPerPage = ref(20);
+    const totalItems = ref(0);
+    const totalPages = ref(0);
+    const search = ref('');
+    const notification = ref(null);
+    const newAgency = ref({ name: null });
+    const fields = [
+      {
+        key: 'agency_id',
+        value: 'Id'
+      },
+      {
+        key: 'agency_name',
+        value: 'Agency Name'
+      },
+      {
+        key: 'talent_count',
+        value: 'Talent Count'
+      },
+    ];
+    const items = ref([]);
 
-  created() {
-    this.getAgenciesData(this.currentPage, this.itemsPerPage);
-  },
+    const openModal = () => {
+      showModal.value = true;
+    };
 
-  methods: {
-    openModal() {
-      this.showModal = true;
-    },
-    closeModal() {
-      this.showModal = false;
-    },
-    async getAgenciesData(newPage, newPageSize) {
-      const start = (newPage - 1) * newPageSize;
-      const end = start + newPageSize - 1;
+    const closeModal = () => {
+      showModal.value = false;
+    };
 
-      const { data, error } = await supabase
-        .from('agency')
-        .select('*')
-        .range(start, end);
+    const getAgenciesData = async (newPage, newPageSize) => {
+      const result = await apiService.getAgenciesWithPaging(newPage, newPageSize, orderBy.value, orderDirection.value, search.value);
 
-      if (!error) {
-        this.totalItems = data.length;
-        this.items = data;
+      if (!result.error) {
+        items.value = result.items;
+        totalItems.value = result.totalItems;
+        totalPages.value = result.totalPages;
+        itemsPerPage.value = newPageSize;
       }
-    },
+    };
+    const loadPage = (page) => {
+      currentPage.value = page;
+      getAgenciesData(currentPage.value, itemsPerPage.value);
+    };
 
-    async handleChangeOrder({ orderDirection, orderBy }) {
-      this.orderDirection = orderDirection;
-      this.orderBy = orderBy;
+    const onSearchChange = (searchTerm) => {
+      search.value = searchTerm;
+      getAgenciesData(1, itemsPerPage.value);
+    };
+    const changePageSize = async (newPageSize) => {
+      itemsPerPage.value = newPageSize;
+      await getAgenciesData(1, itemsPerPage.value);
+    };
 
-      await this.getAgenciesData(this.currentPage, this.itemsPerPage);
-    },
-    loadPage(page) {
-      this.currentPage = page;
-      this.getAgenciesData(this.currentPage, this.itemsPerPage);
-    },
+    onMounted(() => {
+      getAgenciesData(currentPage.value, itemsPerPage.value);
+    });
 
-    async changePageSize(newPageSize) {
-      this.itemsPerPage = newPageSize;
-      await this.getAgenciesData(1, this.itemsPerPage);
-    },
-  },
-}
+    return {
+      showModal,
+      heading,
+      subheading,
+      icon,
+      currentPage,
+      itemsPerPage,
+      totalItems,
+      totalPages,
+      fields,
+      items,
+      newAgency,
+      notification,
+      openModal,
+      closeModal,
+      loadPage,
+      changePageSize,
+      onSearchChange,
+    };
+  }
+});
 </script>

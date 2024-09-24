@@ -1,8 +1,8 @@
 <template>
   <div>
-    <page-title-component :heading=heading :subheading=subheading :icon=icon>
+    <page-title-component :heading="heading" :subheading="subheading" :icon="icon">
       <template v-slot:actions>
-        <button type="button" @click=openModal class="btn-shadow d-inline-flex align-items-center btn btn-primary">
+        <button type="button" @click="openModal" class="btn-shadow d-inline-flex align-items-center btn btn-primary">
           Create New
         </button>
         <modal-component title="Create New" :isOpen="showModal" @closeModal="closeModal">
@@ -10,18 +10,21 @@
             <p>This is the content of the modal body.</p>
           </template>
           <template #footer>
-            <button @click="closeModal">Cancel</button>
-            <button @click="closeModal">Submit</button>
+            <button @click="closeModal" class="btn btn-primary">Cancel</button>
+            <button @click="closeModal" class="btn btn-primary">Submit</button>
           </template>
         </modal-component>
       </template>
     </page-title-component>
-    <table-component :footer=true :fields="fields" :items="items"></table-component>
+    <table-component :footer="true" :fields="fields" :items="items"></table-component>
     <pagination-component :currentPage="currentPage" :perPage="itemsPerPage" :totalItems="totalItems"
-      :totalPages="totalPages" @load-page="loadPage" @change-page-size="changePageSize"></pagination-component>
+      :totalPages="totalPages" @load-page="loadPage" @change-page-size="changePageSize">
+    </pagination-component>
   </div>
 </template>
+
 <script>
+import { ref, onMounted } from 'vue';
 import ModalComponent from '../../DemoPages/Components/ModalComponent.vue';
 import TableComponent from '../../Layout/Components/TableComponent.vue';
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
@@ -38,54 +41,33 @@ export default {
     PaginationComponent
   },
 
-  data() {
-    return {
-      showModal: false,
-      heading: 'Discographies',
-      subheading: 'Explore the Profiles of Emerging and Established Talents.',
-      icon: 'pe-7s-phone icon-gradient bg-premium-dark',
-      currentPage: 1,
-      itemsPerPage: 20,
-      totalItems: 0,
-      totalPages: 0,
-      fields: [
-        {
-          key: 'id',
-          value: 'id'
-        },
-        {
-          key: 'name',
-          value: 'name'
-        },
-        {
-          key: 'original_name',
-          value: 'original_name'
-        },
-        {
-          key: 'released_date',
-          value: 'Released Date'
-        },
-        {
-          key: 'album',
-          value: 'album'
-        },
-      ],
-      items: [],
-    }
-  },
+  setup() {
+    const showModal = ref(false);
+    const heading = ref('Discographies');
+    const subheading = ref('Dive into the Musical Journeys of Talented Artists Across Generations');
+    const icon = ref('pe-7s-phone icon-gradient bg-premium-dark');
+    const currentPage = ref(1);
+    const itemsPerPage = ref(20);
+    const totalItems = ref(0);
+    const totalPages = ref(0);
+    const fields = ref([
+      { key: 'id', value: 'ID' },
+      { key: 'name', value: 'Name' },
+      { key: 'original_name', value: 'original Name' },
+      { key: 'released_date', value: 'Released Date' },
+      { key: 'album', value: 'Album' },
+    ]);
+    const items = ref([]);
 
-  created() {
-    this.getDiscographiesData(this.currentPage, this.itemsPerPage);
-  },
+    const openModal = () => {
+      showModal.value = true;
+    };
 
-  methods: {
-    openModal() {
-      this.showModal = true;
-    },
-    closeModal() {
-      this.showModal = false;
-    },
-    async getDiscographiesData(newPage, newPageSize) {
+    const closeModal = () => {
+      showModal.value = false;
+    };
+
+    const getDiscographiesData = async (newPage, newPageSize) => {
       const start = (newPage - 1) * newPageSize;
       const end = start + newPageSize - 1;
 
@@ -95,31 +77,46 @@ export default {
         .range(start, end);
 
       if (!error) {
-        this.totalItems = data.length;
+        totalItems.value = data.length;
         const transformedData = data.map(item => ({
           ...item,
           album: item.album?.name,
           talent: item.talent?.name,
         }));
-        this.items = transformedData;
+        items.value = transformedData;
       }
-    },
+    };
 
-    async handleChangeOrder({ orderDirection, orderBy }) {
-      this.orderDirection = orderDirection;
-      this.orderBy = orderBy;
+    const loadPage = (page) => {
+      currentPage.value = page;
+      getDiscographiesData(currentPage.value, itemsPerPage.value);
+    };
 
-      await this.getDiscographiesData(this.currentPage, this.itemsPerPage);
-    },
-    loadPage(page) {
-      this.currentPage = page;
-      this.getDiscographiesData(this.currentPage, this.itemsPerPage);
-    },
+    const changePageSize = async (newPageSize) => {
+      itemsPerPage.value = newPageSize;
+      await getDiscographiesData(1, itemsPerPage.value);
+    };
 
-    async changePageSize(newPageSize) {
-      this.itemsPerPage = newPageSize;
-      await this.getDiscographiesData(1, this.itemsPerPage);
-    },
-  },
-}
+    onMounted(() => {
+      getDiscographiesData(currentPage.value, itemsPerPage.value);
+    });
+
+    return {
+      showModal,
+      heading,
+      subheading,
+      icon,
+      currentPage,
+      itemsPerPage,
+      totalItems,
+      totalPages,
+      fields,
+      items,
+      openModal,
+      closeModal,
+      loadPage,
+      changePageSize
+    };
+  }
+};
 </script>
