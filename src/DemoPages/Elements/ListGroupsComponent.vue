@@ -620,31 +620,30 @@
 </template>
 
 <script>
+import { defineComponent, ref } from 'vue';
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
-import { library } from '@fortawesome/fontawesome-svg-core'
-import {
-  faTrashAlt,
-  faCheck
-} from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faTrashAlt, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-library.add(
-  faTrashAlt,
-  faCheck
-);
+// Add FontAwesome icons to the library
+library.add(faTrashAlt, faCheck);
 
-export default {
+export default defineComponent({
   components: {
     PageTitleComponent,
     'font-awesome-icon': FontAwesomeIcon,
   },
-  data: () => ({
-    heading: 'List Groups',
-    subheading: 'These can be used with other components and elements to create stunning and unique new elements for your UIs.',
-    icon: 'pe-7s-paint icon-gradient bg-sunny-morning',
+  setup() {
+    const heading = ref('List Groups');
+    const subheading = ref('These can be used with other components and elements to create stunning and unique new elements for your UIs.');
+    const icon = ref('pe-7s-paint icon-gradient bg-sunny-morning');
 
-  }),
-
-
-}
+    return {
+      heading,
+      subheading,
+      icon,
+    };
+  },
+});
 </script>

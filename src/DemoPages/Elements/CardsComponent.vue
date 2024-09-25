@@ -229,19 +229,23 @@
 </template>
 
 <script>
-
+import { defineComponent, ref } from 'vue';
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 
-export default {
+export default defineComponent({
   components: {
     PageTitleComponent,
   },
-  data: () => ({
-    heading: 'Cards',
-    subheading: 'Wide selection of cards with multiple styles, borders, actions and hover effects.',
-    icon: 'pe-7s-stopwatch icon-gradient bg-amy-crisp',
+  setup() {
+    const heading = ref('Cards');
+    const subheading = ref('Wide selection of cards with multiple styles, borders, actions and hover effects.');
+    const icon = ref('pe-7s-stopwatch icon-gradient bg-amy-crisp');
 
-  }),
-
-}
+    return {
+      heading,
+      subheading,
+      icon,
+    };
+  },
+});
 </script>

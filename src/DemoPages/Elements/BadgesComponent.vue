@@ -73,17 +73,25 @@
 </template>
 
 <script>
-
+import { defineComponent, ref } from 'vue';
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 
-export default {
+export default defineComponent({
+
   components: {
     PageTitleComponent,
   },
-  data: () => ({
-    heading: 'Badges & Labels',
-    subheading: 'Badges and labels are used to offer extra small pieces of info for your content.',
-    icon: 'pe-7s-voicemail icon-gradient bg-arielle-smile',
-  }),
-}
+
+  setup() {
+    const heading = ref('Badges and Labels');
+    const subheading = ref('Badges and labels are used to offer extra small pieces of info for your content.');
+    const icon = ref('pe-7s-voicemail icon-gradient bg-arielle-smile');
+
+    return {
+      heading,
+      subheading,
+      icon,
+    };
+  },
+});
 </script>
