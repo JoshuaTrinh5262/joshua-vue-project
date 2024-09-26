@@ -5,18 +5,22 @@
         <button type="button" @click="openModal" class="btn-shadow d-inline-flex align-items-center btn btn-primary">
           Create New
         </button>
-        <modal-component title="Create New" :isOpen="showModal" @closeModal="closeModal">
+        <modal-component title="Create New Agency" :isOpen="showModal" @closeModal="closeModal">
           <template #body>
-            <div class="form-row">
-          <div class="position-relative form-group">
-            <label for="name">Name</label>
-            <input name="name" id="name" placeholder="Name" type="text" v-model="newAgency.name" class="form-control">
-          </div>
-        </div>
+            <div class="position-relative form-group">
+              <label for="agency_name">Agency Name</label>
+              <input name="agency_name" id="agency_name" placeholder="Agency Name" type="text" v-model="newAgency.name"
+                class="form-control">
+            </div>
+            <div class="position-relative form-group">
+              <label for="agency_description">Agency Description</label>
+              <textarea name="agency_description" id="agency_description" placeholder="Agency Description" type="text"
+                v-model="newAgency.description" class="form-control"></textarea>
+            </div>
           </template>
           <template #footer>
-            <button @click="closeModal">Cancel</button>
-            <button @click="closeModal">Submit</button>
+            <button class="btn btn-primary" @click="closeModal">Cancel</button>
+            <button class="btn btn-primary" @click="closeModal">Submit</button>
           </template>
         </modal-component>
       </template>
@@ -52,7 +56,7 @@ export default defineComponent({
     const showModal = ref(false);
     const heading = 'Agencies';
     const subheading = 'Explore the Profiles of Emerging and Established Talents.';
-    const icon = 'pe-7s-user icon-gradient bg-premium-dark';
+    const icon = 'pe-7s-user';
     const orderBy = ref('agency_id');
     const orderDirection = ref('asc');
     const currentPage = ref(1);
@@ -61,7 +65,7 @@ export default defineComponent({
     const totalPages = ref(0);
     const search = ref('');
     const notification = ref(null);
-    const newAgency = ref({ name: null });
+    const newAgency = ref({ name: null, description: null });
     const fields = [
       {
         key: 'agency_id',
@@ -96,6 +100,7 @@ export default defineComponent({
         itemsPerPage.value = newPageSize;
       }
     };
+
     const loadPage = (page) => {
       currentPage.value = page;
       getAgenciesData(currentPage.value, itemsPerPage.value);

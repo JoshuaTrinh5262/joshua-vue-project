@@ -5,9 +5,31 @@
         <button type="button" @click="openModal" class="btn-shadow d-inline-flex align-items-center btn btn-primary">
           Create New
         </button>
-        <modal-component title="Create New" :isOpen="showModal" @closeModal="closeModal">
+        <modal-component title="Create New Discography" :isOpen="showModal" @closeModal="closeModal">
           <template #body>
-            <p>This is the content of the modal body.</p>
+            <div class="position-relative form-group">
+              <label for="discography_name">Discography Name</label>
+              <input name="discography_name" id="discography_name" placeholder="Discography Name" type="text"
+                class="form-control">
+            </div>
+            <div class="position-relative form-group">
+              <label for="original_name">Original Name</label>
+              <input name="original_name" id="original_name" placeholder="Original Name" type="text"
+                class="form-control">
+            </div>
+            <div class="position-relative form-group">
+              <label for="date_of_birth">Date Of Birth</label>
+              <input name="date_of_birth" id="date_of_birth" placeholder="Date Of Birth" type="date"
+                class="form-control">
+            </div>
+            <div class="position-relative form-group">
+              <label for="album">Album</label>
+              <select name="select" id="album" class="form-control" required>
+                <option v-for="album in albums" :key="album.album_id" :value="album.album_id">
+                  {{ album.name }}
+                </option>
+              </select>
+            </div>
           </template>
           <template #footer>
             <button @click="closeModal" class="btn btn-primary">Cancel</button>
@@ -29,7 +51,7 @@ import ModalComponent from '../../DemoPages/Components/ModalComponent.vue';
 import TableComponent from '../../Layout/Components/TableComponent.vue';
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
-import { supabase } from '../../supabase/supabase';
+import { apiService } from '../../supabase/apiService';
 
 export default {
   name: "DiscographiesPage",
@@ -45,7 +67,10 @@ export default {
     const showModal = ref(false);
     const heading = ref('Discographies');
     const subheading = ref('Dive into the Musical Journeys of Talented Artists Across Generations');
-    const icon = ref('pe-7s-phone icon-gradient bg-premium-dark');
+    const icon = ref('pe-7s-phone icon-gradiant');
+    const orderBy = ref('id');
+    const orderDirection = ref('asc');
+    const search = ref('');
     const currentPage = ref(1);
     const itemsPerPage = ref(20);
     const totalItems = ref(0);
@@ -58,7 +83,7 @@ export default {
       { key: 'album', value: 'Album' },
     ]);
     const items = ref([]);
-
+    const albums = ref([]);
     const openModal = () => {
       showModal.value = true;
     };
@@ -68,23 +93,20 @@ export default {
     };
 
     const getDiscographiesData = async (newPage, newPageSize) => {
-      const start = (newPage - 1) * newPageSize;
-      const end = start + newPageSize - 1;
-
-      const { data, error } = await supabase
-        .from('discography')
-        .select('*, album(name), talent(name)')
-        .range(start, end);
-
-      if (!error) {
-        totalItems.value = data.length;
-        const transformedData = data.map(item => ({
-          ...item,
-          album: item.album?.name,
-          talent: item.talent?.name,
-        }));
-        items.value = transformedData;
+      const result = await apiService.getDiscographiesWithPaging(newPage, newPageSize, orderBy.value, orderDirection.value, search.value);
+      if (!result.error) {
+        items.value = result.items;
+        totalItems.value = result.totalItems;
+        totalPages.value = result.totalPages;
+        itemsPerPage.value = newPageSize;
+      } else {
+        console.error('Error:', result.error);
       }
+    };
+
+    const getAlbumsData = async () => {
+      const result = await apiService.getAlbums();
+      albums.value = result;
     };
 
     const loadPage = (page) => {
@@ -99,6 +121,7 @@ export default {
 
     onMounted(() => {
       getDiscographiesData(currentPage.value, itemsPerPage.value);
+      getAlbumsData();
     });
 
     return {
@@ -106,12 +129,16 @@ export default {
       heading,
       subheading,
       icon,
+      orderBy,
+      orderDirection,
+      search,
       currentPage,
       itemsPerPage,
       totalItems,
       totalPages,
       fields,
       items,
+      albums,
       openModal,
       closeModal,
       loadPage,

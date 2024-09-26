@@ -19,27 +19,27 @@
             <template #body>
                 <div class="position-relative form-group">
                     <label for="source_text">Source Text</label>
-                    <input name="source_text" placeholder="Source Text" v-model="currentDataset.source_text" type="text"
-                        class="form-control">
+                    <input name="source_text" id="source_text" placeholder="Source Text"
+                        v-model="currentDataset.source_text" type="text" class="form-control">
                 </div>
                 <div class="position-relative form-group">
                     <label for="target_text">Target Text</label>
-                    <input name="target_text" placeholder="Source Text" v-model="currentDataset.target_text" type="text"
-                        class="form-control">
+                    <input name="target_text" id="target_text" placeholder="Source Text"
+                        v-model="currentDataset.target_text" type="text" class="form-control">
                 </div>
                 <div class="position-relative form-group">
                     <label for="source">Source</label>
-                    <input name="source" placeholder="source" v-model="currentDataset.source" type="text"
+                    <input name="source" id="source" placeholder="source" v-model="currentDataset.source" type="text"
                         class="form-control">
                 </div>
                 <div class="position-relative form-group">
                     <label for="category">Category</label>
-                    <input name="category" placeholder="category" v-model="currentDataset.category" type="text"
-                        class="form-control">
+                    <input name="category" id="category" placeholder="category" v-model="currentDataset.category"
+                        type="text" class="form-control">
                 </div>
             </template>
             <template #footer>
-                <button type="text" class="btn-primary btn" @click="toggleCreateModal">Cancel</button>
+                <button type="text" class="btn btn-primary" @click="toggleCreateModal">Cancel</button>
                 <button-spinner :isLoading="onSubmit" buttonClass="btn btn-primary" @click="handleSubmit"
                     :normalText="isUpdateMode ? 'Update Dataset' : 'Add New Dataset'" />
             </template>
@@ -65,24 +65,24 @@
             <div class="card-body">
                 <div class="position-relative form-group">
                     <div class="form-group">
-                        <label for="fileName" class="">File Name</label>
-                        <input name="fileName" v-model="fileName" id="fileName" placeholder="File Name" type="text"
+                        <label for="file_name" class="">File Name</label>
+                        <input name="file_name" id="file_name" v-model="fileName" placeholder="File Name" type="text"
                             class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="source_text_max_length" class="">Source Text Max Length</label>
-                        <input name="source_text_max_length" v-model="sourceTextMaxLength" type="number"
-                            placeholder="Source Text Max Length" class="form-control">
+                        <input name="source_text_max_length" id="source_text_max_length" v-model="sourceTextMaxLength"
+                            type="number" placeholder="Source Text Max Length" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="target_text_max_length" class="">Target Text Max Length</label>
-                        <input name="target_text_max_length" v-model="targetTextMaxLength" type="number"
-                            placeholder="Target Text Max Length" class="form-control">
+                        <input name="target_text_max_length" id="target_text_max_length" v-model="targetTextMaxLength"
+                            type="number" placeholder="Target Text Max Length" class="form-control">
                     </div>
                 </div>
                 <div class="position-relative form-group">
-                    <button class="btn-primary btn" @click="toggleCreateModal">Cancel</button>
-                    <button class="btn-primary btn" @click="handleExport">Export</button>
+                    <button class="btn btn-primary" @click="toggleCreateModal">Cancel</button>
+                    <button class="btn btn-primary" @click="handleExport">Export</button>
                 </div>
             </div>
         </div>
@@ -182,8 +182,6 @@ export default {
                 this.totalItems = result.totalItems;
                 this.totalPages = result.totalPages;
                 this.itemsPerPage = newPageSize;
-            } else {
-                console.error('Error:', result.error);
             }
         },
 

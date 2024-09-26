@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="h-100 bg-plum-plate bg-animation">
+        <div class="h-100 bg-premium-dark bg-animation">
             <div class="d-flex h-100 justify-content-center align-items-center">
                 <div class="col-md-6 mx-auto app-login-box">
                     <div class="app-logo-inverse mx-auto mb-3"></div>

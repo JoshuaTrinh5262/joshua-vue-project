@@ -6,13 +6,15 @@
       :totalPages="totalPages"></pagination-component>
   </div>
 </template>
+
 <script>
+import { defineComponent, ref, onMounted } from 'vue';
 import TableComponent from '../../Layout/Components/TableComponent.vue';
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
 import { apiService } from '../../supabase/apiService';
 
-export default {
+export default defineComponent({
   name: "UserPage",
 
   components: {
@@ -21,49 +23,57 @@ export default {
     PaginationComponent
   },
 
-  data() {
-    return {
-      heading: 'User',
-      subheading: 'User.',
-      icon: 'pe-7s-phone icon-gradient bg-premium-dark',
-      currentPage: 1,
-      itemsPerPage: 20,
-      totalItems: 0,
-      totalPages: 0,
-      fields: [
-        {
-          key: 'id',
-          value: 'Id'
-        },
-        {
-          key: 'email',
-          value: 'email'
-        },
-        {
-          key: 'last_sign_in_at',
-          value: 'last Sign In'
-        },
-      ],
-      items: [],
-    }
-  },
+  setup() {
+    const heading = ref('User');
+    const subheading = ref('User');
+    const icon = ref('pe-7s-phone icon-gradient');
+    const currentPage = ref(0);
+    const itemsPerPage = ref(20);
+    const totalItems = ref(0);
+    const totalPages = ref(0);
+    const fields = ref([
+      {
+        key: 'id',
+        value: 'Id'
+      },
+      {
+        key: 'email',
+        value: 'email'
+      },
+      {
+        key: 'last_sign_in_at',
+        value: 'last Sign In'
+      },
+    ]);
+    const items = ref([]);
 
-  created() {
-    this.getUsersData(this.currentPage, this.itemsPerPage);
-  },
-
-  methods: {
-    async getUsersData(newPage, newPageSize) {
-      const result = await apiService.getAuthUsers(newPage, newPageSize)
+    const getUsersData = async (newPage, newPageSize) => {
+      const result = await apiService.getAuthUsers(newPage, newPageSize);
       if (!result.error) {
-        this.items = result.items;
-        this.totalItems = result.totalItems;
-        this.totalPages = result.totalPages;
-        this.itemsPerPage = newPageSize;
+        items.value = result.items;
+        totalItems.value = result.totalItems;
+        totalPages.value = result.totalPages;
+        itemsPerPage.value = newPageSize;
       } else {
         console.error('Error:', result.error);
       }
-    },
-  }
-};
+    };
+
+    onMounted(() => {
+      getUsersData(currentPage.value, itemsPerPage.value);
+    });
+
+    return {
+      currentPage,
+      itemsPerPage,
+      totalItems,
+      totalPages,
+      fields,
+      items,
+      heading,
+      subheading,
+      icon,
+    };
+  },
+});
 </script>

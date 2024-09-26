@@ -41,7 +41,7 @@ export default {
     return {
       heading: 'Kanban',
       subheading: 'Basic Kanban.',
-      icon: 'pe-7s-drawer icon-gradient bg-happy-itmeo',
+      icon: 'pe-7s-drawer icon-gradient',
 
       columns: [
         {

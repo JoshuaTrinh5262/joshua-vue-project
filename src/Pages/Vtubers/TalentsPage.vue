@@ -1,37 +1,37 @@
 <template>
   <div>
     <page-title-component :heading="heading" :subheading="subheading" :icon="icon">
-
       <template v-slot:actions>
-        <button type="button" @click="openModal" class="btn-shadow d-inline-flex align-items-center btn btn-primary">
+        <button type="button" @click="toggleModal" class="btn-shadow d-inline-flex align-items-center btn btn-primary">
           Add New Talent
         </button>
-
       </template>
     </page-title-component>
     <notification-component v-model:notification="notification"></notification-component>
-    <modal-component title="Add New Talent" :isOpen="showModal" @closeModal="closeModal">
+    <modal-component :title="isUpdateMode ? 'Update Talent' : 'Add New Talent'" :isOpen="showModal"
+      @closeModal="toggleModal">
       <template #body>
         <div class="form-row">
           <div class="col-md-6">
             <div class="position-relative form-group">
-              <label for="name">Name</label>
-              <input name="name" id="name" placeholder="Name" type="text" v-model="newTalent.name" class="form-control">
+              <label for="talent_name">Talent Name</label>
+              <input name="talent_name" id="talent_name" placeholder="Talent Name" type="text"
+                v-model="currentTalent.name" class="form-control">
             </div>
           </div>
           <div class="col-md-6">
             <div class="position-relative form-group">
               <label for="original_name">Original Name</label>
-              <input name="original_name" id="original_name" placeholder="Original Name" v-model=newTalent.original_name
-                type="text" class="form-control">
+              <input name="original_name" id="original_name" placeholder="Original Name"
+                v-model=currentTalent.original_name type="text" class="form-control">
             </div>
           </div>
         </div>
         <div class="form-row">
           <div class="col-md-6">
             <div class="position-relative form-group">
-              <label for="name">Gender</label>
-              <select name="gender" id="gender" v-model=newTalent.gender class="form-control">
+              <label for="talent_gender">Gender</label>
+              <select name="talent_gender" id="talent_gender" v-model=currentTalent.gender class="form-control">
                 <option value="male">Male</option>
                 <option value="female">female</option>
               </select>
@@ -40,8 +40,8 @@
           <div class="col-md-6">
             <div class="position-relative form-group">
               <label for="date_of_birth">Date Of Birth</label>
-              <input name="date_of_birth" id="date_of_birth" placeholder="Date Of Birth" v-model=newTalent.date_of_birth
-                type="date" class="form-control">
+              <input name="date_of_birth" id="date_of_birth" placeholder="Date Of Birth"
+                v-model=currentTalent.date_of_birth type="date" class="form-control">
             </div>
           </div>
         </div>
@@ -49,7 +49,7 @@
           <div class="col-md-6">
             <div class="position-relative form-group">
               <label for="agency">Agency</label>
-              <select name="select" id="agency" v-model=newTalent.agency_id class="form-control" required>
+              <select name="select" id="agency" v-model=currentTalent.agency_id class="form-control" required>
                 <option v-for="agency in agencies" :key="agency.agency_id" :value="agency.agency_id">
                   {{ agency.agency_name }}
                 </option>
@@ -59,7 +59,7 @@
           <div class="col-md-6">
             <div class="position-relative form-group">
               <label for="talent_status">Talent Status</label>
-              <select name="talent_status" id="talent_status" v-model=newTalent.talent_status class="form-control">
+              <select name="talent_status" id="talent_status" v-model=currentTalent.talent_status class="form-control">
                 <option value="active">Active</option>
                 <option value="graduation">Graduation</option>
                 <option value="terminated">Terminated</option>
@@ -71,15 +71,15 @@
           <div class="col-md-6">
             <div class="position-relative form-group">
               <label for="debut_date">Debut Date</label>
-              <input name="debut_date" id="debut_date" placeholder="Debut Date" type="date" v-model=newTalent.debut_date
-                class="form-control">
+              <input name="debut_date" id="debut_date" placeholder="Debut Date" type="date"
+                v-model=currentTalent.debut_date class="form-control">
             </div>
           </div>
           <div class="col-md-6">
             <div class="position-relative form-group" v-if="showRetirementDate()">
               <label for="retirement_date">Retirement Date</label>
               <input name="retirement_date" id="retirement_date" placeholder="Retirement Date" type="date"
-                v-model=newTalent.retirement_date class="form-control">
+                v-model=currentTalent.retirement_date class="form-control">
             </div>
           </div>
         </div>
@@ -87,26 +87,27 @@
           <div class="col-md-6">
             <div class="position-relative form-group">
               <label for="height">Height</label>
-              <input name="height" id="height" placeholder="Height" type="number" v-model=newTalent.height
+              <input name="height" id="height" placeholder="Height" type="number" v-model=currentTalent.height
                 class="form-control">
             </div>
           </div>
           <div class="col-md-6">
             <div class="position-relative form-group">
               <label for="emoji">Emoji</label>
-              <input name="emoji" id="emoji" placeholder="Emoji" v-model=newTalent.emoji type="text"
+              <input name="emoji" id="emoji" placeholder="Emoji" v-model=currentTalent.emoji type="text"
                 class="form-control">
             </div>
           </div>
         </div>
       </template>
       <template #footer>
-        <button class="btn-primary btn" @click="closeModal">Cancel</button>
-        <button-spinner :isLoading="onSubmit" buttonClass="btn btn-primary" @click="submitTalent" normalText="Submit" />
+        <button class="btn btn-primary" @click="toggleModal">Cancel</button>
+        <button-spinner :isLoading="onSubmit" buttonClass="btn btn-primary" @click="handleSubmitTalent"
+          :normalText="isUpdateMode ? 'Update Talent' : 'Add New Talent'" />
       </template>
     </modal-component>
     <table-component :footer="true" :fields="fields" :items="items" @search="onSearchChange"
-      @changeOrder="handleChangeOrder" @deleteRow="deleteTalent" />
+      @changeOrder="handleChangeOrder" @deleteRow="deleteTalent" @updateRow="handleUpdateRow" />
     <pagination-component :currentPage="currentPage" :perPage="itemsPerPage" :totalItems="totalItems"
       :totalPages="totalPages" @load-page="loadPage" @change-page-size="changePageSize" />
   </div>
@@ -137,9 +138,10 @@ export default defineComponent({
     const heading = ref('Talents');
     const subheading = ref('Explore the Profiles of Emerging and Established Talents.');
     const icon = ref('pe-7s-phone icon-gradient bg-premium-dark');
+    const isUpdateMode = ref(false);
     const showModal = ref(false);
     const currentPage = ref(1);
-    const itemsPerPage = ref(100);
+    const itemsPerPage = ref(20);
     const totalItems = ref(0);
     const totalPages = ref(0);
     const orderBy = ref('id');
@@ -147,7 +149,7 @@ export default defineComponent({
     const search = ref('');
     const onSubmit = ref(false);
     const notification = ref(null);
-    const newTalent = reactive({
+    const currentTalent = ref({
       name: null,
       original_name: null,
       gender: null,
@@ -160,7 +162,6 @@ export default defineComponent({
       emoji: null,
     });
     const fields = ref([
-      { key: 'id', value: 'Id' },
       { key: 'name', value: 'Name' },
       { key: 'original_name', value: 'Original Name' },
       { key: 'agency', value: 'Agency' },
@@ -170,16 +171,29 @@ export default defineComponent({
     const items = ref([]);
     const agencies = ref([]);
 
-    const openModal = () => {
-      showModal.value = true;
+    const toggleModal = () => {
+      isUpdateMode.value = false;
+      cleanCurrentTalent();
+      showModal.value = !showModal.value;
     };
 
-    const closeModal = () => {
-      showModal.value = false;
+    const cleanCurrentTalent = () => {
+      currentTalent.value = {
+        name: null,
+        original_name: null,
+        gender: null,
+        date_of_birth: null,
+        agency_id: null,
+        talent_status: 'active',
+        debut_date: null,
+        retirement_date: null,
+        height: null,
+        emoji: null,
+      };
     };
 
     const showRetirementDate = () => {
-      return newTalent.talent_status === 'terminated' || newTalent.talent_status === 'graduation';
+      return currentTalent.talent_status === 'terminated' || currentTalent.talent_status === 'graduation';
     };
 
     const getAgencyData = async () => {
@@ -203,27 +217,49 @@ export default defineComponent({
       }
     };
 
-    const submitTalent = async () => {
+    const handleSubmitTalent = async () => {
       onSubmit.value = true;
+      if (isUpdateMode.value) {
+        updateTalent();
+      } else {
+        createTalent();
+      }
+    };
+
+    const createTalent = async () => {
       try {
-        await apiService.createTalent(newTalent);
+        await apiService.createTalent(currentTalent.value);
+        cleanCurrentTalent();
+        toggleModal();
+        onSubmit.value = false;
         notification.value = { title: 'Success', content: 'Talent created successfully!', type: 'success' };
         getTalentsData(currentPage.value, itemsPerPage.value);
-        onSubmit.value = false;
-        Object.assign(newTalent, {
-          name: null,
-          original_name: null,
-          gender: null,
-          date_of_birth: null,
-          agency_id: null,
-          talent_status: "active",
-          debut_date: null,
-          retirement_date: null,
-          height: null,
-          emoji: null,
-        });
       } catch (error) {
+        onSubmit.value = false;
         notification.value = { title: 'Error', content: `Error when submitting talent: ${error}`, type: 'danger' };
+      }
+    }
+    const updateTalent = async () => {
+      try {
+        await apiService.updateTalent(currentTalent.value);
+        cleanCurrentTalent();
+        toggleModal();
+        onSubmit.value = false;
+        notification.value = {
+          title: 'Success',
+          content: 'Talent updated successfully!',
+          type: 'success',
+        };
+        getTalentsData(currentPage.value, itemsPerPage.value);
+        isUpdateMode.value = false;
+      } catch (error) {
+        onSubmit.value = false;
+        notification.value = {
+          title: 'Error',
+          content: `Error when updating Talent: ${error}`,
+          type: 'danger',
+        };
+        isUpdateMode.value = false;
       }
     };
 
@@ -238,6 +274,13 @@ export default defineComponent({
           notification.value = { title: 'Error', content: `Error when deleting talent: ${error}`, type: 'danger' };
         }
       }
+    };
+
+    const handleUpdateRow = (updateId) => {
+      isUpdateMode.value = true;
+      const selectedItem = items.value.find(x => x.id === updateId);
+      currentTalent.value = JSON.parse(JSON.stringify(selectedItem));
+      showModal.value = true;
     };
 
     const onSearchChange = (searchTerm) => {
@@ -270,6 +313,8 @@ export default defineComponent({
       heading,
       subheading,
       icon,
+      search,
+      isUpdateMode,
       showModal,
       currentPage,
       itemsPerPage,
@@ -279,18 +324,20 @@ export default defineComponent({
       orderDirection,
       onSubmit,
       notification,
-      newTalent,
+      currentTalent,
       fields,
       items,
       agencies,
-      openModal,
-      closeModal,
+      toggleModal,
       showRetirementDate,
       getAgencyData,
       getTalentsData,
-      submitTalent,
+      handleSubmitTalent,
+      createTalent,
+      updateTalent,
       deleteTalent,
       handleChangeOrder,
+      handleUpdateRow,
       loadPage,
       changePageSize,
       onSearchChange,

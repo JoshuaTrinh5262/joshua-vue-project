@@ -8,32 +8,32 @@
       </template>
     </PageTitleComponent>
     <NotificationComponent v-model:notification="notification"></NotificationComponent>
-    <ModalComponent :isOpen="showModal" @closeModal="closeModal">
+    <ModalComponent title="Create New Event" :isOpen="showModal" @closeModal="closeModal">
       <template #body>
         <div class="position-relative form-group">
-          <label for="name">Name</label>
-          <input name="name" id="name" placeholder="Name" type="text" v-model="newEvent.event_title"
-            class="form-control">
+          <label for="event_title">Event Title</label>
+          <input name="event_title" id="event_title" placeholder="Event Title" type="text"
+            v-model="newEvent.event_title" class="form-control">
         </div>
         <div class="position-relative form-group">
-          <label for="name">event_summary</label>
-          <input name="name" id="name" placeholder="Name" type="text" v-model="newEvent.event_summary"
-            class="form-control">
+          <label for="event_summary">Event Summary</label>
+          <input name="event_summary" id="event_summary" placeholder="Event Summary" type="text"
+            v-model="newEvent.event_summary" class="form-control">
         </div>
         <div class="position-relative form-group">
-          <label for="name">event_hashtag</label>
-          <input name="name" id="name" placeholder="Name" type="text" v-model="newEvent.event_hashtag"
-            class="form-control">
+          <label for="event_hashtag">Event Hashtag</label>
+          <input name="event_hashtag" id="event_hashtag" placeholder="Event Hashtag" type="text"
+            v-model="newEvent.event_hashtag" class="form-control">
         </div>
         <div class="position-relative form-group">
-          <label for="name">event_date</label>
-          <input name="name" id="name" placeholder="Name" type="date" v-model="newEvent.event_date"
+          <label for="event_date">Event Date</label>
+          <input name="event_date" id="event_date" placeholder="Event Date" type="date" v-model="newEvent.event_date"
             class="form-control">
         </div>
       </template>
       <template #footer>
-        <button @click="closeModal">Cancel</button>
-        <button @click="closeModal">Submit</button>
+        <button class="btn btn-primary" @click="closeModal">Cancel</button>
+        <button class="btn btn-primary" @click="closeModal">Submit</button>
       </template>
     </ModalComponent>
 
@@ -51,6 +51,7 @@ import ModalComponent from '../../DemoPages/Components/ModalComponent.vue';
 import TableComponent from '../../Layout/Components/TableComponent.vue';
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
+import NotificationComponent from "../../Layout/Components/NotificationComponent.vue";
 import { apiService } from '../../supabase/apiService';
 
 export default defineComponent({
@@ -60,7 +61,8 @@ export default defineComponent({
     ModalComponent,
     TableComponent,
     PageTitleComponent,
-    PaginationComponent
+    PaginationComponent,
+    NotificationComponent
   },
 
   setup() {
@@ -79,7 +81,8 @@ export default defineComponent({
     const newEvent = ref({ name: null });
     const fields = ref([
       { key: 'id', value: 'ID' },
-      { key: 'event_summary', value: 'Title' },
+      { key: 'event_title', value: 'title' },
+      { key: 'event_summary', value: 'summary' },
       { key: 'event_date', value: 'Date' },
       { key: 'event_hashtag', value: 'Hashtag' }
     ]);
@@ -97,12 +100,10 @@ export default defineComponent({
     };
 
     const openModal = () => {
-      console.log("open");
       showModal.value = true;
     };
 
     const closeModal = () => {
-      console.log("close");
       showModal.value = false;
     };
 

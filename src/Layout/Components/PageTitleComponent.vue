@@ -25,7 +25,7 @@
 <script>
 import { defineComponent, toRefs } from 'vue';
 
-export default defineComponent({
+export default defineComponent ({
   name: 'PageTitleComponent',
   props: {
     icon: {

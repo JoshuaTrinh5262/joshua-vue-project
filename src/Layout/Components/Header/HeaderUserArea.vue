@@ -6,7 +6,7 @@
                     <div class="widget-content-left">
                         <div class="dropdown">
                             <button class="btn p-0 mr-2 dropdown-toggle" type="button" id="dropdownMenuButton"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                aria-haspopup="true" aria-expanded="false">
                                 <div class="icon-wrapper icon-wrapper-alt rounded-circle">
                                     <img width="40" class="rounded-circle" src="@/assets/images/avatars/0.jpg" alt="">
                                 </div>
@@ -24,7 +24,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="widget-content-left  ml-3 header-user-info">
+                    <div class="widget-content-left ml-3 header-user-info">
                         <div class="widget-heading">Joshua Trinh</div>
                         <div class="widget-subheading">Admin</div>
                     </div>
@@ -40,30 +40,33 @@
 </template>
 
 <script>
+import { defineComponent, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { logout } from '../../../supabase/authService';
 
-export default {
+export default defineComponent({
+    setup() {
+        const router = useRouter();
 
-    components: {
-    },
-    data: () => ({
-
-    }),
-
-    methods: {
-        async handleLogout() {
-            await logout().then(({ error }) => {
-                this.$1srouter.push("/login");
-                if (error) {
-                    console.error('Logout error:', error);
-                } else {
-                    console.log('User logged out successfully.');
+        const handleLogout = async () => {
+            const confirmed = window.confirm('Are you sure you want to log out?');
+            if (confirmed) {
+                try {
+                    const { error } = await logout();
+                    if (error) {
+                        console.error('Logout error:', error);
+                    } else {
+                        router.push("/admin/login");
+                    }
+                } catch (err) {
+                    console.error('Unexpected error:', err);
                 }
-            })
-            .catch(err => {
-                console.error('Unexpected error:', err);
-            });
-        }
+            }
+        };
+
+        return {
+            handleLogout,
+        };
     }
-}
+});
 </script>

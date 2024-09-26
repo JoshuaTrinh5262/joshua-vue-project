@@ -7,7 +7,7 @@
         <div class="input-group-prepend">
           <button type="button" class="btn btn-primary" @click="newChatgroup">New Chat</button>
         </div>
-        <input v-model="newChatgroupName" placeholder="Enter New Group Name" type="text" class="form-control">
+        <input v-model="newChatgroupName" placeholder="Enter New Group Name" name="new_chatgroup_name" type="text" class="form-control">
       </div>
       <div class="chatgroup-list">
         <button :key="chat.id" v-for="chat in chatGroups" :class="{ 'active': currentChat?.id == chat.id }"
@@ -35,7 +35,7 @@
       </div>
       <div class="chat-input">
         <div class="input-group">
-          <input v-model="userInput" placeholder="Enter your chat here" type="text" class="form-control">
+          <input v-model="userInput" placeholder="Enter your chat here"  name="new_chat_message" type="text" class="form-control">
           <div class="input-group-append">
             <button type="button" class="btn btn-primary" @click="sendMessage">Send message</button>
           </div>
@@ -61,7 +61,7 @@ export default defineComponent({
   setup() {
     const heading = ref('Chatgroup');
     const subHeading = ref('Chatgroup demo');
-    const icon = ref('pe-7s-bandaid icon-gradient bg-amy-crisp');
+    const icon = ref('pe-7s-bandaid icon-gradient');
     const currentChat = ref(null);
     const userInput = ref('');
     const chatGroups = ref([]);
@@ -161,7 +161,7 @@ export default defineComponent({
 
         try {
           await apiService.createMessage(newMessage);
-          currentChat.value.message.push({ ...newMessage });
+          // currentChat.value.message.push({ ...newMessage });
           userInput.value = '';
           notification.value = {
             title: 'Success',

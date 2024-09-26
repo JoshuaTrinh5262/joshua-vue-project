@@ -5,7 +5,7 @@
         <button type="button" @click="openModal" class="btn-shadow d-inline-flex align-items-center btn btn-primary">
           Create New
         </button>
-        <ModalComponent title="Create New" :isOpen="showModal" @closeModal="closeModal">
+        <ModalComponent title="Create New Album" :isOpen="showModal" @closeModal="closeModal">
           <template #body>
             <div class="position-relative form-group">
               <label for="name">Album Name</label>
@@ -38,7 +38,7 @@ import ModalComponent from '../../DemoPages/Components/ModalComponent.vue';
 import TableComponent from '../../Layout/Components/TableComponent.vue';
 import PageTitleComponent from '../../Layout/Components/PageTitleComponent.vue';
 import PaginationComponent from '../../Layout/Components/PaginationComponent.vue';
-import { supabase } from '../../supabase/supabase';
+import { apiService } from '../../supabase/apiService';
 
 export default defineComponent({
   name: "AlbumsPage",
@@ -55,33 +55,30 @@ export default defineComponent({
     const heading = ref('Albums');
     const subheading = ref('Albums');
     const icon = ref('pe-7s-phone icon-gradient bg-premium-dark');
+    const search = ref('');
+    const orderBy = ref('id');
+    const orderDirection = ref('asc');
     const currentPage = ref(1);
     const itemsPerPage = ref(20);
     const totalItems = ref(0);
     const totalPages = ref(0);
     const albumName = ref('');
+    const albumDate = ref('');
     const fields = ref([
       { key: 'id', value: 'ID' },
-      { key: 'name', value: 'Name' },
+      { key: 'name', value: 'Album Name' },
+      { key: 'released_date', value: 'Album Released Date' }
     ]);
     const items = ref([]);
 
     const getAlbumsData = async (newPage, newPageSize) => {
-      const start = (newPage - 1) * newPageSize;
-      const end = start + newPageSize - 1;
+      const result = await apiService.getAlbumsWithPaging(newPage, newPageSize, orderBy.value, orderDirection.value, search.value);
 
-      const { data, error } = await supabase
-        .from('album')
-        .select('*')
-        .range(start, end);
-
-      if (!error) {
-        totalItems.value = data.length;
-        items.value = data.map(item => ({
-          ...item,
-          album: item.album?.name,
-          talent: item.talent?.name,
-        }));
+      if (!result.error) {
+        items.value = result.items;
+        totalItems.value = result.totalItems;
+        totalPages.value = result.totalPages;
+        itemsPerPage.value = newPageSize;
       }
     };
 
@@ -132,7 +129,11 @@ export default defineComponent({
       heading,
       subheading,
       icon,
+      search,
+      orderBy,
+      orderDirection,
       albumName,
+      albumDate,
       fields,
       items,
       currentPage,

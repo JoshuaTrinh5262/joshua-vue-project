@@ -16,18 +16,17 @@
                                 </div>
                                 <div class="divider"></div>
                                 <form>
-                                    <div class="form-group" id="exampleInputGroup1">
-                                        <label for="exampleInput1">Email</label>
-                                        <input type="email" class="form-control" id="exampleInput1" required
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" class="form-control" id="email" required
                                             placeholder="Enter email...">
-                                        <small id="exampleInput1Help" class="form-text text-muted">We'll never share
-                                            your
+                                        <small id="exampleInput1Help" class="form-text text-muted">We'll never shareyour
                                             email with anyone else.</small>
                                     </div>
 
-                                    <div class="form-group" id="exampleInputGroup2">
-                                        <label for="exampleInput12">Username</label>
-                                        <input type="text" class="form-control" id="exampleInput2" required
+                                    <div class="form-group">
+                                        <label for="username">Username</label>
+                                        <input type="text" class="form-control" id="username" required
                                             placeholder="Enter username...">
                                     </div>
                                     <div class="row">

@@ -3,7 +3,7 @@
     <page-title-component :heading=heading :subheading=subheading :icon=icon></page-title-component>
 
     <div class="content">
-      <div class="card main-card mb-3">
+      <div class="card main-card mb-3 bg-premium-dark text-white">
         <div class="card-body">
           <h3 class="card-title">Gradient Icons</h3>
           <div class="font-icon-wrapper font-icon-lg">
@@ -65,7 +65,7 @@
           </div>
         </div>
       </div>
-      <div class="card main-card mb-3">
+      <div class="card main-card mb-3 bg-premium-dark text-white">
         <div class="card-body">
           <h3 class="card-title">Icon Font Pack</h3>
           <div class="row">
@@ -78,7 +78,7 @@
           </div>
         </div>
       </div>
-      <div class="card main-card mb-3">
+      <div class="card main-card mb-3 bg-premium-dark text-white">
         <div class="card-body">
           <h3 class="card-title">Font Awesome Icon</h3>
           <div class="row">

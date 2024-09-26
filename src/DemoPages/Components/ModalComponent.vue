@@ -58,7 +58,7 @@ export default {
 }
 
 .modal-content {
-  max-width: 600px;
+  max-width: 800px;
   width: 100%;
   position: relative;
   display: flex;
