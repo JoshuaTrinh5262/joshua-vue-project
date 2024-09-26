@@ -1,5 +1,34 @@
 import { supabase } from "../supabase";
+export const getAlbumsWithPaging = async (page, pageSize, orderBy, orderDirection, search = '') => {
+    try {
+        const start = (page - 1) * pageSize;
+        const end = start + pageSize - 1;
 
+        let query = supabase
+            .from('album')
+            .select('*')
+            .order(orderBy, { ascending: orderDirection === 'asc' })
+            .range(start, end);
+
+        if (search) {
+            query = query.or(`album_name.ilike.%${search}%`);
+        }
+
+        const { data, count, error } = await query;
+
+        if (error) {
+            throw error;
+        }
+
+        return {
+            items: data,
+            totalItems: count,
+            totalPages: Math.ceil(count / pageSize),
+        };
+    } catch (err) {
+        return { error: err.message };
+    }
+};
 export const getAlbums = async () => {
     try {
         const { data, error } = await supabase.from('album').select('*');

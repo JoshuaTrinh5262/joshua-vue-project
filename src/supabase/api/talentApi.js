@@ -11,7 +11,7 @@ export const getTalents = async (page, pageSize, orderBy, orderDirection, search
             .order(orderBy, { ascending: orderDirection === 'asc' })
             .range(start, end);
         if (search) {
-            query = query.or(`name.ilike.%${search}%`);
+            query = query.or(`name.ilike.%${search}%,original_name.ilike.%${search}%`);
         }
         const { data, count, error } = await query;
         if (error) {
@@ -60,9 +60,9 @@ export const createTalent = async (talent) => {
     }
 };
 
-export const updateTalent = async (id, updates) => {
+export const updateTalent = async (updates) => {
     try {
-        const { data, error } = await supabase.from('talent').update(updates).eq('id', id).single();
+        const { data, error } = await supabase.from('talent').update(updates).eq('id', updates.id).single();
         if (error) {
             throw error;
         }
