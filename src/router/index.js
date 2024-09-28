@@ -71,7 +71,7 @@ const routes = [
     },
     {
         path: "/admin/album",
-        name: "albums",
+        name: "album",
         meta: {
             layout: "admin",
             requiresAuth: true,
