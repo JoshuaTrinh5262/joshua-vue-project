@@ -95,7 +95,7 @@ export default defineComponent({
         };
 
         const wordCounter = () => {
-            const wordCount = text.value ? text.value.match(/\b\w+('\w+)?\b/g) : [];
+            const wordCount = text.value ? text.value.match(/\b\w+("\w+)?\b/g) : [];
             words.value = wordCount ? wordCount.length : 0;
         };
 
@@ -110,7 +110,7 @@ export default defineComponent({
         };
 
         const wordFrequencyCounter = () => {
-            const wordArray = text.value ? text.value.match(/\b\w+('\w+)?\b/g) : [];
+            const wordArray = text.value ? text.value.match(/\b\w+("\w+)?\b/g) : [];
             const frequency = wordArray.reduce((acc, word) => {
                 const existingWord = acc.find((item) => item.word === word.toLowerCase());
 

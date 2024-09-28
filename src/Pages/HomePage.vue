@@ -229,8 +229,8 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue';
-import BannerComponent from '../Layout/Components/BannerComponent.vue';
+import { defineComponent } from "vue";
+import BannerComponent from "../Layout/Components/BannerComponent.vue";
 
 export default defineComponent({
   name: "HomePage",
@@ -251,7 +251,7 @@ export default defineComponent({
 
 /* The actual timeline (the vertical ruler) */
 .timeline::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 6px;
   background-color: white;
@@ -271,7 +271,7 @@ export default defineComponent({
 
 /* The circles on the timeline */
 .timeline-container::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 25px;
   height: 25px;

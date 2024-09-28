@@ -14,6 +14,6 @@
 
     export default {
         components: {},
-        props: ['heading', 'subheading'],
+        props: ["heading", "subheading"],
     }
 </script>

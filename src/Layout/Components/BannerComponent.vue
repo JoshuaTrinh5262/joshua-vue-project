@@ -8,10 +8,10 @@
 </template>
 
 <script>
-import { ref, defineComponent } from 'vue';
+import { ref, defineComponent } from "vue";
 
 export default defineComponent({
-  name: 'BannerComponent',
+  name: "BannerComponent",
   setup() {
     const hoveredIndex = ref(null);
 

@@ -13,7 +13,7 @@
 import MainHeaderComponent from "../Components/MainHeaderComponent";
 
 export default {
-  name: 'app',
+  name: "app",
   components: {
     MainHeaderComponent,
   },

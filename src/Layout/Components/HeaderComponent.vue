@@ -32,14 +32,14 @@
 
 <script>
 
-    import SearchBox from './Header/SearchBox';
-    import UserArea from './Header/HeaderUserArea';
+    import SearchBox from "./Header/SearchBox";
+    import UserArea from "./Header/HeaderUserArea";
 
-    import {library} from '@fortawesome/fontawesome-svg-core'
+    import {library} from "@fortawesome/fontawesome-svg-core"
     import {
         faEllipsisV,
-    } from '@fortawesome/free-solid-svg-icons'
-    import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
+    } from "@fortawesome/free-solid-svg-icons"
+    import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome"
 
     library.add(
         faEllipsisV,
@@ -49,7 +49,7 @@
         components: {
             SearchBox,
             UserArea,
-            'font-awesome-icon': FontAwesomeIcon,
+            "font-awesome-icon": FontAwesomeIcon,
         },
 
         data() {

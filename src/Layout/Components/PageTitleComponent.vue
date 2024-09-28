@@ -23,10 +23,10 @@
 </template>
 
 <script>
-import { defineComponent, toRefs } from 'vue';
+import { defineComponent, toRefs } from "vue";
 
 export default defineComponent ({
-  name: 'PageTitleComponent',
+  name: "PageTitleComponent",
   props: {
     icon: {
       type: String,
@@ -38,7 +38,7 @@ export default defineComponent ({
     },
     subheading: {
       type: String,
-      default: '',
+      default: "",
     },
     showImport: {
       type: Boolean,

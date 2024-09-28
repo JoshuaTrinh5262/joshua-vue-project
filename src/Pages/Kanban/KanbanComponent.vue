@@ -28,9 +28,9 @@ export default {
   },
   data() {
     return {
-      heading: 'Kanban',
-      subheading: 'Basic Kanban.',
-      icon: 'pe-7s-notebook icon-gradient bg-premium-dark',
+      heading: "Kanban",
+      subheading: "Basic Kanban.",
+      icon: "pe-7s-notebook icon-gradient bg-premium-dark",
 
       columns: [
         {

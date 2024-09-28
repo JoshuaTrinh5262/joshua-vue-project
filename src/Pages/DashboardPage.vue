@@ -459,11 +459,11 @@
     </div>
 </template>
 <script>
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref, onMounted } from "vue";
 import PageTitleComponent from "../Layout/Components/PageTitleComponent.vue";
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { apiService } from '../supabase/apiService';
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { apiService } from "../supabase/apiService";
 
 import {
     faTrashAlt,
@@ -472,7 +472,7 @@ import {
     faAngleDown,
     faAngleUp,
     faTh,
-} from '@fortawesome/free-solid-svg-icons';
+} from "@fortawesome/free-solid-svg-icons";
 
 library.add(
     faTrashAlt,
@@ -490,9 +490,9 @@ export default defineComponent({
         FontAwesomeIcon,
     },
     setup() {
-        const heading = ref('Analytics Dashboard');
-        const subheading = ref('This is an example dashboard created using build-in elements and components.');
-        const icon = ref('pe-7s-plane icon-gradient bg-tempting-azure');
+        const heading = ref("Analytics Dashboard");
+        const subheading = ref("This is an example dashboard created using build-in elements and components.");
+        const icon = ref("pe-7s-plane icon-gradient bg-tempting-azure");
         const vtuberRecords = ref(null);
         const datasetRecords = ref(null);
 
@@ -604,17 +604,17 @@ export default defineComponent({
             const messageCount = await getMessageCount();
 
             datasetRecords.value = [
-                { label: 'Dataset Record', count: datasetCount },
-                { label: 'Chat Group Record', count: chatgroupCount },
-                { label: 'Message Record', count: messageCount },
+                { label: "Dataset Record", count: datasetCount },
+                { label: "Chat Group Record", count: chatgroupCount },
+                { label: "Message Record", count: messageCount },
             ];
 
             vtuberRecords.value = [
-                { label: 'Talent Record', count: talentCount },
-                { label: 'Agency Record', count: agencyCount },
-                { label: 'Album Record', count: albumCount },
-                { label: 'Discography Record', count: discographyCount },
-                { label: 'Event Record', count: eventCount },
+                { label: "Talent Record", count: talentCount },
+                { label: "Agency Record", count: agencyCount },
+                { label: "Album Record", count: albumCount },
+                { label: "Discography Record", count: discographyCount },
+                { label: "Event Record", count: eventCount },
             ];
         };
 

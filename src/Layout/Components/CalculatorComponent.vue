@@ -23,45 +23,45 @@
 
 <script>
 export default {
-  name: 'CalculatorComponent',
+  name: "CalculatorComponent",
   props: {
     msg: String
   },
 
   data() {
     return {
-      calculatorValue: '',
-      calcBtns: ['C', '%', '=', '+', 7, 8, 9,'-', 4, 5, 6,'*', 1, 2, 3, '/', 0, '.'],
+      calculatorValue: "",
+      calcBtns: ["C", "%", "=", "+", 7, 8, 9,"-", 4, 5, 6,"*", 1, 2, 3, "/", 0, "."],
       operators: null,
-      prevCalcVal: ''
+      prevCalcVal: ""
     }
   }, 
   methods: {
     action(btn) {
-      if(!isNaN(btn) || btn === '.')
+      if(!isNaN(btn) || btn === ".")
       {
-        this.calculatorValue += btn +'';
+        this.calculatorValue += btn +"";
       }
 
-      if (btn === 'C') {
-        this.calculatorValue = '';
+      if (btn === "C") {
+        this.calculatorValue = "";
       }
 
-      if (btn === '%') {
-        this.calculatorValue = this.calculatorValue / 100 + '';
+      if (btn === "%") {
+        this.calculatorValue = this.calculatorValue / 100 + "";
       }
 
-      if (['/', '+', '-', '*'].includes(btn)) {
+      if (["/", "+", "-", "*"].includes(btn)) {
         this.operators = btn
         this.prevCalcVal = this.calculatorValue
-        this.calculatorValue = ''
+        this.calculatorValue = ""
       }
 
       if (btn === "=") {
           this.calculatorValue = eval(
             this.prevCalcVal + this.operators + this.calculatorValue
             );
-          this.prevCalcVal = '';
+          this.prevCalcVal = "";
           this.operators = null;
       }
     }

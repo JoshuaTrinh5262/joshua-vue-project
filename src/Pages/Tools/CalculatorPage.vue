@@ -6,7 +6,7 @@
   </template>
   
   <script>
-  import { defineComponent, ref } from 'vue';
+  import { defineComponent, ref } from "vue";
   import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
   import CalculatorComponent from "../../Layout/Components/CalculatorComponent.vue";
   
@@ -17,9 +17,9 @@
       CalculatorComponent,
     },
     setup() {
-      const heading = ref('Calculator');
-      const subheading = ref('Calculator Pages');
-      const icon = ref('pe-7s-tools icon-gradient bg-premium-dark');
+      const heading = ref("Calculator");
+      const subheading = ref("Calculator Pages");
+      const icon = ref("pe-7s-tools icon-gradient bg-premium-dark");
   
       return {
         heading,

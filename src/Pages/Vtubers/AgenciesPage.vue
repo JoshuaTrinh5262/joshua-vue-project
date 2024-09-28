@@ -42,7 +42,7 @@
 
 <script>
 import { defineComponent, ref, onMounted, reactive } from 'vue';
-import ModalComponent from '../../DemoPages/Components/ModalComponent.vue';
+import ModalComponent from '../../Layout/Components/ModalComponent.vue';
 import TableComponent from '../../Layout/Components/TableComponent.vue';
 import NotificationComponent from '../../Layout/Components/NotificationComponent.vue';
 import PageTitleComponent from '../../Layout/Components/PageTitleComponent.vue';

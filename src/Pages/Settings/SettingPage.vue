@@ -26,23 +26,23 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue';
-import PageTitleComponent from '../../Layout/Components/PageTitleComponent.vue';
+import { defineComponent, ref } from "vue";
+import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 
 export default defineComponent({
-    name: 'SettingPage',
+    name: "SettingPage",
 
     components: {
         PageTitleComponent,
     },
 
     setup() {
-        const heading = ref('Settings');
-        const subheading = ref('Setting Page.');
-        const icon = ref('pe-7s-settings icon-gradient bg-premium-dark');
-        const dynamicColor = ref('#00ff00');
+        const heading = ref("Settings");
+        const subheading = ref("Setting Page.");
+        const icon = ref("pe-7s-settings icon-gradient bg-premium-dark");
+        const dynamicColor = ref("#00ff00");
         const changeColor = () => {
-            dynamicColor.value = '#ff0000';
+            dynamicColor.value = "#ff0000";
         };
 
         return {

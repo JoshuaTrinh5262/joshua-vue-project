@@ -44,7 +44,7 @@
                     :normalText="isUpdateMode ? 'Update Dataset' : 'Add New Dataset'" />
             </template>
         </modal-component>
-        <div class="main-card mb-3 card" v-if="showImport">
+        <div class=" main-card mb-3 card" v-if="showImport">
             <div class="card-header">
                 <h5 class="card-title">Import Data</h5>
             </div>
@@ -95,14 +95,14 @@
     </div>
 </template>
 <script>
-import { ref, reactive, onMounted, defineComponent } from 'vue';
-import TableComponent from '../../Layout/Components/TableComponent.vue';
-import PageTitleComponent from '../../Layout/Components/PageTitleComponent.vue';
-import PaginationComponent from '../../Layout/Components/PaginationComponent.vue';
-import NotificationComponent from '../../Layout/Components/NotificationComponent.vue';
-import ModalComponent from '../../DemoPages/Components/ModalComponent.vue';
+import { ref, reactive, onMounted, defineComponent } from "vue";
+import TableComponent from "../../Layout/Components/TableComponent.vue";
+import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
+import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
+import NotificationComponent from "../../Layout/Components/NotificationComponent.vue";
+import ModalComponent from "../../Layout/Components/ModalComponent.vue";
 import ButtonSpinner from "../../Layout/Components/ButtonSpinner.vue";
-import { apiService } from '../../supabase/apiService';
+import { apiService } from "../../supabase/apiService";
 
 export default defineComponent({
     name: "DatasetPage",
@@ -115,21 +115,21 @@ export default defineComponent({
         ButtonSpinner
     },
     setup() {
-        const heading = ref('Chatbot Dataset');
-        const subheading = ref('Chatbot Dataset Page for admin.');
-        const icon = ref('pe-7s-server icon-gradient bg-premium-dark');
+        const heading = ref("Chatbot Dataset");
+        const subheading = ref("Chatbot Dataset Page for admin.");
+        const icon = ref("pe-7s-server icon-gradient bg-premium-dark");
 
         const onSubmit = ref(false);
         const currentPage = ref(1);
         const itemsPerPage = ref(100);
         const totalItems = ref(0);
         const totalPages = ref(0);
-        const orderBy = ref('id');
-        const orderDirection = ref('asc');
+        const orderBy = ref("id");
+        const orderDirection = ref("asc");
         const fileName = ref(null);
         const sourceTextMaxLength = ref(0);
         const targetTextMaxLength = ref(0);
-        const search = ref('');
+        const search = ref("");
         const selectedFile = ref(null);
         const showCreateModal = ref(false);
         const showImport = ref(false);
@@ -141,15 +141,15 @@ export default defineComponent({
             target_text: null,
             source: null,
             category: null,
-            language: 'en',
+            language: "en",
         });
 
         const fields = [
-            { key: 'id', value: 'Id' },
-            { key: 'source_text', value: 'Source Text' },
-            { key: 'target_text', value: 'Target Text' },
-            { key: 'source', value: 'Source' },
-            { key: 'category', value: 'Category' }
+            { key: "id", value: "Id" },
+            { key: "source_text", value: "Source Text" },
+            { key: "target_text", value: "Target Text" },
+            { key: "source", value: "Source" },
+            { key: "category", value: "Category" }
         ];
 
         const items = ref([]);
@@ -179,9 +179,9 @@ export default defineComponent({
                 }
             } else {
                 notification.value = {
-                    title: 'Error',
-                    content: 'Please enter data before submitting.',
-                    type: 'danger'
+                    title: "Error",
+                    content: "Please enter data before submitting.",
+                    type: "danger"
                 };
             }
         };
@@ -192,17 +192,17 @@ export default defineComponent({
                 cleanCurrentDataset();
                 toggleModal();
                 notification.value = {
-                    title: 'Success',
-                    content: 'Dataset created successfully!',
-                    type: 'success'
+                    title: "Success",
+                    content: "Dataset created successfully!",
+                    type: "success"
                 };
                 getDatasetData(currentPage.value, itemsPerPage.value);
                 isUpdateMode.value = false;
             } catch (error) {
                 notification.value = {
-                    title: 'Error',
+                    title: "Error",
                     content: `Error when submitting dataset: ${error}`,
-                    type: 'danger'
+                    type: "danger"
                 };
                 isUpdateMode.value = false;
             }
@@ -214,17 +214,17 @@ export default defineComponent({
                 cleanCurrentDataset();
                 toggleModal();
                 notification.value = {
-                    title: 'Success',
-                    content: 'Dataset updated successfully!',
-                    type: 'success'
+                    title: "Success",
+                    content: "Dataset updated successfully!",
+                    type: "success"
                 };
                 getDatasetData(currentPage.value, itemsPerPage.value);
                 isUpdateMode.value = false;
             } catch (error) {
                 notification.value = {
-                    title: 'Error',
+                    title: "Error",
                     content: `Error when updating dataset: ${error}`,
-                    type: 'danger'
+                    type: "danger"
                 };
                 isUpdateMode.value = false;
             }
@@ -235,16 +235,16 @@ export default defineComponent({
                 try {
                     await apiService.deleteDataset(id);
                     notification.value = {
-                        title: 'Success',
-                        content: 'Dataset deleted successfully!',
-                        type: 'success'
+                        title: "Success",
+                        content: "Dataset deleted successfully!",
+                        type: "success"
                     };
                     getDatasetData(1, itemsPerPage.value);
                 } catch (error) {
                     notification.value = {
-                        title: 'Error',
+                        title: "Error",
                         content: `Error when deleting dataset: ${error}`,
-                        type: 'danger'
+                        type: "danger"
                     };
                 }
             }
@@ -301,7 +301,7 @@ export default defineComponent({
                 target_text: null,
                 source: null,
                 category: null,
-                language: 'en',
+                language: "en",
             });
         };
 

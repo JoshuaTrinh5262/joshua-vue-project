@@ -9,16 +9,16 @@
 </template>
 
 <script>
-import { useRouter } from 'vue-router';
-import { defineComponent } from 'vue';
+import { useRouter } from "vue-router";
+import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: 'NotFoundPage',
+  name: "NotFoundPage",
   setup() {
     const router = useRouter();
 
     const goHome = () => {
-      router.push('/admin');
+      router.push("/admin");
     };
 
     return {

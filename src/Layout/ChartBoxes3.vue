@@ -813,39 +813,77 @@
     </div>
 </template>
 
-<script>
 
+<script>
+import { defineComponent, ref } from "vue";
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 
-export default {
+export default defineComponent({
+    name: "ChartBoxesPage",
+
     components: {
         PageTitleComponent,
     },
 
-    data: () => ({
-        heading: 'Chart Boxes III',
-        subheading: 'Highly configurable boxes best used for showing numbers in an user friendly way.',
-        icon: 'pe-7s-wallet icon-gradient bg-plum-plate',
-        bgItems: [
-            {
-                bgClass: 'bg-happy-itmeo',
-                heading: 'Background happy itmeo',
-                percentage: '100%',
-            },
-            {
-                bgClass: 'bg-mixed-hopes',
-                heading: 'Background Mixed Hopes',
-                percentage: '100%',
-            },
-            {
-                bgClass: 'bg-strong-bliss',
-                heading: 'Background Strong Bliss',
-                percentage: '100%',
-            },
-        ],
-    }),
+    setup() {
+        const heading = ref("Chart Boxes III");
+        const subheading = ref("Highly configurable boxes best used for showing numbers in a user-friendly way.");
+        const icon = ref("pe-7s-wallet icon-gradient bg-plum-plate");
 
-    methods: {}
-}
+        const bgItems = ref([
+            {
+                bgClass: "bg-happy-itmeo",
+                heading: "Background Happy Itmeo",
+                percentage: "100%",
+            },
+            {
+                bgClass: "bg-mixed-hopes",
+                heading: "Background Mixed Hopes",
+                percentage: "100%",
+            },
+            {
+                bgClass: "bg-strong-bliss",
+                heading: "Background Strong Bliss",
+                percentage: "100%",
+            },
+            {
+                bgClass: "bg-grow-early",
+                heading: "Background Grow Early",
+                percentage: "100%",
+            },
+            {
+                bgClass: "bg-love-kiss",
+                heading: "Background Love Kiss",
+                percentage: "100%",
+            },
+            {
+                bgClass: "bg-premium-dark",
+                heading: "Background premium dark",
+                percentage: "100%",
+            },
+            {
+                bgClass: "bg-happy-green",
+                heading: "Background happy green",
+                percentage: "100%",
+            },
+            {
+                bgClass: "bg-vicious-stance",
+                heading: "Background vicious stance",
+                percentage: "100%",
+            },
+            {
+                bgClass: "bg-midnight-bloom",
+                heading: "Background midnight bloom",
+                percentage: "100%",
+            },
+        ]);
 
+        return {
+            heading,
+            subheading,
+            icon,
+            bgItems,
+        };
+    },
+});
 </script>

@@ -118,17 +118,17 @@
 </template>
 
 <script>
-import { defineComponent, ref, reactive, onMounted } from 'vue';
-import ModalComponent from '../../DemoPages/Components/ModalComponent.vue';
-import TableComponent from '../../Layout/Components/TableComponent.vue';
-import PageTitleComponent from '../../Layout/Components/PageTitleComponent.vue';
-import PaginationComponent from '../../Layout/Components/PaginationComponent.vue';
-import ButtonSpinner from '../../Layout/Components/ButtonSpinner.vue';
-import NotificationComponent from '../../Layout/Components/NotificationComponent.vue';
-import { apiService } from '../../supabase/apiService';
+import { defineComponent, ref, reactive, onMounted } from "vue";
+import ModalComponent from "../../Layout/Components/ModalComponent.vue";
+import TableComponent from "../../Layout/Components/TableComponent.vue";
+import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
+import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
+import ButtonSpinner from "../../Layout/Components/ButtonSpinner.vue";
+import NotificationComponent from "../../Layout/Components/NotificationComponent.vue";
+import { apiService } from "../../supabase/apiService";
 
 export default defineComponent({
-  name: 'TalentsPage',
+  name: "TalentsPage",
   components: {
     ModalComponent,
     PageTitleComponent,
@@ -139,19 +139,19 @@ export default defineComponent({
   },
 
   setup() {
-    const heading = ref('Talents');
-    const subheading = ref('Explore the Profiles of Emerging and Established Talents.');
-    const icon = ref('pe-7s-user icon-gradient bg-premium-dark');
-  
+    const heading = ref("Talents");
+    const subheading = ref("Explore the Profiles of Emerging and Established Talents.");
+    const icon = ref("pe-7s-user icon-gradient bg-premium-dark");
+
     const isUpdateMode = ref(false);
     const showModal = ref(false);
     const currentPage = ref(1);
     const itemsPerPage = ref(20);
     const totalItems = ref(0);
     const totalPages = ref(0);
-    const orderBy = ref('id');
-    const orderDirection = ref('asc');
-    const search = ref('');
+    const orderBy = ref("id");
+    const orderDirection = ref("asc");
+    const search = ref("");
     const onSubmit = ref(false);
     const notification = ref(null);
 
@@ -161,7 +161,7 @@ export default defineComponent({
       gender: null,
       date_of_birth: null,
       agency_id: null,
-      talent_status: 'active',
+      talent_status: "active",
       debut_date: null,
       retirement_date: null,
       height: null,
@@ -169,11 +169,11 @@ export default defineComponent({
     });
 
     const fields = ref([
-      { key: 'name', value: 'Name' },
-      { key: 'original_name', value: 'Original Name' },
-      { key: 'agency', value: 'Agency' },
-      { key: 'talent_status', value: 'Status' },
-      { key: 'debut_date', value: 'Debut Date' },
+      { key: "name", value: "Name" },
+      { key: "original_name", value: "Original Name" },
+      { key: "agency", value: "Agency" },
+      { key: "talent_status", value: "Status" },
+      { key: "debut_date", value: "Debut Date" },
     ]);
     const items = ref([]);
     const agencies = ref([]);
@@ -191,20 +191,20 @@ export default defineComponent({
         gender: null,
         date_of_birth: null,
         agency_id: null,
-        talent_status: 'active',
+        talent_status: "active",
         debut_date: null,
         retirement_date: null,
         height: null,
         emoji: null,
       });
-      
+
       if (currentTalent.id) {
         delete currentTalent.id;
       }
     };
 
     const showRetirementDate = () => {
-      return currentTalent.talent_status === 'terminated' || currentTalent.talent_status === 'graduation';
+      return currentTalent.talent_status === "terminated" || currentTalent.talent_status === "graduation";
     };
 
     const getAgencyData = async () => {
@@ -212,7 +212,7 @@ export default defineComponent({
         const response = await apiService.getAgencies();
         agencies.value = response;
       } catch (error) {
-        console.error('Error fetching agency data:', error);
+        console.error("Error fetching agency data:", error);
       }
     };
 
@@ -241,11 +241,11 @@ export default defineComponent({
         cleanCurrentTalent();
         toggleModal();
         onSubmit.value = false;
-        notification.value = { title: 'Success', content: 'Talent created successfully!', type: 'success' };
+        notification.value = { title: "Success", content: "Talent created successfully!", type: "success" };
         getTalentsData(currentPage.value, itemsPerPage.value);
       } catch (error) {
         onSubmit.value = false;
-        notification.value = { title: 'Error', content: `Error when submitting talent: ${error}`, type: 'danger' };
+        notification.value = { title: "Error", content: `Error when submitting talent: ${error}`, type: "danger" };
       }
     }
 
@@ -256,18 +256,18 @@ export default defineComponent({
         toggleModal();
         onSubmit.value = false;
         notification.value = {
-          title: 'Success',
-          content: 'Talent updated successfully!',
-          type: 'success',
+          title: "Success",
+          content: "Talent updated successfully!",
+          type: "success",
         };
         getTalentsData(currentPage.value, itemsPerPage.value);
         isUpdateMode.value = false;
       } catch (error) {
         onSubmit.value = false;
         notification.value = {
-          title: 'Error',
+          title: "Error",
           content: `Error when updating Talent: ${error}`,
-          type: 'danger',
+          type: "danger",
         };
         isUpdateMode.value = false;
       }
@@ -278,10 +278,10 @@ export default defineComponent({
       if (confirmDelete) {
         try {
           await apiService.deleteTalent(id);
-          notification.value = { title: 'Success', content: 'Talent deleted successfully!', type: 'success' };
+          notification.value = { title: "Success", content: "Talent deleted successfully!", type: "success" };
           getTalentsData(1, itemsPerPage.value);
         } catch (error) {
-          notification.value = { title: 'Error', content: `Error when deleting talent: ${error}`, type: 'danger' };
+          notification.value = { title: "Error", content: `Error when deleting talent: ${error}`, type: "danger" };
         }
       }
     };

@@ -15,18 +15,14 @@
                                 </div>
                             </div>
                             <div class="modal-body">
-                                <div>
-                                    <Form>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label for="exampleEmail">Email</label>
-                                                    <input type="email" class="form-control" name="email"
-                                                        id="exampleEmail" placeholder="Email here...">
-                                                </div>
-                                            </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="exampleEmail">Email</label>
+                                            <input type="email" class="form-control" name="email" id="exampleEmail"
+                                                placeholder="Email here...">
                                         </div>
-                                    </Form>
+                                    </div>
                                 </div>
                                 <div class="divider"></div>
                                 <h6 class="mb-0">
@@ -50,10 +46,10 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 export default defineComponent({
-    name: 'ForgotPasswordBoxed',
+    name: "ForgotPasswordBoxed",
     setup() {
 
         return {

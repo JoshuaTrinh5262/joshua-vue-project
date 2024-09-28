@@ -10,7 +10,7 @@ export default {
   props: {
     buttonText: {
       type: String,
-      default: 'Click me',
+      default: "Click me",
     },
     onClick: {
       type: Function,
@@ -23,7 +23,7 @@ export default {
     };
   },
   methods: {
-    name: 'button-spinner',
+    name: "button-spinner",
 
     handleClick() {
       // Set loading to true before calling the onClick function
@@ -53,7 +53,7 @@ button {
 
 /* Add loading indicator styling, e.g., spinner or animation */
 .loading::after {
-  content: ' ';
+  content: " ";
   display: inline-block;
   width: 16px;
   height: 16px;

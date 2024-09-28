@@ -11,9 +11,9 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref } from "vue";
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
-import images from '../../utils/loadImages';
+import images from "../../utils/loadImages";
 
 export default defineComponent({
   name: "GalleriesPage",
@@ -23,9 +23,9 @@ export default defineComponent({
   },
 
   setup() {
-    const heading = ref('Gallery');
-    const subheading = ref('Highlighting the Journey of Creative Minds in the Art World.');
-    const icon = ref('pe-7s-photo-gallery icon-gradient bg-premium-dark');
+    const heading = ref("Gallery");
+    const subheading = ref("Highlighting the Journey of Creative Minds in the Art World.");
+    const icon = ref("pe-7s-photo-gallery icon-gradient bg-premium-dark");
     const loadImages = ref(images);
 
     return {

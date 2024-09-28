@@ -28,7 +28,7 @@ export default {
 
   methods: {
     closeNotification() {
-      this.$emit('update:notification', null);
+      this.$emit("update:notification", null);
     },
   },
   watch: {

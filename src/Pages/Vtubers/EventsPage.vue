@@ -49,7 +49,7 @@
 
 <script>
 import { ref, onMounted, defineComponent, reactive } from 'vue';
-import ModalComponent from '../../DemoPages/Components/ModalComponent.vue';
+import ModalComponent from '../../Layout/Components/ModalComponent.vue';
 import TableComponent from '../../Layout/Components/TableComponent.vue';
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
@@ -190,7 +190,7 @@ export default defineComponent({
         event_hashtag: null,
         event_date: null
       });
-    
+
       if (currentEvent.id) {
         delete currentEvent.id;
       }

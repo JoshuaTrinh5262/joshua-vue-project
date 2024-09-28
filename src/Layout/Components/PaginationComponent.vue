@@ -32,10 +32,10 @@
 </template>
 
 <script>
-import { defineComponent, ref, computed, onMounted } from 'vue';
+import { defineComponent, ref, computed, onMounted } from "vue";
 
 export default defineComponent({
-  name: 'PaginationComponent',
+  name: "PaginationComponent",
   props: {
     currentPage: {
       type: Number,
@@ -70,11 +70,11 @@ export default defineComponent({
     });
 
     const loadPage = (page) => {
-      emit('load-page', page);
+      emit("load-page", page);
     };
 
     const changePageSize = () => {
-      emit('change-page-size', selectedPageSize.value);
+      emit("change-page-size", selectedPageSize.value);
     };
 
     onMounted(() => {

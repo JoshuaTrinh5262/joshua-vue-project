@@ -49,10 +49,10 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted } from 'vue';
-import PageTitleComponent from '../../Layout/Components/PageTitleComponent.vue';
+import { defineComponent, ref, onMounted } from "vue";
+import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 import NotificationComponent from "../../Layout/Components/NotificationComponent.vue";
-import { apiService } from '../../supabase/apiService';
+import { apiService } from "../../supabase/apiService";
 
 export default defineComponent({
   name: "ChatGroupPage",
@@ -62,15 +62,15 @@ export default defineComponent({
   },
 
   setup() {
-    const heading = ref('Chatgroup');
-    const subHeading = ref('Chatgroup demo');
-    const icon = ref('pe-7s-chat icon-gradient bg-premium-dark');
+    const heading = ref("Chatgroup");
+    const subHeading = ref("Chatgroup demo");
+    const icon = ref("pe-7s-chat icon-gradient bg-premium-dark");
 
     const currentChat = ref({
       id: null,
       message: []
     });
-    const userInput = ref('');
+    const userInput = ref("");
     const chatGroups = ref([]);
     const notification = ref(null);
     const newChatgroupName = ref(null);
@@ -81,10 +81,10 @@ export default defineComponent({
         if (!result.error) {
           chatGroups.value = result.items;
         } else {
-          console.error('Error:', result.error);
+          console.error("Error:", result.error);
         }
       } catch (error) {
-        console.error('Error fetching chatgroups:', error);
+        console.error("Error fetching chatgroups:", error);
       }
     };
 
@@ -97,15 +97,15 @@ export default defineComponent({
         const result = await apiService.deleteChatgroup(chatId);
         chatGroups.value = chatGroups.value.filter(chat => chat.id !== chatId);
         notification.value = {
-          title: 'Success',
-          content: 'Chatgroup deleted successfully!',
-          type: 'success'
+          title: "Success",
+          content: "Chatgroup deleted successfully!",
+          type: "success"
         };
       } catch (error) {
         notification.value = {
-          title: 'Error',
+          title: "Error",
           content: `Error when deleting chatgroup: ${error.message}`,
-          type: 'danger'
+          type: "danger"
         };
       }
     };
@@ -115,15 +115,15 @@ export default defineComponent({
         const result = await apiService.deleteMessage(messageId);
         currentChat.value.message = currentChat.value.message.filter(m => m.id !== messageId);
         notification.value = {
-          title: 'Success',
-          content: 'Message deleted successfully!',
-          type: 'success'
+          title: "Success",
+          content: "Message deleted successfully!",
+          type: "success"
         };
       } catch (error) {
         notification.value = {
-          title: 'Error',
+          title: "Error",
           content: `Error when deleting Message: ${error.message}`,
-          type: 'danger'
+          type: "danger"
         };
       }
     };
@@ -139,22 +139,22 @@ export default defineComponent({
           chatGroups.value.push(newChatgroup);
           newChatgroupName.value = null;
           notification.value = {
-            title: 'Success',
-            content: 'Created new chatgroup successfully!',
-            type: 'success'
+            title: "Success",
+            content: "Created new chatgroup successfully!",
+            type: "success"
           };
         } catch (error) {
           notification.value = {
-            title: 'Error',
+            title: "Error",
             content: `Error when creating new chatgroup: ${error.message}`,
-            type: 'danger'
+            type: "danger"
           };
         }
       } else {
         notification.value = {
-          title: 'Error',
-          content: 'Please Input New Chat Group Name.',
-          type: 'danger'
+          title: "Error",
+          content: "Please Input New Chat Group Name.",
+          type: "danger"
         };
       }
 
@@ -170,17 +170,17 @@ export default defineComponent({
         try {
           await apiService.createMessage(newMessage);
           currentChat.value.message.push({ ...newMessage });
-          userInput.value = '';
+          userInput.value = "";
           notification.value = {
-            title: 'Success',
-            content: 'Message sent successfully!',
-            type: 'success'
+            title: "Success",
+            content: "Message sent successfully!",
+            type: "success"
           };
         } catch (error) {
           notification.value = {
-            title: 'Error',
+            title: "Error",
             content: `Error when sending message: ${error.message}`,
-            type: 'danger'
+            type: "danger"
           };
         }
       }

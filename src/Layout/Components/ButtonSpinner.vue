@@ -7,35 +7,35 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 export default defineComponent({
-    name: 'ButtonSpinner',
+    name: "ButtonSpinner",
 
     props: {
         buttonClass: {
             type: String,
-            default: 'btn-success',
+            default: "btn-success",
         },
         normalText: {
             type: String,
-            default: 'Submit',
+            default: "Submit",
         },
         loadingText: {
             type: String,
-            default: 'Submitting...',
+            default: "Submitting...",
         },
         isLoading: {
             type: Boolean,
             default: false,
         },
     },
-    emits: ['click'],
+    emits: ["click"],
 
     methods: {
         handleClick() {
             if (!this.isLoading) {
-                this.$emit('click');
+                this.$emit("click");
             }
         },
     },

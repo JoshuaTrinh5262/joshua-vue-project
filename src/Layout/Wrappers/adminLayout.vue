@@ -22,7 +22,7 @@
     import SidebarComponent from "../Components/SidebarComponent";
     import FooterComponent from "../Components/FooterComponent"
     export default {
-        name: 'app',
+        name: "app",
         components: {
             HeaderComponent,
             SidebarComponent,
