@@ -19,7 +19,7 @@
     setup() {
       const heading = ref('Calculator');
       const subheading = ref('Calculator Pages');
-      const icon = ref('pe-7s-tools icon-gradient bg-tempting-azure');
+      const icon = ref('pe-7s-tools icon-gradient bg-premium-dark');
   
       return {
         heading,

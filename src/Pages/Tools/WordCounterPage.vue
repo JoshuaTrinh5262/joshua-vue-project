@@ -78,7 +78,8 @@ export default defineComponent({
     setup() {
         const heading = ref("Word Counter");
         const subheading = ref("easy-to-use tool for tracking word and character counts in your writing.");
-        const icon = ref("pe-7s-phone icon-gradient bg-premium-dark");
+        const icon = ref("pe-7s-tools icon-gradient bg-premium-dark");
+
         const text = ref("");
         const words = ref(0);
         const sentences = ref(0);

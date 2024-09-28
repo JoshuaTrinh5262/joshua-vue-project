@@ -26,7 +26,8 @@ export default defineComponent({
   setup() {
     const heading = ref('User');
     const subheading = ref('User');
-    const icon = ref('pe-7s-phone icon-gradient');
+    const icon = ref('pe-7s-users icon-gradient bg-premium-dark');
+
     const currentPage = ref(0);
     const itemsPerPage = ref(20);
     const totalItems = ref(0);

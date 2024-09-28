@@ -3,7 +3,7 @@
         <page-title-component :heading=heading :subheading=subheading :icon=icon>
             <template v-slot:actions>
                 <button type="button" @click=toggleModal class="btn btn-primary mr-2">
-                    Create New Dataset
+                    Create New
                 </button>
                 <button @click=toggleImport type="button" class="btn btn-info mr-2">
                     Import
@@ -115,6 +115,10 @@ export default defineComponent({
         ButtonSpinner
     },
     setup() {
+        const heading = ref('Chatbot Dataset');
+        const subheading = ref('Chatbot Dataset Page for admin.');
+        const icon = ref('pe-7s-server icon-gradient bg-premium-dark');
+
         const onSubmit = ref(false);
         const currentPage = ref(1);
         const itemsPerPage = ref(100);
@@ -149,9 +153,6 @@ export default defineComponent({
         ];
 
         const items = ref([]);
-        const heading = ref('Chatbot Dataset');
-        const subheading = ref('Chatbot Dataset Page for admin.');
-        const icon = ref('pe-7s-phone icon-gradient bg-premium-dark');
         const notification = ref(null);
 
         const getDatasetData = async (newPage, newPageSize) => {

@@ -1,24 +1,13 @@
 <template>
   <div>
-    <page-title-component
-      :heading=heading
-      :subheading=subheading
-      :icon=icon></page-title-component>
+    <page-title-component :heading=heading :subheading=subheading :icon=icon></page-title-component>
     <div class="d-flex justify-content-center">
       <div class="min-vh-100 d-flex overflow-auto">
-        <div
-          v-for="column in columns"
-          :key="column.title"
-          class="bg-light rounded p-2 column-width rounded mr-1"
-        >
+        <div v-for="column in columns" :key="column.title" class="bg-light rounded p-2 column-width rounded mr-1">
           <p class="font-weight-bold font-sans tracking-wide small">{{ column.title }}</p>
           <draggable :list="column.tasks" :animation="200" ghost-class="ghost-card" group="tasks">
-            <task-component
-              v-for="task in column.tasks"
-              :key="task.id"
-              :task="task"
-              class="mt-3 cursor-move"
-            ></task-component>
+            <task-component v-for="task in column.tasks" :key="task.id" :task="task"
+              class="mt-3 cursor-move"></task-component>
           </draggable>
         </div>
       </div>
@@ -41,7 +30,7 @@ export default {
     return {
       heading: 'Kanban',
       subheading: 'Basic Kanban.',
-      icon: 'pe-7s-drawer icon-gradient',
+      icon: 'pe-7s-notebook icon-gradient bg-premium-dark',
 
       columns: [
         {

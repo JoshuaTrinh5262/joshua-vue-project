@@ -1,6 +1,6 @@
 <template>
   <div>
-    <page-title-component :heading="heading" :subheading="subheading" :icon="icon"/>
+    <page-title-component :heading="heading" :subheading="subheading" :icon="icon" />
     <div class="image-gallery">
       <div v-for="(image, name) in loadImages" :key="name" class="image-container">
         <img :src="image" :alt="name" />
@@ -25,7 +25,7 @@ export default defineComponent({
   setup() {
     const heading = ref('Gallery');
     const subheading = ref('Highlighting the Journey of Creative Minds in the Art World.');
-    const icon = ref('pe-7s-phone icon-gradient bg-premium-dark');
+    const icon = ref('pe-7s-photo-gallery icon-gradient bg-premium-dark');
     const loadImages = ref(images);
 
     return {
@@ -68,6 +68,7 @@ export default defineComponent({
   transform: scale(1.1);
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);
 }
+
 .image-tag {
   position: absolute;
   top: 5px;

@@ -2,43 +2,51 @@
   <div>
     <page-title-component :heading="heading" :subheading="subheading" :icon="icon">
       <template v-slot:actions>
-        <button type="button" @click="openModal" class="btn-shadow d-inline-flex align-items-center btn btn-primary">
+        <button type="button" @click="toggleModal" class="btn-shadow d-inline-flex align-items-center btn btn-primary">
           Create New
         </button>
-        <modal-component title="Create New Discography" :isOpen="showModal" @closeModal="closeModal">
-          <template #body>
-            <div class="position-relative form-group">
-              <label for="discography_name">Discography Name</label>
-              <input name="discography_name" id="discography_name" placeholder="Discography Name" type="text"
-                class="form-control">
-            </div>
-            <div class="position-relative form-group">
-              <label for="original_name">Original Name</label>
-              <input name="original_name" id="original_name" placeholder="Original Name" type="text"
-                class="form-control">
-            </div>
-            <div class="position-relative form-group">
-              <label for="date_of_birth">Date Of Birth</label>
-              <input name="date_of_birth" id="date_of_birth" placeholder="Date Of Birth" type="date"
-                class="form-control">
-            </div>
-            <div class="position-relative form-group">
-              <label for="album">Album</label>
-              <select name="select" id="album" class="form-control" required>
-                <option v-for="album in albums" :key="album.album_id" :value="album.album_id">
-                  {{ album.name }}
-                </option>
-              </select>
-            </div>
-          </template>
-          <template #footer>
-            <button @click="closeModal" class="btn btn-primary">Cancel</button>
-            <button @click="closeModal" class="btn btn-primary">Submit</button>
-          </template>
-        </modal-component>
       </template>
     </page-title-component>
-    <table-component :footer="true" :fields="fields" :items="items"></table-component>
+
+    <NotificationComponent v-model:notification="notification"></NotificationComponent>
+
+    <modal-component :title="isUpdateMode ? 'Update Discography' : 'Add New Discography'" :isOpen="showModal" @closeModal="toggleModal">
+      <template #body>
+        <div class="position-relative form-group">
+          <label for="discography_name">Discography Name</label>
+          <input name="discography_name" id="discography_name" placeholder="Discography Name"
+            v-model="currentDiscography.name" type="text" class="form-control">
+        </div>
+        <div class="position-relative form-group">
+          <label for="original_name">Original Name</label>
+          <input name="original_name" id="original_name" placeholder="Original Name"
+            v-model="currentDiscography.original_name" type="text" class="form-control">
+        </div>
+        <div class="position-relative form-group">
+          <label for="date_of_birth">Date Of Birth</label>
+          <input name="date_of_birth" id="date_of_birth" placeholder="Date Of Birth"
+            v-model="currentDiscography.date_of_birth" type="date" class="form-control">
+        </div>
+        <div class="position-relative form-group">
+          <label for="album">Album</label>
+          <select name="select" id="album" v-model="currentDiscography.album_id" class="form-control" required>
+            <option :value=null></option>
+            <option v-for="album in albums" :key="album.id" :value="album.id">
+              {{ album.name }}
+            </option>
+          </select>
+        </div>
+      </template>
+      <template #footer>
+        <button class="btn btn-primary" @click="toggleModal">Cancel</button>
+        <button-spinner :isLoading="onSubmit" buttonClass="btn btn-primary" @click="handleSubmit"
+          :normalText="isUpdateMode ? 'Update Discography' : 'Add New Discography'" />
+      </template>
+    </modal-component>
+
+    <table-component :footer="true" :fields="fields" :items="items" @search="onSearchChange"
+      @changeOrder="handleChangeOrder" @deleteRow="handleDelete" @updateRow="handleUpdate"></table-component>
+
     <pagination-component :currentPage="currentPage" :perPage="itemsPerPage" :totalItems="totalItems"
       :totalPages="totalPages" @load-page="loadPage" @change-page-size="changePageSize">
     </pagination-component>
@@ -46,12 +54,14 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, reactive } from 'vue';
 import ModalComponent from '../../DemoPages/Components/ModalComponent.vue';
 import TableComponent from '../../Layout/Components/TableComponent.vue';
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
+import ButtonSpinner from '../../Layout/Components/ButtonSpinner.vue';
 import { apiService } from '../../supabase/apiService';
+import NotificationComponent from '../../Layout/Components/NotificationComponent.vue';
 
 export default {
   name: "DiscographiesPage",
@@ -60,14 +70,18 @@ export default {
     ModalComponent,
     TableComponent,
     PageTitleComponent,
-    PaginationComponent
+    PaginationComponent,
+    NotificationComponent,
+    ButtonSpinner
   },
 
   setup() {
-    const showModal = ref(false);
     const heading = ref('Discographies');
     const subheading = ref('Dive into the Musical Journeys of Talented Artists Across Generations');
-    const icon = ref('pe-7s-phone icon-gradiant');
+    const icon = ref('pe-7s-musiclist icon-gradient bg-premium-dark');
+
+    const isUpdateMode = ref(false);
+    const showModal = ref(false);
     const orderBy = ref('id');
     const orderDirection = ref('asc');
     const search = ref('');
@@ -75,22 +89,26 @@ export default {
     const itemsPerPage = ref(20);
     const totalItems = ref(0);
     const totalPages = ref(0);
+    const notification = ref(null);
+    const onSubmit = ref(false);
+
+    const currentDiscography = reactive({
+      name: null,
+      original_name: null,
+      released_date: null,
+      album_id: null,
+    });
+
     const fields = ref([
       { key: 'id', value: 'ID' },
       { key: 'name', value: 'Name' },
       { key: 'original_name', value: 'original Name' },
       { key: 'released_date', value: 'Released Date' },
-      { key: 'album', value: 'Album' },
+      { key: 'album', value: 'album' },
     ]);
+
     const items = ref([]);
     const albums = ref([]);
-    const openModal = () => {
-      showModal.value = true;
-    };
-
-    const closeModal = () => {
-      showModal.value = false;
-    };
 
     const getDiscographiesData = async (newPage, newPageSize) => {
       const result = await apiService.getDiscographiesWithPaging(newPage, newPageSize, orderBy.value, orderDirection.value, search.value);
@@ -105,6 +123,107 @@ export default {
     const getAlbumsData = async () => {
       const result = await apiService.getAlbums();
       albums.value = result;
+    };
+
+    const handleSubmit = async () => {
+      onSubmit.value = true;
+      if (isUpdateMode.value) {
+        updateDiscography();
+      } else {
+        createDiscography();
+      }
+    };
+
+    const createDiscography = async () => {
+      try {
+        await apiService.createDiscography(currentDiscography);
+        cleanCurrentDiscography();
+        toggleModal();
+        onSubmit.value = false;
+        notification.value = { title: 'Success', content: 'Discography created successfully!', type: 'success' };
+        getDiscographiesData(currentPage.value, itemsPerPage.value);
+      } catch (error) {
+        onSubmit.value = false;
+        notification.value = { title: 'Error', content: `Error when submitting talent: ${error}`, type: 'danger' };
+      }
+    }
+
+    const updateDiscography = async () => {
+      try {
+        await apiService.updateDiscography(currentDiscography);
+        cleanCurrentDiscography();
+        toggleModal();
+        onSubmit.value = false;
+        notification.value = {
+          title: 'Success',
+          content: 'Discography updated successfully!',
+          type: 'success',
+        };
+        getDiscographiesData(currentPage.value, itemsPerPage.value);
+        isUpdateMode.value = false;
+      } catch (error) {
+        onSubmit.value = false;
+        notification.value = {
+          title: 'Error',
+          content: `Error when updating Discography: ${error}`,
+          type: 'danger',
+        };
+        isUpdateMode.value = false;
+      }
+    };
+
+    const handleUpdate = (updateId) => {
+      isUpdateMode.value = true;
+      const { album, ...selectedItem } = items.value.find(x => x.id === updateId);
+
+      if (selectedItem) {
+        Object.assign(currentDiscography, selectedItem);
+      }
+
+      showModal.value = true;
+    };
+
+    const handleDelete = async (id) => {
+      const confirmDelete = confirm(`Are you sure you want to delete Discography ${id}?`);
+      if (confirmDelete) {
+        try {
+          await apiService.deleteDiscography(id);
+          notification.value = { title: 'Success', content: 'Discography deleted successfully!', type: 'success' };
+          getDiscographiesData(1, itemsPerPage.value);
+        } catch (error) {
+          notification.value = { title: 'Error', content: `Error when deleting discography: ${error}`, type: 'danger' };
+        }
+      }
+    };
+
+    const cleanCurrentDiscography = () => {
+      Object.assign(currentDiscography, {
+        name: null,
+        original_name: null,
+        released_date: null,
+        album_id: null,
+      });
+
+      if (currentDiscography.id) {
+        delete currentDiscography.id;
+      }
+    };
+
+    const toggleModal = () => {
+      isUpdateMode.value = false;
+      cleanCurrentDiscography();
+      showModal.value = !showModal.value;
+    };
+
+    const onSearchChange = (searchTerm) => {
+      search.value = searchTerm;
+      getDiscographiesData(1, itemsPerPage.value);
+    };
+
+    const handleChangeOrder = ({ orderDirection: newOrderDirection, orderBy: newOrderBy }) => {
+      orderDirection.value = newOrderDirection;
+      orderBy.value = newOrderBy;
+      getDiscographiesData(currentPage.value, itemsPerPage.value);
     };
 
     const loadPage = (page) => {
@@ -123,10 +242,12 @@ export default {
     });
 
     return {
-      showModal,
       heading,
       subheading,
       icon,
+      isUpdateMode,
+      showModal,
+      onSubmit,
       orderBy,
       orderDirection,
       search,
@@ -137,10 +258,18 @@ export default {
       fields,
       items,
       albums,
-      openModal,
-      closeModal,
+      currentDiscography,
+      notification,
+      toggleModal,
       loadPage,
-      changePageSize
+      getAlbumsData,
+      handleSubmit,
+      handleUpdate,
+      handleDelete,
+      cleanCurrentDiscography,
+      changePageSize,
+      onSearchChange,
+      handleChangeOrder,
     };
   }
 };

@@ -39,7 +39,7 @@ export default defineComponent({
     setup() {
         const heading = ref('Settings');
         const subheading = ref('Setting Page.');
-        const icon = ref('pe-7s-phone icon-gradient bg-premium-dark');
+        const icon = ref('pe-7s-settings icon-gradient bg-premium-dark');
         const dynamicColor = ref('#00ff00');
         const changeColor = () => {
             dynamicColor.value = '#ff0000';

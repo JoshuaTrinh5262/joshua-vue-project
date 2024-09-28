@@ -7,7 +7,9 @@
         </button>
       </template>
     </page-title-component>
+
     <notification-component v-model:notification="notification"></notification-component>
+
     <modal-component :title="isUpdateMode ? 'Update Talent' : 'Add New Talent'" :isOpen="showModal"
       @closeModal="toggleModal">
       <template #body>
@@ -106,8 +108,10 @@
           :normalText="isUpdateMode ? 'Update Talent' : 'Add New Talent'" />
       </template>
     </modal-component>
+
     <table-component :footer="true" :fields="fields" :items="items" @search="onSearchChange"
       @changeOrder="handleChangeOrder" @deleteRow="deleteTalent" @updateRow="handleUpdateRow" />
+
     <pagination-component :currentPage="currentPage" :perPage="itemsPerPage" :totalItems="totalItems"
       :totalPages="totalPages" @load-page="loadPage" @change-page-size="changePageSize" />
   </div>
@@ -137,7 +141,8 @@ export default defineComponent({
   setup() {
     const heading = ref('Talents');
     const subheading = ref('Explore the Profiles of Emerging and Established Talents.');
-    const icon = ref('pe-7s-phone icon-gradient bg-premium-dark');
+    const icon = ref('pe-7s-user icon-gradient bg-premium-dark');
+  
     const isUpdateMode = ref(false);
     const showModal = ref(false);
     const currentPage = ref(1);
@@ -149,6 +154,7 @@ export default defineComponent({
     const search = ref('');
     const onSubmit = ref(false);
     const notification = ref(null);
+
     const currentTalent = reactive({
       name: null,
       original_name: null,
@@ -161,6 +167,7 @@ export default defineComponent({
       height: null,
       emoji: null,
     });
+
     const fields = ref([
       { key: 'name', value: 'Name' },
       { key: 'original_name', value: 'Original Name' },
@@ -190,6 +197,10 @@ export default defineComponent({
         height: null,
         emoji: null,
       });
+      
+      if (currentTalent.id) {
+        delete currentTalent.id;
+      }
     };
 
     const showRetirementDate = () => {

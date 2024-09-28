@@ -5,30 +5,34 @@
         <button type="button" @click="toggleModal" class="btn-shadow d-inline-flex align-items-center btn btn-primary">
           Create New
         </button>
-        <modal-component title="Create New Agency" :isOpen="showModal" @closeModal="toggleModal">
-          <template #body>
-            <div class="position-relative form-group">
-              <label for="agency_name">Agency Name</label>
-              <input name="agency_name" id="agency_name" placeholder="Agency Name" type="text"
-                v-model="currentAgency.agency_name" class="form-control">
-            </div>
-            <div class="position-relative form-group">
-              <label for="agency_description">Agency Description</label>
-              <textarea name="agency_description" id="agency_description" placeholder="Agency Description" type="text"
-                v-model="currentAgency.agency_description" class="form-control"></textarea>
-            </div>
-          </template>
-          <template #footer>
-            <button class="btn btn-primary" @click="toggleModal">Cancel</button>
-            <button-spinner :isLoading="onSubmit" buttonClass="btn btn-primary" @click="handleSubmit"
-              :normalText="isUpdateMode ? 'Update Agency' : 'Add New Agency'" />
-          </template>
-        </modal-component>
       </template>
     </page-title-component>
 
+    <NotificationComponent v-model:notification="notification"></NotificationComponent>
+
+    <modal-component :title="isUpdateMode ? 'Update Agency' : 'Add New Agency'" :isOpen="showModal"
+      @closeModal="toggleModal">
+      <template #body>
+        <div class="position-relative form-group">
+          <label for="agency_name">Agency Name</label>
+          <input name="agency_name" id="agency_name" placeholder="Agency Name" type="text"
+            v-model="currentAgency.agency_name" class="form-control">
+        </div>
+        <div class="position-relative form-group">
+          <label for="agency_description">Agency Description</label>
+          <textarea name="agency_description" id="agency_description" placeholder="Agency Description" type="text"
+            v-model="currentAgency.agency_description" class="form-control"></textarea>
+        </div>
+      </template>
+      <template #footer>
+        <button class="btn btn-primary" @click="toggleModal">Cancel</button>
+        <button-spinner :isLoading="onSubmit" buttonClass="btn btn-primary" @click="handleSubmit"
+          :normalText="isUpdateMode ? 'Update Agency' : 'Add New Agency'" />
+      </template>
+    </modal-component>
+
     <table-component :footer="true" :fields="fields" :items="items" @search="onSearchChange"
-      @deleteRow="handleDeleteAgency" @updateRow="handleUpdateRow"></table-component>
+      @changeOrder="handleChangeOrder" @deleteRow="handleDelete" @updateRow="handleUpdate"></table-component>
 
     <pagination-component :currentPage="currentPage" :perPage="itemsPerPage" :totalItems="totalItems"
       :totalPages="totalPages" @load-page="loadPage" @change-page-size="changePageSize">
@@ -59,11 +63,12 @@ export default defineComponent({
   },
 
   setup() {
-    const showModal = ref(false);
     const heading = ref('Agencies');
     const subheading = ref('Explore the Profiles of Emerging and Established Agencys.');
-    const icon = ref('pe-7s-user');
+    const icon = ref('pe-7s-home icon-gradient bg-premium-dark');
+
     const isUpdateMode = ref(false);
+    const showModal = ref(false);
     const onSubmit = ref(false);
     const orderBy = ref('id');
     const orderDirection = ref('asc');
@@ -73,7 +78,10 @@ export default defineComponent({
     const totalPages = ref(0);
     const search = ref('');
     const notification = ref(null);
-    const currentAgency = reactive({ agency_name: null, agency_description: null });
+    const currentAgency = reactive({
+      agency_name: null,
+      agency_description: null
+    });
 
     const fields = [
       {
@@ -155,18 +163,20 @@ export default defineComponent({
       }
     };
 
-    const handleUpdateRow = (updateId) => {
+    const handleUpdate = (updateId) => {
       isUpdateMode.value = true;
-      const selectedItem = items.value.find(x => x.id === updateId);
+      // Create a new object, excluding `talent` and `talent_count`
+      const { talent, talent_count, ...selectedItem } = items.value.find(x => x.id === updateId);
 
       if (selectedItem) {
+
         Object.assign(currentAgency, selectedItem);
       }
 
       showModal.value = true;
     };
 
-    const handleDeleteAgency = async (id) => {
+    const handleDelete = async (id) => {
       const confirmDelete = confirm(`Are you sure you want to delete Agency ${id}?`);
       if (confirmDelete) {
         try {
@@ -184,6 +194,11 @@ export default defineComponent({
         agency_name: null,
         agency_description: null,
       });
+
+      if (currentAgency.id) {
+        delete currentAgency.id;
+      }
+
     };
 
     const loadPage = (page) => {
@@ -195,6 +210,13 @@ export default defineComponent({
       search.value = searchTerm;
       getAgenciesData(1, itemsPerPage.value);
     };
+
+    const handleChangeOrder = ({ orderDirection: newOrderDirection, orderBy: newOrderBy }) => {
+      orderDirection.value = newOrderDirection;
+      orderBy.value = newOrderBy;
+      getAgenciesData(currentPage.value, itemsPerPage.value);
+    };
+
     const changePageSize = async (newPageSize) => {
       itemsPerPage.value = newPageSize;
       await getAgenciesData(1, itemsPerPage.value);
@@ -223,9 +245,10 @@ export default defineComponent({
       loadPage,
       changePageSize,
       onSearchChange,
+      handleChangeOrder,
       handleSubmit,
-      handleDeleteAgency,
-      handleUpdateRow,
+      handleDelete,
+      handleUpdate,
       createAgency,
       updateAgency,
     };

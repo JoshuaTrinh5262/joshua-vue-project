@@ -1,6 +1,7 @@
 <template>
   <page-title-component :heading="heading" :subheading="subHeading" :icon="icon"></page-title-component>
   <notification-component v-model:notification="notification"></notification-component>
+
   <div class="chatgroup">
     <div class="chatgroup-sidebar">
       <div class="input-group new-chatgroup">
@@ -63,7 +64,8 @@ export default defineComponent({
   setup() {
     const heading = ref('Chatgroup');
     const subHeading = ref('Chatgroup demo');
-    const icon = ref('pe-7s-bandaid icon-gradient');
+    const icon = ref('pe-7s-chat icon-gradient bg-premium-dark');
+
     const currentChat = ref({
       id: null,
       message: []

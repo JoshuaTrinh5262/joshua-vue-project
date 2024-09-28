@@ -96,7 +96,7 @@ export default defineComponent({
                     { title: 'Regular Tables', href: '/admin/tables/regular-tables' },
                 ],
             },
-            { title: 'Kanban', icon: 'pe-7s-display2', href: '/admin/kanban' },
+            { title: 'Kanban', icon: 'pe-7s-notebook', href: '/admin/kanban' },
             { title: 'Chart Boxes', icon: 'pe-7s-graph2', href: '/admin/widgets/chart-boxes-3' },
             {
                 title: 'Elements',

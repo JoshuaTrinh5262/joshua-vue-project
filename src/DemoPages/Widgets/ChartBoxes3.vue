@@ -126,7 +126,8 @@
                         </div>
                         <div class="widget-progress-wrapper">
                             <div class="progress-bar-xs progress">
-                                <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100" style="width: 65%;"></div>
+                                <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="65"
+                                    aria-valuemin="0" aria-valuemax="100" style="width: 65%;"></div>
                             </div>
                             <div class="progress-sub-label">
                                 <div class="sub-label-left">YoY Growth</div>
@@ -150,7 +151,8 @@
                         </div>
                         <div class="widget-progress-wrapper">
                             <div class="progress-bar-lg progress-bar-animated progress">
-                                <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="47" aria-valuemin="0" aria-valuemax="100" style="width: 47%;"></div>
+                                <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="47"
+                                    aria-valuemin="0" aria-valuemax="100" style="width: 47%;"></div>
                             </div>
                             <div class="progress-sub-label">
                                 <div class="sub-label-left">Retention</div>
@@ -174,7 +176,8 @@
                         </div>
                         <div class="widget-progress-wrapper">
                             <div class="progress-bar-xs progress-bar-animated-alt progress">
-                                <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 85%;"></div>
+                                <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="85"
+                                    aria-valuemin="0" aria-valuemax="100" style="width: 85%;"></div>
                             </div>
                             <div class="progress-sub-label">
                                 <div class="sub-label-left">Sales</div>
@@ -198,7 +201,8 @@
                         </div>
                         <div class="widget-progress-wrapper">
                             <div class="progress-bar-sm progress-bar-animated-alt progress">
-                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100" style="width: 65%;"></div>
+                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="65"
+                                    aria-valuemin="0" aria-valuemax="100" style="width: 65%;"></div>
                             </div>
                             <div class="progress-sub-label">
                                 <div class="sub-label-left">Twitter Progress</div>
@@ -383,7 +387,8 @@
                             </div>
                             <div class="widget-progress-wrapper">
                                 <div class="progress-bar-sm progress-bar-animated-alt progress">
-                                    <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="43" aria-valuemin="0" aria-valuemax="100" style="width: 43%;"></div>
+                                    <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="43"
+                                        aria-valuemin="0" aria-valuemax="100" style="width: 43%;"></div>
                                 </div>
                                 <div class="progress-sub-label">
                                     <div class="sub-label-left">YoY Growth</div>
@@ -407,7 +412,8 @@
                             </div>
                             <div class="widget-progress-wrapper">
                                 <div class="progress-bar-sm progress-bar-animated-alt progress">
-                                    <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="47" aria-valuemin="0" aria-valuemax="100" style="width: 47%;"></div>
+                                    <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="47"
+                                        aria-valuemin="0" aria-valuemax="100" style="width: 47%;"></div>
                                 </div>
                                 <div class="progress-sub-label">
                                     <div class="sub-label-left">Retention</div>
@@ -431,7 +437,8 @@
                             </div>
                             <div class="widget-progress-wrapper">
                                 <div class="progress-bar-sm progress-bar-animated-alt progress">
-                                    <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="77" aria-valuemin="0" aria-valuemax="100" style="width: 77%;"></div>
+                                    <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="77"
+                                        aria-valuemin="0" aria-valuemax="100" style="width: 77%;"></div>
                                 </div>
                                 <div class="progress-sub-label">
                                     <div class="sub-label-left">Sales</div>
@@ -455,7 +462,8 @@
                             </div>
                             <div class="widget-progress-wrapper">
                                 <div class="progress-bar-sm progress-bar-animated-alt progress">
-                                    <div class="progress-bar bg-success" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100" style="width: 65%;"></div>
+                                    <div class="progress-bar bg-success" role="progressbar" aria-valuenow="65"
+                                        aria-valuemin="0" aria-valuemax="100" style="width: 65%;"></div>
                                 </div>
                                 <div class="progress-sub-label">
                                     <div class="sub-label-left">Twitter Progress</div>
@@ -484,7 +492,8 @@
                             </div>
                             <div class="widget-progress-wrapper">
                                 <div class="progress-bar-sm progress-bar-animated-alt progress">
-                                    <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="43" aria-valuemin="0" aria-valuemax="100" style="width: 43%;"></div>
+                                    <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="43"
+                                        aria-valuemin="0" aria-valuemax="100" style="width: 43%;"></div>
                                 </div>
                                 <div class="progress-sub-label">
                                     <div class="sub-label-left">YoY Growth</div>
@@ -508,7 +517,8 @@
                             </div>
                             <div class="widget-progress-wrapper">
                                 <div class="progress-bar-sm progress-bar-animated-alt progress">
-                                    <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="77" aria-valuemin="0" aria-valuemax="100" style="width: 77%;"></div>
+                                    <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="77"
+                                        aria-valuemin="0" aria-valuemax="100" style="width: 77%;"></div>
                                 </div>
                                 <div class="progress-sub-label">
                                     <div class="sub-label-left">Sales</div>
@@ -532,7 +542,8 @@
                             </div>
                             <div class="widget-progress-wrapper">
                                 <div class="progress-bar-sm progress-bar-animated-alt progress">
-                                    <div class="progress-bar bg-success" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100" style="width: 65%;"></div>
+                                    <div class="progress-bar bg-success" role="progressbar" aria-valuenow="65"
+                                        aria-valuemin="0" aria-valuemax="100" style="width: 65%;"></div>
                                 </div>
                                 <div class="progress-sub-label">
                                     <div class="sub-label-left">Twitter Progress</div>
@@ -563,7 +574,8 @@
                                     </div>
                                     <div class="widget-progress-wrapper">
                                         <div class="progress-bar-xs progress">
-                                            <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100" style="width: 65%;"></div>
+                                            <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="65"
+                                                aria-valuemin="0" aria-valuemax="100" style="width: 65%;"></div>
                                         </div>
                                         <div class="progress-sub-label">
                                             <div class="sub-label-left">YoY Growth</div>
@@ -587,7 +599,8 @@
                                     </div>
                                     <div class="widget-progress-wrapper">
                                         <div class="progress-bar-lg progress-bar-animated progress">
-                                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="47" aria-valuemin="0" aria-valuemax="100" style="width: 47%;"></div>
+                                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="47"
+                                                aria-valuemin="0" aria-valuemax="100" style="width: 47%;"></div>
                                         </div>
                                         <div class="progress-sub-label">
                                             <div class="sub-label-left">Retention</div>
@@ -611,7 +624,8 @@
                                     </div>
                                     <div class="widget-progress-wrapper">
                                         <div class="progress-bar-sm progress-bar-animated-alt progress">
-                                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100" style="width: 65%;"></div>
+                                            <div class="progress-bar bg-success" role="progressbar" aria-valuenow="65"
+                                                aria-valuemin="0" aria-valuemax="100" style="width: 65%;"></div>
                                         </div>
                                         <div class="progress-sub-label">
                                             <div class="sub-label-left">Twitter Progress</div>
@@ -635,7 +649,8 @@
                                     </div>
                                     <div class="widget-progress-wrapper">
                                         <div class="progress-bar-xs progress-bar-animated-alt progress">
-                                            <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 85%;"></div>
+                                            <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="85"
+                                                aria-valuemin="0" aria-valuemax="100" style="width: 85%;"></div>
                                         </div>
                                         <div class="progress-sub-label">
                                             <div class="sub-label-left">Sales</div>
@@ -721,21 +736,25 @@
 </template>
 
 <script>
+import { defineComponent, ref } from 'vue';
+import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 
-    import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
+export default defineComponent({
+    name: "ChartBoxes3",
 
-    export default {
-        components: {
-            PageTitleComponent,
-        },
-        data: () => ({
-            heading: 'Chart Boxes III',
-            subheading: 'Highly configurable boxes best used for showing numbers in an user friendly way.',
-            icon: 'pe-7s-wallet icon-gradient bg-plum-plate',
+    components: {
+        PageTitleComponent,
+    },
+    setup() {
+        const heading = ref('Chart Boxes III');
+        const subheading = ref('Highly configurable boxes best used for showing numbers in a user friendly way.');
+        const icon = ref('pe-7s-wallet icon-gradient bg-plum-plate');
 
-        }),
-
-        methods: {}
-    }
-
+        return {
+            heading,
+            subheading,
+            icon,
+        };
+    },
+});
 </script>

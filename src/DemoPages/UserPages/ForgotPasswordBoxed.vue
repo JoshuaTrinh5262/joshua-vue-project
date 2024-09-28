@@ -21,7 +21,8 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label for="exampleEmail">Email</label>
-                                                    <input type="email" class="form-control" name="email" id="exampleEmail" placeholder="Email here...">
+                                                    <input type="email" class="form-control" name="email"
+                                                        id="exampleEmail" placeholder="Email here...">
                                                 </div>
                                             </div>
                                         </div>
@@ -47,3 +48,16 @@
         </div>
     </div>
 </template>
+
+<script>
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+    name: 'ForgotPasswordBoxed',
+    setup() {
+
+        return {
+        };
+    }
+});
+</script>
