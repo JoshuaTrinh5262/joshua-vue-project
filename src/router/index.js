@@ -9,8 +9,7 @@ const routes = [
             layout: "admin",
             requiresAuth: true,
         },
-        component: () =>
-            import("../DemoPages/Dashboards/DashboardComponent.vue"),
+        component: () => import("../Pages/DashboardPage.vue"),
     },
     // Dashboards
     {
@@ -20,7 +19,7 @@ const routes = [
             layout: "admin",
             requiresAuth: true,
         },
-        component: () => import("../Pages/WordCounter/WordCounterPage.vue"),
+        component: () => import("../Pages/Tools/WordCounterPage.vue"),
     },
     {
         path: "/admin/calculator",
@@ -29,12 +28,12 @@ const routes = [
             layout: "admin",
             requiresAuth: true,
         },
-        component: () => import("../Pages/CalculatorPage.vue"),
+        component: () => import("../Pages/Tools/CalculatorPage.vue"),
     },
     // DataSet
     {
-        path: "/admin/users",
-        name: "users",
+        path: "/admin/user",
+        name: "user",
         meta: {
             layout: "admin",
             requiresAuth: true,
@@ -53,7 +52,7 @@ const routes = [
 
     // Vtubers Data
     {
-        path: "/admin/talents",
+        path: "/admin/talent",
         name: "talents",
         meta: {
             layout: "admin",
@@ -62,7 +61,7 @@ const routes = [
         component: () => import("../Pages/Vtubers/TalentsPage.vue"),
     },
     {
-        path: "/admin/agencies",
+        path: "/admin/agency",
         name: "agencies",
         meta: {
             layout: "admin",
@@ -71,7 +70,7 @@ const routes = [
         component: () => import("../Pages/Vtubers/AgenciesPage.vue"),
     },
     {
-        path: "/admin/albums",
+        path: "/admin/album",
         name: "albums",
         meta: {
             layout: "admin",
@@ -80,7 +79,7 @@ const routes = [
         component: () => import("../Pages/Vtubers/AlbumsPage.vue"),
     },
     {
-        path: "/admin/discographies",
+        path: "/admin/discography",
         name: "Discographies",
         meta: {
             layout: "admin",
@@ -89,7 +88,7 @@ const routes = [
         component: () => import("../Pages/Vtubers/DiscographiesPage.vue"),
     },
     {
-        path: "/admin/galleries",
+        path: "/admin/gallery",
         name: "galleries",
         meta: {
             layout: "admin",
@@ -98,7 +97,7 @@ const routes = [
         component: () => import("../Pages/Vtubers/GalleriesPage.vue"),
     },
     {
-        path: "/admin/events",
+        path: "/admin/event",
         name: "events",
         meta: {
             layout: "admin",
@@ -108,7 +107,7 @@ const routes = [
     },
     // Settings
     {
-        path: "/admin/settings",
+        path: "/admin/setting",
         name: "settings",
         meta: {
             layout: "admin",
@@ -247,7 +246,7 @@ const routes = [
             layout: "admin",
             requiresAuth: true,
         },
-        component: () => import("../DemoPages/ChatBox/ChatGroup.vue"),
+        component: () => import("../Pages/Datasets/ChatGroupPage.vue"),
     },
     // Pages
     {
@@ -256,21 +255,32 @@ const routes = [
         component: () => import("../DemoPages/UserPages/LoginPage.vue"),
     },
     {
-        path: "/pages/register",
+        path: "/admin/register",
         name: "register",
         meta: {
-            layout: "userpages",
+            layout: "admin",
+            requiresAuth: true,
         },
         component: () => import("../DemoPages/UserPages/RegisterBoxed.vue"),
     },
     {
-        path: "/pages/forgot-password",
+        path: "/admin/forgot-password",
         name: "forgot-password",
         meta: {
-            layout: "userpages",
+            layout: "admin",
+            requiresAuth: true,
         },
         component: () =>
             import("../DemoPages/UserPages/ForgotPasswordBoxed.vue"),
+    },
+    {
+        path: "/admin/notfound",
+        name: "not-found-admin",
+        meta: {
+            layout: "admin",
+            requiresAuth: true,
+        },
+        component: () => import("../Pages/NotFoundPage.vue"),
     },
     {
         path: "/",
