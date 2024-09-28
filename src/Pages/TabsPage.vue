@@ -34,7 +34,7 @@ export default defineComponent({
   setup() {
     const heading = ref("Tabs");
     const subheading = ref("Tab Demo pages");
-    const icon = ref("pe-7s-phone icon-gradient bg-tempting-azure");
+    const icon = ref("pe-7s-phone icon-gradient bg-premium-dark");
     const mode = ref("dark");
 
     return {

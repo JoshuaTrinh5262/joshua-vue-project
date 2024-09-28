@@ -13,6 +13,12 @@
                                     class="form-control" />
                             </div>
                         </div>
+                        <div class="position-relative row form-group">
+                            <label class="col-sm-2 col-form-label">Demo Date Time Picker</label>
+                            <div class="col-sm-10">
+                                <DateTimePicker></DateTimePicker>
+                            </div>
+                        </div>
                         <div class="position-relative row form-check">
                             <div class="col-sm-10 offset-sm-2">
                                 <button class="btn btn-primary" type="button">Save Setting</button>
@@ -28,12 +34,14 @@
 <script>
 import { defineComponent, ref } from "vue";
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
+import DateTimePicker from "../../DemoPages/Components/DateTimePicker.vue";
 
 export default defineComponent({
     name: "SettingPage",
 
     components: {
         PageTitleComponent,
+        DateTimePicker
     },
 
     setup() {

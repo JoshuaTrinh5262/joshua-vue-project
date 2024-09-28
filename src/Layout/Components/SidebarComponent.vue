@@ -56,6 +56,7 @@ export default defineComponent({
             },
             { title: 'Setting', icon: 'pe-7s-settings', href: '/admin/setting' },
             { title: 'Tabs', icon: 'pe-7s-rocket', href: '/admin/tabs' },
+            { title: 'Kanban', icon: 'pe-7s-notebook', href: '/admin/kanban' },
             {
                 title: 'Pages',
                 icon: 'pe-7s-browser',
@@ -96,7 +97,6 @@ export default defineComponent({
                     { title: 'Regular Tables', href: '/admin/tables/regular-tables' },
                 ],
             },
-            { title: 'Kanban', icon: 'pe-7s-notebook', href: '/admin/kanban' },
             { title: 'Chart Boxes', icon: 'pe-7s-graph2', href: '/admin/widgets/chart-boxes-3' },
             {
                 title: 'Elements',
