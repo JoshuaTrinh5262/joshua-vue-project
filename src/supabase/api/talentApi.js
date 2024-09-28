@@ -1,24 +1,32 @@
 import { supabase } from "../supabase";
 
-export const getTalents = async (page, pageSize, orderBy, orderDirection, search = '') => {
+export const getTalents = async (
+    page,
+    pageSize,
+    orderBy,
+    orderDirection,
+    search = ""
+) => {
     try {
         const start = (page - 1) * pageSize;
         const end = start + pageSize - 1;
 
         let query = supabase
-            .from('talent')
-            .select('*, agency(agency_name)', { count: 'exact' })
-            .order(orderBy, { ascending: orderDirection === 'asc' })
+            .from("talent")
+            .select("*, agency(agency_name)", { count: "exact" })
+            .order(orderBy, { ascending: orderDirection === "asc" })
             .range(start, end);
         if (search) {
-            query = query.or(`name.ilike.%${search}%,original_name.ilike.%${search}%`);
+            query = query.or(
+                `name.ilike.%${search}%,original_name.ilike.%${search}%`
+            );
         }
         const { data, count, error } = await query;
         if (error) {
             throw error;
         }
 
-        const transformedData = data.map(item => ({
+        const transformedData = data.map((item) => ({
             ...item,
             agency: item.agency?.agency_name,
         }));
@@ -29,14 +37,18 @@ export const getTalents = async (page, pageSize, orderBy, orderDirection, search
             totalPages: Math.ceil(count / pageSize),
         };
     } catch (err) {
-        console.error('Error fetching talents:', err);
+        console.error("Error fetching talents:", err);
         return { error: err.message };
     }
 };
 
 export const getTalentById = async (id) => {
     try {
-        const { data, error } = await supabase.from('talent').select('*').eq('id', id).single();
+        const { data, error } = await supabase
+            .from("talent")
+            .select("*")
+            .eq("id", id)
+            .single();
         if (error) {
             throw error;
         }
@@ -49,20 +61,27 @@ export const getTalentById = async (id) => {
 
 export const createTalent = async (talent) => {
     try {
-        const { data, error } = await supabase.from('talent').insert(talent).single();
+        const { data, error } = await supabase
+            .from("talent")
+            .insert(talent)
+            .single();
         if (error) {
             throw error;
         }
         return data;
     } catch (err) {
-        console.error('Error creating talent:', err);
+        console.error("Error creating talent:", err);
         return { error: err.message };
     }
 };
 
 export const updateTalent = async (updates) => {
     try {
-        const { data, error } = await supabase.from('talent').update(updates).eq('id', updates.id).single();
+        const { data, error } = await supabase
+            .from("talent")
+            .update(updates)
+            .eq("id", updates.id)
+            .single();
         if (error) {
             throw error;
         }
@@ -75,7 +94,10 @@ export const updateTalent = async (updates) => {
 
 export const deleteTalent = async (id) => {
     try {
-        const { data, error } = await supabase.from('talent').delete().eq('id', id);
+        const { data, error } = await supabase
+            .from("talent")
+            .delete()
+            .eq("id", id);
         if (error) {
             throw error;
         }
@@ -88,13 +110,15 @@ export const deleteTalent = async (id) => {
 
 export const countTalentRecord = async () => {
     try {
-        const { count, error } = await supabase.from('talent').select('*', { count: 'exact', head: true });
+        const { count, error } = await supabase
+            .from("talent")
+            .select("*", { count: "exact", head: true });
         if (error) {
             throw error;
         }
         return count;
     } catch (err) {
-        console.error('Error counting talents:', err);
+        console.error("Error counting talents:", err);
         return { error: err.message };
     }
 };

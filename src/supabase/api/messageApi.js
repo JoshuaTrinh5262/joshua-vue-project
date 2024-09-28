@@ -2,10 +2,7 @@ import { supabase } from "../supabase";
 
 export const getMessages = async () => {
     try {
-
-        let query = supabase
-            .from('message')
-            .select('*', { count: 'exact' });
+        let query = supabase.from("message").select("*", { count: "exact" });
 
         const { data, count, error } = await query;
 
@@ -22,7 +19,11 @@ export const getMessages = async () => {
 };
 export const getMessagesById = async (id) => {
     try {
-        const { data, error } = await supabase.from('message').select('*').eq('id', id).single();
+        const { data, error } = await supabase
+            .from("message")
+            .select("*")
+            .eq("id", id)
+            .single();
         if (error) {
             throw error;
         }
@@ -34,7 +35,10 @@ export const getMessagesById = async (id) => {
 
 export const createMessage = async (newMessage) => {
     try {
-        const { data, error } = await supabase.from('message').insert(newMessage).single();
+        const { data, error } = await supabase
+            .from("message")
+            .insert(newMessage)
+            .single();
         if (error) {
             throw error;
         }
@@ -46,7 +50,11 @@ export const createMessage = async (newMessage) => {
 
 export const updateMessage = async (updateData) => {
     try {
-        const { data, error } = await supabase.from('message').update(updateData).eq('id', updateData.id).single();
+        const { data, error } = await supabase
+            .from("message")
+            .update(updateData)
+            .eq("id", updateData.id)
+            .single();
         if (error) {
             throw error;
         }
@@ -58,7 +66,10 @@ export const updateMessage = async (updateData) => {
 
 export const deleteMessage = async (id) => {
     try {
-        const { data, error } = await supabase.from('message').delete().eq('id', id);
+        const { data, error } = await supabase
+            .from("message")
+            .delete()
+            .eq("id", id);
         if (error) {
             throw error;
         }
@@ -70,7 +81,9 @@ export const deleteMessage = async (id) => {
 
 export const countMessageRecord = async () => {
     try {
-        const { count, error } = await supabase.from('message').select('*', { count: 'exact', head: true });
+        const { count, error } = await supabase
+            .from("message")
+            .select("*", { count: "exact", head: true });
         if (error) {
             throw error;
         }

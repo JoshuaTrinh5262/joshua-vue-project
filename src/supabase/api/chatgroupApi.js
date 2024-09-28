@@ -2,10 +2,9 @@ import { supabase } from "../supabase";
 
 export const getChatgroupsWithMessage = async () => {
     try {
-
         let query = supabase
-            .from('chatgroup')
-            .select('*,message(*)', { count: 'exact' });
+            .from("chatgroup")
+            .select("*,message(*)", { count: "exact" });
 
         const { data, count, error } = await query;
 
@@ -20,9 +19,14 @@ export const getChatgroupsWithMessage = async () => {
         return { error: err.message };
     }
 };
+
 export const getChatgroupsWithMessageById = async (id) => {
     try {
-        const { data, error } = await supabase.from('chatgroup').select('*').eq('id', id).single();
+        const { data, error } = await supabase
+            .from("chatgroup")
+            .select("*")
+            .eq("id", id)
+            .single();
         if (error) {
             throw error;
         }
@@ -34,7 +38,10 @@ export const getChatgroupsWithMessageById = async (id) => {
 
 export const createChatgroup = async (chatgroup) => {
     try {
-        const { data, error } = await supabase.from('chatgroup').insert(chatgroup).single();
+        const { data, error } = await supabase
+            .from("chatgroup")
+            .insert(chatgroup)
+            .single();
         if (error) {
             throw error;
         }
@@ -46,7 +53,11 @@ export const createChatgroup = async (chatgroup) => {
 
 export const updateChatgroup = async (updateData) => {
     try {
-        const { data, error } = await supabase.from('chatgroup').update(updateData).eq('id', updateData.id).single();
+        const { data, error } = await supabase
+            .from("chatgroup")
+            .update(updateData)
+            .eq("id", updateData.id)
+            .single();
         if (error) {
             throw error;
         }
@@ -58,7 +69,10 @@ export const updateChatgroup = async (updateData) => {
 
 export const deleteChatgroup = async (id) => {
     try {
-        const { data, error } = await supabase.from('chatgroup').delete().eq('id', id);
+        const { data, error } = await supabase
+            .from("chatgroup")
+            .delete()
+            .eq("id", id);
         if (error) {
             throw error;
         }
@@ -70,7 +84,9 @@ export const deleteChatgroup = async (id) => {
 
 export const countChatgroupRecord = async () => {
     try {
-        const { count, error } = await supabase.from('chatgroup').select('*', { count: 'exact', head: true });
+        const { count, error } = await supabase
+            .from("chatgroup")
+            .select("*", { count: "exact", head: true });
         if (error) {
             throw error;
         }

@@ -1,14 +1,20 @@
 import { supabase } from "../supabase";
 
-export const getDiscographiesWithPaging = async (page, pageSize, orderBy, orderDirection, search = '') => {
+export const getDiscographiesWithPaging = async (
+    page,
+    pageSize,
+    orderBy,
+    orderDirection,
+    search = ""
+) => {
     try {
         const start = (page - 1) * pageSize;
         const end = start + pageSize - 1;
 
         let query = supabase
-            .from('discography')
-            .select('*, album(name)')
-            .order(orderBy, { ascending: orderDirection === 'asc' })
+            .from("discography")
+            .select("*, album(name)")
+            .order(orderBy, { ascending: orderDirection === "asc" })
             .range(start, end);
 
         if (search) {
@@ -20,9 +26,9 @@ export const getDiscographiesWithPaging = async (page, pageSize, orderBy, orderD
         if (error) {
             throw error;
         }
-        const discographies = data.map(discography => ({
+        const discographies = data.map((discography) => ({
             ...discography,
-            album: discography.album?.name
+            album: discography.album?.name,
         }));
 
         return {
@@ -36,20 +42,24 @@ export const getDiscographiesWithPaging = async (page, pageSize, orderBy, orderD
 };
 export const getDiscographies = async () => {
     try {
-        const { data, error } = await supabase.from('discography').select('*');
+        const { data, error } = await supabase.from("discography").select("*");
         if (error) {
             throw error;
         }
         return data;
     } catch (err) {
-        console.error('Error fetching discographies:', err);
+        console.error("Error fetching discographies:", err);
         return { error: err.message };
     }
 };
 
 export const getDiscographyById = async (id) => {
     try {
-        const { data, error } = await supabase.from('discography').select('*').eq('id', id).single();
+        const { data, error } = await supabase
+            .from("discography")
+            .select("*")
+            .eq("id", id)
+            .single();
         if (error) {
             throw error;
         }
@@ -62,20 +72,27 @@ export const getDiscographyById = async (id) => {
 
 export const createDiscography = async (discography) => {
     try {
-        const { data, error } = await supabase.from('discography').insert(discography).single();
+        const { data, error } = await supabase
+            .from("discography")
+            .insert(discography)
+            .single();
         if (error) {
             throw error;
         }
         return data;
     } catch (err) {
-        console.error('Error creating discography:', err);
+        console.error("Error creating discography:", err);
         return { error: err.message };
     }
 };
 
-export const updateDiscography = async (id, updates) => {
+export const updateDiscography = async (updateData) => {
     try {
-        const { data, error } = await supabase.from('discography').update(updates).eq('id', id).single();
+        const { data, error } = await supabase
+            .from("discography")
+            .update(updateData)
+            .eq("id", updateData.id)
+            .single();
         if (error) {
             throw error;
         }
@@ -88,7 +105,10 @@ export const updateDiscography = async (id, updates) => {
 
 export const deleteDiscography = async (id) => {
     try {
-        const { data, error } = await supabase.from('discography').delete().eq('id', id);
+        const { data, error } = await supabase
+            .from("discography")
+            .delete()
+            .eq("id", id);
         if (error) {
             throw error;
         }
@@ -101,13 +121,15 @@ export const deleteDiscography = async (id) => {
 
 export const countDiscographyRecord = async () => {
     try {
-        const { count, error } = await supabase.from('discography').select('*', { count: 'exact', head: true });
+        const { count, error } = await supabase
+            .from("discography")
+            .select("*", { count: "exact", head: true });
         if (error) {
             throw error;
         }
         return count;
     } catch (err) {
-        console.error('Error counting discographies:', err);
+        console.error("Error counting discographies:", err);
         return { error: err.message };
     }
 };

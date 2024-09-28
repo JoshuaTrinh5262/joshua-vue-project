@@ -1,14 +1,20 @@
 import { supabase } from "../supabase";
 
-export const getEvents = async (page, pageSize, orderBy, orderDirection, search = '') => {
+export const getEventsWithPaging = async (
+    page,
+    pageSize,
+    orderBy,
+    orderDirection,
+    search = ""
+) => {
     try {
         const start = (page - 1) * pageSize;
         const end = start + pageSize - 1;
 
         let query = supabase
-            .from('event')
-            .select('*', { count: 'exact' })
-            .order(orderBy, { ascending: orderDirection === 'asc' })
+            .from("event")
+            .select("*", { count: "exact" })
+            .order(orderBy, { ascending: orderDirection === "asc" })
             .range(start, end);
 
         if (search) {
@@ -32,9 +38,26 @@ export const getEvents = async (page, pageSize, orderBy, orderDirection, search 
     }
 };
 
+export const getEvents = async () => {
+    try {
+        const { data, error } = await supabase.from("event").select("*");
+        if (error) {
+            throw error;
+        }
+        return data;
+    } catch (err) {
+        console.error("Error fetching events:", err);
+        return { error: err.message };
+    }
+};
+
 export const getEventById = async (id) => {
     try {
-        const { data, error } = await supabase.from('event').select('*').eq('id', id).single();
+        const { data, error } = await supabase
+            .from("event")
+            .select("*")
+            .eq("id", id)
+            .single();
         if (error) {
             throw error;
         }
@@ -46,7 +69,10 @@ export const getEventById = async (id) => {
 
 export const createEvent = async (event) => {
     try {
-        const { data, error } = await supabase.from('event').insert(event).single();
+        const { data, error } = await supabase
+            .from("event")
+            .insert(event)
+            .single();
         if (error) {
             throw error;
         }
@@ -56,9 +82,13 @@ export const createEvent = async (event) => {
     }
 };
 
-export const updateEvent = async (id, updates) => {
+export const updateEvent = async (updateData) => {
     try {
-        const { data, error } = await supabase.from('event').update(updates).eq('id', id).single();
+        const { data, error } = await supabase
+            .from("event")
+            .update(updateData)
+            .eq("id", updateData.id)
+            .single();
         if (error) {
             throw error;
         }
@@ -70,7 +100,10 @@ export const updateEvent = async (id, updates) => {
 
 export const deleteEvent = async (id) => {
     try {
-        const { data, error } = await supabase.from('event').delete().eq('id', id);
+        const { data, error } = await supabase
+            .from("event")
+            .delete()
+            .eq("id", id);
         if (error) {
             throw error;
         }
@@ -82,7 +115,9 @@ export const deleteEvent = async (id) => {
 
 export const countEventRecord = async () => {
     try {
-        const { count, error } = await supabase.from('event').select('*', { count: 'exact', head: true });
+        const { count, error } = await supabase
+            .from("event")
+            .select("*", { count: "exact", head: true });
         if (error) {
             throw error;
         }

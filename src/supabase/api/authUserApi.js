@@ -2,29 +2,27 @@ import { supabase } from "../supabase";
 
 export async function getAuthUsers(newPage, newPageSize) {
     const { data, error } = await supabase.auth.admin.listUsers({
-      page: newPage,
-      perPage: newPageSize
+        page: newPage,
+        perPage: newPageSize,
     });
-    
+
     if (error) {
-      return [];
+        return [];
     }
-  
-    
+
     return {
-      items: data.users,
+        items: data.users,
     };
 }
 
 export async function getAuthUserById(id) {
-  const { data, error } = await supabase.auth.admin.getUserById(id)
+    const { data, error } = await supabase.auth.admin.getUserById(id);
 
-  if (error) {
-    return [];
-  }
+    if (error) {
+        return [];
+    }
 
-  
-  return {
-    items: data.users,
-  };
+    return {
+        items: data.users,
+    };
 }

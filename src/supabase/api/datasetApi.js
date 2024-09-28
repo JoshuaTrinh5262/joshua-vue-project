@@ -1,14 +1,20 @@
 import { supabase } from "../supabase";
 
-export const getDatasets = async (page, pageSize, orderBy, orderDirection, search = '') => {
+export const getDatasets = async (
+    page,
+    pageSize,
+    orderBy,
+    orderDirection,
+    search = ""
+) => {
     try {
         const start = (page - 1) * pageSize;
         const end = start + pageSize - 1;
 
         let query = supabase
-            .from('dataset')
-            .select('*', { count: 'exact' })
-            .order(orderBy, { ascending: orderDirection === 'asc' })
+            .from("dataset")
+            .select("*", { count: "exact" })
+            .order(orderBy, { ascending: orderDirection === "asc" })
             .range(start, end);
 
         if (search) {
@@ -28,13 +34,18 @@ export const getDatasets = async (page, pageSize, orderBy, orderDirection, searc
             totalPages: Math.ceil(count / pageSize),
         };
     } catch (err) {
-        console.error('Error fetching datasets:', err);
+        console.error("Error fetching datasets:", err);
         return { error: err.message };
     }
 };
+
 export const getDatasetById = async (id) => {
     try {
-        const { data, error } = await supabase.from('dataset').select('*').eq('id', id).single();
+        const { data, error } = await supabase
+            .from("dataset")
+            .select("*")
+            .eq("id", id)
+            .single();
         if (error) {
             throw error;
         }
@@ -47,20 +58,27 @@ export const getDatasetById = async (id) => {
 
 export const createDataset = async (dataset) => {
     try {
-        const { data, error } = await supabase.from('dataset').insert(dataset).single();
+        const { data, error } = await supabase
+            .from("dataset")
+            .insert(dataset)
+            .single();
         if (error) {
             throw error;
         }
         return data;
     } catch (err) {
-        console.error('Error creating dataset:', err);
+        console.error("Error creating dataset:", err);
         return { error: err.message };
     }
 };
 
 export const updateDataset = async (updateData) => {
     try {
-        const { data, error } = await supabase.from('dataset').update(updateData).eq('id', updateData.id).single();
+        const { data, error } = await supabase
+            .from("dataset")
+            .update(updateData)
+            .eq("id", updateData.id)
+            .single();
         if (error) {
             throw error;
         }
@@ -73,7 +91,10 @@ export const updateDataset = async (updateData) => {
 
 export const deleteDataset = async (id) => {
     try {
-        const { data, error } = await supabase.from('dataset').delete().eq('id', id);
+        const { data, error } = await supabase
+            .from("dataset")
+            .delete()
+            .eq("id", id);
         if (error) {
             throw error;
         }
@@ -86,42 +107,44 @@ export const deleteDataset = async (id) => {
 
 export const countDatasetRecord = async () => {
     try {
-        const { count, error } = await supabase.from('dataset').select('*', { count: 'exact', head: true });
+        const { count, error } = await supabase
+            .from("dataset")
+            .select("*", { count: "exact", head: true });
         if (error) {
             throw error;
         }
         return count;
     } catch (err) {
-        console.error('Error counting datasets:', err);
+        console.error("Error counting datasets:", err);
         return { error: err.message };
     }
 };
 
 const convertToCSV = (data) => {
     const escapeValue = (value) => {
-      if (typeof value === "string") {
-        const escaped = value.replace(/"/g, '""');
-        return `"${escaped}"`;
-      }
-      return value;
+        if (typeof value === "string") {
+            const escaped = value.replace(/"/g, '""');
+            return `"${escaped}"`;
+        }
+        return value;
     };
-  
+
     const headers = Object.keys(data[0]).map(escapeValue).join(",") + "\n";
-  
+
     const rows = data
-      .map((item) => {
-        return Object.values(item).map(escapeValue).join(",");
-      })
-      .join("\n");
-  
+        .map((item) => {
+            return Object.values(item).map(escapeValue).join(",");
+        })
+        .join("\n");
+
     return headers + rows;
-  };
+};
 
 // Helper function to parse CSV
 const parseCSV = (csv) => {
     const [headerLine, ...rows] = csv.split("\n");
     const headers = headerLine.split(",");
-    return rows.map(row => {
+    return rows.map((row) => {
         const values = row.split(",");
         return headers.reduce((obj, header, index) => {
             obj[header.trim()] = values[index].trim();
@@ -131,12 +154,16 @@ const parseCSV = (csv) => {
 };
 
 // Function to export data from Supabase to CSV
-export const exportDataset = async (fileName, sourceTextMaxLength, targetTextMaxLength) => {
+export const exportDataset = async (
+    fileName,
+    sourceTextMaxLength,
+    targetTextMaxLength
+) => {
     try {
         const { data, error } = await supabase.from("dataset").select("*");
 
         if (error) {
-            throw error
+            throw error;
         }
 
         const filteredData = data.filter((item) => {
@@ -144,8 +171,10 @@ export const exportDataset = async (fileName, sourceTextMaxLength, targetTextMax
             const targetTextLength = item.target_text.length;
 
             return (
-                (!sourceTextMaxLength || sourceTextLength <= sourceTextMaxLength) &&
-                (!targetTextMaxLength || targetTextLength <= targetTextMaxLength)
+                (!sourceTextMaxLength ||
+                    sourceTextLength <= sourceTextMaxLength) &&
+                (!targetTextMaxLength ||
+                    targetTextLength <= targetTextMaxLength)
             );
         });
 
@@ -157,7 +186,10 @@ export const exportDataset = async (fileName, sourceTextMaxLength, targetTextMax
         const link = document.createElement("a");
         const url = URL.createObjectURL(blob);
         link.setAttribute("href", url);
-        link.setAttribute("download", fileName ? `${fileName}.csv` : "export.csv");
+        link.setAttribute(
+            "download",
+            fileName ? `${fileName}.csv` : "export.csv"
+        );
         link.style.visibility = "hidden";
         document.body.appendChild(link);
         link.click();
@@ -189,7 +221,9 @@ export const importDataset = async (event) => {
         if (parsedData) {
             try {
                 // Insert parsed data into Supabase
-                const { error } = await supabase.from("your_table_name").insert(parsedData);
+                const { error } = await supabase
+                    .from("your_table_name")
+                    .insert(parsedData);
 
                 if (error) throw error;
                 alert("Data imported successfully");
