@@ -12,7 +12,7 @@ export const getAgenciesWithPaging = async (page, pageSize, orderBy, orderDirect
             .range(start, end);
 
         if (search) {
-            query = query.or(`agency_name.ilike.%${search}%,agency_description.ilike.%${search}%`);
+            query = query.or(`agency_name.ilike.%${search}%`);
         }
 
         const { data, count, error } = await query;
