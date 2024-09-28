@@ -2,8 +2,8 @@
     <div>
         <page-title-component :heading=heading :subheading=subheading :icon=icon>
             <template v-slot:actions>
-                <button type="button" @click=toggleCreateModal class="btn btn-primary mr-2">
-                    Create New
+                <button type="button" @click=toggleModal class="btn btn-primary mr-2">
+                    Create New Dataset
                 </button>
                 <button @click=toggleImport type="button" class="btn btn-info mr-2">
                     Import
@@ -15,7 +15,7 @@
         </page-title-component>
         <notification-component v-model:notification="notification"></notification-component>
         <modal-component :title="isUpdateMode ? 'Update Dataset' : 'Add New Dataset'" :isOpen="showCreateModal"
-            @closeModal="toggleCreateModal">
+            @closeModal="toggleModal">
             <template #body>
                 <div class="position-relative form-group">
                     <label for="source_text">Source Text</label>
@@ -39,7 +39,7 @@
                 </div>
             </template>
             <template #footer>
-                <button type="text" class="btn btn-primary" @click="toggleCreateModal">Cancel</button>
+                <button type="text" class="btn btn-primary" @click="toggleModal">Cancel</button>
                 <button-spinner :isLoading="onSubmit" buttonClass="btn btn-primary" @click="handleSubmit"
                     :normalText="isUpdateMode ? 'Update Dataset' : 'Add New Dataset'" />
             </template>
@@ -81,7 +81,7 @@
                     </div>
                 </div>
                 <div class="position-relative form-group">
-                    <button class="btn btn-primary" @click="toggleCreateModal">Cancel</button>
+                    <button class="btn btn-primary" @click="toggleModal">Cancel</button>
                     <button class="btn btn-primary" @click="handleExport">Export</button>
                 </div>
             </div>
@@ -95,6 +95,7 @@
     </div>
 </template>
 <script>
+import { ref, reactive, onMounted, defineComponent } from 'vue';
 import TableComponent from '../../Layout/Components/TableComponent.vue';
 import PageTitleComponent from '../../Layout/Components/PageTitleComponent.vue';
 import PaginationComponent from '../../Layout/Components/PaginationComponent.vue';
@@ -103,9 +104,8 @@ import ModalComponent from '../../DemoPages/Components/ModalComponent.vue';
 import ButtonSpinner from "../../Layout/Components/ButtonSpinner.vue";
 import { apiService } from '../../supabase/apiService';
 
-export default {
+export default defineComponent({
     name: "DatasetPage",
-
     components: {
         PageTitleComponent,
         PaginationComponent,
@@ -114,245 +114,239 @@ export default {
         ModalComponent,
         ButtonSpinner
     },
+    setup() {
+        const onSubmit = ref(false);
+        const currentPage = ref(1);
+        const itemsPerPage = ref(100);
+        const totalItems = ref(0);
+        const totalPages = ref(0);
+        const orderBy = ref('id');
+        const orderDirection = ref('asc');
+        const fileName = ref(null);
+        const sourceTextMaxLength = ref(0);
+        const targetTextMaxLength = ref(0);
+        const search = ref('');
+        const selectedFile = ref(null);
+        const showCreateModal = ref(false);
+        const showImport = ref(false);
+        const showExport = ref(false);
+        const isUpdateMode = ref(false);
 
-    data() {
-        return {
-            onSubmit: false,
-            currentPage: 1,
-            itemsPerPage: 100,
-            totalItems: 0,
-            totalPages: 0,
-            orderBy: 'id',
-            orderDirection: 'asc',
-            fileName: null,
-            sourceTextMaxLength: 0,
-            targetTextMaxLength: 0,
-            search: '',
-            selectedFile: null,
-            showCreateModal: false,
-            showImport: false,
-            showExport: false,
-            isUpdateMode: false,
-            currentDataset: {
-                source_text: null,
-                target_text: null,
-                source: null,
-                category: null,
-                language: 'en',
-            },
-            fields: [
-                {
-                    key: 'id',
-                    value: 'Id'
-                },
-                {
-                    key: 'source_text',
-                    value: 'Source Text'
-                },
-                {
-                    key: 'target_text',
-                    value: 'Target Text'
-                },
-                {
-                    key: 'source',
-                    value: 'source'
-                },
-                {
-                    key: 'category',
-                    value: 'category'
-                },
-            ],
-            items: [],
-            heading: 'Chatbot Dataset',
-            subheading: 'Chatbot Dataset',
-            icon: 'pe-7s-phone icon-gradient bg-premium-dark',
-            notification: null
-        }
-    },
+        const currentDataset = reactive({
+            source_text: null,
+            target_text: null,
+            source: null,
+            category: null,
+            language: 'en',
+        });
 
-    created() {
-        this.getDatasetData(this.currentPage, this.itemsPerPage);
-    },
+        const fields = [
+            { key: 'id', value: 'Id' },
+            { key: 'source_text', value: 'Source Text' },
+            { key: 'target_text', value: 'Target Text' },
+            { key: 'source', value: 'Source' },
+            { key: 'category', value: 'Category' }
+        ];
 
-    methods: {
-        async getDatasetData(newPage, newPageSize) {
-            const result = await apiService.getDatasets(newPage, newPageSize, this.orderBy, this.orderDirection, this.search);
+        const items = ref([]);
+        const heading = ref('Chatbot Dataset');
+        const subheading = ref('Chatbot Dataset Page for admin.');
+        const icon = ref('pe-7s-phone icon-gradient bg-premium-dark');
+        const notification = ref(null);
+
+        const getDatasetData = async (newPage, newPageSize) => {
+            const result = await apiService.getDatasets(newPage, newPageSize, orderBy.value, orderDirection.value, search.value);
             if (!result.error) {
-                this.items = result.items;
-                this.totalItems = result.totalItems;
-                this.totalPages = result.totalPages;
-                this.itemsPerPage = newPageSize;
+                items.value = result.items;
+                totalItems.value = result.totalItems;
+                totalPages.value = result.totalPages;
+                itemsPerPage.value = newPageSize;
             }
-        },
+        };
 
-        onSearchChange(searchTerm) {
-            this.search = searchTerm;
-            this.getDatasetData(1, this.itemsPerPage);
-        },
+        const onSearchChange = (searchTerm) => {
+            search.value = searchTerm;
+            getDatasetData(1, itemsPerPage.value);
+        };
 
-        handleSubmit() {
-            if (this.currentDataset.source_text && this.currentDataset.target_text) {
-                if (this.isUpdateMode) {
-                    this.updateDataset();
+        const handleSubmit = () => {
+            if (currentDataset.source_text && currentDataset.target_text) {
+                if (isUpdateMode.value) {
+                    updateDataset();
                 } else {
-                    this.createDataset();
+                    createDataset();
                 }
             } else {
-                this.notification = {
+                notification.value = {
                     title: 'Error',
                     content: 'Please enter data before submitting.',
                     type: 'danger'
                 };
             }
-        },
+        };
 
-        async handleImport() {
-            if (!this.selectedFile) {
-                alert("Please select a file to import.");
-                return;
-            }
-
+        const createDataset = async () => {
             try {
-                await apiService.importDataset(this.selectedFile);
+                await apiService.createDataset(currentDataset);
+                cleanCurrentDataset();
+                toggleModal();
+                notification.value = {
+                    title: 'Success',
+                    content: 'Dataset created successfully!',
+                    type: 'success'
+                };
+                getDatasetData(currentPage.value, itemsPerPage.value);
+                isUpdateMode.value = false;
             } catch (error) {
-                console.error("Import failed", error.message);
-            }
-        },
-
-        async createDataset() {
-            apiService.createDataset(this.currentDataset)
-                .then(() => {
-                    this.cleanCurrentDataset();
-                    this.toggleCreateModal();
-                    this.notification = {
-                        title: 'Success',
-                        content: 'Dataset created successfully!',
-                        type: 'success'
-                    };
-                    this.getDatasetData(this.currentPage, this.itemsPerPage);
-                    this.isUpdateMode = false;
-                })
-                .catch(error => {
-                    this.notification = {
-                        title: 'Error',
-                        content: `Error when submitting dataset: ${error}`,
-                        type: 'danger'
-                    };
-                    this.isUpdateMode = false;
-                });
-        },
-
-        async updateDataset() {
-            apiService.updateDataset(this.currentDataset)
-                .then(() => {
-                    this.cleanCurrentDataset();
-                    this.toggleCreateModal();
-                    this.notification = {
-                        title: 'Success',
-                        content: 'Dataset updated successfully!',
-                        type: 'success'
-                    };
-                    this.getDatasetData(this.currentPage, this.itemsPerPage);
-                    this.isUpdateMode = false;
-                })
-                .catch(error => {
-                    this.notification = {
-                        title: 'Error',
-                        content: `Error when updating dataset: ${error}`,
-                        type: 'danger'
-                    };
-                    this.isUpdateMode = false;
-                });
-        },
-
-        async handleImport(event) {
-            await apiService.importDataset(event);
-        },
-
-        async handleExport() {
-            try {
-                await apiService.exportDataset(this.fileName, this.sourceTextMaxLength, this.targetTextMaxLength);
-            } catch (error) {
-                this.notification = {
+                notification.value = {
                     title: 'Error',
-                    content: `Error when export dataset: ${error}`,
+                    content: `Error when submitting dataset: ${error}`,
                     type: 'danger'
                 };
+                isUpdateMode.value = false;
             }
-        },
+        };
 
-        async handleDeleteDataset(id) {
-            const confirmDelete = confirm(`Are you sure you want to delete dataset ${id}?`);
-            if (confirmDelete) {
-                await apiService.deleteDataset(id).then(async () => {
-                    this.notification = {
+        const updateDataset = async () => {
+            try {
+                await apiService.updateDataset(currentDataset);
+                cleanCurrentDataset();
+                toggleModal();
+                notification.value = {
+                    title: 'Success',
+                    content: 'Dataset updated successfully!',
+                    type: 'success'
+                };
+                getDatasetData(currentPage.value, itemsPerPage.value);
+                isUpdateMode.value = false;
+            } catch (error) {
+                notification.value = {
+                    title: 'Error',
+                    content: `Error when updating dataset: ${error}`,
+                    type: 'danger'
+                };
+                isUpdateMode.value = false;
+            }
+        };
+
+        const handleDeleteDataset = async (id) => {
+            if (confirm(`Are you sure you want to delete dataset ${id}?`)) {
+                try {
+                    await apiService.deleteDataset(id);
+                    notification.value = {
                         title: 'Success',
                         content: 'Dataset deleted successfully!',
                         type: 'success'
                     };
-                    await this.getDatasetData(1, this.itemsPerPage);
-                })
-                    .catch(error => {
-                        this.notification = {
-                            title: 'Error',
-                            content: `Error when deleting dataset: ${error}`,
-                            type: 'danger'
-                        };
-                    });
+                    getDatasetData(1, itemsPerPage.value);
+                } catch (error) {
+                    notification.value = {
+                        title: 'Error',
+                        content: `Error when deleting dataset: ${error}`,
+                        type: 'danger'
+                    };
+                }
             }
-        },
+        };
 
-        handleChangeOrder({ orderDirection, orderBy }) {
-            this.orderDirection = orderDirection;
-            this.orderBy = orderBy;
-            this.getDatasetData(this.currentPage, this.itemsPerPage);
-        },
+        const handleChangeOrder = ({ orderDirection: newOrderDirection, orderBy: newOrderBy }) => {
+            orderDirection.value = newOrderDirection;
+            orderBy.value = newOrderBy;
+            getDatasetData(currentPage.value, itemsPerPage.value);
+        };
 
-        handleUpdateRow(updateId) {
-            this.isUpdateMode = true;
-            const selectedItem = this.items.find(x => x.id === updateId);
-            this.currentDataset = JSON.parse(JSON.stringify(selectedItem));
-            this.showCreateModal = true;
-        },
+        const handleUpdateRow = (updateId) => {
+            isUpdateMode.value = true;
+            const selectedItem = items.value.find(x => x.id === updateId);
 
-        toggleCreateModal() {
-            this.isUpdateMode = false;
-            this.cleanCurrentDataset();
-            this.showImport = false;
-            this.showExport = false;
-            this.showCreateModal = !this.showCreateModal;
-        },
+            if (selectedItem) {
+                Object.assign(currentDataset, selectedItem);
+            }
 
-        toggleImport() {
-            this.showImport = !this.showImport;
-            this.showExport = false;
-            this.showCreate = false;
-        },
+            showCreateModal.value = true;
+        };
 
-        toggleExport() {
-            this.showImport = false;
-            this.showExport = !this.showExport;
-            this.showCreate = false;
-        },
+        const toggleModal = () => {
+            isUpdateMode.value = false;
+            cleanCurrentDataset();
+            showCreateModal.value = !showCreateModal.value;
+            showImport.value = false;
+            showExport.value = false;
+        };
 
-        loadPage(page) {
-            this.currentPage = page;
-            this.getDatasetData(this.currentPage, this.itemsPerPage);
-        },
+        const toggleImport = () => {
+            showImport.value = !showImport.value;
+            showExport.value = false;
+        };
 
-        changePageSize(newPageSize) {
-            this.itemsPerPage = newPageSize;
-            this.getDatasetData(1, this.itemsPerPage);
-        },
+        const toggleExport = () => {
+            showImport.value = false;
+            showExport.value = !showExport.value;
+        };
 
-        cleanCurrentDataset() {
-            this.currentDataset = {
+        const loadPage = (page) => {
+            currentPage.value = page;
+            getDatasetData(currentPage.value, itemsPerPage.value);
+        };
+
+        const changePageSize = (newPageSize) => {
+            itemsPerPage.value = newPageSize;
+            getDatasetData(1, itemsPerPage.value);
+        };
+
+        const cleanCurrentDataset = () => {
+            Object.assign(currentDataset, {
                 source_text: null,
                 target_text: null,
+                source: null,
                 category: null,
                 language: 'en',
-            };
-        }
+            });
+        };
+
+        onMounted(() => {
+            getDatasetData(currentPage.value, itemsPerPage.value);
+        });
+
+        return {
+            onSubmit,
+            currentPage,
+            itemsPerPage,
+            totalItems,
+            totalPages,
+            orderBy,
+            orderDirection,
+            fileName,
+            sourceTextMaxLength,
+            targetTextMaxLength,
+            search,
+            selectedFile,
+            showCreateModal,
+            showImport,
+            showExport,
+            isUpdateMode,
+            currentDataset,
+            fields,
+            items,
+            heading,
+            subheading,
+            icon,
+            notification,
+            getDatasetData,
+            onSearchChange,
+            handleSubmit,
+            createDataset,
+            updateDataset,
+            handleDeleteDataset,
+            handleChangeOrder,
+            handleUpdateRow,
+            toggleModal,
+            toggleImport,
+            toggleExport,
+            loadPage,
+            changePageSize,
+            cleanCurrentDataset
+        };
     }
-};
+});
 </script>

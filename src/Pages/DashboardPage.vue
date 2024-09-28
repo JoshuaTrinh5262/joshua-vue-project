@@ -460,10 +460,10 @@
 </template>
 <script>
 import { defineComponent, ref, onMounted } from 'vue';
-import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
+import PageTitleComponent from "../Layout/Components/PageTitleComponent.vue";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { apiService } from '../../supabase/apiService';
+import { apiService } from '../supabase/apiService';
 
 import {
     faTrashAlt,

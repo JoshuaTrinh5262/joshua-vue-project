@@ -13,14 +13,24 @@
 </template>
 
 <script>
-export default {
-  computed: {
-    layout() {
-      const default_layout = "default";
-      return (this.$route.meta.layout || default_layout) + '-layout';
-    }
-  }
-}
+import { defineComponent, computed } from 'vue';
+import { useRoute } from 'vue-router';
+
+export default defineComponent({
+  name: 'App',
+  setup() {
+    const route = useRoute();
+
+    const layout = computed(() => {
+      const defaultLayout = 'default';
+      return (route.meta.layout || defaultLayout) + '-layout';
+    });
+
+    return {
+      layout,
+    };
+  },
+});
 </script>
 
 <style lang="scss">

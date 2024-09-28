@@ -1,6 +1,6 @@
 <template>
     <div>
-        <page-title-component :heading=heading :subheading=subheading :icon=icon></page-title-component>
+        <page-title-component :heading="heading" :subheading="subheading" :icon="icon"></page-title-component>
 
         <div class="content">
             <textarea v-model="text" @input="updateCounters"></textarea>
@@ -13,28 +13,28 @@
                             </div>
                             <div class="card-body">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" v-model="words">
+                                    <input type="text" class="form-control" v-model="words" />
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Words</span>
                                     </div>
                                 </div>
-                                <br>
+                                <br />
                                 <div class="input-group">
-                                    <input type="text" class="form-control" v-model="sentences">
+                                    <input type="text" class="form-control" v-model="sentences" />
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Sentences</span>
                                     </div>
                                 </div>
-                                <br>
+                                <br />
                                 <div class="input-group">
-                                    <input type="text" class="form-control" v-model="paragraphs">
+                                    <input type="text" class="form-control" v-model="paragraphs" />
                                     <div class="input-group-prepend btn-primary">
                                         <span class="input-group-text">Paragraphs</span>
                                     </div>
                                 </div>
-                                <br>
+                                <br />
                                 <div class="input-group">
-                                    <input type="text" class="form-control" v-model="uniqueWordCount">
+                                    <input type="text" class="form-control" v-model="uniqueWordCount" />
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Total Unique Word</span>
                                     </div>
@@ -57,68 +57,61 @@
                                 </ul>
                             </div>
                         </div>
-                        <br>
+                        <br />
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </template>
+
 <script>
+import { defineComponent, ref } from "vue";
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 
-export default {
+export default defineComponent({
     name: "WordCounterPage",
-
     components: {
-        PageTitleComponent
+        PageTitleComponent,
     },
 
-    data() {
-        return {
-            heading: 'Word Counter',
-            subheading: 'easy-to-use tool for tracking word and character counts in your writing.',
-            icon: 'pe-7s-phone icon-gradient bg-premium-dark',
-            text: '',
-            words: 0,
-            sentences: 0,
-            paragraphs: 0,
-            uniqueWordCount: 0,
-            wordFrequency: [],
-            sortEnabled: false,
+    setup() {
+        const heading = ref("Word Counter");
+        const subheading = ref("easy-to-use tool for tracking word and character counts in your writing.");
+        const icon = ref("pe-7s-phone icon-gradient bg-premium-dark");
+        const text = ref("");
+        const words = ref(0);
+        const sentences = ref(0);
+        const paragraphs = ref(0);
+        const uniqueWordCount = ref(0);
+        const wordFrequency = ref([]);
+
+        const updateCounters = () => {
+            wordCounter();
+            sentenceCounter();
+            paragraphCounter();
+            wordFrequencyCounter();
         };
-    },
 
-    methods: {
-        updateCounters() {
-            this.wordCounter();
-            this.sentenceCounter();
-            this.paragraphCounter();
-            this.wordFrequencyCounter();
-        },
+        const wordCounter = () => {
+            const wordCount = text.value ? text.value.match(/\b\w+('\w+)?\b/g) : [];
+            words.value = wordCount ? wordCount.length : 0;
+        };
 
-        wordCounter() {
-            const wordCount = this.text ? this.text.match(/\b\w+('\w+)?\b/g) : [];
-            this.words = wordCount.length;
-        },
+        const sentenceCounter = () => {
+            const sentenceCount = text.value ? text.value.split(/[.?!][ "\n]/) : [];
+            sentences.value = sentenceCount.length > 0 ? sentenceCount.length - 1 : 0;
+        };
 
-        sentenceCounter() {
-            const sentenceCount = this.text ? this.text.split(/[.?!][ "\n]/) : [];
-            this.sentences = sentenceCount.length > 0 ? sentenceCount.length - 1 : 0;
-        },
+        const paragraphCounter = () => {
+            const paragraphCount = text.value ? text.value.split(/\n/) : [];
+            paragraphs.value = paragraphCount ? paragraphCount.length : 0;
+        };
 
-        paragraphCounter() {
-            const paragraphCount = this.text ? this.text.split(/\n/) : [];
-            this.paragraphs = paragraphCount.length;
-        },
-
-        wordFrequencyCounter() {
-            //count
-            const wordArray = this.text ? this.text.match(/\b\w+('\w+)?\b/g) : [];
-            // Calculate word frequencies
-            const wordFrequency = wordArray.reduce((acc, word) => {
-                const existingWord = acc.find(item => item.word === word.toLowerCase());
+        const wordFrequencyCounter = () => {
+            const wordArray = text.value ? text.value.match(/\b\w+('\w+)?\b/g) : [];
+            const frequency = wordArray.reduce((acc, word) => {
+                const existingWord = acc.find((item) => item.word === word.toLowerCase());
 
                 if (existingWord) {
                     existingWord.count += 1;
@@ -129,16 +122,26 @@ export default {
                 return acc;
             }, []);
 
-            // Sort the array based on word in alphabetical order
-            wordFrequency.sort((a, b) => a.word.localeCompare(b.word));
+            frequency.sort((a, b) => a.word.localeCompare(b.word));
 
-            // Update the state with the sorted word frequency array
-            this.wordFrequency = wordFrequency;
-            this.uniqueWordCount = wordFrequency.length;
+            wordFrequency.value = frequency;
+            uniqueWordCount.value = frequency.length;
+        };
 
-        },
+        return {
+            heading,
+            subheading,
+            icon,
+            text,
+            words,
+            sentences,
+            paragraphs,
+            uniqueWordCount,
+            wordFrequency,
+            updateCounters,
+        };
     },
-};
+});
 </script>
 
 <style scoped>

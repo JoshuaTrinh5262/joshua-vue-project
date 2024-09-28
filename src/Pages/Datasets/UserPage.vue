@@ -54,8 +54,6 @@ export default defineComponent({
         totalItems.value = result.totalItems;
         totalPages.value = result.totalPages;
         itemsPerPage.value = newPageSize;
-      } else {
-        console.error('Error:', result.error);
       }
     };
 

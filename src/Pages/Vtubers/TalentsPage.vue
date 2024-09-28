@@ -50,7 +50,7 @@
             <div class="position-relative form-group">
               <label for="agency">Agency</label>
               <select name="select" id="agency" v-model=currentTalent.agency_id class="form-control" required>
-                <option v-for="agency in agencies" :key="agency.agency_id" :value="agency.agency_id">
+                <option v-for="agency in agencies" :key="agency.id" :value="agency.id">
                   {{ agency.agency_name }}
                 </option>
               </select>
@@ -149,7 +149,7 @@ export default defineComponent({
     const search = ref('');
     const onSubmit = ref(false);
     const notification = ref(null);
-    const currentTalent = ref({
+    const currentTalent = reactive({
       name: null,
       original_name: null,
       gender: null,
@@ -178,7 +178,7 @@ export default defineComponent({
     };
 
     const cleanCurrentTalent = () => {
-      currentTalent.value = {
+      Object.assign(currentTalent, {
         name: null,
         original_name: null,
         gender: null,
@@ -189,7 +189,7 @@ export default defineComponent({
         retirement_date: null,
         height: null,
         emoji: null,
-      };
+      });
     };
 
     const showRetirementDate = () => {
@@ -212,8 +212,6 @@ export default defineComponent({
         totalItems.value = result.totalItems;
         totalPages.value = result.totalPages;
         itemsPerPage.value = newPageSize;
-      } else {
-        console.error('Error:', result.error);
       }
     };
 
@@ -228,7 +226,7 @@ export default defineComponent({
 
     const createTalent = async () => {
       try {
-        await apiService.createTalent(currentTalent.value);
+        await apiService.createTalent(currentTalent);
         cleanCurrentTalent();
         toggleModal();
         onSubmit.value = false;
@@ -239,9 +237,10 @@ export default defineComponent({
         notification.value = { title: 'Error', content: `Error when submitting talent: ${error}`, type: 'danger' };
       }
     }
+
     const updateTalent = async () => {
       try {
-        await apiService.updateTalent(currentTalent.value);
+        await apiService.updateTalent(currentTalent);
         cleanCurrentTalent();
         toggleModal();
         onSubmit.value = false;
@@ -279,7 +278,11 @@ export default defineComponent({
     const handleUpdateRow = (updateId) => {
       isUpdateMode.value = true;
       const selectedItem = items.value.find(x => x.id === updateId);
-      currentTalent.value = JSON.parse(JSON.stringify(selectedItem));
+
+      if (selectedItem) {
+        Object.assign(currentTalent, selectedItem);
+      }
+
       showModal.value = true;
     };
 
