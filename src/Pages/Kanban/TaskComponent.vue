@@ -3,13 +3,8 @@
     <div class="d-flex justify-content-between">
       <p class="font-weight-bold font-sans tracking-wide small">{{ task.title }}</p>
 
-      <img
-        class="img-fluid rounded-circle ml-3"
-        height="30"
-        width="30"
-        src="@/assets/images/avatars/0.jpg"
-        alt="Avatar"
-      >
+      <img class="img-fluid rounded-circle ml-3" height="30" width="30" src="@/assets/images/avatars/0.jpg"
+        alt="Avatar" />
     </div>
     <div class="d-flex mt-4 justify-content-between align-items-center">
       <span class="small text-muted">{{ task.date }}</span>
@@ -17,31 +12,40 @@
     </div>
   </div>
 </template>
+
 <script>
+import { defineComponent, computed } from "vue";
 import BadgeComponent from "./BadgeComponent.vue";
-export default {
+
+export default defineComponent({
   name: "TaskComponent",
 
   components: {
-    BadgeComponent
+    BadgeComponent,
   },
+
   props: {
     task: {
       type: Object,
-      default: () => ({})
-    }
+      default: () => ({}),
+    },
   },
-  computed: {
-    badgeColor() {
+
+  setup(props) {
+    const badgeColor = computed(() => {
       const mappings = {
         Design: "purple",
         "Feature Request": "teal",
         Backend: "blue",
         QA: "green",
-        default: "teal"
+        default: "teal",
       };
-      return mappings[this.task.type] || mappings.default;
-    }
-  }
-};
+      return mappings[props.task.type] || mappings.default;
+    });
+
+    return {
+      badgeColor,
+    };
+  },
+});
 </script>
