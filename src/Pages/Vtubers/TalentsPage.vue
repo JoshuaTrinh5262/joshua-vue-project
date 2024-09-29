@@ -217,7 +217,7 @@ export default defineComponent({
     };
 
     const getTalentsData = async (newPage, newPageSize) => {
-      const result = await apiService.getTalents(newPage, newPageSize, orderBy.value, orderDirection.value, search.value);
+      const result = await apiService.getTalentsWithPaging(newPage, newPageSize, orderBy.value, orderDirection.value, search.value);
       if (!result.error) {
         items.value = result.items;
         totalItems.value = result.totalItems;

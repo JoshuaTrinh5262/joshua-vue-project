@@ -24,16 +24,25 @@
             v-model="currentDiscography.original_name" type="text" class="form-control">
         </div>
         <div class="position-relative form-group">
-          <label for="date_of_birth">Date Of Birth</label>
-          <input name="date_of_birth" id="date_of_birth" placeholder="Date Of Birth"
-            v-model="currentDiscography.date_of_birth" type="date" class="form-control">
+          <label for="released_date">Released Date</label>
+          <input name="released_date" id="released_date" placeholder="Released Date"
+            v-model="currentDiscography.released_date" type="date" class="form-control">
         </div>
         <div class="position-relative form-group">
           <label for="album">Album</label>
-          <select name="select" id="album" v-model="currentDiscography.album_id" class="form-control" required>
+          <select name="select" id="album" v-model="currentDiscography.album_id" class="form-control">
             <option :value=null></option>
             <option v-for="album in albums" :key="album.id" :value="album.id">
               {{ album.name }}
+            </option>
+          </select>
+        </div>
+        <div class="position-relative form-group">
+          <label for="talent">Talent</label>
+          <select name="select" id="talent" v-model="currentDiscography.talent_id" class="form-control">
+            <option :value=null></option>
+            <option v-for="talent in talents" :key="talent.id" :value="talent.id">
+              {{ talent.name }}
             </option>
           </select>
         </div>
@@ -98,6 +107,7 @@ export default defineComponent({
       original_name: null,
       released_date: null,
       album_id: null,
+      talent_id: null
     });
 
     const fields = ref([
@@ -106,10 +116,12 @@ export default defineComponent({
       { key: "original_name", value: "original Name" },
       { key: "released_date", value: "Released Date" },
       { key: "album", value: "album" },
+      { key: "talent", value: "talent" },
     ]);
 
     const items = ref([]);
     const albums = ref([]);
+    const talents = ref([]);
 
     const getDiscographiesData = async (newPage, newPageSize) => {
       const result = await apiService.getDiscographiesWithPaging(newPage, newPageSize, orderBy.value, orderDirection.value, search.value);
@@ -124,6 +136,11 @@ export default defineComponent({
     const getAlbumsData = async () => {
       const result = await apiService.getAlbums();
       albums.value = result;
+    };
+
+    const getTalentsData = async () => {
+      const result = await apiService.getTalents();
+      talents.value = result;
     };
 
     const handleSubmit = async () => {
@@ -175,7 +192,7 @@ export default defineComponent({
 
     const handleUpdate = (updateId) => {
       isUpdateMode.value = true;
-      const { album, ...selectedItem } = items.value.find(x => x.id === updateId);
+      const { album, talent, ...selectedItem } = items.value.find(x => x.id === updateId);
 
       if (selectedItem) {
         Object.assign(currentDiscography, selectedItem);
@@ -203,6 +220,7 @@ export default defineComponent({
         original_name: null,
         released_date: null,
         album_id: null,
+        talent_id: null
       });
 
       if (currentDiscography.id) {
@@ -240,6 +258,7 @@ export default defineComponent({
     onMounted(() => {
       getDiscographiesData(currentPage.value, itemsPerPage.value);
       getAlbumsData();
+      getTalentsData();
     });
 
     return {
@@ -259,11 +278,13 @@ export default defineComponent({
       fields,
       items,
       albums,
+      talents,
       currentDiscography,
       notification,
       toggleModal,
       loadPage,
       getAlbumsData,
+      getTalentsData,
       handleSubmit,
       handleUpdate,
       handleDelete,

@@ -23,6 +23,20 @@
           <input type="date" name="release_date" placeholder="Album Release Date" v-model="currentAlbum.released_date"
             class="form-control" />
         </div>
+        <div class="position-relative form-group">
+          <label for="name">Release Date</label>
+          <div class="tag-container">
+            <div class="tags">
+              <span v-for="talent in selectedTalents" :key="talent.id" class="tag">
+                {{ talent.name }}
+                <button class="remove-tag" @click="removeTalent(talent)">x</button>
+              </span>
+            </div>
+          </div>
+          <select id="talents" v-model="selectedTalents" multiple class="form-control">
+            <option v-for="talent in talents" :key="talent.id" :value="talent">{{ talent.name }}</option>
+          </select>
+        </div>
       </template>
       <template #footer>
         <button class="btn btn-primary" @click="toggleModal">Cancel</button>
@@ -86,9 +100,12 @@ export default defineComponent({
     const fields = ref([
       { key: 'id', value: 'ID' },
       { key: 'name', value: 'Album Name' },
-      { key: 'released_date', value: 'Album Released Date' }
+      { key: 'released_date', value: 'Album Released Date' },
+      { key: 'talents', value: 'talent' }
     ]);
     const items = ref([]);
+    const talents = ref([]);
+    const selectedTalents = ref([]);
 
     const getAlbumsData = async (newPage, newPageSize) => {
       const result = await apiService.getAlbumsWithPaging(newPage, newPageSize, orderBy.value, orderDirection.value, search.value);
@@ -99,6 +116,11 @@ export default defineComponent({
         totalPages.value = result.totalPages;
         itemsPerPage.value = newPageSize;
       }
+    };
+
+    const getTalentsData = async () => {
+      const result = await apiService.getTalents();
+      talents.value = result;
     };
 
     const handleSubmit = async () => {
@@ -112,7 +134,8 @@ export default defineComponent({
 
     const createAlbum = async () => {
       try {
-        await apiService.createAlbum(currentAlbum);
+        console.log(selectedTalents.value);
+        await apiService.createAlbum(currentAlbum, selectedTalents.value);
         cleanCurrentAlbum();
         toggleModal();
         onSubmit.value = false;
@@ -150,7 +173,7 @@ export default defineComponent({
 
     const handleUpdate = (updateId) => {
       isUpdateMode.value = true;
-      const selectedItem = items.value.find(x => x.id === updateId);
+      const { album_talent, talents, ...selectedItem } = items.value.find(x => x.id === updateId);
 
       if (selectedItem) {
         Object.assign(currentAlbum, selectedItem);
@@ -212,7 +235,12 @@ export default defineComponent({
 
     onMounted(() => {
       getAlbumsData(currentPage.value, itemsPerPage.value);
+      getTalentsData();
     });
+
+    const removeTalent = (talent) => {
+      selectedTalents.value = selectedTalents.value.filter(item => item.id !== talent.id);
+    };
 
     return {
       heading,
@@ -226,6 +254,9 @@ export default defineComponent({
       orderDirection,
       fields,
       items,
+      talents,
+      selectedTalents,
+      removeTalent,
       notification,
       currentAlbum,
       currentPage,
@@ -237,6 +268,7 @@ export default defineComponent({
       loadPage,
       changePageSize,
       getAlbumsData,
+      getTalentsData,
       onSearchChange,
       handleSubmit,
       handleUpdate,
@@ -246,3 +278,32 @@ export default defineComponent({
   }
 });
 </script>
+
+<style scoped>
+.tag-container {
+  margin-top: 10px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.remove-tag {
+  background: none;
+  border: none;
+  color: white;
+  margin-left: 5px;
+  cursor: pointer;
+}
+</style>
