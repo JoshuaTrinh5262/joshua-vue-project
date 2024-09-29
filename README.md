@@ -27,3 +27,10 @@ npm run lint
 ```sh
 npm run serve
 ```
+
+##
+
+```sh
+npm outdated
+npm update
+```
