@@ -246,7 +246,8 @@
                                     <input placeholder="Check it out" type="text" class="form-control">
                                 </div>
                                 <br>
-                                <div class="input-group"><input placeholder="username" type="text" class="form-control">
+                                <div class="input-group">
+                                    <input placeholder="username" type="text" class="form-control">
                                     <div class="input-group-append"><span class="input-group-text">@example.com</span>
                                     </div>
                                 </div>

@@ -10,7 +10,8 @@
 
     <NotificationComponent v-model:notification="notification"></NotificationComponent>
 
-    <modal-component :title="isUpdateMode ? 'Update Discography' : 'Add New Discography'" :isOpen="showModal" @closeModal="toggleModal">
+    <modal-component :title="isUpdateMode ? 'Update Discography' : 'Add New Discography'" :isOpen="showModal"
+      @closeModal="toggleModal">
       <template #body>
         <div class="position-relative form-group">
           <label for="discography_name">Discography Name</label>
@@ -54,16 +55,16 @@
 </template>
 
 <script>
-import { ref, onMounted, reactive } from 'vue';
-import ModalComponent from '../../Layout/Components/ModalComponent.vue';
-import TableComponent from '../../Layout/Components/TableComponent.vue';
+import { ref, onMounted, reactive, defineComponent } from "vue";
+import ModalComponent from "../../Layout/Components/ModalComponent.vue";
+import TableComponent from "../../Layout/Components/TableComponent.vue";
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
-import ButtonSpinner from '../../Layout/Components/ButtonSpinner.vue';
-import NotificationComponent from '../../Layout/Components/NotificationComponent.vue';
-import { apiService } from '../../supabase/apiService';
+import ButtonSpinner from "../../Layout/Components/ButtonSpinner.vue";
+import NotificationComponent from "../../Layout/Components/NotificationComponent.vue";
+import { apiService } from "../../supabase/apiService";
 
-export default {
+export default defineComponent({
   name: "DiscographiesPage",
 
   components: {
@@ -76,15 +77,15 @@ export default {
   },
 
   setup() {
-    const heading = ref('Discographies');
-    const subheading = ref('Dive into the Musical Journeys of Talented Artists Across Generations');
-    const icon = ref('pe-7s-musiclist icon-gradient bg-premium-dark');
+    const heading = ref("Discographies");
+    const subheading = ref("Dive into the Musical Journeys of Talented Artists Across Generations");
+    const icon = ref("pe-7s-musiclist icon-gradient bg-premium-dark");
 
     const isUpdateMode = ref(false);
     const showModal = ref(false);
-    const orderBy = ref('id');
-    const orderDirection = ref('asc');
-    const search = ref('');
+    const orderBy = ref("id");
+    const orderDirection = ref("asc");
+    const search = ref("");
     const currentPage = ref(1);
     const itemsPerPage = ref(20);
     const totalItems = ref(0);
@@ -100,11 +101,11 @@ export default {
     });
 
     const fields = ref([
-      { key: 'id', value: 'ID' },
-      { key: 'name', value: 'Name' },
-      { key: 'original_name', value: 'original Name' },
-      { key: 'released_date', value: 'Released Date' },
-      { key: 'album', value: 'album' },
+      { key: "id", value: "ID" },
+      { key: "name", value: "Name" },
+      { key: "original_name", value: "original Name" },
+      { key: "released_date", value: "Released Date" },
+      { key: "album", value: "album" },
     ]);
 
     const items = ref([]);
@@ -140,11 +141,11 @@ export default {
         cleanCurrentDiscography();
         toggleModal();
         onSubmit.value = false;
-        notification.value = { title: 'Success', content: 'Discography created successfully!', type: 'success' };
+        notification.value = { title: "Success", content: "Discography created successfully!", type: "success" };
         getDiscographiesData(currentPage.value, itemsPerPage.value);
       } catch (error) {
         onSubmit.value = false;
-        notification.value = { title: 'Error', content: `Error when submitting talent: ${error}`, type: 'danger' };
+        notification.value = { title: "Error", content: `Error when submitting talent: ${error}`, type: "danger" };
       }
     }
 
@@ -155,18 +156,18 @@ export default {
         toggleModal();
         onSubmit.value = false;
         notification.value = {
-          title: 'Success',
-          content: 'Discography updated successfully!',
-          type: 'success',
+          title: "Success",
+          content: "Discography updated successfully!",
+          type: "success",
         };
         getDiscographiesData(currentPage.value, itemsPerPage.value);
         isUpdateMode.value = false;
       } catch (error) {
         onSubmit.value = false;
         notification.value = {
-          title: 'Error',
+          title: "Error",
           content: `Error when updating Discography: ${error}`,
-          type: 'danger',
+          type: "danger",
         };
         isUpdateMode.value = false;
       }
@@ -188,10 +189,10 @@ export default {
       if (confirmDelete) {
         try {
           await apiService.deleteDiscography(id);
-          notification.value = { title: 'Success', content: 'Discography deleted successfully!', type: 'success' };
+          notification.value = { title: "Success", content: "Discography deleted successfully!", type: "success" };
           getDiscographiesData(1, itemsPerPage.value);
         } catch (error) {
-          notification.value = { title: 'Error', content: `Error when deleting discography: ${error}`, type: 'danger' };
+          notification.value = { title: "Error", content: `Error when deleting discography: ${error}`, type: "danger" };
         }
       }
     };
@@ -272,5 +273,5 @@ export default {
       handleChangeOrder,
     };
   }
-};
+});
 </script>

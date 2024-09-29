@@ -10,37 +10,40 @@
   </div>
 </template>
 
-
 <script>
-export default {
+import { defineComponent, watch } from "vue";
+
+export default defineComponent({
   name: "NotificationComponent",
 
   props: {
     notification: {
       type: Object,
-      require: false,
+      required: false,
     },
-  },
-  data() {
-    return {
-    };
   },
 
-  methods: {
-    closeNotification() {
-      this.$emit("update:notification", null);
-    },
-  },
-  watch: {
-    notification(newValue) {
-      if (newValue) {
-        setTimeout(() => {
-          this.closeNotification();
-        }, 2000);
+  setup(props, { emit }) {
+    const closeNotification = () => {
+      emit("update:notification", null);
+    };
+
+    watch(
+      () => props.notification,
+      (newValue) => {
+        if (newValue) {
+          setTimeout(() => {
+            closeNotification();
+          }, 2000);
+        }
       }
-    },
+    );
+
+    return {
+      closeNotification,
+    };
   },
-};
+});
 </script>
 
 <style scoped>

@@ -80,7 +80,7 @@
               <div class="col-sm-10 pt-1">
                 <div class="progress">
                   <div class="progress-bar" :style="{ width: bar.value + '%' }" :class="'bg-' + bar.variant"
-                    role="progressbar" aria-valuenow="bar.value" aria-valuemin="0" aria-valuemax="100">
+                    role="progressbar" :aria-valuenow="bar.value" :aria-valuemin="0" :aria-valuemax="100">
                     {{ bar.value }}%
                   </div>
                 </div>
@@ -187,24 +187,26 @@
 </template>
 
 <script>
-
+import { defineComponent, ref, onMounted, onBeforeUnmount } from 'vue';
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 
-export default {
+export default defineComponent({
+  name: "ProgressBarComponent",
   components: {
     PageTitleComponent,
   },
-  data: () => ({
-    heading: 'Progress Bar',
-    subheading: 'You can use the progress bars on their own or in combination with other widgets.',
-    icon: 'pe-7s-filter icon-gradient bg-grow-early',
 
-    counter: 45,
-    max: 100,
-    bars: [
-      { variant: 'success', value: 75 },
-      { variant: 'info', value: 75 },
-      { variant: 'warning', value: 75 },
+  setup() {
+    const heading = ref("Progress Bar");
+    const subheading = ref("You can use the progress bars on their own or in combination with other widgets.");
+    const icon = ref("pe-7s-filter icon-gradient bg-grow-early");
+
+    const counter = ref(45);
+    const max = ref(100);
+    const bars = ref([
+      { variant: "success", value: 75 },
+      { variant: "info", value: 75 },
+      { variant: "warning", value: 75 },
       { variant: 'danger', value: 75 },
       { variant: 'primary', value: 75 },
       { variant: 'secondary', value: 75 },
@@ -212,25 +214,40 @@ export default {
       { variant: 'dark', value: 75 },
       { variant: 'alternate', value: 75 },
       { variant: 'focus', value: 75 }
-    ],
-    timer: null,
-    striped: true,
-    value: 75
-  }),
+    ]);
 
-  methods: {
-    clicked() {
-      this.counter = Math.random() * this.max
-    }
+    let timer = ref(null);
+    const striped = ref(true);
+    const value = ref(75);
+    const clicked = () => {
+      counter.value = Math.random() * max.value;
+    };
+
+    onMounted(() => {
+      timer = setInterval(() => {
+        bars.value.forEach(bar => {
+          bar.value = (25 + (Math.random() * 75)).toFixed(0);
+        });
+      }, 2000);
+    });
+
+    onBeforeUnmount(() => {
+      clearInterval(timer);
+      timer = null;
+    });
+
+    return {
+      heading,
+      subheading,
+      icon,
+      counter,
+      max,
+      timer,
+      striped,
+      value,
+      bars,
+      clicked,
+    };
   },
-  mounted() {
-    this.timer = setInterval(() => {
-      this.bars.forEach(bar => bar.value = (25 + (Math.random() * 75)).toFixed(0))
-    }, 2000)
-  },
-  beforeUnmount() {
-    clearInterval(this.timer)
-    this.timer = null
-  }
-}
+});
 </script>

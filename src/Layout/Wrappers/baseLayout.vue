@@ -3,22 +3,25 @@
     <transition name="fade" mode="out-in" appear>
       <MainHeaderComponent />
     </transition>
-    <div class="">
-        <slot></slot>
+    <div>
+      <slot></slot>
     </div>
   </div>
 </template>
 
 <script>
+import { defineComponent } from "vue";
 import MainHeaderComponent from "../Components/MainHeaderComponent";
 
-export default {
-  name: "app",
+export default defineComponent({
+  name: "App",
   components: {
     MainHeaderComponent,
   },
-  methods: {
+  setup() {
 
-  }
-}
+    return {
+    };
+  },
+});
 </script>

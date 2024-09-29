@@ -56,8 +56,8 @@
                   type="email" class="form-control">
               </div>
               <div class="mb-2 mr-sm-2 mb-sm-0 position-relative form-group"><label for="examplePassword22"
-                  class="mr-sm-2">Password</label><input name="password" id="examplePassword22"
-                  placeholder="don't tell!" type="password" class="form-control"></div>
+                  class="mr-sm-2">Password</label><input name="password" id="examplePassword22" placeholder="password"
+                  type="password" class="form-control"></div>
               <button class="btn btn-primary">Submit</button>
             </form>
             <div class="divider"></div>
@@ -136,14 +136,14 @@
               <div class="col-sm-10"><input name="file" id="exampleFile" type="file"
                   class=" date-picker form-control-file">
                 <small class="form-text text-muted">This is some placeholder block-level help text for the above input.
-                  It's a bit lighter and easily wraps to a new line.</small>
+                  It"s a bit lighter and easily wraps to a new line.</small>
               </div>
             </div>
             <fieldset class="position-relative row form-group">
               <legend class="col-form-label col-sm-2">Radio Buttons</legend>
               <div class="col-sm-10">
                 <div class="position-relative form-check"><label class="form-check-label"><input name="radio2"
-                      type="radio" class="form-check-input"> Option one is this and that—be sure to include why it's
+                      type="radio" class="form-check-input"> Option one is this and that—be sure to include why it"s
                     great</label></div>
                 <div class="position-relative form-check"><label class="form-check-label"><input name="radio2"
                       type="radio" class="form-check-input"> Option two can be something else and selecting it will
@@ -157,8 +157,8 @@
               <div class="col-sm-10">
                 <div class="position-relative form-check">
                   <label class="form-check-label">Check me out</label>
-                    <input type="checkbox" class="form-check-input">
-                  </div>
+                  <input type="checkbox" class="form-check-input">
+                </div>
               </div>
             </div>
             <div class="position-relative row form-check">
@@ -174,19 +174,24 @@
 </template>
 
 <script>
-
+import { defineComponent, ref } from "vue";
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 
-export default {
+export default defineComponent({
   components: {
     PageTitleComponent,
   },
-  data: () => ({
-    heading: 'Form Layouts',
-    subheading: 'Build whatever layout you need with our framework.',
-    icon: 'pe-7s-graph text-success',
-  }),
 
+  setup() {
+    const heading = ref("Form Layouts");
+    const subheading = ref("Build whatever layout you need with our framework.");
+    const icon = ref("pe-7s-graph text-success");
 
-}
+    return {
+      heading,
+      subheading,
+      icon,
+    };
+  }
+});
 </script>

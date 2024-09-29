@@ -5,13 +5,13 @@
 </template>
 
 <script>
+import { defineComponent } from "vue";
 
-  export default {
-    name: "app",
-    components: {
-    },
-    methods:{
+export default defineComponent({
+  name: "App",
+  setup() {
+    return {};
+  },
 
-    }
-  }
+});
 </script>

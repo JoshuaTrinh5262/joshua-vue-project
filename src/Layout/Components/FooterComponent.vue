@@ -7,9 +7,13 @@
 </template>
 
 <script>
-    export default {
-        name: "FooterComponenent",
-        components: {
-        }
-    };
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+    name: "FooterComponent",
+    setup() {
+
+        return {};
+    },
+});
 </script>

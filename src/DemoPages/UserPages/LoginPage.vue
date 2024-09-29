@@ -25,8 +25,16 @@
                                 <!-- Password Input -->
                                 <div class="form-group">
                                     <label for="password">Password</label>
-                                    <input type="password" class="form-control" id="password" v-model="password"
-                                        required placeholder="Enter password..." autocomplete="on" />
+                                    <div class="input-group">
+                                        <input :type="isPasswordVisible ? 'text' : 'password'" class="form-control"
+                                            id="password" v-model="password" required placeholder="Enter password..."
+                                            autocomplete="on" />
+                                        <div class="input-group-append" @click="togglePasswordVisibility">
+                                            <span class="input-group-text">
+                                                <i class="pe-7s-look"></i>
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <!-- Checkbox -->
@@ -77,13 +85,17 @@ import { login } from '../../supabase/authService';
 
 export default defineComponent({
     name: 'LoginPage',
+
     setup() {
         const router = useRouter();
-        // State variables
         const email = ref('');
         const password = ref('');
+        const isPasswordVisible = ref(false);
 
-        // Methods
+        const togglePasswordVisibility = () => {
+            isPasswordVisible.value = !isPasswordVisible.value;
+        };
+
         const handleLogin = async () => {
             try {
                 await login(email.value, password.value);
@@ -96,6 +108,8 @@ export default defineComponent({
         return {
             email,
             password,
+            isPasswordVisible,
+            togglePasswordVisibility,
             handleLogin
         };
     }

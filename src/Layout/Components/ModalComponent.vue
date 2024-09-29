@@ -1,6 +1,6 @@
 <template>
   <transition name="modal">
-    <div v-if="isOpen"  :class="['modal-overlay', { 'modal-dark': isDarkMode }]">
+    <div v-if="isOpen" :class="['modal-overlay', { 'modal-dark': isDarkMode }]">
       <div class="modal-content" @click.stop>
         <div class="modal-header">
           <h3>{{ title }}</h3>
@@ -18,7 +18,9 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from "vue";
+
+export default defineComponent({
   name: "ModalComponent",
   props: {
     isOpen: {
@@ -27,19 +29,23 @@ export default {
     },
     title: {
       type: String,
-      default: 'Default Title',
+      default: "Default Title",
     },
     isDarkMode: {
       type: Boolean,
       default: true,
     },
   },
-  methods: {
-    closeModal() {
-      this.$emit('closeModal');
-    },
+  setup(props, { emit }) {
+    const closeModal = () => {
+      emit("closeModal");
+    };
+
+    return {
+      closeModal,
+    };
   },
-};
+});
 </script>
 
 <style scoped>
@@ -118,7 +124,7 @@ export default {
 }
 
 .modal-dark .modal-content .modal-header,
-.modal-dark .modal-content .modal-footer{
+.modal-dark .modal-content .modal-footer {
   background-color: #2c2c2c;
 }
 
@@ -129,5 +135,4 @@ export default {
 .modal-dark .close-button {
   color: #f5f5f5;
 }
-
 </style>

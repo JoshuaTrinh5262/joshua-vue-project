@@ -11,24 +11,29 @@
                 <slot></slot>
             </div>
             <transition name="fade" mode="out-in" appear>
-                <FooterComponent/>
+                <FooterComponent />
             </transition>
         </div>
     </div>
 </template>
 
 <script>
-    import HeaderComponent from "../Components/HeaderComponent";
-    import SidebarComponent from "../Components/SidebarComponent";
-    import FooterComponent from "../Components/FooterComponent"
-    export default {
-        name: "app",
-        components: {
-            HeaderComponent,
-            SidebarComponent,
-            FooterComponent,
-        },
-        methods: {
-        },
-    }
+import { defineComponent } from "vue";
+import HeaderComponent from "../Components/HeaderComponent";
+import SidebarComponent from "../Components/SidebarComponent";
+import FooterComponent from "../Components/FooterComponent";
+
+export default defineComponent({
+    name: "App",
+    components: {
+        HeaderComponent,
+        SidebarComponent,
+        FooterComponent,
+    },
+    setup() {
+
+        return {
+        };
+    },
+});
 </script>
