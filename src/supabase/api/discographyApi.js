@@ -13,7 +13,7 @@ export const getDiscographiesWithPaging = async (
 
         let query = supabase
             .from("discography")
-            .select("*, album(name)")
+            .select("*, album(name), talent(name)", { count: "exact" })
             .order(orderBy, { ascending: orderDirection === "asc" })
             .range(start, end);
 
@@ -26,9 +26,11 @@ export const getDiscographiesWithPaging = async (
         if (error) {
             throw error;
         }
+
         const discographies = data.map((discography) => ({
             ...discography,
             album: discography.album?.name,
+            talent: discography.talent?.name,
         }));
 
         return {
@@ -40,6 +42,7 @@ export const getDiscographiesWithPaging = async (
         return { error: err.message };
     }
 };
+
 export const getDiscographies = async () => {
     try {
         const { data, error } = await supabase.from("discography").select("*");

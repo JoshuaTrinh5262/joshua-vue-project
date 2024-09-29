@@ -1,6 +1,6 @@
 import { supabase } from "../supabase";
 
-export const getTalents = async (
+export const getTalentsWithPaging = async (
     page,
     pageSize,
     orderBy,
@@ -36,6 +36,21 @@ export const getTalents = async (
             totalItems: count,
             totalPages: Math.ceil(count / pageSize),
         };
+    } catch (err) {
+        console.error("Error fetching talents:", err);
+        return { error: err.message };
+    }
+};
+
+export const getTalents = async () => {
+    try {
+        const { data, error } = await supabase
+            .from("talent")
+            .select("id, name");
+        if (error) {
+            throw error;
+        }
+        return data;
     } catch (err) {
         console.error("Error fetching talents:", err);
         return { error: err.message };

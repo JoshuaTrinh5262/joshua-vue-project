@@ -12,12 +12,12 @@ export const getAlbumsWithPaging = async (
 
         let query = supabase
             .from("album")
-            .select("*")
+            .select("*, album_talent(talent(*))", { count: "exact" })
             .order(orderBy, { ascending: orderDirection === "asc" })
             .range(start, end);
 
         if (search) {
-            query = query.or(`album_name.ilike.%${search}%`);
+            query = query.or(`name.ilike.%${search}%`);
         }
 
         const { data, count, error } = await query;
@@ -26,8 +26,13 @@ export const getAlbumsWithPaging = async (
             throw error;
         }
 
+        const formattedAlbums = data.map((album) => ({
+            ...album,
+            talents: album.album_talent?.map((at) => at.talent?.name) || [],
+        }));
+
         return {
-            items: data,
+            items: formattedAlbums,
             totalItems: count,
             totalPages: Math.ceil(count / pageSize),
         };
@@ -35,6 +40,7 @@ export const getAlbumsWithPaging = async (
         return { error: err.message };
     }
 };
+
 export const getAlbums = async () => {
     try {
         const { data, error } = await supabase.from("album").select("*");
@@ -65,16 +71,35 @@ export const getAlbumById = async (id) => {
     }
 };
 
-export const createAlbum = async (album) => {
+export const createAlbum = async (album, selectedTalents) => {
     try {
-        const { data, error } = await supabase
+        const { data: albumData, error: albumError } = await supabase
             .from("album")
             .insert(album)
+            .select("*")
             .single();
-        if (error) {
-            throw error;
+        console.log("albumData",albumData);
+        if (albumError) {
+            throw albumError;
         }
-        return data;
+        console.log("selectedTalents", selectedTalents);
+        const albumTalentRecords = selectedTalents.map((talent) => ({
+            album_id: albumData.id,
+            talent_id: talent.id,
+        }));
+        console.log(albumTalentRecords);
+        const { data: talentData, error: talentError } = await supabase
+            .from("album_talent")
+            .insert(albumTalentRecords);
+
+        if (talentError) {
+            throw talentError;
+        }
+
+        return {
+            album: albumData,
+            talents: talentData,
+        };
     } catch (err) {
         console.error("Error creating album:", err);
         return { error: err.message };

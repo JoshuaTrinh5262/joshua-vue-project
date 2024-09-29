@@ -13,7 +13,7 @@ export const getAgenciesWithPaging = async (
 
         let query = supabase
             .from("agency")
-            .select("*, talent(count)")
+            .select("*, talent(count)", { count: "exact" })
             .order(orderBy, { ascending: orderDirection === "asc" })
             .range(start, end);
 
