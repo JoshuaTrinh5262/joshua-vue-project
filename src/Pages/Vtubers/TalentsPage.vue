@@ -35,7 +35,7 @@
               <label for="talent_gender">Gender</label>
               <select name="talent_gender" id="talent_gender" v-model=currentTalent.gender class="form-control">
                 <option value="male">Male</option>
-                <option value="female">female</option>
+                <option value="female">Female</option>
               </select>
             </div>
           </div>
@@ -110,7 +110,7 @@
     </modal-component>
 
     <table-component :footer="true" :fields="fields" :items="items" @search="onSearchChange"
-      @changeOrder="handleChangeOrder" @deleteRow="deleteTalent" @updateRow="handleUpdateRow" />
+      @changeOrder="handleChangeOrder" @deleteRow="deleteTalent" @updateRow="handleUpdate" />
 
     <pagination-component :currentPage="currentPage" :perPage="itemsPerPage" :totalItems="totalItems"
       :totalPages="totalPages" @load-page="loadPage" @change-page-size="changePageSize" />
@@ -129,6 +129,7 @@ import { apiService } from "../../supabase/apiService";
 
 export default defineComponent({
   name: "TalentsPage",
+
   components: {
     ModalComponent,
     PageTitleComponent,
@@ -286,9 +287,12 @@ export default defineComponent({
       }
     };
 
-    const handleUpdateRow = (updateId) => {
+    const handleUpdate = (updateId) => {
+      console.log("updateId", updateId);
       isUpdateMode.value = true;
-      const selectedItem = items.value.find(x => x.id === updateId);
+      const { agency, ...selectedItem } = items.value.find(x => x.id === updateId);
+
+      console.log(selectedItem);
 
       if (selectedItem) {
         Object.assign(currentTalent, selectedItem);
@@ -318,9 +322,9 @@ export default defineComponent({
       await getTalentsData(1, itemsPerPage.value);
     };
 
-    onMounted(() => {
-      getTalentsData(currentPage.value, itemsPerPage.value);
-      getAgencyData();
+    onMounted(async () => {
+      await getTalentsData(currentPage.value, itemsPerPage.value);
+      await getAgencyData();
     });
 
     return {
@@ -351,7 +355,7 @@ export default defineComponent({
       updateTalent,
       deleteTalent,
       handleChangeOrder,
-      handleUpdateRow,
+      handleUpdate,
       loadPage,
       changePageSize,
       onSearchChange,

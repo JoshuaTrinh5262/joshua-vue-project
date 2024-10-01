@@ -61,6 +61,16 @@ const routes = [
         component: () => import("../Pages/Vtubers/TalentsPage.vue"),
     },
     {
+        path: "/admin/talent/:id",
+        name: "talent detail",
+        meta: {
+            layout: "admin",
+            requiresAuth: true,
+        },
+        props: true,
+        component: () => import("../Pages/Vtubers/TalentDetailPage.vue"),
+    },
+    {
         path: "/admin/agency",
         name: "agencies",
         meta: {
@@ -70,13 +80,33 @@ const routes = [
         component: () => import("../Pages/Vtubers/AgenciesPage.vue"),
     },
     {
-        path: "/admin/album",
-        name: "album",
+        path: "/admin/agency/:id",
+        name: "agency detail",
         meta: {
             layout: "admin",
             requiresAuth: true,
         },
+        component: () => import("../Pages/Vtubers/AgencyDetailPage.vue"),
+    },
+    {
+        path: "/admin/album",
+        name: "albums",
+        meta: {
+            layout: "admin",
+            requiresAuth: true,
+        },
+        props: true,
         component: () => import("../Pages/Vtubers/AlbumsPage.vue"),
+    },
+    {
+        path: "/admin/album/:id",
+        name: "album detail",
+        meta: {
+            layout: "admin",
+            requiresAuth: true,
+        },
+        props: true,
+        component: () => import("../Pages/Vtubers/AlbumDetailPage.vue"),
     },
     {
         path: "/admin/discography",
@@ -86,6 +116,16 @@ const routes = [
             requiresAuth: true,
         },
         component: () => import("../Pages/Vtubers/DiscographiesPage.vue"),
+    },
+    {
+        path: "/admin/discography/:id",
+        name: "discography detail",
+        meta: {
+            layout: "admin",
+            requiresAuth: true,
+        },
+        props: true,
+        component: () => import("../Pages/Vtubers/DiscographyDetailPage.vue"),
     },
     {
         path: "/admin/gallery",
@@ -104,6 +144,16 @@ const routes = [
             requiresAuth: true,
         },
         component: () => import("../Pages/Vtubers/EventsPage.vue"),
+    },
+    {
+        path: "/admin/event/:id",
+        name: "event detail",
+        meta: {
+            layout: "admin",
+            requiresAuth: true,
+        },
+        props: true,
+        component: () => import("../Pages/Vtubers/EventDetailPage.vue"),
     },
     // Settings
     {

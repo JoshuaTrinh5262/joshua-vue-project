@@ -14,8 +14,8 @@
       </div>
       <div class="page-title-actions">
         <slot name="actions"></slot>
-        <button type="button" class="btn-shadow ml-2 btn btn-dark">
-          <i class="pe-7s-more"></i>
+        <button type="button" class="btn-shadow ml-2 btn btn-dark" @click="goBack">
+          <i class="pe-7s-back"></i>
         </button>
       </div>
     </div>
@@ -24,8 +24,9 @@
 
 <script>
 import { defineComponent, toRefs } from "vue";
+import { useRouter } from "vue-router";
 
-export default defineComponent ({
+export default defineComponent({
   name: "PageTitleComponent",
   props: {
     icon: {
@@ -51,13 +52,18 @@ export default defineComponent ({
   },
   setup(props) {
     const { icon, heading, subheading, showImport, showExport } = toRefs(props);
+    const router = useRouter();
 
+    const goBack = () => {
+      router.back();
+    };
     return {
       icon,
       heading,
       subheading,
       showImport,
       showExport,
+      goBack
     };
   },
 });

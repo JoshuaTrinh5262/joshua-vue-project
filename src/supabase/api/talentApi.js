@@ -61,7 +61,7 @@ export const getTalentById = async (id) => {
     try {
         const { data, error } = await supabase
             .from("talent")
-            .select("*")
+            .select("*, agency(*)")
             .eq("id", id)
             .single();
         if (error) {
@@ -90,12 +90,12 @@ export const createTalent = async (talent) => {
     }
 };
 
-export const updateTalent = async (updates) => {
+export const updateTalent = async (updateData) => {
     try {
         const { data, error } = await supabase
             .from("talent")
-            .update(updates)
-            .eq("id", updates.id)
+            .update(updateData)
+            .eq("id", updateData.id)
             .single();
         if (error) {
             throw error;
