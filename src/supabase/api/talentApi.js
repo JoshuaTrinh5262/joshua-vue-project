@@ -46,7 +46,8 @@ export const getTalents = async () => {
     try {
         const { data, error } = await supabase
             .from("talent")
-            .select("id, name");
+            .select("id, name")
+            .order("name", { ascending: true });
         if (error) {
             throw error;
         }
