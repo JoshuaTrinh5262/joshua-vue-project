@@ -20,7 +20,7 @@
             <span v-else-if="orderBy === field.key && orderDirection === 'desc'">&#9650;</span>
             <span v-else>&#9670;</span>
           </th>
-          <th>Action</th>
+          <th v-if="showAction">Action</th>
         </tr>
       </thead>
 
@@ -28,7 +28,7 @@
         <tr v-for="(item, index) in items" :key="index">
           <td><input type="checkbox" name="checkbox" /></td>
           <td v-for="field in fields" :key="field.key">{{ item[field.key] }}</td>
-          <td>
+          <td v-if="showAction">
             <button type="button" class="btn btn-sm btn-success" @click="updateRow(item.id)">
               <i class="pe-7s-file"></i>
             </button>
@@ -48,7 +48,7 @@
             <span v-else-if="orderBy === field.key && orderDirection === 'desc'">&#9650;</span>
             <span v-else>&#9670;</span>
           </th>
-          <th>Action</th>
+          <th v-if="showAction">Action</th>
         </tr>
       </tfoot>
     </table>
@@ -72,6 +72,11 @@ export default defineComponent({
     customClass: {
       type: String,
       default: '',
+      required: false,
+    },
+    showAction: {
+      type: Boolean,
+      default: true,
       required: false,
     },
     footer: {

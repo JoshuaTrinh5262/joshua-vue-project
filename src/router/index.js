@@ -250,6 +250,15 @@ const routes = [
         },
         component: () => import("../DemoPages/Tables/RegularTables.vue"),
     },
+    {
+        path: "/admin/tables/advance-tables",
+        name: "advance-tables",
+        meta: {
+            layout: "admin",
+            requiresAuth: true,
+        },
+        component: () => import("../DemoPages/Tables/AdvanceTables.vue"),
+    },
     // Dashboard Widgets
     {
         path: "/admin/widgets/chart-boxes-3",

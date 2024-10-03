@@ -95,6 +95,7 @@ export default defineComponent({
                 icon: 'pe-7s-display2',
                 child: [
                     { title: 'Regular Tables', href: '/admin/tables/regular-tables' },
+                    { title: 'Advance Tables', href: '/admin/tables/advance-tables' },
                 ],
             },
             { title: 'Chart Boxes', icon: 'pe-7s-graph2', href: '/admin/widgets/chart-boxes-3' },

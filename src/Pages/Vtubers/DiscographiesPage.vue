@@ -96,7 +96,7 @@ export default defineComponent({
     const orderDirection = ref("asc");
     const search = ref("");
     const currentPage = ref(1);
-    const itemsPerPage = ref(20);
+    const itemsPerPage = ref(100);
     const totalItems = ref(0);
     const totalPages = ref(0);
     const notification = ref(null);
