@@ -41,14 +41,14 @@ export default defineComponent({
         const imageUrl = ref('');
 
         const handleFileChange = (e) => {
-            file.value = e.target.files[0]; // Set the file correctly from event
+            file.value = e.target.files[0];
         };
 
         const handleFileUpload = async () => {
             if (file.value) {
                 try {
-                    const uploadResult = await storageService.uploadImage('images', props.id, "album");
-                    imageUrl.value = await storageService.getImageUrl('images', uploadResult.Key, "album");
+                    const uploadResult = await storageService.uploadImage(file.value, props.id, "album");
+                    imageUrl.value = await storageService.getImageUrl("album", uploadResult.Key);
                 } catch (error) {
                     console.error('Error uploading image:', error);
                 }
@@ -67,7 +67,6 @@ export default defineComponent({
         const loadImage = async (albumId) => {
             try {
                 const imagePublicUrl = storageService.getImageUrl('album', albumId);
-
                 if (imagePublicUrl) {
                     imageUrl.value = imagePublicUrl;
                 }

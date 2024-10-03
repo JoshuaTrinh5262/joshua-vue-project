@@ -14,7 +14,6 @@ export const storageService = {
             }
             return data;
         } catch (error) {
-            console.error('Error uploading image:', error);
             return null;
         }
     },
@@ -31,7 +30,6 @@ export const storageService = {
             const url = URL.createObjectURL(data);
             return url;
         } catch (error) {
-            console.error('Error downloading image:', error);
             return null;
         }
     },
@@ -47,20 +45,22 @@ export const storageService = {
             }
             return data;
         } catch (error) {
-            console.error('Error deleting image:', error);
             return null;
         }
     },
 
     getImageUrl(bucket, path) {
-        const { publicURL, error } = supabase.storage.from(bucket).getPublicUrl(path);
+        const filePath = `${bucket}}/${path}`;
 
-        console.log(publicURL)
+        const { publicURL, error } = supabase.storage
+            .from(bucket)
+            .getPublicUrl(filePath);
+
 
         if (error) {
             throw error;
         }
 
         return publicURL;
-    }
+    },
 };
