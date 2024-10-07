@@ -12,7 +12,7 @@ export const getAlbumsWithPaging = async (
 
         let query = supabase
             .from("album")
-            .select("*, album_talent(talent(*))", { count: "exact" })
+            .select("*, album_talent(talent(*)), discography(count)", { count: "exact" })
             .order(orderBy, { ascending: orderDirection === "asc" })
             .range(start, end);
 
@@ -29,6 +29,7 @@ export const getAlbumsWithPaging = async (
         const formattedAlbums = data.map((album) => ({
             ...album,
             talents: album.album_talent?.map((at) => at.talent?.name) || [],
+            discography_count: album.discography.length ? album.discography[0].count : 0,
         }));
 
         return {
@@ -58,7 +59,7 @@ export const getAlbumById = async (id) => {
     try {
         const { data, error } = await supabase
             .from("album")
-            .select("*")
+            .select("*, discography(*)")
             .eq("id", id)
             .single();
         if (error) {
@@ -78,16 +79,14 @@ export const createAlbum = async (album, selectedTalents) => {
             .insert(album)
             .select("*")
             .single();
-        console.log("albumData",albumData);
         if (albumError) {
             throw albumError;
         }
-        console.log("selectedTalents", selectedTalents);
+
         const albumTalentRecords = selectedTalents.map((talent) => ({
             album_id: albumData.id,
             talent_id: talent.id,
         }));
-        console.log(albumTalentRecords);
         const { data: talentData, error: talentError } = await supabase
             .from("album_talent")
             .insert(albumTalentRecords);

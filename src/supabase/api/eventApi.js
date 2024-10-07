@@ -13,7 +13,7 @@ export const getEventsWithPaging = async (
 
         let query = supabase
             .from("event")
-            .select("*", { count: "exact" })
+            .select("*, event_talent(talent(id, name))", { count: "exact" })
             .order(orderBy, { ascending: orderDirection === "asc" })
             .range(start, end);
 
@@ -28,8 +28,13 @@ export const getEventsWithPaging = async (
             throw error;
         }
 
+        const formattedEvents = data.map((event) => ({
+            ...event,
+            talents: event.event_talent?.map((et) => et.talent?.name) || [],
+        }));
+
         return {
-            items: data,
+            items: formattedEvents,
             totalItems: count,
             totalPages: Math.ceil(count / pageSize),
         };
@@ -67,36 +72,108 @@ export const getEventById = async (id) => {
     }
 };
 
-export const createEvent = async (event) => {
+export const createEvent = async (event, selectedTalents) => {
     try {
-        const { data, error } = await supabase
+        const { data: eventData, error: eventError } = await supabase
             .from("event")
             .insert(event)
+            .select("*")
             .single();
-        if (error) {
-            throw error;
+
+        if (eventError) {
+            throw eventError;
         }
-        return data;
+
+        const eventTalentRecords = selectedTalents.map((talent) => ({
+            event_id: eventData.id,
+            talent_id: talent.id,
+        }));
+
+        const { data: talentData, error: talentError } = await supabase
+            .from("event_talent")
+            .insert(eventTalentRecords);
+
+        if (talentError) {
+            throw talentError;
+        }
+
+        return {
+            event: eventData,
+            talents: talentData,
+        };
     } catch (err) {
         return { error: err.message };
     }
 };
 
-export const updateEvent = async (updateData) => {
+export const updateEvent = async (updateData, selectedTalents) => {
     try {
-        const { data, error } = await supabase
+        console.log("selectedTalents", selectedTalents);
+        const { data: eventData, error: eventError } = await supabase
             .from("event")
             .update(updateData)
             .eq("id", updateData.id)
             .single();
-        if (error) {
-            throw error;
+
+        if (eventError) {
+            throw eventError;
         }
-        return data;
+
+        // Step 2: Handle event_talent updates
+        const eventId = updateData.id;
+
+        // Convert selected talents to an array of talent_id
+        const talentIds = selectedTalents.map(talent => talent.id);
+
+        // Fetch existing event_talent entries for the event
+        const { data: existingTalents, error: fetchError } = await supabase
+            .from("event_talent")
+            .select("talent_id")
+            .eq("event_id", eventId);
+
+        if (fetchError) {
+            throw fetchError;
+        }
+
+        // Get the existing talent IDs
+        const existingTalentIds = existingTalents.map(t => t.talent_id);
+
+        // Find talents to insert (those in selected but not in existing)
+        const talentsToInsert = talentIds.filter(id => !existingTalentIds.includes(id));
+
+        // Find talents to delete (those in existing but not in selected)
+        const talentsToDelete = existingTalentIds.filter(id => !talentIds.includes(id));
+
+        // Step 3: Insert new talents
+        if (talentsToInsert.length > 0) {
+            const { error: insertError } = await supabase
+                .from("event_talent")
+                .insert(talentsToInsert.map(talentId => ({ event_id: eventId, talent_id: talentId })));
+
+            if (insertError) {
+                throw insertError;
+            }
+        }
+
+        // Step 4: Delete removed talents
+        if (talentsToDelete.length > 0) {
+            const { error: deleteError } = await supabase
+                .from("event_talent")
+                .delete()
+                .in("talent_id", talentsToDelete)
+                .eq("event_id", eventId);
+
+            if (deleteError) {
+                throw deleteError;
+            }
+        }
+
+        return { event: eventData, updatedTalents: talentIds };
     } catch (err) {
         return { error: err.message };
     }
 };
+
 
 export const deleteEvent = async (id) => {
     try {

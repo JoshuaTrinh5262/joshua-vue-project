@@ -49,12 +49,10 @@ export const storageService = {
         }
     },
 
-    getImageUrl(bucket, path) {
-        const filePath = `${bucket}}/${path}`;
-
-        const { publicURL, error } = supabase.storage
+    async getImageUrl(bucket, path) {
+        const { publicURL, error } = await supabase.storage
             .from(bucket)
-            .getPublicUrl(filePath);
+            .getPublicUrl(path);
 
 
         if (error) {
@@ -63,4 +61,16 @@ export const storageService = {
 
         return publicURL;
     },
+
+    async getSignedImageUrl(bucket, path, expiresIn = 3600) { 
+        const { data, error } = await supabase.storage
+          .from(bucket)
+          .createSignedUrl(path, expiresIn);
+      
+        if (error) {
+          throw error;
+        }
+      
+        return data.signedUrl;
+      }
 };
