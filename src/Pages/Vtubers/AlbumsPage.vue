@@ -19,12 +19,20 @@
             class="form-control" />
         </div>
         <div class="position-relative form-group">
+          <label for="album_type">Album Type</label>
+          <select id="album_type" v-model="currentAlbum.album_type" class="form-control">
+            <option value="single">Single</option>
+            <option value="extended_play">Extended Play</option>
+            <option value="album">Album</option>
+          </select>
+        </div>
+        <div class="position-relative form-group">
           <label for="name">Release Date</label>
           <input type="date" name="release_date" placeholder="Album Release Date" v-model="currentAlbum.released_date"
             class="form-control" />
         </div>
         <div class="position-relative form-group">
-          <label for="name">Release Date</label>
+          <label for="talent">Talent</label>
           <div class="tag-container">
             <div class="tags">
               <span v-for="talent in selectedTalents" :key="talent.id" class="tag">
@@ -94,12 +102,15 @@ export default defineComponent({
 
     const currentAlbum = reactive({
       name: null,
+      album_type: null,
       released_date: null,
     });
 
     const fields = ref([
       { key: 'id', value: 'ID' },
       { key: 'name', value: 'Album Name' },
+      { key: 'album_type', value: 'Album Type' },
+      { key: 'discography_count', value: 'Discography' },
       { key: 'released_date', value: 'Album Released Date' },
       { key: 'talents', value: 'talent' }
     ]);
@@ -173,7 +184,7 @@ export default defineComponent({
 
     const handleUpdate = (updateId) => {
       isUpdateMode.value = true;
-      const { album_talent, talents, ...selectedItem } = items.value.find(x => x.id === updateId);
+      const { album_talent, discography_count, talents, ...selectedItem } = items.value.find(x => x.id === updateId);
 
       if (selectedItem) {
         Object.assign(currentAlbum, selectedItem);
@@ -198,6 +209,7 @@ export default defineComponent({
     const cleanCurrentAlbum = () => {
       Object.assign(currentAlbum, {
         name: null,
+        album_type: null,
         released_date: null,
       });
 
@@ -278,32 +290,3 @@ export default defineComponent({
   }
 });
 </script>
-
-<style scoped>
-.tag-container {
-  margin-top: 10px;
-}
-
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.tag {
-  background-color: #007bff;
-  color: white;
-  border-radius: 5px;
-  padding: 5px 10px;
-  margin: 5px;
-  display: flex;
-  align-items: center;
-}
-
-.remove-tag {
-  background: none;
-  border: none;
-  color: white;
-  margin-left: 5px;
-  cursor: pointer;
-}
-</style>

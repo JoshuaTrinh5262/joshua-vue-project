@@ -27,10 +27,30 @@
             v-model="currentEvent.event_hashtag" class="form-control">
         </div>
         <div class="position-relative form-group">
+          <label for="event_url">Event Url</label>
+          <input name="event_url" id="event_url" placeholder="Event Url" type="text"
+            v-model="currentEvent.event_url" class="form-control">
+        </div>
+        <div class="position-relative form-group">
           <label for="event_date">Event Date</label>
           <input name="event_date" id="event_date" placeholder="Event Date" type="date"
             v-model="currentEvent.event_date" class="form-control">
         </div>
+        <div class="position-relative form-group">
+          <label for="event_type">Event Type</label>
+          <input name="event_type" id="event_type" placeholder="Event Type" type="text"
+            v-model="currentEvent.event_type" class="form-control">
+        </div>
+        <div class="position-relative form-group">
+          <label for="event_status">Event Status</label>
+          <input name="event_status" id="event_status" placeholder="Event Status" type="text"
+            v-model="currentEvent.event_status" class="form-control">
+        </div>
+        <div class="position-relative form-group">
+          <label for="event_status">Talent</label>
+          <TagSelectorComponent :items="talentOptions" :modelValue="selectedTalents" v-model="selectedTalents" />
+        </div>
+
       </template>
       <template #footer>
         <button class="btn btn-primary" @click="toggleModal">Cancel</button>
@@ -48,13 +68,14 @@
 </template>
 
 <script>
-import { ref, onMounted, defineComponent, reactive } from 'vue';
+import { ref, onMounted, defineComponent, watch, reactive } from 'vue';
 import ModalComponent from '../../Layout/Components/ModalComponent.vue';
 import TableComponent from '../../Layout/Components/TableComponent.vue';
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
 import NotificationComponent from "../../Layout/Components/NotificationComponent.vue";
 import ButtonSpinner from '../../Layout/Components/ButtonSpinner.vue';
+import TagSelectorComponent from '../../Layout/Components/TagSelectorComponent.vue';
 import { apiService } from '../../supabase/apiService';
 
 export default defineComponent({
@@ -66,7 +87,8 @@ export default defineComponent({
     PageTitleComponent,
     PaginationComponent,
     NotificationComponent,
-    ButtonSpinner
+    ButtonSpinner,
+    TagSelectorComponent
   },
 
   setup() {
@@ -85,11 +107,16 @@ export default defineComponent({
     const totalPages = ref(0);
     const search = ref('');
     const notification = ref(null);
+    const talentOptions = ref([]);
+    const selectedTalents = ref([]);
     const currentEvent = reactive({
       event_title: null,
       event_summary: null,
       event_hashtag: null,
-      event_date: null
+      event_url: null,
+      event_date: null,
+      event_type: null,
+      event_status: null
     });
 
     const fields = ref([
@@ -97,7 +124,8 @@ export default defineComponent({
       { key: 'event_title', value: 'title' },
       { key: 'event_summary', value: 'summary' },
       { key: 'event_date', value: 'Date' },
-      { key: 'event_hashtag', value: 'Hashtag' }
+      { key: 'event_hashtag', value: 'Hashtag' },
+      { key: 'talents', value: 'talent' }
     ]);
     const items = ref([]);
 
@@ -110,6 +138,11 @@ export default defineComponent({
         totalPages.value = result.totalPages;
         itemsPerPage.value = newPageSize;
       }
+    };
+
+    const getTalentsData = async () => {
+      const result = await apiService.getTalents();
+      talentOptions.value = result;
     };
 
     const handleSubmit = async () => {
@@ -133,11 +166,12 @@ export default defineComponent({
         onSubmit.value = false;
         notification.value = { title: 'Error', content: `Error when submitting talent: ${error}`, type: 'danger' };
       }
-    }
+    };
 
     const updateEvent = async () => {
       try {
-        await apiService.updateEvent(currentEvent);
+        console.log("selectedTalents.value", selectedTalents);
+        await apiService.updateEvent(currentEvent, selectedTalents);
         cleanCurrentEvent();
         toggleModal();
         onSubmit.value = false;
@@ -161,13 +195,17 @@ export default defineComponent({
 
     const handleUpdate = (updateId) => {
       isUpdateMode.value = true;
-      const selectedItem = items.value.find(x => x.id === updateId);
+      const { talents, event_talent, ...selectedItem } = items.value.find(x => x.id === updateId);
 
       if (selectedItem) {
         Object.assign(currentEvent, selectedItem);
       }
 
-      showModal.value = true;
+      if (event_talent && event_talent.length > 0) {
+        selectedTalents.value = event_talent.map(t => t.talent);
+      } else {
+        selectedTalents.value = [];
+      } showModal.value = true;
     };
 
     const handleDelete = async (id) => {
@@ -188,7 +226,10 @@ export default defineComponent({
         event_title: null,
         event_summary: null,
         event_hashtag: null,
-        event_date: null
+        event_url: null,
+        event_date: null,
+        event_type: null,
+        event_status: null
       });
 
       if (currentEvent.id) {
@@ -197,7 +238,6 @@ export default defineComponent({
     };
 
     const toggleModal = () => {
-
       showModal.value = !showModal.value;
     };
 
@@ -212,8 +252,6 @@ export default defineComponent({
       getEventsData(currentPage.value, itemsPerPage.value);
     };
 
-
-
     const loadPage = (page) => {
       currentPage.value = page;
       getEventsData(currentPage.value, itemsPerPage.value);
@@ -224,8 +262,13 @@ export default defineComponent({
       await getEventsData(1, itemsPerPage.value);
     };
 
-    onMounted(() => {
-      getEventsData(currentPage.value, itemsPerPage.value);
+    watch(selectedTalents, (newValue) => {
+      console.log('Selected talents updated:', selectedTalents.value);
+    }, { deep: true });
+
+    onMounted(async () => {
+      await getEventsData(currentPage.value, itemsPerPage.value);
+      await getTalentsData();
     });
 
     return {
@@ -242,6 +285,8 @@ export default defineComponent({
       totalItems,
       totalPages,
       notification,
+      talentOptions,
+      selectedTalents,
       currentEvent,
       toggleModal,
       onSearchChange,
@@ -251,7 +296,8 @@ export default defineComponent({
       handleDelete,
       loadPage,
       changePageSize,
-      getEventsData
+      getEventsData,
+      getTalentsData,
     };
   }
 });

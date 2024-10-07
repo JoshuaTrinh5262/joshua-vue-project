@@ -1,11 +1,13 @@
 <template>
+    <page-title-component :heading="heading" :subheading="subheading" :icon="icon"></page-title-component>
+
     <div v-if="album">
         <div>
             <input type="file" @change="handleFileChange" />
             <button @click="handleFileUpload">Upload</button>
 
             <div v-if="imageUrl">
-                <img :src="imageUrl" alt="Uploaded Image" />
+                <img :src="imageUrl" width="200" height="200" :alt="album.name" />
             </div>
             <div v-else>
                 <p>No image uploaded yet.</p>
@@ -21,11 +23,16 @@
 
 <script>
 import { defineComponent, ref, onMounted } from 'vue';
+import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 import { apiService } from '@/supabase/apiService';
 import { storageService } from "../../supabase/storageService";
 
 export default defineComponent({
     name: "AlbumDetailPage",
+
+    components: {
+        PageTitleComponent,
+    },
 
     props: {
         id: {
@@ -36,6 +43,10 @@ export default defineComponent({
 
 
     setup(props) {
+        const heading = ref("Album");
+        const subheading = ref("Explore the Profiles of Emerging and Established Talents.");
+        const icon = ref("pe-7s-user icon-gradient bg-premium-dark");
+
         const album = ref(null);
         const file = ref(null);
         const imageUrl = ref('');
@@ -47,8 +58,8 @@ export default defineComponent({
         const handleFileUpload = async () => {
             if (file.value) {
                 try {
-                    const uploadResult = await storageService.uploadImage(file.value, props.id, "album");
-                    imageUrl.value = await storageService.getImageUrl("album", uploadResult.Key);
+                    await storageService.uploadImage(file.value, props.id, "album");
+                    loadImage(id);
                 } catch (error) {
                     console.error('Error uploading image:', error);
                 }
@@ -58,7 +69,7 @@ export default defineComponent({
             try {
                 const response = await apiService.getAlbumById(id);
                 album.value = response;
-                loadImage(id)
+                loadImage(id);
             } catch (error) {
                 console.error('Error fetching album:', error);
             }
@@ -66,7 +77,7 @@ export default defineComponent({
 
         const loadImage = async (albumId) => {
             try {
-                const imagePublicUrl = storageService.getImageUrl('album', albumId);
+                const imagePublicUrl = await storageService.getSignedImageUrl('album', albumId);
                 if (imagePublicUrl) {
                     imageUrl.value = imagePublicUrl;
                 }
@@ -75,13 +86,19 @@ export default defineComponent({
             }
         };
 
-        onMounted(() => {
+        onMounted(async () => {
             if (props.id) {
-                fetchAlbum(props.id);
+                await fetchAlbum(props.id);
+                if (album.value) {
+                    heading.value += ` ${album.value.name}`;
+                }
             }
         });
 
         return {
+            heading,
+            subheading,
+            icon,
             album,
             file,
             imageUrl,

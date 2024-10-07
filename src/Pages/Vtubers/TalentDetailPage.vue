@@ -49,7 +49,6 @@ export default defineComponent({
             if (props.id) {
                 await fetchTalent(props.id);
                 if (talent.value) {
-                    console.log(talent.value)
                     heading.value += ` ${talent.value.name}`;
                 }
             }
