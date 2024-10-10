@@ -33,17 +33,8 @@
         </div>
         <div class="position-relative form-group">
           <label for="talent">Talent</label>
-          <div class="tag-container">
-            <div class="tags">
-              <span v-for="talent in selectedTalents" :key="talent.id" class="tag">
-                {{ talent.name }}
-                <button class="remove-tag" @click="removeTalent(talent)">x</button>
-              </span>
-            </div>
-          </div>
-          <select id="talents" v-model="selectedTalents" multiple class="form-control">
-            <option v-for="talent in talents" :key="talent.id" :value="talent">{{ talent.name }}</option>
-          </select>
+          <TagSelectorComponent :items="talentOptions" :model-value="selectedTalents"
+            @update:modelValue="handleselectedTalentsChange"></TagSelectorComponent>
         </div>
       </template>
       <template #footer>
@@ -69,6 +60,7 @@ import PageTitleComponent from '../../Layout/Components/PageTitleComponent.vue';
 import PaginationComponent from '../../Layout/Components/PaginationComponent.vue';
 import NotificationComponent from '../../Layout/Components/NotificationComponent.vue';
 import ButtonSpinner from '../../Layout/Components/ButtonSpinner.vue';
+import TagSelectorComponent from '../../Layout/Components/TagSelectorComponent.vue';
 import { apiService } from '../../supabase/apiService';
 
 export default defineComponent({
@@ -80,7 +72,8 @@ export default defineComponent({
     PageTitleComponent,
     PaginationComponent,
     NotificationComponent,
-    ButtonSpinner
+    ButtonSpinner,
+    TagSelectorComponent
   },
 
   setup() {
@@ -115,7 +108,7 @@ export default defineComponent({
       { key: 'talents', value: 'talent' }
     ]);
     const items = ref([]);
-    const talents = ref([]);
+    const talentOptions = ref([]);
     const selectedTalents = ref([]);
 
     const getAlbumsData = async (newPage, newPageSize) => {
@@ -131,7 +124,7 @@ export default defineComponent({
 
     const getTalentsData = async () => {
       const result = await apiService.getTalents();
-      talents.value = result;
+      talentOptions.value = result;
     };
 
     const handleSubmit = async () => {
@@ -145,7 +138,6 @@ export default defineComponent({
 
     const createAlbum = async () => {
       try {
-        console.log(selectedTalents.value);
         await apiService.createAlbum(currentAlbum, selectedTalents.value);
         cleanCurrentAlbum();
         toggleModal();
@@ -160,7 +152,7 @@ export default defineComponent({
 
     const updateAlbum = async () => {
       try {
-        await apiService.updateAlbum(currentAlbum);
+        await apiService.updateAlbum(currentAlbum, selectedTalents.value);
         cleanCurrentAlbum();
         toggleModal();
         onSubmit.value = false;
@@ -184,10 +176,16 @@ export default defineComponent({
 
     const handleUpdate = (updateId) => {
       isUpdateMode.value = true;
-      const { album_talent, discography_count, talents, ...selectedItem } = items.value.find(x => x.id === updateId);
+      const { album_talent, discography, discography_count, talents, ...selectedItem } = items.value.find(x => x.id === updateId);
 
       if (selectedItem) {
         Object.assign(currentAlbum, selectedItem);
+      }
+
+      if (album_talent && album_talent.length > 0) {
+        selectedTalents.value = album_talent.map(t => t.talent);
+      } else {
+        selectedTalents.value = [];
       }
 
       showModal.value = true;
@@ -216,6 +214,7 @@ export default defineComponent({
       if (currentAlbum.id) {
         delete currentAlbum.id;
       }
+      selectedTalents.value = [];
     };
 
     const toggleModal = () => {
@@ -245,14 +244,13 @@ export default defineComponent({
       await getAlbumsData(1, itemsPerPage.value);
     };
 
+    const handleselectedTalentsChange = (newSelection) => {
+      selectedTalents.value = newSelection;
+    };
     onMounted(() => {
       getAlbumsData(currentPage.value, itemsPerPage.value);
       getTalentsData();
     });
-
-    const removeTalent = (talent) => {
-      selectedTalents.value = selectedTalents.value.filter(item => item.id !== talent.id);
-    };
 
     return {
       heading,
@@ -266,9 +264,8 @@ export default defineComponent({
       orderDirection,
       fields,
       items,
-      talents,
+      talentOptions,
       selectedTalents,
-      removeTalent,
       notification,
       currentAlbum,
       currentPage,
@@ -286,6 +283,7 @@ export default defineComponent({
       handleUpdate,
       handleDelete,
       handleChangeOrder,
+      handleselectedTalentsChange,
     };
   }
 });

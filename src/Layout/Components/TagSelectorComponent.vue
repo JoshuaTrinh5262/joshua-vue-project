@@ -9,7 +9,7 @@
         </div>
         <input type="text" placeholder="Search..." v-model="searchQuery" class="form-control search-input" />
         <select @change="updateSelectedItems" multiple class="form-control">
-            <option v-for="item in filteredItems" :key="item.id" :value="JSON.stringify(item)">
+            <option v-for="item in filteredItems" :key="item.id" :value="item.id">
                 {{ item.name }}
             </option>
         </select>
@@ -53,19 +53,24 @@ export default defineComponent({
         const updateSelectedItems = (event) => {
             const selectedOptions = Array.from(event.target.selectedOptions);
             selectedOptions.forEach(option => {
-                const item = JSON.parse(option.value);
-                if (isSelected(item)) {
-                    selected.value = selected.value.filter(i => i.id !== item.id);
-                } else {
-                    selected.value.push(item);
+                const itemId = option.value;
+                const item = props.items.find(i => i.id === itemId);
+
+                if (item) {
+                    if (isSelected(item)) {
+                        selected.value = selected.value.filter(i => i.id !== item.id);
+                    } else {
+                        selected.value.push(item);
+                    }
                 }
             });
+
             emit('update:modelValue', selected.value);
         };
 
         watch(() => props.modelValue, (newVal) => {
             selected.value = [...newVal];
-        });
+        }, { immediate: true });
 
         return {
             selected,

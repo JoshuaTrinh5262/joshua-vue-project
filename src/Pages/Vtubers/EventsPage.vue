@@ -28,8 +28,8 @@
         </div>
         <div class="position-relative form-group">
           <label for="event_url">Event Url</label>
-          <input name="event_url" id="event_url" placeholder="Event Url" type="text"
-            v-model="currentEvent.event_url" class="form-control">
+          <input name="event_url" id="event_url" placeholder="Event Url" type="text" v-model="currentEvent.event_url"
+            class="form-control">
         </div>
         <div class="position-relative form-group">
           <label for="event_date">Event Date</label>
@@ -48,7 +48,8 @@
         </div>
         <div class="position-relative form-group">
           <label for="event_status">Talent</label>
-          <TagSelectorComponent :items="talentOptions" :modelValue="selectedTalents" v-model="selectedTalents" />
+          <TagSelectorComponent :items="talentOptions" :model-value="selectedTalents"
+            @update:modelValue="handleselectedTalentsChange" />
         </div>
 
       </template>
@@ -156,7 +157,7 @@ export default defineComponent({
 
     const createEvent = async () => {
       try {
-        await apiService.createEvent(currentEvent);
+        await apiService.createEvent(currentEvent, selectedTalents.value);
         cleanCurrentEvent();
         toggleModal();
         onSubmit.value = false;
@@ -170,8 +171,7 @@ export default defineComponent({
 
     const updateEvent = async () => {
       try {
-        console.log("selectedTalents.value", selectedTalents);
-        await apiService.updateEvent(currentEvent, selectedTalents);
+        await apiService.updateEvent(currentEvent, selectedTalents.value);
         cleanCurrentEvent();
         toggleModal();
         onSubmit.value = false;
@@ -205,7 +205,9 @@ export default defineComponent({
         selectedTalents.value = event_talent.map(t => t.talent);
       } else {
         selectedTalents.value = [];
-      } showModal.value = true;
+      }
+
+      showModal.value = true;
     };
 
     const handleDelete = async (id) => {
@@ -235,6 +237,7 @@ export default defineComponent({
       if (currentEvent.id) {
         delete currentEvent.id;
       }
+      selectedTalents.value = [];
     };
 
     const toggleModal = () => {
@@ -262,9 +265,9 @@ export default defineComponent({
       await getEventsData(1, itemsPerPage.value);
     };
 
-    watch(selectedTalents, (newValue) => {
-      console.log('Selected talents updated:', selectedTalents.value);
-    }, { deep: true });
+    const handleselectedTalentsChange = (newSelection) => {
+      selectedTalents.value = newSelection;
+    };
 
     onMounted(async () => {
       await getEventsData(currentPage.value, itemsPerPage.value);
@@ -288,6 +291,7 @@ export default defineComponent({
       talentOptions,
       selectedTalents,
       currentEvent,
+      handleselectedTalentsChange,
       toggleModal,
       onSearchChange,
       handleChangeOrder,

@@ -70,7 +70,7 @@ export default defineComponent({
     const isUpdateMode = ref(false);
     const showModal = ref(false);
     const onSubmit = ref(false);
-    const orderBy = ref('id');
+    const orderBy = ref('agency_id');
     const orderDirection = ref('asc');
     const currentPage = ref(1);
     const itemsPerPage = ref(20);
@@ -106,12 +106,12 @@ export default defineComponent({
     };
 
     const getAgenciesData = async (newPage, newPageSize) => {
-      const result = await apiService.getAgenciesWithPaging(newPage, newPageSize, orderBy.value, orderDirection.value, search.value);
+      const response = await apiService.getAgenciesWithPaging(newPage, newPageSize, orderBy.value, orderDirection.value, search.value);
 
-      if (!result.error) {
-        items.value = result.items;
-        totalItems.value = result.totalItems;
-        totalPages.value = result.totalPages;
+      if (!response.error) {
+        items.value = response.items;
+        totalItems.value = response.totalItems;
+        totalPages.value = response.totalPages;
         itemsPerPage.value = newPageSize;
       }
     };

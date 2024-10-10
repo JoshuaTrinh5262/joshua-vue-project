@@ -1,5 +1,45 @@
 import { supabase } from "../supabase";
 
+// export const getAgenciesWithPaging = async (
+//     page,
+//     pageSize,
+//     orderBy,
+//     orderDirection,
+//     search = ""
+// ) => {
+//     try {
+//         const start = (page - 1) * pageSize;
+//         const end = start + pageSize - 1;
+
+//         let query = supabase
+//             .from("agency")
+//             .select("*, talent(count)", { count: "exact" })
+//             .order(orderBy, { ascending: orderDirection === "asc" })
+//             .range(start, end);
+
+//         if (search) {
+//             query = query.or(`agency_name.ilike.%${search}%`);
+//         }
+
+//         const { data, count, error } = await query;
+
+//         if (error) {
+//             throw error;
+//         }
+//         const agencies = data.map((agency) => ({
+//             ...agency,
+//             talent_count: agency.talent.length ? agency.talent[0].count : 0,
+//         }));
+//         return {
+//             items: agencies,
+//             totalItems: count,
+//             totalPages: Math.ceil(count / pageSize),
+//         };
+//     } catch (err) {
+//         return { error: err.message };
+//     }
+// };
+
 export const getAgenciesWithPaging = async (
     page,
     pageSize,
@@ -11,34 +51,64 @@ export const getAgenciesWithPaging = async (
         const start = (page - 1) * pageSize;
         const end = start + pageSize - 1;
 
-        let query = supabase
-            .from("agency")
-            .select("*, talent(count)", { count: "exact" })
-            .order(orderBy, { ascending: orderDirection === "asc" })
-            .range(start, end);
+        // Construct SQL query dynamically
+        let query = `
+            SELECT 
+                agency.id AS id,
+                agency.agency_name AS agency_name,
+                COUNT(talent.id) AS talent_count
+            FROM 
+                agency
+            LEFT JOIN 
+                talent ON talent.agency_id = agency.id
+        `;
 
+        // Add search condition if applicable
         if (search) {
-            query = query.or(`agency_name.ilike.%${search}%`);
+            query += ` WHERE agency_name ILIKE '%${search}%'`;
         }
 
-        const { data, count, error } = await query;
+        // Add ordering clause
+        query += `
+            GROUP BY agency.id, agency.agency_name, talent.agency_id
+            ORDER BY ${orderBy} ${orderDirection === "asc" ? "ASC" : "DESC"}
+        `;
 
-        if (error) {
-            throw error;
+        // Add limit and offset for pagination
+        query += `
+            LIMIT ${pageSize}
+            OFFSET ${start}
+        `;
+
+        // Execute the query via the RPC function
+        const { data, error } = await supabase.rpc('execute_dynamic_query_2', {
+            query,
+        });
+
+        // Fetch the total count for pagination
+        const countQuery = `
+            SELECT COUNT(*) FROM agency
+        `;
+        const { data: countData, error: countError } = await supabase.rpc('execute_dynamic_query_2', {
+            query: countQuery,
+        });
+
+        if (error || countError) {
+            throw error || countError;
         }
-        const agencies = data.map((agency) => ({
-            ...agency,
-            talent_count: agency.talent.length ? agency.talent[0].count : 0,
-        }));
+
+        const totalItems = countData[0].count;
+        console.log(countData)
         return {
-            items: agencies,
-            totalItems: count,
-            totalPages: Math.ceil(count / pageSize),
+            items: data,
+            totalItems: totalItems,
+            totalPages: Math.ceil(totalItems / pageSize),
         };
     } catch (err) {
         return { error: err.message };
     }
 };
+
 
 export const getAgencies = async () => {
     try {

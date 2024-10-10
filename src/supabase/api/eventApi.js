@@ -51,7 +51,6 @@ export const getEvents = async () => {
         }
         return data;
     } catch (err) {
-        console.error("Error fetching events:", err);
         return { error: err.message };
     }
 };
@@ -108,7 +107,6 @@ export const createEvent = async (event, selectedTalents) => {
 
 export const updateEvent = async (updateData, selectedTalents) => {
     try {
-        console.log("selectedTalents", selectedTalents);
         const { data: eventData, error: eventError } = await supabase
             .from("event")
             .update(updateData)

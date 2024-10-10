@@ -32,19 +32,15 @@
           <label for="album">Album</label>
           <select name="select" id="album" v-model="currentDiscography.album_id" class="form-control">
             <option :value=null></option>
-            <option v-for="album in albums" :key="album.id" :value="album.id">
+            <option v-for="album in albumOptions" :key="album.id" :value="album.id">
               {{ album.name }}
             </option>
           </select>
         </div>
         <div class="position-relative form-group">
           <label for="talent">Talent</label>
-          <select name="select" id="talent" v-model="currentDiscography.talent_id" class="form-control">
-            <option :value=null></option>
-            <option v-for="talent in talents" :key="talent.id" :value="talent.id">
-              {{ talent.name }}
-            </option>
-          </select>
+          <TagSelectorComponent :items="talentOptions" :model-value="selectedTalents"
+            @update:modelValue="handleselectedTalentsChange"></TagSelectorComponent>
         </div>
       </template>
       <template #footer>
@@ -71,6 +67,7 @@ import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
 import ButtonSpinner from "../../Layout/Components/ButtonSpinner.vue";
 import NotificationComponent from "../../Layout/Components/NotificationComponent.vue";
+import TagSelectorComponent from "../../Layout/Components/TagSelectorComponent.vue";
 import { apiService } from "../../supabase/apiService";
 
 export default defineComponent({
@@ -82,7 +79,8 @@ export default defineComponent({
     PageTitleComponent,
     PaginationComponent,
     NotificationComponent,
-    ButtonSpinner
+    ButtonSpinner,
+    TagSelectorComponent
   },
 
   setup() {
@@ -107,7 +105,6 @@ export default defineComponent({
       original_name: null,
       released_date: null,
       album_id: null,
-      talent_id: null
     });
 
     const fields = ref([
@@ -116,12 +113,13 @@ export default defineComponent({
       { key: "original_name", value: "original Name" },
       { key: "released_date", value: "Released Date" },
       { key: "album", value: "album" },
-      { key: "talent", value: "talent" },
+      { key: "talents", value: "talent" },
     ]);
 
     const items = ref([]);
-    const albums = ref([]);
-    const talents = ref([]);
+    const albumOptions = ref([]);
+    const talentOptions = ref([]);
+    const selectedTalents = ref([]);
 
     const getDiscographiesData = async (newPage, newPageSize) => {
       const result = await apiService.getDiscographiesWithPaging(newPage, newPageSize, orderBy.value, orderDirection.value, search.value);
@@ -135,12 +133,12 @@ export default defineComponent({
 
     const getAlbumsData = async () => {
       const result = await apiService.getAlbums();
-      albums.value = result;
+      albumOptions.value = result;
     };
 
     const getTalentsData = async () => {
       const result = await apiService.getTalents();
-      talents.value = result;
+      talentOptions.value = result;
     };
 
     const handleSubmit = async () => {
@@ -154,7 +152,7 @@ export default defineComponent({
 
     const createDiscography = async () => {
       try {
-        await apiService.createDiscography(currentDiscography);
+        await apiService.createDiscography(currentDiscography, selectedTalents.value);
         cleanCurrentDiscography();
         toggleModal();
         onSubmit.value = false;
@@ -168,7 +166,7 @@ export default defineComponent({
 
     const updateDiscography = async () => {
       try {
-        await apiService.updateDiscography(currentDiscography);
+        await apiService.updateDiscography(currentDiscography, selectedTalents.value);
         cleanCurrentDiscography();
         toggleModal();
         onSubmit.value = false;
@@ -192,10 +190,16 @@ export default defineComponent({
 
     const handleUpdate = (updateId) => {
       isUpdateMode.value = true;
-      const { album, talent, ...selectedItem } = items.value.find(x => x.id === updateId);
+      const { album, talents, discography_talent, ...selectedItem } = items.value.find(x => x.id === updateId);
 
       if (selectedItem) {
         Object.assign(currentDiscography, selectedItem);
+      }
+
+      if (discography_talent && discography_talent.length > 0) {
+        selectedTalents.value = discography_talent.map(t => t.talent);
+      } else {
+        selectedTalents.value = [];
       }
 
       showModal.value = true;
@@ -220,12 +224,12 @@ export default defineComponent({
         original_name: null,
         released_date: null,
         album_id: null,
-        talent_id: null
       });
 
       if (currentDiscography.id) {
         delete currentDiscography.id;
       }
+      selectedTalents.value = [];
     };
 
     const toggleModal = () => {
@@ -255,6 +259,10 @@ export default defineComponent({
       await getDiscographiesData(1, itemsPerPage.value);
     };
 
+    const handleselectedTalentsChange = (newSelection) => {
+      selectedTalents.value = newSelection;
+    };
+
     onMounted(() => {
       getDiscographiesData(currentPage.value, itemsPerPage.value);
       getAlbumsData();
@@ -277,8 +285,9 @@ export default defineComponent({
       totalPages,
       fields,
       items,
-      albums,
-      talents,
+      albumOptions,
+      talentOptions,
+      selectedTalents,
       currentDiscography,
       notification,
       toggleModal,
@@ -292,6 +301,7 @@ export default defineComponent({
       changePageSize,
       onSearchChange,
       handleChangeOrder,
+      handleselectedTalentsChange
     };
   }
 });
