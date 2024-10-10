@@ -29,6 +29,21 @@
             v-model="currentDiscography.released_date" type="date" class="form-control">
         </div>
         <div class="position-relative form-group">
+          <label for="lyricist">Lyricist</label>
+          <input name="lyricist" id="lyricist" placeholder="lyricist"
+            v-model="currentDiscography.lyricist" type="text" class="form-control">
+        </div>
+        <div class="position-relative form-group">
+          <label for="composer">Composer</label>
+          <input name="composer" id="composer" placeholder="composer"
+            v-model="currentDiscography.composer" type="text" class="form-control">
+        </div>
+        <div class="position-relative form-group">
+          <label for="arrangement">Arrangement</label>
+          <input name="arrangement" id="arrangement" placeholder="arrangement"
+            v-model="currentDiscography.arrangement" type="text" class="form-control">
+        </div>
+        <div class="position-relative form-group">
           <label for="album">Album</label>
           <select name="select" id="album" v-model="currentDiscography.album_id" class="form-control">
             <option :value=null></option>
@@ -90,11 +105,11 @@ export default defineComponent({
 
     const isUpdateMode = ref(false);
     const showModal = ref(false);
-    const orderBy = ref("id");
-    const orderDirection = ref("asc");
+    const orderBy = ref("created_at");
+    const orderDirection = ref("desc");
     const search = ref("");
     const currentPage = ref(1);
-    const itemsPerPage = ref(100);
+    const itemsPerPage = ref(40);
     const totalItems = ref(0);
     const totalPages = ref(0);
     const notification = ref(null);
@@ -105,6 +120,9 @@ export default defineComponent({
       original_name: null,
       released_date: null,
       album_id: null,
+      lyricist: null,
+      composer: null,
+      arrangement: null
     });
 
     const fields = ref([
@@ -224,6 +242,9 @@ export default defineComponent({
         original_name: null,
         released_date: null,
         album_id: null,
+        lyricist: null,
+        composer: null,
+        arrangement: null
       });
 
       if (currentDiscography.id) {

@@ -26,30 +26,46 @@
           <input name="event_hashtag" id="event_hashtag" placeholder="Event Hashtag" type="text"
             v-model="currentEvent.event_hashtag" class="form-control">
         </div>
-        <div class="position-relative form-group">
-          <label for="event_url">Event Url</label>
-          <input name="event_url" id="event_url" placeholder="Event Url" type="text" v-model="currentEvent.event_url"
-            class="form-control">
+        <div class="form-row">
+          <div class="col-md-6">
+            <div class="position-relative form-group">
+              <label for="event_url">Event Url</label>
+              <input name="event_url" id="event_url" placeholder="Event Url" type="text"
+                v-model="currentEvent.event_url" class="form-control">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="position-relative form-group">
+              <label for="event_date">Event Date</label>
+              <input name="event_date" id="event_date" placeholder="Event Date" type="date"
+                v-model="currentEvent.event_date" class="form-control">
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-6">
+            <div class="position-relative form-group">
+              <label for="event_type">Event Type</label>
+              <input name="event_type" id="event_type" placeholder="Event Type" type="text"
+                v-model="currentEvent.event_type" class="form-control">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="position-relative form-group">
+              <label for="event_status">Event Status</label>
+              <input name="event_status" id="event_status" placeholder="Event Status" type="text"
+                v-model="currentEvent.event_status" class="form-control">
+            </div>
+          </div>
         </div>
         <div class="position-relative form-group">
-          <label for="event_date">Event Date</label>
-          <input name="event_date" id="event_date" placeholder="Event Date" type="date"
-            v-model="currentEvent.event_date" class="form-control">
-        </div>
-        <div class="position-relative form-group">
-          <label for="event_type">Event Type</label>
-          <input name="event_type" id="event_type" placeholder="Event Type" type="text"
-            v-model="currentEvent.event_type" class="form-control">
-        </div>
-        <div class="position-relative form-group">
-          <label for="event_status">Event Status</label>
-          <input name="event_status" id="event_status" placeholder="Event Status" type="text"
-            v-model="currentEvent.event_status" class="form-control">
+          <label for="setlist">Setlist</label>
+          <SetlistComponent :tracksData="currentEvent.event_setlist" @updateTracks="handleUpdateTrackList" />
         </div>
         <div class="position-relative form-group">
           <label for="event_status">Talent</label>
           <TagSelectorComponent :items="talentOptions" :model-value="selectedTalents"
-            @update:modelValue="handleselectedTalentsChange" />
+            @update:modelValue="handleSelectedTalentsChange" />
         </div>
 
       </template>
@@ -69,7 +85,7 @@
 </template>
 
 <script>
-import { ref, onMounted, defineComponent, watch, reactive } from 'vue';
+import { ref, onMounted, defineComponent, reactive } from 'vue';
 import ModalComponent from '../../Layout/Components/ModalComponent.vue';
 import TableComponent from '../../Layout/Components/TableComponent.vue';
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
@@ -78,6 +94,7 @@ import NotificationComponent from "../../Layout/Components/NotificationComponent
 import ButtonSpinner from '../../Layout/Components/ButtonSpinner.vue';
 import TagSelectorComponent from '../../Layout/Components/TagSelectorComponent.vue';
 import { apiService } from '../../supabase/apiService';
+import SetlistComponent from '../../Layout/Components/SetlistComponent.vue';
 
 export default defineComponent({
   name: "EventsPage",
@@ -89,7 +106,8 @@ export default defineComponent({
     PaginationComponent,
     NotificationComponent,
     ButtonSpinner,
-    TagSelectorComponent
+    TagSelectorComponent,
+    SetlistComponent
   },
 
   setup() {
@@ -117,7 +135,8 @@ export default defineComponent({
       event_url: null,
       event_date: null,
       event_type: null,
-      event_status: null
+      event_status: null,
+      event_setlist: null,
     });
 
     const fields = ref([
@@ -231,7 +250,8 @@ export default defineComponent({
         event_url: null,
         event_date: null,
         event_type: null,
-        event_status: null
+        event_status: null,
+        event_setlist: null,
       });
 
       if (currentEvent.id) {
@@ -265,8 +285,12 @@ export default defineComponent({
       await getEventsData(1, itemsPerPage.value);
     };
 
-    const handleselectedTalentsChange = (newSelection) => {
+    const handleSelectedTalentsChange = (newSelection) => {
       selectedTalents.value = newSelection;
+    };
+
+    const handleUpdateTrackList = (updatedTracks) => {
+      currentEvent.event_setlist = updatedTracks;
     };
 
     onMounted(async () => {
@@ -291,7 +315,8 @@ export default defineComponent({
       talentOptions,
       selectedTalents,
       currentEvent,
-      handleselectedTalentsChange,
+      handleSelectedTalentsChange,
+      handleUpdateTrackList,
       toggleModal,
       onSearchChange,
       handleChangeOrder,
