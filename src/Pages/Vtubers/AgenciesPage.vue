@@ -19,6 +19,11 @@
             v-model="currentAgency.agency_name" class="form-control">
         </div>
         <div class="position-relative form-group">
+          <label for="agency_status">Agency Status</label>
+          <input name="agency_status" id="agency_status" placeholder="Agency Status" type="text"
+            v-model="currentAgency.agency_status" class="form-control">
+        </div>
+        <div class="position-relative form-group">
           <label for="agency_description">Agency Description</label>
           <textarea name="agency_description" id="agency_description" placeholder="Agency Description" type="text"
             v-model="currentAgency.agency_description" class="form-control"></textarea>
@@ -30,6 +35,8 @@
           :normalText="isUpdateMode ? 'Update Agency' : 'Add New Agency'" />
       </template>
     </modal-component>
+
+    <AgencyTable @updateRow="handleUpdate"></AgencyTable>
 
     <table-component :footer="true" :fields="fields" :items="items" @search="onSearchChange"
       @changeOrder="handleChangeOrder" @deleteRow="handleDelete" @updateRow="handleUpdate"></table-component>
@@ -48,6 +55,8 @@ import NotificationComponent from '../../Layout/Components/NotificationComponent
 import PageTitleComponent from '../../Layout/Components/PageTitleComponent.vue';
 import PaginationComponent from '../../Layout/Components/PaginationComponent.vue';
 import ButtonSpinner from "../../Layout/Components/ButtonSpinner.vue";
+import AgencyTable from "../../Pages/Vtubers/Table/AgencyTable.vue";
+
 import { apiService } from '../../supabase/apiService';
 
 export default defineComponent({
@@ -59,7 +68,8 @@ export default defineComponent({
     PageTitleComponent,
     PaginationComponent,
     NotificationComponent,
-    ButtonSpinner
+    ButtonSpinner,
+    AgencyTable
   },
 
   setup() {
@@ -80,6 +90,7 @@ export default defineComponent({
     const notification = ref(null);
     const currentAgency = reactive({
       agency_name: null,
+      agency_status: null,
       agency_description: null
     });
 
@@ -192,6 +203,7 @@ export default defineComponent({
     const cleanCurrentAgency = () => {
       Object.assign(currentAgency, {
         agency_name: null,
+        agency_status: null,
         agency_description: null,
       });
 

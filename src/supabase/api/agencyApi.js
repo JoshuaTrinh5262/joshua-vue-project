@@ -81,7 +81,7 @@ export const getAgenciesWithPaging = async (
         `;
 
         // Execute the query via the RPC function
-        const { data, error } = await supabase.rpc('execute_dynamic_query_2', {
+        const { data, error } = await supabase.rpc('execute_dynamic_query', {
             query,
         });
 
@@ -89,7 +89,7 @@ export const getAgenciesWithPaging = async (
         const countQuery = `
             SELECT COUNT(*) FROM agency
         `;
-        const { data: countData, error: countError } = await supabase.rpc('execute_dynamic_query_2', {
+        const { data: countData, error: countError } = await supabase.rpc('execute_dynamic_query', {
             query: countQuery,
         });
 
@@ -127,13 +127,15 @@ export const getAgencyById = async (id) => {
     try {
         const { data, error } = await supabase
             .from("agency")
-            .select("*")
+            .select("*,talent(*)")
             .eq("id", id)
             .single();
         if (error) {
             throw error;
         }
-        return data;
+        const talentCount = data.talent ? data.talent.length : 0;
+
+        return { ...data, talentCount };
     } catch (err) {
         console.error(`Error fetching agency with ID ${id}:`, err);
         return { error: err.message };

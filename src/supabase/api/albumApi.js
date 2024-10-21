@@ -63,7 +63,7 @@ export const getAlbumById = async (id) => {
     try {
         const { data, error } = await supabase
             .from("album")
-            .select("*, album(*)")
+            .select("*")
             .eq("id", id)
             .single();
         if (error) {

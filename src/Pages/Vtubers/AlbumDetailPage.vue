@@ -41,10 +41,9 @@ export default defineComponent({
         },
     },
 
-
     setup(props) {
         const heading = ref("Album");
-        const subheading = ref("Explore the Profiles of Emerging and Established Talents.");
+        const subheading = ref("Album");
         const icon = ref("pe-7s-user icon-gradient bg-premium-dark");
 
         const album = ref(null);
@@ -59,17 +58,20 @@ export default defineComponent({
             if (file.value) {
                 try {
                     await storageService.uploadImage(file.value, props.id, "album");
-                    loadImage(id);
+                    loadImage(props.id);
                 } catch (error) {
                     console.error('Error uploading image:', error);
                 }
             }
         };
+
         const fetchAlbum = async (id) => {
             try {
                 const response = await apiService.getAlbumById(id);
                 album.value = response;
-                loadImage(id);
+                if (response) {
+                    await loadImage(id);
+                }
             } catch (error) {
                 console.error('Error fetching album:', error);
             }

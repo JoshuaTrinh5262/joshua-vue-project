@@ -175,6 +175,8 @@ export default defineComponent({
       { key: "agency", value: "Agency" },
       { key: "talent_status", value: "Status" },
       { key: "debut_date", value: "Debut Date" },
+      { key: "discography_count", value: "discography_count" },
+      { key: "album_count", value: "album_count" },
     ]);
     const items = ref([]);
     const agencies = ref([]);

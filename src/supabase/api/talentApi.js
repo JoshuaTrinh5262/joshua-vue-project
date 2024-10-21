@@ -9,32 +9,65 @@ export const getTalentsWithPaging = async (
 ) => {
     try {
         const start = (page - 1) * pageSize;
-        const end = start + pageSize - 1;
+        const queryLimit = `LIMIT ${pageSize} OFFSET ${start}`;
 
-        let query = supabase
-            .from("talent")
-            .select("*, agency(agency_name)", { count: "exact" })
-            .order(orderBy, { ascending: orderDirection === "asc" })
-            .range(start, end);
+        // Construct dynamic SQL query
+        let query = `
+            SELECT 
+                talent.id AS id,
+                talent.name AS name,
+                talent.original_name AS original_name,
+                talent.debut_date AS debut_date,
+                talent.talent_status AS talent_status,
+                agency.agency_name AS agency,
+                COUNT(DISTINCT at.album_id) AS album_count,
+                COUNT(DISTINCT dt.discography_id) AS discography_count
+            FROM 
+                talent
+            LEFT JOIN 
+                album_talent at ON talent.id = at.talent_id
+            LEFT JOIN 
+                discography_talent dt ON talent.id = dt.talent_id
+            LEFT JOIN 
+                agency ON talent.agency_id = agency.id
+        `;
+
+        // Apply search filter if needed
         if (search) {
-            query = query.or(
-                `name.ilike.%${search}%,original_name.ilike.%${search}%`
-            );
+            query += ` WHERE talent.name ILIKE '%${search}%' OR talent.original_name ILIKE '%${search}%'`;
         }
-        const { data, count, error } = await query;
+
+        // Add GROUP BY, ORDER BY, and pagination
+        query += `
+            GROUP BY talent.id, agency.agency_name
+            ORDER BY talent.${orderBy} ${orderDirection === "asc" ? "ASC" : "DESC"}
+            ${queryLimit}
+        `;
+
+        // Execute dynamic query using Supabase RPC function
+        const { data, error } = await supabase.rpc("execute_dynamic_query", { query });
+
         if (error) {
             throw error;
         }
 
-        const transformedData = data.map((item) => ({
-            ...item,
-            agency: item.agency?.agency_name,
-        }));
+        // Fetch total item count for pagination
+        const countQuery = `
+            SELECT COUNT(*) AS total_count
+            FROM talent
+        `;
+        const { data: countData, error: countError } = await supabase.rpc("execute_dynamic_query", { query: countQuery });
+
+        if (countError) {
+            throw countError;
+        }
+
+        const totalItems = countData[0]?.total_count || 0;
 
         return {
-            items: transformedData,
-            totalItems: count,
-            totalPages: Math.ceil(count / pageSize),
+            items: data,
+            totalItems,
+            totalPages: Math.ceil(totalItems / pageSize),
         };
     } catch (err) {
         console.error("Error fetching talents:", err);

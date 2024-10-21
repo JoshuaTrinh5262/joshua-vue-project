@@ -49,28 +49,36 @@ export const storageService = {
         }
     },
 
-    async getImageUrl(bucket, path) {
-        const { publicURL, error } = await supabase.storage
-            .from(bucket)
-            .getPublicUrl(path);
+    async getPublicImageUrl(bucket, path) {
+        try {
+            const { publicURL, error } = await supabase.storage
+                .from(bucket)
+                .getPublicUrl(path);
 
+            if (error) {
+                throw error;
+            }
 
-        if (error) {
-            throw error;
+            return publicURL;
+        } catch (error) {
+            return null;
         }
-
-        return publicURL;
     },
 
-    async getSignedImageUrl(bucket, path, expiresIn = 3600) { 
-        const { data, error } = await supabase.storage
-          .from(bucket)
-          .createSignedUrl(path, expiresIn);
-      
-        if (error) {
-          throw error;
+    async getSignedImageUrl(bucket, path, expiresIn = 3600) {
+        try {
+            const { data, error } = await supabase.storage
+                .from(bucket)
+                .createSignedUrl(path, expiresIn);
+
+            if (error) {
+                throw error;
+            }
+
+            return data.signedUrl;
+        } catch (error) {
+            return null;
         }
-      
-        return data.signedUrl;
-      }
+    }
+
 };

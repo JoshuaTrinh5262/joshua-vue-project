@@ -86,6 +86,7 @@ const routes = [
             layout: "admin",
             requiresAuth: true,
         },
+        props: true,
         component: () => import("../Pages/Vtubers/AgencyDetailPage.vue"),
     },
     {

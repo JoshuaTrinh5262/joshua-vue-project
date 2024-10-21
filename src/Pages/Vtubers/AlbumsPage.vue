@@ -85,8 +85,8 @@ export default defineComponent({
     const showModal = ref(false);
     const onSubmit = ref(false);
     const search = ref('');
-    const orderBy = ref('id');
-    const orderDirection = ref('asc');
+    const orderBy = ref('released_date');
+    const orderDirection = ref('desc');
     const currentPage = ref(1);
     const itemsPerPage = ref(20);
     const totalItems = ref(0);
@@ -195,7 +195,7 @@ export default defineComponent({
       const confirmDelete = confirm(`Are you sure you want to delete Album ${id}?`);
       if (confirmDelete) {
         try {
-          await apiService.deleteAlbum(id);
+          await apiService.deleteAlbumWithRelations(id);
           notification.value = { title: 'Success', content: 'Album deleted successfully!', type: 'success' };
           getAlbumsData(1, itemsPerPage.value);
         } catch (error) {

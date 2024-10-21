@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="input-group mb-2">
+    <div v-if="showAction" class="input-group mb-2">
       <input placeholder="Searching..." @input="onSearch" v-model="searchTerm" type="text" class="form-control"
         name="search" />
       <div class="input-group-append">
@@ -13,7 +13,7 @@
     <table :class="customClass" class="table table-dark table-sm table-bordered">
       <thead>
         <tr>
-          <th><input type="checkbox" class="" name="checkbox" /></th>
+          <th v-if="showAction"><input type="checkbox" class="" name="checkbox" /></th>
           <th v-for="field in fields" :key="field.key" :id="field.key" @click="changeOrder(field.key)">
             {{ field.value }}
             <span v-if="orderBy === field.key && orderDirection === 'asc'">&#9660;</span>
@@ -26,7 +26,7 @@
 
       <tbody>
         <tr v-for="(item, index) in items" :key="index">
-          <td><input type="checkbox" name="checkbox" /></td>
+          <td v-if="showAction"><input type="checkbox" name="checkbox" /></td>
           <td v-for="field in fields" :key="field.key">{{ item[field.key] }}</td>
           <td v-if="showAction">
             <button type="button" class="btn btn-sm btn-success" @click="updateRow(item.id)">
@@ -41,7 +41,7 @@
 
       <tfoot v-if="footer">
         <tr>
-          <th><input type="checkbox" name="checkbox" /></th>
+          <th v-if="showAction"><input type="checkbox" name="checkbox" /></th>
           <th v-for="field in fields" :key="field.key" :id="field.key" @click="changeOrder(field.key)">
             {{ field.value }}
             <span v-if="orderBy === field.key && orderDirection === 'asc'">&#9660;</span>
