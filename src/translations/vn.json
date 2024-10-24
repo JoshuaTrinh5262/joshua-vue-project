@@ -6,5 +6,13 @@
     "english": "Tiếng Anh",
     "japanese": "Tiếng Nhật",
     "indonesian": "Tiếng Indonesia",
-    "vietnamese": "Tiếng Việt"
+    "vietnamese": "Tiếng Việt",
+    "word": "Từ",
+    "words": "Các từ",
+    "sentences": "Câu",
+    "paragraphs": "Đoạn văn",
+    "total_unique_word": "Tổng số từ duy nhất",
+    "counter": "Bộ đếm",
+    "word_counter": "Bộ đếm từ",
+    "word_frequency": "Tần suất từ"
 }

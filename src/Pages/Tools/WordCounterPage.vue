@@ -9,34 +9,34 @@
                     <div class="counter">
                         <div class="card">
                             <div class="card-header">
-                                <h5>Counter</h5>
+                                <h5>{{ $t('counter') }}</h5>
                             </div>
                             <div class="card-body">
                                 <div class="input-group">
                                     <input type="text" class="form-control" v-model="words" />
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text">Words</span>
+                                        <span class="input-group-text">{{ $t('words') }}</span>
                                     </div>
                                 </div>
                                 <br />
                                 <div class="input-group">
                                     <input type="text" class="form-control" v-model="sentences" />
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text">Sentences</span>
+                                        <span class="input-group-text">{{ $t('sentences') }}</span>
                                     </div>
                                 </div>
                                 <br />
                                 <div class="input-group">
                                     <input type="text" class="form-control" v-model="paragraphs" />
                                     <div class="input-group-prepend btn-primary">
-                                        <span class="input-group-text">Paragraphs</span>
+                                        <span class="input-group-text">{{ $t('paragraphs') }}</span>
                                     </div>
                                 </div>
                                 <br />
                                 <div class="input-group">
                                     <input type="text" class="form-control" v-model="uniqueWordCount" />
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text">Total Unique Word</span>
+                                        <span class="input-group-text">{{ $t('total_unique_word') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -47,7 +47,7 @@
                     <div class="word-frequency">
                         <div class="card">
                             <div class="card-header">
-                                <h5>Word Frequency</h5>
+                                <h5>{{ $t('word_frequency') }}</h5>
                             </div>
                             <div class="card-body">
                                 <ul class="list-group">
@@ -67,6 +67,7 @@
 
 <script>
 import { defineComponent, ref } from "vue";
+import { useI18n } from 'vue-i18n';
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 
 export default defineComponent({
@@ -76,7 +77,8 @@ export default defineComponent({
     },
 
     setup() {
-        const heading = ref("Word Counter");
+        const { t, locale } = useI18n();
+        const heading = ref(t("word_counter"));
         const subheading = ref("easy-to-use tool for tracking word and character counts in your writing.");
         const icon = ref("pe-7s-tools icon-gradient bg-premium-dark");
 

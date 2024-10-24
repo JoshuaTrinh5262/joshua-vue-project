@@ -6,5 +6,13 @@
     "english": "Engish",
     "japanese": "Japanese",
     "indonesian": "Indonesian",
-    "vietnamese": "Vietnamese"
+    "vietnamese": "Vietnamese",
+    "word": "Word",
+    "words": "words",
+    "sentences": "Sentences",
+    "paragraphs": "Paragraphs",
+    "total_unique_word": "Total Unique Word",
+    "counter": "Counter",
+    "word_counter": "Word Counter",
+    "word_frequency": "Word Frequency"
 }

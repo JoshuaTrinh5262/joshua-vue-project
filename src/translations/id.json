@@ -6,5 +6,13 @@
     "english": "Bahasa Inggris",
     "japanese": "Bahasa Jepang",
     "indonesian": "Bahasa Indonesia",
-    "vietnamese": "Bahasa Vietnam"
+    "vietnamese": "Bahasa Vietnam",
+    "word": "Kata",
+    "words": "Kata-kata",
+    "sentences": "Kalimat",
+    "paragraphs": "Paragraf",
+    "total_unique_word": "Total Kata Unik",
+    "counter": "Penghitung",
+    "word_counter": "Penghitung Kata",
+    "word_frequency": "Frekuensi Kata"
 }
