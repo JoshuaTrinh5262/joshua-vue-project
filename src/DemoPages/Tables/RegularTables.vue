@@ -79,7 +79,6 @@ export default defineComponent({
       return field.charAt(0).toUpperCase() + field.slice(1).replace(/_/g, " ");
     };
     onMounted(() => {
-      console.log(defaultData)
       items.value = defaultData;
     });
     return {

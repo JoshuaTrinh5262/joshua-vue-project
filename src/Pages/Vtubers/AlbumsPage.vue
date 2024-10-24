@@ -27,6 +27,11 @@
           </select>
         </div>
         <div class="position-relative form-group">
+          <label for="ensemble_as">Ensemble As</label>
+          <input type="text" name="ensemble_as" placeholder="Ensemble As" v-model="currentAlbum.ensemble_as"
+            class="form-control" />
+        </div>
+        <div class="position-relative form-group">
           <label for="name">Release Date</label>
           <input type="date" name="release_date" placeholder="Album Release Date" v-model="currentAlbum.released_date"
             class="form-control" />
@@ -96,6 +101,7 @@ export default defineComponent({
     const currentAlbum = reactive({
       name: null,
       album_type: null,
+      ensemble_as: null,
       released_date: null,
     });
 
@@ -208,6 +214,7 @@ export default defineComponent({
       Object.assign(currentAlbum, {
         name: null,
         album_type: null,
+        ensemble_as: null,
         released_date: null,
       });
 

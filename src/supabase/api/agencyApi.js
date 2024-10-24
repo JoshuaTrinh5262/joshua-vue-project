@@ -56,6 +56,8 @@ export const getAgenciesWithPaging = async (
             SELECT 
                 agency.id AS id,
                 agency.agency_name AS agency_name,
+                agency.agency_status AS agency_status,
+                agency.agency_description AS agency_description,
                 COUNT(talent.id) AS talent_count
             FROM 
                 agency
@@ -98,7 +100,6 @@ export const getAgenciesWithPaging = async (
         }
 
         const totalItems = countData[0].count;
-        console.log(countData)
         return {
             items: data,
             totalItems: totalItems,

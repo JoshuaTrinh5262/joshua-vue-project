@@ -6,7 +6,7 @@
           <h3>{{ title }}</h3>
           <button class="close-button" @click="closeModal">&times;</button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body scrollable-container">
           <slot name="body"></slot>
         </div>
         <div class="modal-footer">
@@ -134,5 +134,11 @@ export default defineComponent({
 
 .modal-dark .close-button {
   color: #f5f5f5;
+}
+
+.scrollable-container {
+  max-height: 600px;
+  overflow-y: auto;
+  padding-right: 15px;
 }
 </style>

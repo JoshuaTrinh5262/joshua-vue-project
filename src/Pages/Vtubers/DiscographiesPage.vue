@@ -35,13 +35,18 @@
         </div>
         <div class="position-relative form-group">
           <label for="composer">Composer</label>
-          <input name="composer" id="composer" placeholder="composer"
+          <input name="composer" id="composer" placeholder="Composer"
             v-model="currentDiscography.composer" type="text" class="form-control">
         </div>
         <div class="position-relative form-group">
           <label for="arrangement">Arrangement</label>
-          <input name="arrangement" id="arrangement" placeholder="arrangement"
+          <input name="arrangement" id="arrangement" placeholder="Arrangement"
             v-model="currentDiscography.arrangement" type="text" class="form-control">
+        </div>
+        <div class="position-relative form-group">
+          <label for="ensemble_as">ensemble_as</label>
+          <input name="ensemble_as" id="ensemble_as" placeholder="Ensemble As"
+            v-model="currentDiscography.ensemble_as" type="text" class="form-control">
         </div>
         <div class="position-relative form-group">
           <label for="album">Album</label>
@@ -122,7 +127,8 @@ export default defineComponent({
       album_id: null,
       lyricist: null,
       composer: null,
-      arrangement: null
+      arrangement: null,
+      ensemble_as: null
     });
 
     const fields = ref([
@@ -244,7 +250,8 @@ export default defineComponent({
         album_id: null,
         lyricist: null,
         composer: null,
-        arrangement: null
+        arrangement: null,
+        ensemble_as: null
       });
 
       if (currentDiscography.id) {

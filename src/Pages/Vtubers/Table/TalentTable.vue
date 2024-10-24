@@ -27,10 +27,13 @@
             <template v-for="(item, index) in items" :key="index">
                 <tr>
                     <td><input type="checkbox" name="checkbox" /></td>
-                    <td>{{ item.id }}</td>
-                    <td><a :href="`agency/${item.id}`">{{ item.agency_name }}</a></td>
-                    <td>{{ item.agency_status }}</td>
-                    <td>{{ item.talent_count }}</td>
+                    <td><a :href="`talent/${item.id}`">{{ item.name }}</a></td>
+                    <td>{{ item.original_name }}</td>
+                    <td>{{ item.talent_status }}</td>
+                    <td>{{ item.debut_date }}</td>
+                    <td><a :href="`agency/${item.agency_id}`">{{ item.agency }}</a></td>
+                    <td>{{ item.discography_count }}</td>
+                    <td>{{ item.album_count }}</td>
                     <td>
                         <button type="button" class="btn btn-sm btn-success" @click="handleUpdate(item)">
                             <i class="pe-7s-file"></i>
@@ -46,8 +49,8 @@
                 <tr v-if="expandedRows[index]" class="details-row">
                     <td colspan="6">
                         <div>
-                            <p>Agency Description : </p>
-                            <p>{{ item.agency_description }}</p>
+                            <p>Talent Description : </p>
+                            <p>{{ item.talent_description }}</p>
                         </div>
                     </td>
                 </tr>
@@ -81,7 +84,7 @@ import ButtonSpinner from "../../../Layout/Components/ButtonSpinner.vue";
 import { apiService } from '../../../supabase/apiService';
 
 export default defineComponent({
-    name: "AgencyTable",
+    name: "TalentTable",
 
     components: {
         ModalComponent,
@@ -95,48 +98,48 @@ export default defineComponent({
         const isUpdateMode = ref(false);
         const showModal = ref(false);
         const onSubmit = ref(false);
-        const orderBy = ref('agency_id');
+        const orderBy = ref('debut_date');
         const orderDirection = ref('asc');
         const currentPage = ref(1);
-        const itemsPerPage = ref(5);
+        const itemsPerPage = ref(20);
         const totalItems = ref(0);
         const totalPages = ref(0);
         const search = ref('');
         const notification = ref(null);
-        const currentAgency = reactive({
-            agency_name: null,
-            agency_status: null,
-            agency_description: null
-        });
         const expandedRows = ref([]);
-        const fields = [
-            {
-                key: 'id',
-                value: 'Id'
-            },
-            {
-                key: 'agency_name',
-                value: 'Agency Name'
-            },
-            {
-                key: 'agency_status',
-                value: 'Agency Status'
-            },
-            {
-                key: 'talent_count',
-                value: 'Agency Count'
-            },
-        ];
+
+        const currentTalent = reactive({
+            name: null,
+            original_name: null,
+            gender: null,
+            date_of_birth: null,
+            id: null,
+            talent_status: "active",
+            debut_date: null,
+            retirement_date: null,
+            height: null,
+            emoji: null,
+        });
+
+        const fields = ref([
+            { key: "name", value: "Name" },
+            { key: "original_name", value: "Original Name" },
+            { key: "agency", value: "Agency" },
+            { key: "talent_status", value: "Status" },
+            { key: "debut_date", value: "Debut Date" },
+            { key: "discography_count", value: "discography_count" },
+            { key: "album_count", value: "album_count" },
+        ]);
         const items = ref([]);
 
         const toggleModal = () => {
             isUpdateMode.value = false;
-            cleanCurrentAgency();
+            cleanCurrentTalent();
             showModal.value = !showModal.value;
         };
 
-        const getAgenciesData = async () => {
-            const response = await apiService.getAgenciesWithPaging(currentPage.value, itemsPerPage.value, orderBy.value, orderDirection.value, search.value);
+        const getTalentsData = async () => {
+            const response = await apiService.getTalentsWithPaging(currentPage.value, itemsPerPage.value, orderBy.value, orderDirection.value, search.value);
 
             if (!response.error) {
                 items.value = response.items;
@@ -149,44 +152,44 @@ export default defineComponent({
         const handleSubmit = async () => {
             onSubmit.value = true;
             if (isUpdateMode.value) {
-                updateAgency();
+                updateTalent();
             } else {
-                createAgency();
+                createTalent();
             }
         };
 
-        const createAgency = async () => {
+        const createTalent = async () => {
             try {
-                await apiService.createAgency(currentAgency);
-                cleanCurrentAgency();
+                await apiService.createTalent(currentTalent);
+                cleanCurrentTalent();
                 toggleModal();
                 onSubmit.value = false;
-                notification.value = { title: 'Success', content: 'Agency created successfully!', type: 'success' };
-                getAgenciesData();
+                notification.value = { title: 'Success', content: 'Talent created successfully!', type: 'success' };
+                getTalentsData();
             } catch (error) {
                 onSubmit.value = false;
                 notification.value = { title: 'Error', content: `Error when submitting talent: ${error}`, type: 'danger' };
             }
         }
 
-        const updateAgency = async () => {
+        const updateTalent = async () => {
             try {
-                await apiService.updateAgency(currentAgency);
-                cleanCurrentAgency();
+                await apiService.updateTalent(currentTalent);
+                cleanCurrentTalent();
                 toggleModal();
                 onSubmit.value = false;
                 notification.value = {
                     title: 'Success',
-                    content: 'Agency updated successfully!',
+                    content: 'Talent updated successfully!',
                     type: 'success',
                 };
-                getAgenciesData();
+                getTalentsData();
                 isUpdateMode.value = false;
             } catch (error) {
                 onSubmit.value = false;
                 notification.value = {
                     title: 'Error',
-                    content: `Error when updating Agency: ${error}`,
+                    content: `Error when updating Talent: ${error}`,
                     type: 'danger',
                 };
                 isUpdateMode.value = false;
@@ -198,40 +201,46 @@ export default defineComponent({
         }
 
         const handleDelete = async (id) => {
-            const confirmDelete = confirm(`Are you sure you want to delete Agency ${id}?`);
+            const confirmDelete = confirm(`Are you sure you want to delete Talent ${id}?`);
             if (confirmDelete) {
                 try {
-                    await apiService.deleteAgency(id);
-                    notification.value = { title: 'Success', content: 'Agency deleted successfully!', type: 'success' };
+                    await apiService.deleteTalent(id);
+                    notification.value = { title: 'Success', content: 'Talent deleted successfully!', type: 'success' };
                     currentPage.value = 1;
-                    getAgenciesData();
+                    getTalentsData();
                 } catch (error) {
                     notification.value = { title: 'Error', content: `Error when deleting talent: ${error}`, type: 'danger' };
                 }
             }
         };
 
-        const cleanCurrentAgency = () => {
-            Object.assign(currentAgency, {
-                agency_name: null,
-                agency_status: null,
-                agency_description: null,
+        const cleanCurrentTalent = () => {
+            Object.assign(currentTalent, {
+                name: null,
+                original_name: null,
+                gender: null,
+                date_of_birth: null,
+                agency_id: null,
+                talent_status: "active",
+                debut_date: null,
+                retirement_date: null,
+                height: null,
+                emoji: null,
             });
 
-            if (currentAgency.id) {
-                delete currentAgency.id;
+            if (currentTalent.id) {
+                delete currentTalent.id;
             }
-
         };
 
         const loadPage = (page) => {
             currentPage.value = page;
-            getAgenciesData();
+            getTalentsData();
         };
 
         const onSearch = () => {
             currentPage.value = 1;
-            getAgenciesData();
+            getTalentsData();
         };
 
         const changeOrder = (field) => {
@@ -247,13 +256,13 @@ export default defineComponent({
                 orderBy.value = field;
                 orderDirection.value = 'asc';
             }
-            getAgenciesData();
+            getTalentsData();
         };
 
         const changePageSize = async (newPageSize) => {
             itemsPerPage.value = newPageSize;
             currentPage.value = 1;
-            await getAgenciesData();
+            await getTalentsData();
         };
 
         const toggleDetails = (index) => {
@@ -261,7 +270,7 @@ export default defineComponent({
         };
 
         onMounted(() => {
-            getAgenciesData();
+            getTalentsData();
         });
 
         return {
@@ -274,7 +283,7 @@ export default defineComponent({
             totalPages,
             fields,
             items,
-            currentAgency,
+            currentTalent,
             notification,
             search,
             orderBy,
@@ -288,9 +297,9 @@ export default defineComponent({
             handleSubmit,
             handleDelete,
             handleUpdate,
-            createAgency,
-            updateAgency,
-            getAgenciesData,
+            createTalent,
+            updateTalent,
+            getTalentsData,
             toggleDetails
         };
     }

@@ -19,6 +19,7 @@ export const getTalentsWithPaging = async (
                 talent.original_name AS original_name,
                 talent.debut_date AS debut_date,
                 talent.talent_status AS talent_status,
+                agency.id AS agency_id,
                 agency.agency_name AS agency,
                 COUNT(DISTINCT at.album_id) AS album_count,
                 COUNT(DISTINCT dt.discography_id) AS discography_count
@@ -39,7 +40,7 @@ export const getTalentsWithPaging = async (
 
         // Add GROUP BY, ORDER BY, and pagination
         query += `
-            GROUP BY talent.id, agency.agency_name
+            GROUP BY talent.id, agency.id, agency.agency_name
             ORDER BY talent.${orderBy} ${orderDirection === "asc" ? "ASC" : "DESC"}
             ${queryLimit}
         `;

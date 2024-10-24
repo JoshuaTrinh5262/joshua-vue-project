@@ -108,6 +108,7 @@
           :normalText="isUpdateMode ? 'Update Talent' : 'Add New Talent'" />
       </template>
     </modal-component>
+    <TalentTable ref="agencyTable" @handleUpdate="handleUpdateClick"></TalentTable>
 
     <table-component :footer="true" :fields="fields" :items="items" @search="onSearchChange"
       @changeOrder="handleChangeOrder" @deleteRow="deleteTalent" @updateRow="handleUpdate" />
@@ -120,6 +121,7 @@
 <script>
 import { defineComponent, ref, reactive, onMounted } from "vue";
 import ModalComponent from "../../Layout/Components/ModalComponent.vue";
+import TalentTable from "../../Pages/Vtubers/Table/TalentTable.vue";
 import TableComponent from "../../Layout/Components/TableComponent.vue";
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
@@ -132,6 +134,7 @@ export default defineComponent({
 
   components: {
     ModalComponent,
+    TalentTable,
     PageTitleComponent,
     TableComponent,
     PaginationComponent,
@@ -290,11 +293,8 @@ export default defineComponent({
     };
 
     const handleUpdate = (updateId) => {
-      console.log("updateId", updateId);
       isUpdateMode.value = true;
       const { agency, ...selectedItem } = items.value.find(x => x.id === updateId);
-
-      console.log(selectedItem);
 
       if (selectedItem) {
         Object.assign(currentTalent, selectedItem);

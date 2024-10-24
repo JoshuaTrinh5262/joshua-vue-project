@@ -1,15 +1,16 @@
 <template>
   <div>
-    <div v-if="showAction" class="input-group mb-2">
-      <input placeholder="Searching..." @input="onSearch" v-model="searchTerm" type="text" class="form-control"
-        name="search" />
-      <div class="input-group-append">
-        <button class="btn btn-primary">
-          <i class="pe-7s-search"></i>
-        </button>
+    <div class="form-inline">
+      <div v-if="showAction" class="input-group mb-2">
+        <input placeholder="Searching..." @input="onSearch" v-model="searchTerm" type="text" class="form-control"
+          name="search" />
+        <div class="input-group-append">
+          <button class="btn btn-primary">
+            <i class="pe-7s-search"></i>
+          </button>
+        </div>
       </div>
     </div>
-
     <table :class="customClass" class="table table-dark table-sm table-bordered">
       <thead>
         <tr>
