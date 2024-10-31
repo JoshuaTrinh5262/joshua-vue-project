@@ -7,6 +7,7 @@
     "japanese": "Tiếng Nhật",
     "indonesian": "Tiếng Indonesia",
     "vietnamese": "Tiếng Việt",
+    "korean":"Tiếng Hàn",
     "word": "Từ",
     "words": "Các từ",
     "sentences": "Câu",
@@ -14,5 +15,10 @@
     "total_unique_word": "Tổng số từ duy nhất",
     "counter": "Bộ đếm",
     "word_counter": "Bộ đếm từ",
-    "word_frequency": "Tần suất từ"
+    "word_frequency": "Tần suất từ",
+    "talent": "Tài năng",
+    "agency": "Công ty đại diện",
+    "gallery": "Phòng trưng bày",
+    "album": "Album",
+    "discography": "Danh sách phát hành"
 }

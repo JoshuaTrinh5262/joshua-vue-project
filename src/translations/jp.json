@@ -7,6 +7,7 @@
     "japanese": "日本語",
     "indonesian": "インドネシア語",
     "vietnamese": "ベトナム語",
+    "korean":"韓国語",
     "word": "単語",
     "words": "単語",
     "sentences": "文",
@@ -14,5 +15,10 @@
     "total_unique_word": "ユニークな単語の総数",
     "counter": "カウンター",
     "word_counter": "単語カウンター",
-    "word_frequency": "単語の頻度"
+    "word_frequency": "単語の頻度",
+    "talent": "才能",
+    "agency": "代理店",
+    "gallery": "ギャラリー",
+    "album": "アルバム",
+    "discography": "ディスコグラフィー"
 }

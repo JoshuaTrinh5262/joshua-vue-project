@@ -1,4 +1,5 @@
 import { supabase } from "../supabase";
+import { getUserRoles } from "../api/userRoleApi"
 
 export async function getAuthUsers(newPage, newPageSize) {
     const { data, error } = await supabase.auth.admin.listUsers({
@@ -10,6 +11,22 @@ export async function getAuthUsers(newPage, newPageSize) {
         return [];
     }
 
+    const userRoleData = await getUserRoles();
+    const rolesMap = {};
+    userRoleData.forEach(role => {
+        rolesMap[role.user_id] = role.role;
+    });
+
+    // Combine users with their user roles
+    const usersWithRoles = data.users.map(user => ({
+        ...user,
+        user_role: rolesMap[user.id] || null,
+    }));
+
+
+    return {
+        items: usersWithRoles,
+    };
     return {
         items: data.users,
     };

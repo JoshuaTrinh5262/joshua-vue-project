@@ -19,16 +19,21 @@ export const getTalentsWithPaging = async (
                 talent.original_name AS original_name,
                 talent.debut_date AS debut_date,
                 talent.talent_status AS talent_status,
+                talent.retirement_date AS retirement_date,
+                talent.date_of_birth AS date_of_birth,
+                talent.gender AS gender,
+                talent.height AS height,
+                talent.emoji AS emoji,
                 agency.id AS agency_id,
                 agency.agency_name AS agency,
-                COUNT(DISTINCT at.album_id) AS album_count,
-                COUNT(DISTINCT dt.discography_id) AS discography_count
+                COUNT(album_talent.album_id) AS album_count,
+                COUNT(discography_talent.discography_id) AS discography_count
             FROM 
                 talent
             LEFT JOIN 
-                album_talent at ON talent.id = at.talent_id
+                album_talent ON talent.id = album_talent.talent_id
             LEFT JOIN 
-                discography_talent dt ON talent.id = dt.talent_id
+                discography_talent ON talent.id = discography_talent.talent_id
             LEFT JOIN 
                 agency ON talent.agency_id = agency.id
         `;
@@ -40,8 +45,8 @@ export const getTalentsWithPaging = async (
 
         // Add GROUP BY, ORDER BY, and pagination
         query += `
-            GROUP BY talent.id, agency.id, agency.agency_name
-            ORDER BY talent.${orderBy} ${orderDirection === "asc" ? "ASC" : "DESC"}
+            GROUP BY talent.id, agency.id, agency.agency_name, album_talent.talent_id, discography_talent.talent_id
+            ORDER BY ${orderBy} ${orderDirection === "asc" ? "ASC" : "DESC"}
             ${queryLimit}
         `;
 

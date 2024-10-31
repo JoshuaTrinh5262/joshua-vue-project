@@ -13,7 +13,7 @@ export const getDiscographiesWithPaging = async (
 
         let query = supabase
             .from("discography")
-            .select("*, album(name), discography_talent(talent(id, name))", { count: "exact" })
+            .select("*, album(id,name), discography_talent(talent(id, name))", { count: "exact" })
             .order(orderBy, { ascending: orderDirection === "asc" })
             .range(start, end);
 

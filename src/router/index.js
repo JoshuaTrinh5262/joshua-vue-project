@@ -167,6 +167,15 @@ const routes = [
         component: () => import("../Pages/Settings/SettingPage.vue"),
     },
     {
+        path: "/admin/translation",
+        name: "translations",
+        meta: {
+            layout: "admin",
+            requiresAuth: true,
+        },
+        component: () => import("../Pages/Settings/TranslationPage.vue"),
+    },
+    {
         path: "/admin/tabs",
         name: "tabs",
         meta: {

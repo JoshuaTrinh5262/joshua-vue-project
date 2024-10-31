@@ -7,6 +7,7 @@ import * as talentApi from "./api/talentApi";
 import * as datasetApi from "./api/datasetApi";
 import * as chatgroupApi from "./api/chatgroupApi";
 import * as messageApi from "./api/messageApi";
+import * as userRoleApi from "./api/userRoleApi";
 
 export const apiService = {
     ...authUserApi,
@@ -18,4 +19,5 @@ export const apiService = {
     ...datasetApi,
     ...chatgroupApi,
     ...messageApi,
+    ...userRoleApi
 };

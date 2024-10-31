@@ -4,6 +4,7 @@ import en from './translations/en.json';
 import vn from './translations/vn.json';
 import jp from './translations/jp.json';
 import id from './translations/id.json';
+import kr from './translations/kr.json';
 import { PerfectScrollbarPlugin } from 'vue3-perfect-scrollbar';
 import 'vue3-perfect-scrollbar/style.css';
 import router from './router';
@@ -20,6 +21,7 @@ const messages = {
     vn,
     jp,
     id,
+    kr,
 };
 
 const Translation = createI18n({
