@@ -173,7 +173,7 @@ const routes = [
             layout: "admin",
             requiresAuth: true,
         },
-        component: () => import("../Pages/Settings/TranslationPage.vue"),
+        component: () => import("../Pages/TranslationPage.vue"),
     },
     {
         path: "/admin/tabs",

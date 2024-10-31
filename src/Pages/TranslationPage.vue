@@ -9,8 +9,8 @@
 
 <script>
 import { defineComponent, ref, onMounted } from "vue";
-import PageTitleComponent from '../../Layout/Components/PageTitleComponent.vue';
-import TableComponent from '../../Layout/Components/TableComponent.vue';
+import PageTitleComponent from '../Layout/Components/PageTitleComponent.vue';
+import TableComponent from '../Layout/Components/TableComponent.vue';
 import en from "@/translations/en.json";
 import vn from "@/translations/vn.json";
 import id from "@/translations/id.json";
