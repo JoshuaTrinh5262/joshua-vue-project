@@ -68,15 +68,13 @@ export default defineComponent({
     const heading = ref('Agencies');
     const subheading = ref('Explore the Profiles of Emerging and Established Agencys.');
     const icon = ref('pe-7s-home icon-gradient bg-premium-dark');
+
     const agencyTable = ref(null);
     const isUpdateMode = ref(false);
     const showModal = ref(false);
     const onSubmit = ref(false);
-    const currentPage = ref(1);
-    const itemsPerPage = ref(20);
-    const totalItems = ref(0);
-    const totalPages = ref(0);
     const notification = ref(null);
+
     const currentAgency = reactive({
       agency_name: null,
       agency_status: null,
@@ -90,11 +88,12 @@ export default defineComponent({
       showModal.value = !showModal.value;
     };
 
-    const reloadTable = () => {
+    const reloadAgencyTable = () => {
       if (agencyTable.value) {
         agencyTable.value.getAgenciesData();
       }
     };
+
     const handleSubmit = async () => {
       onSubmit.value = true;
       validationErrors.value = validateAgencyForm(currentAgency);
@@ -166,6 +165,7 @@ export default defineComponent({
         currentAgency.agency_status = updateData.agency_status
         currentAgency.agency_description = updateData.agency_description
       }
+
       showModal.value = true;
     };
 
@@ -183,22 +183,18 @@ export default defineComponent({
     };
 
     return {
-      showModal,
       heading,
       subheading,
       icon,
+      agencyTable,
       isUpdateMode,
+      showModal,
       onSubmit,
-      currentPage,
-      itemsPerPage,
-      totalItems,
-      totalPages,
       currentAgency,
       notification,
-      agencyTable,
       validationErrors,
       toggleModal,
-      reloadTable,
+      reloadAgencyTable,
       handleSubmit,
       handleUpdateClick,
       createAgency,

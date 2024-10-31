@@ -47,11 +47,16 @@ export default defineComponent({
         key: "last_sign_in_at",
         value: "last Sign In"
       },
+      {
+        key: "user_role",
+        value: "User Role"
+      },
     ]);
     const items = ref([]);
 
     const getUsersData = async (newPage, newPageSize) => {
       const result = await apiService.getAuthUsers(newPage, newPageSize);
+      console.log("result", result)
       if (!result.error) {
         items.value = result.items;
         totalItems.value = result.totalItems;

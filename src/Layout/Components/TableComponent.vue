@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="form-inline">
-      <div v-if="showAction" class="input-group mb-2">
+      <div v-if="showSearch" class="input-group mb-2">
         <input placeholder="Searching..." @input="onSearch" v-model="searchTerm" type="text" class="form-control"
           name="search" />
         <div class="input-group-append">
@@ -73,6 +73,11 @@ export default defineComponent({
     customClass: {
       type: String,
       default: '',
+      required: false,
+    },
+    showSearch: {
+      type: Boolean,
+      default: true,
       required: false,
     },
     showAction: {

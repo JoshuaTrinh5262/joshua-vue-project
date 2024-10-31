@@ -69,7 +69,7 @@
           :normalText="isUpdateMode ? 'Update Discography' : 'Add New Discography'" />
       </template>
     </modal-component>
-
+    <DiscographyTable></DiscographyTable>
     <table-component :footer="true" :fields="fields" :items="items" @search="onSearchChange"
       @changeOrder="handleChangeOrder" @deleteRow="handleDelete" @updateRow="handleUpdate"></table-component>
 
@@ -88,6 +88,7 @@ import PaginationComponent from "../../Layout/Components/PaginationComponent.vue
 import ButtonSpinner from "../../Layout/Components/ButtonSpinner.vue";
 import NotificationComponent from "../../Layout/Components/NotificationComponent.vue";
 import TagSelectorComponent from "../../Layout/Components/TagSelectorComponent.vue";
+import DiscographyTable from "../../Pages/Vtubers/Table/DiscographyTable.vue";
 import { apiService } from "../../supabase/apiService";
 
 export default defineComponent({
@@ -100,7 +101,8 @@ export default defineComponent({
     PaginationComponent,
     NotificationComponent,
     ButtonSpinner,
-    TagSelectorComponent
+    TagSelectorComponent,
+    DiscographyTable
   },
 
   setup() {

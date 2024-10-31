@@ -27,11 +27,11 @@
             <template v-for="(item, index) in items" :key="index">
                 <tr>
                     <td><input type="checkbox" name="checkbox" /></td>
-                    <td><a :href="`talent/${item.id}`">{{ item.name }}</a></td>
+                    <td>{{ item.id }}</td>
+                    <td><a :href="`discography/${item.id}`">{{ item.name }}</a></td>
                     <td>{{ item.original_name }}</td>
-                    <td><a :href="`agency/${item.agency_id}`">{{ item.agency }}</a></td>
-                    <td>{{ item.talent_status }}</td>
-                    <td>{{ item.debut_date }}</td>
+                    <td>{{ item.released_date }}</td>
+                    <td><a :href="`album/${item.album_id}`">{{ item.album }}</a></td>
                     <td>
                         <button type="button" class="btn btn-sm btn-success" @click="handleUpdate(item)">
                             <i class="pe-7s-file"></i>
@@ -47,9 +47,9 @@
                 <tr v-if="expandedRows[index]" class="details-row">
                     <td colspan="9">
                         <div>
-                            <p>Talent Id: {{ item.id }}</p>
-                            <p>Discography Count: {{ item.discography_count }}</p>
-                            <p>Album Count: {{ item.album_count }}</p>
+                            <p>Discography Id: {{ item.id }}</p>
+                            <p>Talents:  {{ item.talents }}</p>
+
                         </div>
                     </td>
                 </tr>
@@ -83,7 +83,7 @@ import ButtonSpinner from "../../../Layout/Components/ButtonSpinner.vue";
 import { apiService } from '../../../supabase/apiService';
 
 export default defineComponent({
-    name: "TalentTable",
+    name: "DiscographyTable",
 
     components: {
         ModalComponent,
@@ -97,7 +97,7 @@ export default defineComponent({
         const isUpdateMode = ref(false);
         const showModal = ref(false);
         const onSubmit = ref(false);
-        const orderBy = ref('debut_date');
+        const orderBy = ref('id');
         const orderDirection = ref('asc');
         const currentPage = ref(1);
         const itemsPerPage = ref(20);
@@ -107,13 +107,13 @@ export default defineComponent({
         const notification = ref(null);
         const expandedRows = ref([]);
 
-        const currentTalent = reactive({
+        const currentDiscography = reactive({
             id: null,
             name: null,
             original_name: null,
             gender: null,
             date_of_birth: null,
-            talent_status: "active",
+            discography_status: "active",
             debut_date: null,
             retirement_date: null,
             height: null,
@@ -121,22 +121,22 @@ export default defineComponent({
         });
 
         const fields = ref([
+            { key: "id", value: "Id" },
             { key: "name", value: "Name" },
-            { key: "original_name", value: "Original Name" },
-            { key: "agency", value: "Agency" },
-            { key: "talent_status", value: "Status" },
-            { key: "debut_date", value: "Debut Date" },
+            { key: "original_name", value: "original Name" },
+            { key: "released_date", value: "Released Date" },
+            { key: "album", value: "album" },
         ]);
         const items = ref([]);
 
         const toggleModal = () => {
             isUpdateMode.value = false;
-            cleanCurrentTalent();
+            cleanCurrentDiscography();
             showModal.value = !showModal.value;
         };
 
-        const getTalentsData = async () => {
-            const response = await apiService.getTalentsWithPaging(currentPage.value, itemsPerPage.value, orderBy.value, orderDirection.value, search.value);
+        const getDiscographiesData = async () => {
+            const response = await apiService.getDiscographiesWithPaging(currentPage.value, itemsPerPage.value, orderBy.value, orderDirection.value, search.value);
 
             if (!response.error) {
                 items.value = response.items;
@@ -149,44 +149,44 @@ export default defineComponent({
         const handleSubmit = async () => {
             onSubmit.value = true;
             if (isUpdateMode.value) {
-                updateTalent();
+                updateDiscography();
             } else {
-                createTalent();
+                createDiscography();
             }
         };
 
-        const createTalent = async () => {
+        const createDiscography = async () => {
             try {
-                await apiService.createTalent(currentTalent);
-                cleanCurrentTalent();
+                await apiService.createDiscography(currentDiscography);
+                cleanCurrentDiscography();
                 toggleModal();
                 onSubmit.value = false;
-                notification.value = { title: 'Success', content: 'Talent created successfully!', type: 'success' };
-                getTalentsData();
+                notification.value = { title: 'Success', content: 'Discography created successfully!', type: 'success' };
+                getDiscographiesData();
             } catch (error) {
                 onSubmit.value = false;
-                notification.value = { title: 'Error', content: `Error when submitting talent: ${error}`, type: 'danger' };
+                notification.value = { title: 'Error', content: `Error when submitting discography: ${error}`, type: 'danger' };
             }
         }
 
-        const updateTalent = async () => {
+        const updateDiscography = async () => {
             try {
-                await apiService.updateTalent(currentTalent);
-                cleanCurrentTalent();
+                await apiService.updateDiscography(currentDiscography);
+                cleanCurrentDiscography();
                 toggleModal();
                 onSubmit.value = false;
                 notification.value = {
                     title: 'Success',
-                    content: 'Talent updated successfully!',
+                    content: 'Discography updated successfully!',
                     type: 'success',
                 };
-                getTalentsData();
+                getDiscographiesData();
                 isUpdateMode.value = false;
             } catch (error) {
                 onSubmit.value = false;
                 notification.value = {
                     title: 'Error',
-                    content: `Error when updating Talent: ${error}`,
+                    content: `Error when updating Discography: ${error}`,
                     type: 'danger',
                 };
                 isUpdateMode.value = false;
@@ -198,46 +198,46 @@ export default defineComponent({
         }
 
         const handleDelete = async (id) => {
-            const confirmDelete = confirm(`Are you sure you want to delete Talent ${id}?`);
+            const confirmDelete = confirm(`Are you sure you want to delete Discography ${id}?`);
             if (confirmDelete) {
                 try {
-                    await apiService.deleteTalent(id);
-                    notification.value = { title: 'Success', content: 'Talent deleted successfully!', type: 'success' };
+                    await apiService.deleteDiscography(id);
+                    notification.value = { title: 'Success', content: 'Discography deleted successfully!', type: 'success' };
                     currentPage.value = 1;
-                    getTalentsData();
+                    getDiscographiesData();
                 } catch (error) {
-                    notification.value = { title: 'Error', content: `Error when deleting talent: ${error}`, type: 'danger' };
+                    notification.value = { title: 'Error', content: `Error when deleting discography: ${error}`, type: 'danger' };
                 }
             }
         };
 
-        const cleanCurrentTalent = () => {
-            Object.assign(currentTalent, {
+        const cleanCurrentDiscography = () => {
+            Object.assign(currentDiscography, {
                 name: null,
                 original_name: null,
                 gender: null,
                 date_of_birth: null,
                 agency_id: null,
-                talent_status: "active",
+                discography_status: "active",
                 debut_date: null,
                 retirement_date: null,
                 height: null,
                 emoji: null,
             });
 
-            if (currentTalent.id) {
-                delete currentTalent.id;
+            if (currentDiscography.id) {
+                delete currentDiscography.id;
             }
         };
 
         const loadPage = (page) => {
             currentPage.value = page;
-            getTalentsData();
+            getDiscographiesData();
         };
 
         const onSearch = () => {
             currentPage.value = 1;
-            getTalentsData();
+            getDiscographiesData();
         };
 
         const changeOrder = (field) => {
@@ -253,13 +253,13 @@ export default defineComponent({
                 orderBy.value = field;
                 orderDirection.value = 'asc';
             }
-            getTalentsData();
+            getDiscographiesData();
         };
 
         const changePageSize = async (newPageSize) => {
             itemsPerPage.value = newPageSize;
             currentPage.value = 1;
-            await getTalentsData();
+            await getDiscographiesData();
         };
 
         const toggleDetails = (index) => {
@@ -267,7 +267,7 @@ export default defineComponent({
         };
 
         onMounted(() => {
-            getTalentsData();
+            getDiscographiesData();
         });
 
         return {
@@ -280,7 +280,7 @@ export default defineComponent({
             totalPages,
             fields,
             items,
-            currentTalent,
+            currentDiscography,
             notification,
             search,
             orderBy,
@@ -294,9 +294,9 @@ export default defineComponent({
             handleSubmit,
             handleDelete,
             handleUpdate,
-            createTalent,
-            updateTalent,
-            getTalentsData,
+            createDiscography,
+            updateDiscography,
+            getDiscographiesData,
             toggleDetails
         };
     }

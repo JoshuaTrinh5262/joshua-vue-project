@@ -55,6 +55,7 @@ export default defineComponent({
                 ],
             },
             { title: 'Setting', icon: 'pe-7s-settings', href: '/admin/setting' },
+            { title: 'Translations', icon: 'pe-7s-file', href: '/admin/translation' },
             { title: 'Tabs', icon: 'pe-7s-rocket', href: '/admin/tabs' },
             { title: 'Kanban', icon: 'pe-7s-notebook', href: '/admin/kanban' },
             {
@@ -164,4 +165,4 @@ export default defineComponent({
         };
     },
 });
-</script> 
+</script>

@@ -108,13 +108,7 @@
           :normalText="isUpdateMode ? 'Update Talent' : 'Add New Talent'" />
       </template>
     </modal-component>
-    <TalentTable ref="agencyTable" @handleUpdate="handleUpdateClick"></TalentTable>
-
-    <table-component :footer="true" :fields="fields" :items="items" @search="onSearchChange"
-      @changeOrder="handleChangeOrder" @deleteRow="deleteTalent" @updateRow="handleUpdate" />
-
-    <pagination-component :currentPage="currentPage" :perPage="itemsPerPage" :totalItems="totalItems"
-      :totalPages="totalPages" @load-page="loadPage" @change-page-size="changePageSize" />
+    <TalentTable ref="talentTable" @handleUpdate="handleUpdateClick"></TalentTable>
   </div>
 </template>
 
@@ -122,7 +116,6 @@
 import { defineComponent, ref, reactive, onMounted } from "vue";
 import ModalComponent from "../../Layout/Components/ModalComponent.vue";
 import TalentTable from "../../Pages/Vtubers/Table/TalentTable.vue";
-import TableComponent from "../../Layout/Components/TableComponent.vue";
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
 import ButtonSpinner from "../../Layout/Components/ButtonSpinner.vue";
@@ -136,7 +129,6 @@ export default defineComponent({
     ModalComponent,
     TalentTable,
     PageTitleComponent,
-    TableComponent,
     PaginationComponent,
     ButtonSpinner,
     NotificationComponent,
@@ -147,15 +139,9 @@ export default defineComponent({
     const subheading = ref("Explore the Profiles of Emerging and Established Talents.");
     const icon = ref("pe-7s-user icon-gradient bg-premium-dark");
 
+    const talentTable = ref(null);
     const isUpdateMode = ref(false);
     const showModal = ref(false);
-    const currentPage = ref(1);
-    const itemsPerPage = ref(20);
-    const totalItems = ref(0);
-    const totalPages = ref(0);
-    const orderBy = ref("id");
-    const orderDirection = ref("asc");
-    const search = ref("");
     const onSubmit = ref(false);
     const notification = ref(null);
 
@@ -171,23 +157,19 @@ export default defineComponent({
       height: null,
       emoji: null,
     });
-
-    const fields = ref([
-      { key: "name", value: "Name" },
-      { key: "original_name", value: "Original Name" },
-      { key: "agency", value: "Agency" },
-      { key: "talent_status", value: "Status" },
-      { key: "debut_date", value: "Debut Date" },
-      { key: "discography_count", value: "discography_count" },
-      { key: "album_count", value: "album_count" },
-    ]);
-    const items = ref([]);
+    const validationErrors = ref({});
     const agencies = ref([]);
 
     const toggleModal = () => {
       isUpdateMode.value = false;
       cleanCurrentTalent();
       showModal.value = !showModal.value;
+    };
+
+    const reloadTalentTable = () => {
+      if (talentTable.value) {
+        talentTable.value.getTalentsData();
+      }
     };
 
     const cleanCurrentTalent = () => {
@@ -222,16 +204,6 @@ export default defineComponent({
       }
     };
 
-    const getTalentsData = async (newPage, newPageSize) => {
-      const result = await apiService.getTalentsWithPaging(newPage, newPageSize, orderBy.value, orderDirection.value, search.value);
-      if (!result.error) {
-        items.value = result.items;
-        totalItems.value = result.totalItems;
-        totalPages.value = result.totalPages;
-        itemsPerPage.value = newPageSize;
-      }
-    };
-
     const handleSubmitTalent = async () => {
       onSubmit.value = true;
       if (isUpdateMode.value) {
@@ -248,7 +220,7 @@ export default defineComponent({
         toggleModal();
         onSubmit.value = false;
         notification.value = { title: "Success", content: "Talent created successfully!", type: "success" };
-        getTalentsData(currentPage.value, itemsPerPage.value);
+        reloadTalentTable();
       } catch (error) {
         onSubmit.value = false;
         notification.value = { title: "Error", content: `Error when submitting talent: ${error}`, type: "danger" };
@@ -266,7 +238,7 @@ export default defineComponent({
           content: "Talent updated successfully!",
           type: "success",
         };
-        getTalentsData(currentPage.value, itemsPerPage.value);
+        reloadTalentTable();
         isUpdateMode.value = false;
       } catch (error) {
         onSubmit.value = false;
@@ -284,48 +256,44 @@ export default defineComponent({
       if (confirmDelete) {
         try {
           await apiService.deleteTalent(id);
-          notification.value = { title: "Success", content: "Talent deleted successfully!", type: "success" };
-          getTalentsData(1, itemsPerPage.value);
+          notification.value = {
+            title: "Success",
+            content: "Talent deleted successfully!",
+            type: "success"
+          };
+          reloadTalentTable();
         } catch (error) {
-          notification.value = { title: "Error", content: `Error when deleting talent: ${error}`, type: "danger" };
+          notification.value = {
+            title: "Error",
+            content: `Error when deleting talent: ${error}`,
+            type: "danger"
+          };
         }
       }
     };
 
-    const handleUpdate = (updateId) => {
+    const handleUpdateClick = (updateData) => {
       isUpdateMode.value = true;
-      const { agency, ...selectedItem } = items.value.find(x => x.id === updateId);
 
-      if (selectedItem) {
-        Object.assign(currentTalent, selectedItem);
+      if (updateData) {
+        currentTalent.id = updateData.id;
+        currentTalent.name = updateData.name;
+        currentTalent.original_name = updateData.original_name;
+        currentTalent.debut_date = updateData.debut_date;
+        currentTalent.gender = updateData.gender;
+        currentTalent.date_of_birth = updateData.date_of_birth;
+        currentTalent.agency_id = updateData.agency_id;
+        currentTalent.talent_status = updateData.talent_status;
+        currentTalent.retirement_date = updateData.retirement_date;
+        currentTalent.height = updateData.height;
+        currentTalent.emoji = updateData.emoji;
       }
 
       showModal.value = true;
     };
 
-    const onSearchChange = (searchTerm) => {
-      search.value = searchTerm;
-      getTalentsData(1, itemsPerPage.value);
-    };
-
-    const handleChangeOrder = async ({ orderDirection: newOrderDirection, orderBy: newOrderBy }) => {
-      orderDirection.value = newOrderDirection;
-      orderBy.value = newOrderBy;
-      await getTalentsData(currentPage.value, itemsPerPage.value);
-    };
-
-    const loadPage = async (page) => {
-      currentPage.value = page;
-      await getTalentsData(currentPage.value, itemsPerPage.value);
-    };
-
-    const changePageSize = async (newPageSize) => {
-      itemsPerPage.value = newPageSize;
-      await getTalentsData(1, itemsPerPage.value);
-    };
-
     onMounted(async () => {
-      await getTalentsData(currentPage.value, itemsPerPage.value);
+      await reloadTalentTable();
       await getAgencyData();
     });
 
@@ -333,34 +301,21 @@ export default defineComponent({
       heading,
       subheading,
       icon,
-      search,
       isUpdateMode,
       showModal,
-      currentPage,
-      itemsPerPage,
-      totalItems,
-      totalPages,
-      orderBy,
-      orderDirection,
       onSubmit,
       notification,
       currentTalent,
-      fields,
-      items,
       agencies,
       toggleModal,
+      reloadTalentTable,
       showRetirementDate,
       getAgencyData,
-      getTalentsData,
       handleSubmitTalent,
       createTalent,
       updateTalent,
       deleteTalent,
-      handleChangeOrder,
-      handleUpdate,
-      loadPage,
-      changePageSize,
-      onSearchChange,
+      handleUpdateClick,
     };
   },
 });

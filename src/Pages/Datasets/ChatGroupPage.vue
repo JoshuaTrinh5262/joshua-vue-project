@@ -21,19 +21,20 @@
     </div>
     <div class="chatgroup-container">
       <div class="chatgroup-box">
-        <div v-if="currentChat" v-for="message, index in currentChat.message" :key="message.id">
-          <div v-if="index % 2 == 0" class="chatgroup-message">
-            <img class="profile" width="40" height="40" src="@/assets/images/avatars/0.jpg" />
-            <div class="message-content">
-              {{ message.content }}</div>
-            <i class="pe-7s-trash ml-auto" @click="deleteMessage(message.id)"></i>
+        <template v-if="currentChat">
+          <div v-for="(message, index) in currentChat.message" :key="message.id">
+            <div v-if="index % 2 == 0" class="chatgroup-message">
+              <img class="profile" width="40" height="40" src="@/assets/images/avatars/0.jpg" />
+              <div class="message-content">{{ message.content }}</div>
+              <i class="pe-7s-trash ml-auto" @click="deleteMessage(message.id)"></i>
+            </div>
+            <div v-else class="chatgroup-message">
+              <img class="profile" width="40" height="40" src="@/assets/images/avatars/default.jpg" />
+              <div class="message-content">{{ message.content }}</div>
+              <i class="pe-7s-trash ml-auto" @click="deleteMessage(message.id)"></i>
+            </div>
           </div>
-          <div v-else class="chatgroup-message">
-            <img class="profile" width="40" height="40" src="@/assets/images/avatars/default.jpg" />
-            <div class="message-content">{{ message.content }}</div>
-            <i class="pe-7s-trash ml-auto" @click="deleteMessage(message.id)"></i>
-          </div>
-        </div>
+        </template>
       </div>
       <div class="chat-input">
         <div class="input-group">

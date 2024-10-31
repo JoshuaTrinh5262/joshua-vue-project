@@ -4,8 +4,8 @@
     <div class="d-flex justify-content-center">
       <div class="min-vh-100 d-flex overflow-auto">
         <div v-for="(column, columnIndex) in columns" :key="column.title"
-          class="bg-light rounded p-2 column-width rounded mr-1" @dragover.prevent @drop="dropTask(columnIndex)">
-          <p class="font-weight-bold font-sans tracking-wide small">{{ column.title }}</p>
+          class="bg-dark rounded p-2 column-width rounded mr-1" @dragover.prevent @drop="dropTask(columnIndex)">
+          <p class="font-weight-bold font-sans tracking-wide text-white">{{ column.title }}</p>
           <div v-for="task in column.tasks" :key="task.id" class="mt-3 cursor-move task" :draggable="true"
             @dragstart="dragTask(task, columnIndex)">
             <task-component :task="task"></task-component>
@@ -51,6 +51,8 @@ export default defineComponent({
         tasks: [
           { id: 6, title: "Design shopping cart dropdown", date: "Sep 9", type: "Design" },
           { id: 7, title: "Add discount code to checkout page", date: "Sep 14", type: "Feature Request" },
+          { id: 8, title: "Design shopping cart dropdown", date: "Sep 13", type: "Design" },
+          { id: 9, title: "Add discount code to checkout page", date: "Sep 11", type: "Feature Request" },
         ],
       },
       {
