@@ -303,6 +303,10 @@ export default defineComponent({
                 category: null,
                 language: "en",
             });
+
+            if (currentDataset.id) {
+                delete currentDataset.id;
+            }
         };
 
         onMounted(() => {

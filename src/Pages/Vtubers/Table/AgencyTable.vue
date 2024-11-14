@@ -221,7 +221,6 @@ export default defineComponent({
             if (currentAgency.id) {
                 delete currentAgency.id;
             }
-
         };
 
         const loadPage = (page) => {

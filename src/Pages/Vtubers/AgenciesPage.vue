@@ -126,7 +126,7 @@ export default defineComponent({
         onSubmit.value = false;
         notification.value = {
           title: 'Error',
-          content: `Error when submitting talent:${error}`,
+          content: `Error when submitting Agency:${error}`,
           type: 'danger'
         };
       }

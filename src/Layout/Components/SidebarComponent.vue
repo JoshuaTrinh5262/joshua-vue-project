@@ -46,6 +46,7 @@ export default defineComponent({
             { header: true, title: 'Main Navigation' },
             { title: 'Dashboards', icon: 'pe-7s-menu', href: '/admin', },
             { title: 'User', icon: 'pe-7s-users', href: '/admin/user' },
+            { title: 'Task', icon: 'pe-7s-notebook', href: '/admin/task' },
             {
                 title: 'Tools',
                 icon: 'pe-7s-tools',
@@ -65,6 +66,7 @@ export default defineComponent({
                     { title: 'Register Boxed', href: '/admin/register' },
                     { title: 'Forgot Password Boxed', href: '/admin/forgot-password' },
                     { title: 'Not Found Boxed', href: '/admin/notfound' },
+                    { title: 'Reset Password Boxed', href: '/admin/notfound' },
                 ],
             },
             { header: true, title: 'Vtuber Data' },
