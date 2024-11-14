@@ -8,6 +8,7 @@ import * as datasetApi from "./api/datasetApi";
 import * as chatgroupApi from "./api/chatgroupApi";
 import * as messageApi from "./api/messageApi";
 import * as userRoleApi from "./api/userRoleApi";
+import * as taskApi from "./api/taskApi";
 
 export const apiService = {
     ...authUserApi,
@@ -19,5 +20,6 @@ export const apiService = {
     ...datasetApi,
     ...chatgroupApi,
     ...messageApi,
-    ...userRoleApi
+    ...userRoleApi,
+    ...taskApi
 };

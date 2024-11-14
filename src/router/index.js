@@ -41,6 +41,15 @@ const routes = [
         component: () => import("../Pages/Datasets/UserPage.vue"),
     },
     {
+        path: "/admin/task",
+        name: "task",
+        meta: {
+            layout: "admin",
+            requiresAuth: true,
+        },
+        component: () => import("../Pages/Datasets/TaskPage.vue"),
+    },
+    {
         path: "/admin/dataset",
         name: "dataset",
         meta: {
@@ -306,7 +315,7 @@ const routes = [
             layout: "admin",
             requiresAuth: true,
         },
-        component: () => import("../Pages/Kanban/KanbanComponent.vue"),
+        component: () => import("../Pages/Kanban/KanbanPage.vue"),
     },
     {
         path: "/admin/chatgroup",
