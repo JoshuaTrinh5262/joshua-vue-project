@@ -1,0 +1,38 @@
+{
+    "name": "coolapt",
+    "age": 20,
+    "task": [
+        {
+            "name": "wake up",
+            "time": "07:30"
+        },
+        {
+            "name": "running",
+            "time": "08:00"
+        },
+        {
+            "name": "breakfast",
+            "time": "09:00"
+        },
+        {
+            "name": "work",
+            "time": "10:00"
+        },
+        {
+            "name": "lunch",
+            "time": "12:00"
+        },
+        {
+            "name": "dinner",
+            "time": "19:00"
+        },
+        {
+            "name": "rest",
+            "time": "20:00"
+        },
+        {
+            "name": "sleep",
+            "time": "22:00"
+        }
+    ]
+}

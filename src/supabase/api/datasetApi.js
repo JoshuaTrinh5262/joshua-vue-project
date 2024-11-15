@@ -160,26 +160,27 @@ export const exportDataset = async (
     targetTextMaxLength
 ) => {
     try {
-        const { data, error } = await supabase.from("dataset").select("*");
+        let query = `
+            SELECT
+                source_text,
+                target_text
+            FROM 
+                dataset
+            WHERE 
+                (array_length(regexp_split_to_array(source_text, '\\s+'), 1) <= ${sourceTextMaxLength})
+                AND
+                (array_length(regexp_split_to_array(target_text, '\\s+'), 1) <= ${targetTextMaxLength})
+        `;
+        const { data, error } = await supabase.rpc('execute_dynamic_query', {
+            query,
+        });
 
         if (error) {
             throw error;
         }
 
-        const filteredData = data.filter((item) => {
-            const sourceTextLength = item.source_text.length;
-            const targetTextLength = item.target_text.length;
-
-            return (
-                (!sourceTextMaxLength ||
-                    sourceTextLength <= sourceTextMaxLength) &&
-                (!targetTextMaxLength ||
-                    targetTextLength <= targetTextMaxLength)
-            );
-        });
-
         // Convert data to CSV
-        const csvData = convertToCSV(filteredData);
+        const csvData = convertToCSV(data);
 
         // Create a blob and initiate download
         const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
@@ -194,8 +195,9 @@ export const exportDataset = async (
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        return { success: true, message: "Export successful" };
     } catch (error) {
-        console.error("Error exporting data:", error.message);
+        return { success: false, message: `Error exporting data: ${error.message}` };
     }
 };
 

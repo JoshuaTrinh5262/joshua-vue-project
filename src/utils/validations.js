@@ -39,3 +39,17 @@ export const validateUserForm = (data) => {
 
     return errors;
 };
+
+export const validateDatasetForm = (data) => {
+    const errors = {};
+
+    if (!data.source_text || data.source_text.trim().length === 0) {
+        errors.source_text = "Source text is required.";
+    }
+
+    if (!data.target_text || data.target_text.trim().length === 0) {
+        errors.target_text = "Target text is required.";
+    }
+
+    return errors;
+};

@@ -1,0 +1,30 @@
+{
+    "name": "bob",
+    "age": 18,
+    "task": [
+        {
+            "name": "wake up",
+            "time": "08:30"
+        },
+        {
+            "name": "breakfast",
+            "time": "09:00"
+        },
+        {
+            "name": "work",
+            "time": "10:00"
+        },
+        {
+            "name": "lunch",
+            "time": "12:00"
+        },
+        {
+            "name": "dinner",
+            "time": "19:00"
+        },
+        {
+            "name": "sleep",
+            "time": "23:00"
+        }
+    ]
+}

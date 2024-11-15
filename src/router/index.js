@@ -22,6 +22,15 @@ const routes = [
         component: () => import("../Pages/Tools/WordCounterPage.vue"),
     },
     {
+        path: "/admin/json-compare",
+        name: "json-compare",
+        meta: {
+            layout: "admin",
+            requiresAuth: true,
+        },
+        component: () => import("../Pages/Tools/JsonComparePage.vue"),
+    },
+    {
         path: "/admin/calculator",
         name: "calculator",
         meta: {

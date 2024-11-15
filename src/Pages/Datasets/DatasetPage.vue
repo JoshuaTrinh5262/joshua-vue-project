@@ -21,11 +21,15 @@
                     <label for="source_text">Source Text</label>
                     <input name="source_text" id="source_text" placeholder="Source Text"
                         v-model="currentDataset.source_text" type="text" class="form-control">
+                    <small v-if="validationErrors.source_text" class="text-danger">{{
+            validationErrors.source_text }}</small>
                 </div>
                 <div class="position-relative form-group">
                     <label for="target_text">Target Text</label>
                     <input name="target_text" id="target_text" placeholder="Source Text"
                         v-model="currentDataset.target_text" type="text" class="form-control">
+                    <small v-if="validationErrors.target_text" class="text-danger">{{
+            validationErrors.target_text }}</small>
                 </div>
                 <div class="position-relative form-group">
                     <label for="source">Source</label>
@@ -102,6 +106,7 @@ import PaginationComponent from "../../Layout/Components/PaginationComponent.vue
 import NotificationComponent from "../../Layout/Components/NotificationComponent.vue";
 import ModalComponent from "../../Layout/Components/ModalComponent.vue";
 import ButtonSpinner from "../../Layout/Components/ButtonSpinner.vue";
+import { validateDatasetForm } from '../../utils/validations';
 import { apiService } from "../../supabase/apiService";
 
 export default defineComponent({
@@ -121,7 +126,7 @@ export default defineComponent({
 
         const onSubmit = ref(false);
         const currentPage = ref(1);
-        const itemsPerPage = ref(100);
+        const itemsPerPage = ref(40);
         const totalItems = ref(0);
         const totalPages = ref(0);
         const orderBy = ref("id");
@@ -136,6 +141,7 @@ export default defineComponent({
         const showExport = ref(false);
         const isUpdateMode = ref(false);
 
+        const validationErrors = ref({});
         const currentDataset = reactive({
             source_text: null,
             target_text: null,
@@ -171,18 +177,16 @@ export default defineComponent({
         };
 
         const handleSubmit = () => {
-            if (currentDataset.source_text && currentDataset.target_text) {
+            validationErrors.value = validateDatasetForm(currentDataset);
+            if (Object.keys(validationErrors.value).length === 0) {
                 if (isUpdateMode.value) {
                     updateDataset();
                 } else {
                     createDataset();
                 }
             } else {
-                notification.value = {
-                    title: "Error",
-                    content: "Please enter data before submitting.",
-                    type: "danger"
-                };
+                onSubmit.value = false;
+                return;
             }
         };
 
@@ -247,6 +251,35 @@ export default defineComponent({
                         type: "danger"
                     };
                 }
+            }
+        };
+
+        const handleExport = async () => {
+            try {
+                var response = await apiService.exportDataset(fileName.value, sourceTextMaxLength.value, targetTextMaxLength.value);
+
+                if (response.success) {
+                    notification.value = {
+                        title: "Success",
+                        content: "Export Dataset successfully!",
+                        type: "success"
+                    };
+                    getDatasetData(currentPage.value, itemsPerPage.value);
+                } else {
+                    notification.value = {
+                        title: "Error",
+                        content: `${response.message}`,
+                        type: "danger"
+                    };
+                }
+
+                isUpdateMode.value = false;
+            } catch (error) {
+                notification.value = {
+                    title: "Error",
+                    content: `Error when export dataset: ${error}`,
+                    type: "danger"
+                };
             }
         };
 
@@ -331,6 +364,7 @@ export default defineComponent({
             showExport,
             isUpdateMode,
             currentDataset,
+            validationErrors,
             fields,
             items,
             heading,
@@ -345,6 +379,7 @@ export default defineComponent({
             handleDeleteDataset,
             handleChangeOrder,
             handleUpdateRow,
+            handleExport,
             toggleModal,
             toggleImport,
             toggleExport,
