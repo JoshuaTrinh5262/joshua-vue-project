@@ -118,8 +118,8 @@ export default defineComponent({
     const isUpdateMode = ref(false);
     const showModal = ref(false);
     const onSubmit = ref(false);
-    const orderBy = ref('id');
-    const orderDirection = ref('asc');
+    const orderBy = ref('event_date');
+    const orderDirection = ref('desc');
     const currentPage = ref(1);
     const itemsPerPage = ref(20);
     const totalItems = ref(0);

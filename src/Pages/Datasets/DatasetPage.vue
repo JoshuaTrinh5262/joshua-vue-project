@@ -22,14 +22,14 @@
                     <input name="source_text" id="source_text" placeholder="Source Text"
                         v-model="currentDataset.source_text" type="text" class="form-control">
                     <small v-if="validationErrors.source_text" class="text-danger">{{
-            validationErrors.source_text }}</small>
+                        validationErrors.source_text }}</small>
                 </div>
                 <div class="position-relative form-group">
                     <label for="target_text">Target Text</label>
                     <input name="target_text" id="target_text" placeholder="Source Text"
                         v-model="currentDataset.target_text" type="text" class="form-control">
                     <small v-if="validationErrors.target_text" class="text-danger">{{
-            validationErrors.target_text }}</small>
+                        validationErrors.target_text }}</small>
                 </div>
                 <div class="position-relative form-group">
                     <label for="source">Source</label>
@@ -154,7 +154,6 @@ export default defineComponent({
             { key: "id", value: "Id" },
             { key: "source_text", value: "Source Text" },
             { key: "target_text", value: "Target Text" },
-            { key: "source", value: "Source" },
             { key: "category", value: "Category" }
         ];
 
