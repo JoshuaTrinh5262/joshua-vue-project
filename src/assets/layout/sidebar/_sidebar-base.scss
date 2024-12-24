@@ -90,7 +90,7 @@ $sidebar-box-shadow: 7px 0 60px rgba(0, 0, 0, 0.05);
   & .vsm-item.first-item {
     & > .vsm-link {
       & > .vsm-icon {
-
+        font-weight: 600;
       }
       &:after {
         content: '';
@@ -232,6 +232,7 @@ $sidebar-box-shadow: 7px 0 60px rgba(0, 0, 0, 0.05);
   }
 
   & .expand-enter,
+  & .expand-enter-from,
   & .expand-leave-to {
     height: 0 !important;
   }
