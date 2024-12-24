@@ -27,3 +27,11 @@ npm run lint
 ```sh
 npm run serve
 ```
+
+## regularly used npm command
+
+```sh
+npm outdated
+npm update
+npm audit fix
+```
