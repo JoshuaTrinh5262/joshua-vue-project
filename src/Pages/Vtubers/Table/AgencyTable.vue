@@ -91,6 +91,8 @@ export default defineComponent({
         ButtonSpinner
     },
 
+    emits: ['handleUpdate'],
+
     setup(props, { emit }) {
         const isUpdateMode = ref(false);
         const showModal = ref(false);
