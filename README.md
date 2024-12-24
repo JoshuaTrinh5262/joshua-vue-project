@@ -32,6 +32,12 @@ npm run serve
 
 ```sh
 npm outdated
+```
+
+```sh
 npm update
+```
+
+```sh
 npm audit fix
 ```
