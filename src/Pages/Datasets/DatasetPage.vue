@@ -19,15 +19,15 @@
             <template #body>
                 <div class="position-relative form-group">
                     <label for="source_text">Source Text</label>
-                    <input name="source_text" id="source_text" placeholder="Source Text"
-                        v-model="currentDataset.source_text" type="text" class="form-control">
+                    <textarea rows="5" name="source_text" id="source_text" placeholder="Source Text"
+                        v-model="currentDataset.source_text" type="text" class="form-control"></textarea>
                     <small v-if="validationErrors.source_text" class="text-danger">{{
                         validationErrors.source_text }}</small>
                 </div>
                 <div class="position-relative form-group">
                     <label for="target_text">Target Text</label>
-                    <input name="target_text" id="target_text" placeholder="Source Text"
-                        v-model="currentDataset.target_text" type="text" class="form-control">
+                    <textarea rows="5" name="target_text" id="target_text" placeholder="Source Text"
+                        v-model="currentDataset.target_text" type="text" class="form-control"></textarea>
                     <small v-if="validationErrors.target_text" class="text-danger">{{
                         validationErrors.target_text }}</small>
                 </div>
@@ -126,7 +126,7 @@ export default defineComponent({
 
         const onSubmit = ref(false);
         const currentPage = ref(1);
-        const itemsPerPage = ref(40);
+        const itemsPerPage = ref(10);
         const totalItems = ref(0);
         const totalPages = ref(0);
         const orderBy = ref("id");
@@ -162,10 +162,12 @@ export default defineComponent({
 
         const getDatasetData = async (newPage, newPageSize) => {
             const result = await apiService.getDatasets(newPage, newPageSize, orderBy.value, orderDirection.value, search.value);
+            const count = await apiService.getCountDataset(search.value);
+
             if (!result.error) {
-                items.value = result.items;
-                totalItems.value = result.totalItems;
-                totalPages.value = result.totalPages;
+                items.value = result;
+                totalItems.value = count;
+                totalPages.value = Math.ceil(count / newPageSize);
                 itemsPerPage.value = newPageSize;
             }
         };
