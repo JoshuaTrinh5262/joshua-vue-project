@@ -79,6 +79,7 @@ export default defineComponent({
             { title: 'Gallery', icon: 'pe-7s-photo-gallery', href: '/admin/gallery' },
             { header: true, title: 'DataSet' },
             { title: 'Dataset', icon: 'pe-7s-server', href: '/admin/dataset' },
+            { title: 'Dataset Unprocess', icon: 'pe-7s-server', href: '/admin/dataset-unprocess' },
             { title: 'Chatgroup', icon: 'pe-7s-chat', href: '/admin/Chatgroup' },
             { header: true, title: 'Other Components' },
             {
