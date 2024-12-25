@@ -1,6 +1,6 @@
 <template>
     <div>
-        <page-title-component :heading=heading :subheading=subheading :icon=icon></page-title-component>
+        <page-title-component :heading="heading" :subheading="subheading" :icon="icon"></page-title-component>
         <div class="row">
             <div class="col-md-6">
                 <div class="main-card mb-3 card">
@@ -46,7 +46,7 @@
                                 <input name="file" id="exampleFile" type="file" class="form-control-file">
                                 <small class="form-text text-muted">
                                     This is some placeholder block-level help text for
-                                    the above input. It's a bit lighter and easily wraps to a new line.
+                                    the above input. It"s a bit lighter and easily wraps to a new line.
                                 </small>
                             </div>
                             <button class="mt-1 btn btn-primary">Submit</button>
@@ -83,7 +83,7 @@
                                 <div class="position-relative form-check">
                                     <label class="form-check-label">
                                         <input name="radio1" type="radio" class="form-check-input">Option one is this
-                                        and that—be sure to include why it's great
+                                        and that—be sure to include why it"s great
                                     </label>
                                 </div>
                                 <div class="position-relative form-check">
@@ -398,7 +398,7 @@
                             <div>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <button class="btn btn-secondary">I'm a button</button>
+                                        <button class="btn btn-secondary">I"m a button</button>
                                     </div>
                                     <input type="text" class="form-control">
                                 </div>
@@ -406,17 +406,17 @@
                                 <div class="input-group">
                                     <input type="text" class="form-control">
                                     <div class="input-group-append">
-                                        <button class="btn btn-secondary">I'm a button</button>
+                                        <button class="btn btn-secondary">I"m a button</button>
                                     </div>
                                 </div>
                                 <br>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <button class="btn btn-secondary">I'm a button</button>
+                                        <button class="btn btn-secondary">I"m a button</button>
                                     </div>
                                     <input type="text" placeholder="and..." class="form-control">
                                     <div class="input-group-append">
-                                        <button class="btn btn-secondary">I'm a button</button>
+                                        <button class="btn btn-secondary">I"m a button</button>
                                     </div>
                                 </div>
                                 <br>
@@ -430,21 +430,24 @@
 </template>
 
 <script>
-
+import { defineComponent, ref } from "vue";
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 
-export default {
+export default defineComponent({
     components: {
         PageTitleComponent,
     },
-    data: () => ({
-        heading: 'Form Controls',
-        subheading: 'Wide selection of forms controls, using the Bootstrap 4 code base, but built with Vue.',
-        icon: 'pe-7s-display1 icon-gradient bg-premium-dark',
 
+    setup() {
+        const heading = ref("Form Controls");
+        const subheading = ref("Wide selection of forms controls, using the Bootstrap 4 code base, but built with Vue.");
+        const icon = ref("pe-7s-display1 icon-gradient bg-premium-dark");
 
-    }),
-
-
-}
+        return {
+            heading,
+            subheading,
+            icon,
+        };
+    },
+});
 </script>

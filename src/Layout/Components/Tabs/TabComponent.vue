@@ -5,20 +5,31 @@
 </template>
 
 <script>
-  export default {
-    name: 'tab-component',
+import { inject, defineComponent, ref, onMounted } from 'vue';
 
-    props: {
-      title: {
-        type: String,
-        default: 'Tab'
-      }
-    },
+export default defineComponent({
+  name: 'tab-component',
 
-    data () {
-      return {
-        isActive: true
-      }
+  props: {
+    title: {
+      type: String,
+      default: 'Tab'
     }
+  },
+
+  setup(props) {
+    const isActive = ref(false);
+    const registerTab = inject('registerTab');
+
+    onMounted(() => {
+      if (registerTab) {
+        registerTab({ title: props.title, isActive });
+      }
+    });
+
+    return {
+      isActive
+    };
   }
+});
 </script>

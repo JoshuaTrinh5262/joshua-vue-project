@@ -1,22 +1,32 @@
 <template>
     <div>
-        <div class="search-wrapper" v-bind:class="{ active: searchOpen }">
+        <div class="search-wrapper" :class="{ active: searchOpen }">
             <div class="input-holder">
-                <input name="searchBox" type="text" class="search-input" placeholder="Type to search"/>
-                <button class="search-icon" v-on:click="searchOpen = !searchOpen"><span/></button>
+                <input name="searchBox" type="text" class="search-input" placeholder="Type to search" />
+                <button class="search-icon" @click="toggleSearch"><span /></button>
             </div>
-            <button class="close" v-on:click="searchOpen = !searchOpen"/>
+            <button class="close" @click="toggleSearch"></button>
         </div>
     </div>
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                searchOpen: false,
-            }
-        },
-    }
-</script>
+import { defineComponent, ref } from "vue";
 
+export default defineComponent({
+    name: "SearchComponent",
+
+    setup() {
+        const searchOpen = ref(false);
+
+        const toggleSearch = () => {
+            searchOpen.value = !searchOpen.value;
+        };
+
+        return {
+            searchOpen,
+            toggleSearch,
+        };
+    },
+});
+</script>

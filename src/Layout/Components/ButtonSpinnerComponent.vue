@@ -6,54 +6,57 @@
 </template>
 
 <script>
-export default {
+import { defineComponent, ref } from 'vue';
+
+export default defineComponent({
+  name: "ButtonSpinner",
+
   props: {
     buttonText: {
       type: String,
-      default: 'Click me',
+      default: "Click me",
     },
     onClick: {
       type: Function,
       required: true,
     },
   },
-  data() {
-    return {
-      loading: false,
-    };
-  },
-  methods: {
-    name: 'button-spinner',
 
-    handleClick() {
+  setup(props) {
+    const loading = ref(false);
+
+    const handleClick = () => {
       // Set loading to true before calling the onClick function
-      this.loading = true;
+      loading.value = true;
 
       // Call the onClick function (assumed to be an asynchronous operation)
-      this.onClick()
+      props.onClick()
         .then(() => {
           // Set loading back to false on successful completion
-          this.loading = false;
+          loading.value = false;
         })
         .catch(() => {
           // Handle errors and set loading back to false
-          this.loading = false;
+          loading.value = false;
         });
-    },
+    };
+
+    return {
+      loading,
+      handleClick,
+    };
   },
-};
+});
 </script>
 
 <style scoped>
-/* Add your button styling, e.g., background, color, etc. */
 button {
   padding: 10px 20px;
   cursor: pointer;
 }
 
-/* Add loading indicator styling, e.g., spinner or animation */
 .loading::after {
-  content: ' ';
+  content: " ";
   display: inline-block;
   width: 16px;
   height: 16px;
@@ -64,7 +67,12 @@ button {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

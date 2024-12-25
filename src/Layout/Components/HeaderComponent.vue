@@ -1,17 +1,17 @@
 <template>
     <div class="app-header header-shadow">
-        
         <div class="app-header__content">
             <div class="app-header-left">
-                <SearchBox/>
+                <SearchBox />
             </div>
             <div class="app-header-right">
-                <UserArea/>
+                <UserArea />
             </div>
         </div>
         <div class="app-header__mobile-menu">
             <div>
-                <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" v-bind:class="{ 'is-active' : isOpen }" @click="toggleMobile('closed-sidebar-open')">
+                <button type="button" class="hamburger close-sidebar-btn hamburger--elastic"
+                    :class="{ 'is-active': isOpen }" @click="toggleMobile('closed-sidebar-open')">
                     <span class="hamburger-box">
                         <span class="hamburger-inner"></span>
                     </span>
@@ -20,9 +20,10 @@
         </div>
         <div class="app-header__menu">
             <span>
-                <button class="btn btn-primary btn-sm btn-icon btn-icon-only" v-bind:class="{ 'active' : isOpenMobileMenu }" @click="toggleMobile2('header-menu-open')">
+                <button class="btn btn-primary btn-sm btn-icon btn-icon-only" :class="{ 'active': isOpenMobileMenu }"
+                    @click="toggleMobile2('header-menu-open')">
                     <div class="btn-icon-wrapper">
-                        <font-awesome-icon icon="ellipsis-v"/>
+                        <font-awesome-icon icon="ellipsis-v" />
                     </div>
                 </button>
             </span>
@@ -31,59 +32,55 @@
 </template>
 
 <script>
+import { defineComponent, ref } from 'vue';
+import SearchBox from "./Header/SearchBox";
+import UserArea from "./Header/HeaderUserArea";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-    import SearchBox from './Header/SearchBox';
-    import UserArea from './Header/HeaderUserArea';
+library.add(faEllipsisV);
 
-    import {library} from '@fortawesome/fontawesome-svg-core'
-    import {
-        faEllipsisV,
-    } from '@fortawesome/free-solid-svg-icons'
-    import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
+export default defineComponent({
+    name: "HeaderComponent",
+    components: {
+        SearchBox,
+        UserArea,
+        FontAwesomeIcon,
+    },
 
-    library.add(
-        faEllipsisV,
-    );
-    export default {
-        name: "header-componenent",
-        components: {
-            SearchBox,
-            UserArea,
-            'font-awesome-icon': FontAwesomeIcon,
-        },
+    setup() {
+        const isOpen = ref(false);
+        const isOpenMobileMenu = ref(false);
 
-        data() {
-            return {
-                isOpen: false,
-                isOpenMobileMenu: false,
+        const toggleMobile = (className) => {
+            const el = document.body;
+            isOpen.value = !isOpen.value;
+
+            if (isOpen.value) {
+                el.classList.add(className);
+            } else {
+                el.classList.remove(className);
             }
-        },
-        props: {
+        };
 
+        const toggleMobile2 = (className) => {
+            const el = document.body;
+            isOpenMobileMenu.value = !isOpenMobileMenu.value;
 
-        },
-        methods: {
-            toggleMobile(className) {
-                const el = document.body;
-                this.isOpen = !this.isOpen;
+            if (isOpenMobileMenu.value) {
+                el.classList.add(className);
+            } else {
+                el.classList.remove(className);
+            }
+        };
 
-                if (this.isOpen) {
-                    el.classList.add(className);
-                } else {
-                    el.classList.remove(className);
-                }
-            },
-
-            toggleMobile2(className) {
-                const el = document.body;
-                this.isOpenMobileMenu = !this.isOpenMobileMenu;
-
-                if (this.isOpenMobileMenu) {
-                    el.classList.add(className);
-                } else {
-                    el.classList.remove(className);
-                }
-            },
-        }
-    };
+        return {
+            isOpen,
+            isOpenMobileMenu,
+            toggleMobile,
+            toggleMobile2,
+        };
+    },
+});
 </script>

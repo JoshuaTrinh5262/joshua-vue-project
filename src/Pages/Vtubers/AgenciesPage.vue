@@ -1,108 +1,205 @@
 <template>
   <div>
-    <page-title-component :heading=heading :subheading=subheading :icon=icon>
+    <page-title-component :heading="heading" :subheading="subheading" :icon="icon">
       <template v-slot:actions>
-        <button type="button" @click=openModal class="btn-shadow d-inline-flex align-items-center btn btn-primary">
+        <button type="button" @click="toggleModal" class="btn-shadow d-inline-flex align-items-center btn btn-primary">
           Create New
         </button>
-        <modal-component title="Create New" :isOpen="showModal" @closeModal="closeModal">
-          <template #body>
-            <p>This is the content of the modal body.</p>
-          </template>
-          <template #footer>
-            <button @click="closeModal">Cancel</button>
-            <button @click="closeModal">Submit</button>
-          </template>
-        </modal-component>
       </template>
     </page-title-component>
-    <table-component :footer=true :fields="fields" :items="items"></table-component>
-    <pagination-component :currentPage="currentPage" :perPage="itemsPerPage" :totalItems="totalItems"
-      :totalPages="totalPages" @load-page="loadPage" @change-page-size="changePageSize"></pagination-component>
+
+    <NotificationComponent v-model:notification="notification"></NotificationComponent>
+
+    <modal-component :title="isUpdateMode ? 'Update Agency' : 'Add New Agency'" :isOpen="showModal"
+      @closeModal="toggleModal">
+      <template #body>
+        <div class="position-relative form-group">
+          <label for="agency_name">Agency Name</label>
+          <input name="agency_name" id="agency_name" placeholder="Agency Name" type="text"
+            v-model="currentAgency.agency_name" class="form-control">
+          <small v-if="validationErrors.agency_name" class="text-danger">{{ validationErrors.agency_name }}</small>
+
+        </div>
+        <div class="position-relative form-group">
+          <label for="agency_status">Agency Status</label>
+          <input name="agency_status" id="agency_status" placeholder="Agency Status" type="text"
+            v-model="currentAgency.agency_status" class="form-control">
+        </div>
+        <div class="position-relative form-group">
+          <label for="agency_description">Agency Description</label>
+          <textarea rows="5" name="agency_description" id="agency_description" placeholder="Agency Description"
+            type="text" v-model="currentAgency.agency_description" class="form-control"></textarea>
+        </div>
+      </template>
+      <template #footer>
+        <button class="btn btn-primary" @click="toggleModal">Cancel</button>
+        <button-spinner :isLoading="onSubmit" buttonClass="btn btn-primary" @click="handleSubmit"
+          :normalText="isUpdateMode ? 'Update Agency' : 'Add New Agency'" />
+      </template>
+    </modal-component>
+    <AgencyTable ref="agencyTable" @handleUpdate="handleUpdateClick"></AgencyTable>
   </div>
 </template>
-<script>
-import ModalComponent from '../../DemoPages/Components/ModalComponent.vue';
-import TableComponent from '../../Layout/Components/TableComponent.vue';
-import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
-import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
-import { supabase } from '../../supabase/supabase';
 
-export default {
+<script>
+import { defineComponent, ref, reactive } from 'vue';
+import ModalComponent from '../../Layout/Components/ModalComponent.vue';
+import TableComponent from '../../Layout/Components/TableComponent.vue';
+import NotificationComponent from '../../Layout/Components/NotificationComponent.vue';
+import PageTitleComponent from '../../Layout/Components/PageTitleComponent.vue';
+import ButtonSpinner from "../../Layout/Components/ButtonSpinner.vue";
+import AgencyTable from "../../Pages/Vtubers/Table/AgencyTable.vue";
+import { validateAgencyForm } from '../../utils/validations';
+import { apiService } from '../../supabase/apiService';
+
+export default defineComponent({
   name: "AgenciesPage",
 
   components: {
     ModalComponent,
     TableComponent,
     PageTitleComponent,
-    PaginationComponent
+    NotificationComponent,
+    ButtonSpinner,
+    AgencyTable
   },
 
-  data() {
-    return {
-      showModal: false,
-      heading: 'Agencies',
-      subheading: 'Explore the Profiles of Emerging and Established Talents.',
-      icon: 'pe-7s-user icon-gradient bg-premium-dark',
-      currentPage: 1,
-      itemsPerPage: 20,
-      totalItems: 0,
-      totalPages: 0,
-      fields: [
-        {
-          key: 'agency_id',
-          value: 'agency_id'
-        },
-        {
-          key: 'agency_name',
-          value: 'agency_name'
-        },
-      ],
-      items: [],
-    }
-  },
+  setup() {
+    const heading = ref('Agencies');
+    const subheading = ref('Explore the Profiles of Emerging and Established Agencys.');
+    const icon = ref('pe-7s-home icon-gradient bg-premium-dark');
 
-  created() {
-    this.getAgenciesData(this.currentPage, this.itemsPerPage);
-  },
+    const agencyTable = ref(null);
+    const isUpdateMode = ref(false);
+    const showModal = ref(false);
+    const onSubmit = ref(false);
+    const notification = ref(null);
 
-  methods: {
-    openModal() {
-      this.showModal = true;
-    },
-    closeModal() {
-      this.showModal = false;
-    },
-    async getAgenciesData(newPage, newPageSize) {
-      const start = (newPage - 1) * newPageSize;
-      const end = start + newPageSize - 1;
+    const currentAgency = reactive({
+      agency_name: null,
+      agency_status: null,
+      agency_description: null
+    });
+    const validationErrors = ref({});
 
-      const { data, error } = await supabase
-        .from('agency')
-        .select('*')
-        .range(start, end);
+    const toggleModal = () => {
+      isUpdateMode.value = false;
+      cleanCurrentAgency();
+      showModal.value = !showModal.value;
+    };
 
-      if (!error) {
-        this.totalItems = data.length;
-        this.items = data;
+    const reloadAgencyTable = () => {
+      if (agencyTable.value) {
+        agencyTable.value.getAgenciesData();
       }
-    },
+    };
 
-    async handleChangeOrder({ orderDirection, orderBy }) {
-      this.orderDirection = orderDirection;
-      this.orderBy = orderBy;
+    const handleSubmit = async () => {
+      onSubmit.value = true;
+      validationErrors.value = validateAgencyForm(currentAgency);
+      if (Object.keys(validationErrors.value).length === 0) {
+        if (isUpdateMode.value) {
+          updateAgency();
+        } else {
+          createAgency();
+        }
+      } else {
+        onSubmit.value = false;
+        return;
+      }
 
-      await this.getAgenciesData(this.currentPage, this.itemsPerPage);
-    },
-    loadPage(page) {
-      this.currentPage = page;
-      this.getAgenciesData(this.currentPage, this.itemsPerPage);
-    },
+    };
 
-    async changePageSize(newPageSize) {
-      this.itemsPerPage = newPageSize;
-      await this.getAgenciesData(1, this.itemsPerPage);
-    },
-  },
-}
+    const createAgency = async () => {
+      try {
+        await apiService.createAgency(currentAgency);
+        cleanCurrentAgency();
+        toggleModal();
+        onSubmit.value = false;
+        notification.value = {
+          title: 'Success',
+          content: 'Agency created successfully!',
+          type: 'success'
+        };
+        reloadTable();
+      } catch (error) {
+        onSubmit.value = false;
+        notification.value = {
+          title: 'Error',
+          content: `Error when submitting Agency:${error}`,
+          type: 'danger'
+        };
+      }
+    }
+
+    const updateAgency = async () => {
+      try {
+        await apiService.updateAgency(currentAgency);
+        cleanCurrentAgency();
+        toggleModal();
+        onSubmit.value = false;
+        notification.value = {
+          title: 'Success',
+          content: 'Agency updated successfully!',
+          type: 'success',
+        };
+        reloadTable();
+        isUpdateMode.value = false;
+      } catch (error) {
+        onSubmit.value = false;
+        notification.value = {
+          title: 'Error',
+          content: `Error when updating Agency: ${error}`,
+          type: 'danger',
+        };
+        isUpdateMode.value = false;
+      }
+    };
+
+    const handleUpdateClick = (updateData) => {
+      isUpdateMode.value = true;
+
+      if (updateData) {
+        currentAgency.id = updateData.id;
+        currentAgency.agency_name = updateData.agency_name
+        currentAgency.agency_status = updateData.agency_status
+        currentAgency.agency_description = updateData.agency_description
+      }
+
+      showModal.value = true;
+    };
+
+    const cleanCurrentAgency = () => {
+      Object.assign(currentAgency, {
+        agency_name: null,
+        agency_status: null,
+        agency_description: null,
+      });
+
+      if (currentAgency.id) {
+        delete currentAgency.id;
+      }
+
+    };
+
+    return {
+      heading,
+      subheading,
+      icon,
+      agencyTable,
+      isUpdateMode,
+      showModal,
+      onSubmit,
+      currentAgency,
+      notification,
+      validationErrors,
+      toggleModal,
+      reloadAgencyTable,
+      handleSubmit,
+      handleUpdateClick,
+      createAgency,
+      updateAgency,
+    };
+  }
+});
 </script>

@@ -1,110 +1,115 @@
 export const itemMixin = {
-  data () {
+  data() {
     return {
       active: false,
       childActive: false,
-      itemShow: false
+      itemShow: false,
+      uniqueId: Date.now() + Math.floor(Math.random() * 1000)
     }
   },
-  created () {
-    this.initActiveState()
-    this.initShowState()
+  created() {
+    this.initActiveState();
+    this.initShowState();
 
     if (!this.$router) {
       window.addEventListener('hashchange', () => {
-        this.initActiveState()
+        this.initActiveState();
       })
     }
   },
   methods: {
-    isLinkActive (item) {
-      return this.matchRoute(item.href) || this.isAliasActive(item)
+    isLinkActive(item) {
+      return this.matchRoute(item.href) || this.isAliasActive(item);
     },
-    isChildActive (child) {
+    isChildActive(child) {
       return child.some(item => {
-        return this.isLinkActive(item) || (item.child ? this.isChildActive(item.child) : false)
+        return this.isLinkActive(item) || (item.child ? this.isChildActive(item.child) : false);
       })
     },
-    isAliasActive (item) {
+    isAliasActive(item) {
       if (item.alias) {
         if (Array.isArray(item.alias)) {
           return item.alias.some(alias => {
-            return this.matchRoute(alias)
+            return this.matchRoute(alias);
           })
         } else {
-          return this.matchRoute(item.alias)
+          return this.matchRoute(item.alias);
         }
       }
-      return false
+      return false;
     },
-    matchRoute (route) {
+    matchRoute(route) {
       if (this.$route) {
-        return route === this.$route.fullPath
+        return route === this.$route.fullPath;
       } else {
-        return route === window.location.pathname + window.location.search + window.location.hash
+        return route === window.location.pathname + window.location.search + window.location.hash;
       }
     },
-    clickEvent (event) {
-      this.emitItemClick(event, this.item)
+    clickEvent(event) {
+      this.emitItemClick(event, this.item);
 
       if ((!this.item.href && (!this.item.child || this.mobileItem)) || this.item.disabled) {
-        event.preventDefault()
-        return
+        event.preventDefault();
+        return;
       }
 
       if (!this.mobileItem && this.isCollapsed && this.firstItem) {
-        let clearCloseTimeout = this.item.child
-        this.$parent.$emit('touchClickItem', clearCloseTimeout)
+        let clearCloseTimeout = this.item.child;
+        this.$parent.$emit('touchClickItem', clearCloseTimeout);
       }
 
       let showOneChildEnabled = this.firstItem && this.showOneChild && !this.showChild
       if (!this.mobileItem && this.item.child) {
         if (!this.item.href) {
-          event.preventDefault()
+          event.preventDefault();
         }
         if (showOneChildEnabled) {
-          this.activeShow === this._uid ? this.setActiveShow(false) : this.setActiveShow(true, this._uid)
+          this.activeShow === this.uniqueId ? this.setActiveShow(false) : this.setActiveShow(true, this.uniqueId)
         } else {
-          this.itemShow = !this.itemShow
+          this.itemShow = !this.itemShow;
         }
       } else if (!this.mobileItem && showOneChildEnabled) {
-        this.emitActiveShow(null)
+        this.emitActiveShow(null);
       }
     },
-    setActiveShow (itemShow, uid = null) {
-      this.emitActiveShow(itemShow ? uid : null)
-      this.itemShow = itemShow
+    setActiveShow(itemShow, uid = null) {
+      this.emitActiveShow(itemShow ? uid : null);
+      this.itemShow = itemShow;
     },
-    initActiveState () {
+    initActiveState() {
       this.active = this.item && this.item.href ? this.isLinkActive(this.item) : false
       this.childActive = this.item && this.item.child ? this.isChildActive(this.item.child) : false
     },
-    initShowState () {
+    initShowState() {
       if (this.item && this.item.child) {
         this.itemShow = this.isLinkActive(this.item) || this.isChildActive(this.item.child)
         if (this.showOneChild && !this.showChild && this.firstItem && (this.active || this.childActive)) {
-          this.emitActiveShow(this._uid)
+          this.emitActiveShow(this.uniqueId);
         }
       }
     }
   },
   computed: {
-    isRouterLink () {
-      return this.$router && this.item && this.item.href !== undefined
+    isRouterLink() {
+      return this.$router && this.item && this.item.href !== undefined;
     },
-    show () {
-      if (!this.item || !this.item.child) return false
-      if (this.showChild) return this.showChild
+    show() {
+      if (!this.item || !this.item.child) {
+        return false;
+      }
+      if (this.showChild) {
+        return this.showChild;
+      }
       if (this.firstItem && this.showOneChild) {
-        return this._uid === this.activeShow
+        return this.uniqueId === this.activeShow;
       } else {
-        return this.mobileItem ? true : this.itemShow
+        return this.mobileItem ? true : this.itemShow;
       }
     }
   },
   watch: {
-    $route () {
-      this.initActiveState()
+    $route() {
+      this.initActiveState();
     }
   },
   inject: ['emitActiveShow', 'emitItemClick']
@@ -112,18 +117,18 @@ export const itemMixin = {
 
 export const animationMixin = {
   methods: {
-    expandEnter (el) {
-      el.style.height = el.scrollHeight + 'px'
+    expandEnter(el) {
+      el.style.height = el.scrollHeight + 'px';
     },
-    expandAfterEnter (el) {
-      el.style.height = 'auto'
+    expandAfterEnter(el) {
+      el.style.height = 'auto';
     },
-    expandBeforeLeave (el) {
+    expandBeforeLeave(el) {
       if (this.isCollapsed) {
-        el.style.display = 'none'
-        return
+        el.style.display = 'none';
+        return;
       }
-      el.style.height = el.scrollHeight + 'px'
+      el.style.height = el.scrollHeight + 'px';
     }
   }
 }

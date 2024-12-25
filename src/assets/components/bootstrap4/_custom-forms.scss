@@ -74,7 +74,7 @@
   // Background-color and (when enabled) gradient
   &::before {
     position: absolute;
-    top: ($font-size-base * $line-height-base - $custom-control-indicator-size) / 2;
+    top: calc(($font-size-base * $line-height-base - $custom-control-indicator-size) / 2);
     left: -($custom-control-gutter + $custom-control-indicator-size);
     display: block;
     width: $custom-control-indicator-size;
@@ -89,7 +89,7 @@
   // Foreground (icon)
   &::after {
     position: absolute;
-    top: ($font-size-base * $line-height-base - $custom-control-indicator-size) / 2;
+    top: calc(($font-size-base * $line-height-base - $custom-control-indicator-size) / 2);
     left: -($custom-control-gutter + $custom-control-indicator-size);
     display: block;
     width: $custom-control-indicator-size;
@@ -177,8 +177,8 @@
     }
 
     &::after {
-      top: calc(#{(($font-size-base * $line-height-base - $custom-control-indicator-size) / 2)} + #{$custom-control-indicator-border-width * 2});
-      left: calc(#{-($custom-switch-width + $custom-control-gutter)} + #{$custom-control-indicator-border-width * 2});
+      top: calc((($font-size-base * $line-height-base - $custom-control-indicator-size) / 2) + ($custom-control-indicator-border-width * 2));
+      left: calc(-1 * ($custom-switch-width + $custom-control-gutter) + ($custom-control-indicator-border-width * 2));
       width: $custom-switch-indicator-size;
       height: $custom-switch-indicator-size;
       background-color: $custom-control-indicator-border-color;
@@ -226,7 +226,9 @@
     border-radius: 0;
   }
   @include box-shadow($custom-select-box-shadow);
-  appearance: none;
+  & {
+    appearance: none;
+  }
 
   &:focus {
     border-color: $custom-select-focus-border-color;
@@ -368,7 +370,9 @@
   height: calc(#{$custom-range-thumb-height} + #{$custom-range-thumb-focus-box-shadow-width * 2});
   padding: 0; // Need to reset padding
   background-color: transparent;
-  appearance: none;
+  & {
+    appearance: none;
+  }
 
   &:focus {
     outline: none;
@@ -387,13 +391,15 @@
   &::-webkit-slider-thumb {
     width: $custom-range-thumb-width;
     height: $custom-range-thumb-height;
-    margin-top: ($custom-range-track-height - $custom-range-thumb-height) / 2; // Webkit specific
+    margin-top: calc(($custom-range-track-height - $custom-range-thumb-height) / 2); // Webkit specific
     @include gradient-bg($custom-range-thumb-bg);
     border: $custom-range-thumb-border;
     @include border-radius($custom-range-thumb-border-radius);
     @include box-shadow($custom-range-thumb-box-shadow);
     @include transition($custom-forms-transition);
-    appearance: none;
+    & {
+      appearance: none;
+    }
 
     &:active {
       @include gradient-bg($custom-range-thumb-active-bg);
@@ -419,8 +425,9 @@
     @include border-radius($custom-range-thumb-border-radius);
     @include box-shadow($custom-range-thumb-box-shadow);
     @include transition($custom-forms-transition);
-    appearance: none;
-
+    & {
+      appearance: none;
+    }
     &:active {
       @include gradient-bg($custom-range-thumb-active-bg);
     }
@@ -448,8 +455,9 @@
     @include border-radius($custom-range-thumb-border-radius);
     @include box-shadow($custom-range-thumb-box-shadow);
     @include transition($custom-forms-transition);
-    appearance: none;
-
+    & {
+      appearance: none;
+    }
     &:active {
       @include gradient-bg($custom-range-thumb-active-bg);
     }
@@ -462,7 +470,7 @@
     cursor: $custom-range-track-cursor;
     background-color: transparent;
     border-color: transparent;
-    border-width: $custom-range-thumb-height / 2;
+    border-width: calc($custom-range-thumb-height / 2);
     @include box-shadow($custom-range-track-box-shadow);
   }
 

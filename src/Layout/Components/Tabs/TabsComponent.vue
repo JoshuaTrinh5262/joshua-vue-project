@@ -12,7 +12,9 @@
   </div>
 </template>
 <script>
-export default {
+import { ref, provide, onMounted, defineComponent } from 'vue';
+
+export default defineComponent({
   name: 'tabs-component',
 
   props: {
@@ -21,38 +23,40 @@ export default {
       default: 'dark'
     }
   },
-  data() {
+  setup() {
+    const selectedIndex = ref(0);
+    const tabs = ref([]);
+
+    const selectTab = (index) => {
+      selectedIndex.value = index;
+      tabs.value.forEach((tab, i) => {
+        tab.isActive = (i === index);
+      });
+    };
+
+    const registerTab = (tab) => {
+      tabs.value.push(tab);
+    };
+
+    provide('registerTab', registerTab);
+
+    onMounted(() => {
+      selectTab(0);
+    });
+
     return {
-      selectedIndex: 0,
-      tabs: [],
-    }
-  },
-
-  created() {
-    this.tabs = this.$children
-  },
-
-  mounted() {
-    this.selectTab(0)
-  },
-
-  methods: {
-    selectTab(i) {
-      this.selectedIndex = i
-
-      this.tabs.forEach((tab, index) => {
-        tab.isActive = (index === i)
-      })
-    }
+      selectedIndex,
+      tabs,
+      selectTab,
+    };
   }
-}
+});
 </script>
 
 <style lang="css">
 .tabs-wrapper {
   width: 100%;
   min-height: 100vh;
-  background-color: #f8f8f8;
   margin: 0;
   padding: 10px;
 }
@@ -62,6 +66,9 @@ ul.tabs__header {
   list-style: none;
   margin: 0 0 0 0;
   padding: 0;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 ul.tabs__header>li {
@@ -70,6 +77,8 @@ ul.tabs__header>li {
   display: inline-block;
   margin-right: 1px;
   cursor: pointer;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 ul.tabs__header>li.tab__selected {

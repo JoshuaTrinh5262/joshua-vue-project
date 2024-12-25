@@ -306,15 +306,23 @@
     </div>
 </template>
 <script>
+import { defineComponent, ref } from 'vue';
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
-export default {
+
+export default defineComponent({
     components: {
         PageTitleComponent,
     },
-    data: () => ({
-        heading: 'Utilities',
-        subheading: 'These are helpers that speed up the dev time for various components and effects.',
-        icon: 'pe-7s-wristwatch icon-gradient bg-deep-blue',
-    }),
-}
+    setup() {
+        const heading = ref('Utilities');
+        const subheading = ref('These are helpers that speed up the dev time for various components and effects.');
+        const icon = ref('pe-7s-wristwatch icon-gradient bg-deep-blue');
+
+        return {
+            heading,
+            subheading,
+            icon,
+        };
+    },
+});
 </script>

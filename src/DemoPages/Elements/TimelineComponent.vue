@@ -285,18 +285,23 @@
 </template>
 
 <script>
+import { defineComponent, ref } from 'vue';
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 
-export default {
+export default defineComponent({
   components: {
     PageTitleComponent,
   },
-  data: () => ({
-    heading: 'Timelines',
-    subheading: 'Timelines are used to show lists of notifications, tasks or actions in a beautiful way.',
-    icon: 'pe-7s-light icon-gradient bg-malibu-beach',
-  }),
-}
+  setup() {
+    const heading = ref('Timelines');
+    const subheading = ref('Timelines are used to show lists of notifications, tasks or actions in a beautiful way.');
+    const icon = ref('pe-7s-light icon-gradient bg-malibu-beach');
+
+    return {
+      heading,
+      subheading,
+      icon,
+    };
+  },
+});
 </script>
-
-

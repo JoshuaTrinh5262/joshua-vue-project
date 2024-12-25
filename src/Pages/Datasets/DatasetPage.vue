@@ -1,12 +1,8 @@
 <template>
     <div>
-        <page-title-component
-            :heading=heading
-            :subheading=subheading
-            :icon=icon
-            >
+        <page-title-component :heading=heading :subheading=subheading :icon=icon>
             <template v-slot:actions>
-                <button type="button" @click=toggleCreate class="btn btn-primary mr-2">
+                <button type="button" @click=toggleModal class="btn btn-primary mr-2">
                     Create New
                 </button>
                 <button @click=toggleImport type="button" class="btn btn-info mr-2">
@@ -17,32 +13,42 @@
                 </button>
             </template>
         </page-title-component>
-        <notification-component :notification.sync="notification"></notification-component>
-        <div class="main-card mb-3 card" v-if="showCreate">
-            <div class="card-header">
-                <h5 class="card-title">Add New Data</h5>
-            </div>
-            <div class="card-body">
-                <form @submit.prevent="handleCreate">
-                    <div class="position-relative form-group">
-                        <label for="source_text">Source Text</label>
-                        <input name="source_text" placeholder="Source Text" v-model="sourceText" type="text" class="form-control">
-                    </div>
-                    <div class="position-relative form-group">
-                        <label for="target_text">Target Text</label>
-                        <input name="target_text" placeholder="Source Text" v-model="targetText" type="text" class="form-control">
-                    </div>
-                    <div class="position-relative form-group">
-                        <label for="intense">Intense</label>
-                        <input name="intense" placeholder="Intense" v-model="intense" type="text" class="form-control">
-                    </div>
-                    <div class="position-relative form-group">
-                        <button type="submit" class="btn-primary btn">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="main-card mb-3 card" v-if="showImport">
+        <notification-component v-model:notification="notification"></notification-component>
+        <modal-component :title="isUpdateMode ? 'Update Dataset' : 'Add New Dataset'" :isOpen="showCreateModal"
+            @closeModal="toggleModal">
+            <template #body>
+                <div class="position-relative form-group">
+                    <label for="source_text">Source Text</label>
+                    <textarea rows="5" name="source_text" id="source_text" placeholder="Source Text"
+                        v-model="currentDataset.source_text" type="text" class="form-control"></textarea>
+                    <small v-if="validationErrors.source_text" class="text-danger">{{
+                        validationErrors.source_text }}</small>
+                </div>
+                <div class="position-relative form-group">
+                    <label for="target_text">Target Text</label>
+                    <textarea rows="5" name="target_text" id="target_text" placeholder="Source Text"
+                        v-model="currentDataset.target_text" type="text" class="form-control"></textarea>
+                    <small v-if="validationErrors.target_text" class="text-danger">{{
+                        validationErrors.target_text }}</small>
+                </div>
+                <div class="position-relative form-group">
+                    <label for="source">Source</label>
+                    <input name="source" id="source" placeholder="source" v-model="currentDataset.source" type="text"
+                        class="form-control">
+                </div>
+                <div class="position-relative form-group">
+                    <label for="category">Category</label>
+                    <input name="category" id="category" placeholder="category" v-model="currentDataset.category"
+                        type="text" class="form-control">
+                </div>
+            </template>
+            <template #footer>
+                <button type="text" class="btn btn-primary" @click="toggleModal">Cancel</button>
+                <button-spinner :isLoading="onSubmit" buttonClass="btn btn-primary" @click="handleSubmit"
+                    :normalText="isUpdateMode ? 'Update Dataset' : 'Add New Dataset'" />
+            </template>
+        </modal-component>
+        <div class=" main-card mb-3 card" v-if="showImport">
             <div class="card-header">
                 <h5 class="card-title">Import Data</h5>
             </div>
@@ -52,7 +58,7 @@
                     <input name="file" id="fileInput" type="file" @change="handleFileChange" class="form-control-file">
                 </div>
                 <div class="position-relative form-group">
-                    <button class="btn-success btn"  @click="handleImport">Import</button>
+                    <button class="btn-success btn" @click="handleImport">Import</button>
                 </div>
             </div>
         </div>
@@ -63,288 +69,325 @@
             <div class="card-body">
                 <div class="position-relative form-group">
                     <div class="form-group">
-                        <label for="fileName" class="">File Name</label>
-                        <input name="fileName" v-model="fileName" id="fileName" placeholder="File Name" type="text" class="form-control">
+                        <label for="file_name" class="">File Name</label>
+                        <input name="file_name" id="file_name" v-model="fileName" placeholder="File Name" type="text"
+                            class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="source_text_max_length" class="">Source Text Max Length</label>
-                        <input name="source_text_max_length" v-model="sourceTextMaxLength" type="number" placeholder="Source Text Max Length" class="form-control">
+                        <input name="source_text_max_length" id="source_text_max_length" v-model="sourceTextMaxLength"
+                            type="number" placeholder="Source Text Max Length" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label for="target_text_max_length"  class="">Target Text Max Length</label>
-                        <input name="target_text_max_length" v-model="targetTextMaxLength" type="number" placeholder="Target Text Max Length" class="form-control">
+                        <label for="target_text_max_length" class="">Target Text Max Length</label>
+                        <input name="target_text_max_length" id="target_text_max_length" v-model="targetTextMaxLength"
+                            type="number" placeholder="Target Text Max Length" class="form-control">
                     </div>
                 </div>
                 <div class="position-relative form-group">
-                    <button class="btn-primary btn"  @click="handleExport">Export</button>
+                    <button class="btn btn-primary" @click="toggleModal">Cancel</button>
+                    <button class="btn btn-primary" @click="handleExport">Export</button>
                 </div>
             </div>
         </div>
-        <table-component 
-            :footer=true
-            :fields="fields"
-            :items="items"
-            custom-class="datase-table"
-            @search="onSearchChange"
-            @changeOrder="handleChangeOrder"
-            @deleteRow="handleDeleteRow"
+        <table-component :footer=true :fields="fields" :items="items" custom-class="datase-table"
+            @search="onSearchChange" @changeOrder="handleChangeOrder" @deleteRow="handleDeleteDataset"
             @updateRow="handleUpdateRow">
         </table-component>
-        <pagination-component
-            :currentPage="currentPage"
-            :perPage="itemsPerPage"
-            :totalItems="totalItems"
-            :totalPages="totalPages"
-            @load-page="loadPage"
-            @change-page-size="changePageSize"></pagination-component>
+        <pagination-component :currentPage="currentPage" :perPage="itemsPerPage" :totalItems="totalItems"
+            :totalPages="totalPages" @load-page="loadPage" @change-page-size="changePageSize" />
     </div>
 </template>
 <script>
-import axios from 'axios';
-import TableComponent from '../../Layout/Components/TableComponent.vue';
-import PageTitleComponent from '../../Layout/Components/PageTitleComponent.vue';
-import PaginationComponent from '../../Layout/Components/PaginationComponent.vue';
-import NotificationComponent from '../../Layout/Components/NotificationComponent.vue';
+import { ref, reactive, onMounted, defineComponent } from "vue";
+import TableComponent from "../../Layout/Components/TableComponent.vue";
+import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
+import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
+import NotificationComponent from "../../Layout/Components/NotificationComponent.vue";
+import ModalComponent from "../../Layout/Components/ModalComponent.vue";
+import ButtonSpinner from "../../Layout/Components/ButtonSpinner.vue";
+import { validateDatasetForm } from '../../utils/validations';
+import { apiService } from "../../supabase/apiService";
 
-export default {
+export default defineComponent({
     name: "DatasetPage",
-
     components: {
         PageTitleComponent,
         PaginationComponent,
         TableComponent,
         NotificationComponent,
+        ModalComponent,
+        ButtonSpinner
     },
+    setup() {
+        const heading = ref("Chatbot Dataset");
+        const subheading = ref("Chatbot Dataset Page for admin.");
+        const icon = ref("pe-7s-server icon-gradient bg-premium-dark");
 
-    data() {
-        return {
-            show: false,
-            currentPage: 1,
-            itemsPerPage: 20,
-            totalItems: 0,
-            totalPages: 0,
-            orderBy: '',
-            orderDirection: '',
-            sourceText: '',
-            targetText: '',
-            intense: '',
-            fileName: '',
-            sourceTextMaxLength: 0,
-            targetTextMaxLength: 0,
-            search: '',
-            selectedFile: null,
-            showCreate: false,
-            showImport: false,
-            showExport: false,
-            fields: [
-                {
-                    key:'id',
-                    value:'Id'
-                },
-                {
-                    key:'source_text',
-                    value:'Source Text'
-                },
-                {
-                    key:'target_text',
-                    value:'Target Text'
-                },
-                {
-                    key:'intense',
-                    value:'Intense'
-                },
-            ],
-            items: [],
-            heading: 'Chatbot Dataset',
-            subheading: 'Chatbot Dataset',
-            icon: 'pe-7s-phone icon-gradient bg-premium-dark',
-            notification: null
-        }
-    },
+        const onSubmit = ref(false);
+        const currentPage = ref(1);
+        const itemsPerPage = ref(10);
+        const totalItems = ref(0);
+        const totalPages = ref(0);
+        const orderBy = ref("id");
+        const orderDirection = ref("asc");
+        const fileName = ref(null);
+        const sourceTextMaxLength = ref(0);
+        const targetTextMaxLength = ref(0);
+        const search = ref("");
+        const selectedFile = ref(null);
+        const showCreateModal = ref(false);
+        const showImport = ref(false);
+        const showExport = ref(false);
+        const isUpdateMode = ref(false);
 
-    created() {
-        this.getDatasetData(this.currentPage, this.itemsPerPage);
-    },
+        const validationErrors = ref({});
+        const currentDataset = reactive({
+            source_text: null,
+            target_text: null,
+            source: null,
+            category: null,
+            language: "en",
+        });
 
-    methods: {
-        toggleDialog() {
-            console.log(this.show);
-            return this.show = !this.show;
-        },
+        const fields = [
+            { key: "id", value: "Id" },
+            { key: "source_text", value: "Source Text" },
+            { key: "target_text", value: "Target Text" },
+            { key: "category", value: "Category" }
+        ];
 
-        getDatasetData(newPage, newPageSize) {
-            axios.get('http://127.0.0.1:5000/api/conversations', {
-                params: {
-                    page: newPage,
-                    pagesize: newPageSize,
-                    search: this.search,
-                    orderby: this.orderBy,
-                    orderdirection: this.orderDirection,
-                },
-            })
-            .then(response => {
-                this.items = response.data.data;
-                this.currentPage = response.data.current_page;
-                this.totalPages = response.data.total_pages;
-                this.totalItems = response.data.total_items;
-            })
-            .catch(error => {
-                console.error(error);
-            });
-        },
+        const items = ref([]);
+        const notification = ref(null);
 
-        onSearchChange(searchTerm) {
-            this.search = searchTerm;
-            this.getDatasetData(1, this.itemsPerPage);
-        },
+        const getDatasetData = async (newPage, newPageSize) => {
+            const result = await apiService.getDatasets(newPage, newPageSize, orderBy.value, orderDirection.value, search.value);
+            const count = await apiService.getCountDataset(search.value);
 
-        handleCreate() {
-            const postData = [{
-                source_text: this.sourceText,
-                target_text: this.targetText,
-                intense: this.intense,
-                language: 'en',
-            }];
-            
-            if(this.sourceText && this.targetText) {
-                axios.post('http://127.0.0.1:5000/api/conversations', postData)
-                .then((response) => {
-                    this.getDatasetData(this.currentPage, this.itemsPerPage);
-                    this.source_text = '';
-                    this.target_text = '';
-                    this.intense = '',
-                    this.notification = {
-                        title: 'Success',
-                        content: response.data.message,
-                        type: 'success'
-                    };
-                })
-                .catch(error => {
-                    this.notification = {
-                        title: 'Error',
-                        content: error,
-                        type: 'error'
-                    };
-                });
+            if (!result.error) {
+                items.value = result;
+                totalItems.value = count;
+                totalPages.value = Math.ceil(count / newPageSize);
+                itemsPerPage.value = newPageSize;
+            }
+        };
 
-                this.sourceText = '';
-                this.targetText = '';
+        const onSearchChange = (searchTerm) => {
+            search.value = searchTerm;
+            getDatasetData(1, itemsPerPage.value);
+        };
+
+        const handleSubmit = () => {
+            validationErrors.value = validateDatasetForm(currentDataset);
+            if (Object.keys(validationErrors.value).length === 0) {
+                if (isUpdateMode.value) {
+                    updateDataset();
+                } else {
+                    createDataset();
+                }
             } else {
-                this.notification = {
-                        title: 'Error',
-                        content: 'Please enter data before submitting.',
-                        type: 'error'
-                    };
+                onSubmit.value = false;
+                return;
             }
-        },
-        handleFileChange(event) {
-            this.selectedFile = event.target.files[0];
-        },
+        };
 
-        handleImport() {
-            const formData = new FormData();
-            formData.append('file', this.selectedFile);
-
-            axios.post('http://127.0.0.1:5000/api/import', formData, {
-                headers: {
-                'Content-Type': 'multipart/form-data',
-                },
-            })
-            .then(response => {
-                this.notification = {
-                        title: 'Success',
-                        content: response.data.message,
-                        type: 'success'
-                    };
-            })
-            .catch(error => {
-                console.error(error);
-            });
-        },
-
-        handleExport() {
-            axios.get('http://127.0.0.1:5000/api/export', {
-                params: {
-                    targetTextMaxLength: this.targetTextMaxLength,
-                    sourceTextMaxLength: this.sourceTextMaxLength
-                },
-                responseType: 'blob'
-            })
-            .then(response => {
-                const blob = new Blob([response.data], { type: response.headers['content-type'] });
-
-                const link = document.createElement('a');
-                link.href = window.URL.createObjectURL(blob);
-
-                link.download = this.fileName ? this.fileName + '.csv' : 'chatbot_dataset.csv';
-                link.click();
-            })
-            .catch(error => {
-                console.error(error);
-            });
-        },
-
-        handleDeleteRow(id) {
-            const isConfirmed = window.confirm('Are you sure you want to delete?');
-            if(isConfirmed) {
-                axios.delete('http://127.0.0.1:5000/api/conversations/' + id)
-                .then(response => {
-                    this.getDatasetData(this.currentPage, this.itemsPerPage);
-                    this.notification = {
-                        title: 'Success',
-                        content: response.data.message,
-                        type: 'success'
-                    };
-                })
-                .catch(error => {
-                    this.notification = {
-                        title: 'Error',
-                        content: error,
-                        type: 'error'
-                    };
-                });
+        const createDataset = async () => {
+            try {
+                await apiService.createDataset(currentDataset);
+                cleanCurrentDataset();
+                toggleModal();
+                notification.value = {
+                    title: "Success",
+                    content: "Dataset created successfully!",
+                    type: "success"
+                };
+                getDatasetData(currentPage.value, itemsPerPage.value);
+                isUpdateMode.value = false;
+            } catch (error) {
+                notification.value = {
+                    title: "Error",
+                    content: `Error when submitting dataset: ${error}`,
+                    type: "danger"
+                };
+                isUpdateMode.value = false;
             }
-        },
+        };
 
-        handleChangeOrder({ orderDirection, orderBy }) {
-            this.orderDirection = orderDirection;
-            this.orderBy = orderBy;
+        const updateDataset = async () => {
+            try {
+                await apiService.updateDataset(currentDataset);
+                cleanCurrentDataset();
+                toggleModal();
+                notification.value = {
+                    title: "Success",
+                    content: "Dataset updated successfully!",
+                    type: "success"
+                };
+                getDatasetData(currentPage.value, itemsPerPage.value);
+                isUpdateMode.value = false;
+            } catch (error) {
+                notification.value = {
+                    title: "Error",
+                    content: `Error when updating dataset: ${error}`,
+                    type: "danger"
+                };
+                isUpdateMode.value = false;
+            }
+        };
 
-            this.getDatasetData(this.currentPage, this.itemsPerPage);
-        },
+        const handleDeleteDataset = async (id) => {
+            if (confirm(`Are you sure you want to delete dataset ${id}?`)) {
+                try {
+                    await apiService.deleteDataset(id);
+                    notification.value = {
+                        title: "Success",
+                        content: "Dataset deleted successfully!",
+                        type: "success"
+                    };
+                    getDatasetData(1, itemsPerPage.value);
+                } catch (error) {
+                    notification.value = {
+                        title: "Error",
+                        content: `Error when deleting dataset: ${error}`,
+                        type: "danger"
+                    };
+                }
+            }
+        };
 
-        handleUpdateRow() {
-            console.log("update")
-        },
+        const handleExport = async () => {
+            try {
+                var response = await apiService.exportDataset(fileName.value, sourceTextMaxLength.value, targetTextMaxLength.value);
 
-        toggleCreate(){
-            this.showImport = false;
-            this.showExport = false;
-            this.showCreate = !this.showCreate;
-        },
+                if (response.success) {
+                    notification.value = {
+                        title: "Success",
+                        content: "Export Dataset successfully!",
+                        type: "success"
+                    };
+                    getDatasetData(currentPage.value, itemsPerPage.value);
+                } else {
+                    notification.value = {
+                        title: "Error",
+                        content: `${response.message}`,
+                        type: "danger"
+                    };
+                }
 
-        toggleImport(){
-            this.showImport = !this.showImport;
-            this.showExport = false;
-            this.showCreate = false;
-        },
+                isUpdateMode.value = false;
+            } catch (error) {
+                notification.value = {
+                    title: "Error",
+                    content: `Error when export dataset: ${error}`,
+                    type: "danger"
+                };
+            }
+        };
 
-        toggleExport(){
-            this.showImport = false;
-            this.showExport = !this.showExport;
-            this.showCreate = false;
-        },
+        const handleChangeOrder = ({ orderDirection: newOrderDirection, orderBy: newOrderBy }) => {
+            orderDirection.value = newOrderDirection;
+            orderBy.value = newOrderBy;
+            getDatasetData(currentPage.value, itemsPerPage.value);
+        };
 
-        loadPage(page) {
-            this.currentPage = page;
-            this.getDatasetData(this.currentPage, this.itemsPerPage);
-        },
+        const handleUpdateRow = (updateId) => {
+            isUpdateMode.value = true;
+            const selectedItem = items.value.find(x => x.id === updateId);
 
-        changePageSize(newPageSize) {
-            this.itemsPerPage = newPageSize;
-            this.getDatasetData(1, this.itemsPerPage);
-        },
+            if (selectedItem) {
+                Object.assign(currentDataset, selectedItem);
+            }
+
+            showCreateModal.value = true;
+        };
+
+        const toggleModal = () => {
+            isUpdateMode.value = false;
+            cleanCurrentDataset();
+            showCreateModal.value = !showCreateModal.value;
+            showImport.value = false;
+            showExport.value = false;
+        };
+
+        const toggleImport = () => {
+            showImport.value = !showImport.value;
+            showExport.value = false;
+        };
+
+        const toggleExport = () => {
+            showImport.value = false;
+            showExport.value = !showExport.value;
+        };
+
+        const loadPage = (page) => {
+            currentPage.value = page;
+            getDatasetData(currentPage.value, itemsPerPage.value);
+        };
+
+        const changePageSize = (newPageSize) => {
+            itemsPerPage.value = newPageSize;
+            getDatasetData(1, itemsPerPage.value);
+        };
+
+        const cleanCurrentDataset = () => {
+            Object.assign(currentDataset, {
+                source_text: null,
+                target_text: null,
+                source: null,
+                category: null,
+                language: "en",
+            });
+
+            if (currentDataset.id) {
+                delete currentDataset.id;
+            }
+        };
+
+        onMounted(() => {
+            getDatasetData(currentPage.value, itemsPerPage.value);
+        });
+
+        return {
+            onSubmit,
+            currentPage,
+            itemsPerPage,
+            totalItems,
+            totalPages,
+            orderBy,
+            orderDirection,
+            fileName,
+            sourceTextMaxLength,
+            targetTextMaxLength,
+            search,
+            selectedFile,
+            showCreateModal,
+            showImport,
+            showExport,
+            isUpdateMode,
+            currentDataset,
+            validationErrors,
+            fields,
+            items,
+            heading,
+            subheading,
+            icon,
+            notification,
+            getDatasetData,
+            onSearchChange,
+            handleSubmit,
+            createDataset,
+            updateDataset,
+            handleDeleteDataset,
+            handleChangeOrder,
+            handleUpdateRow,
+            handleExport,
+            toggleModal,
+            toggleImport,
+            toggleExport,
+            loadPage,
+            changePageSize,
+            cleanCurrentDataset
+        };
     }
-};
+});
 </script>
-  

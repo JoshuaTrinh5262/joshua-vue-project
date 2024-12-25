@@ -18,23 +18,29 @@
 </template>
 
 <script>
-export default {
+import { defineComponent, ref } from "vue";
+
+export default defineComponent({
     name: "MainHeaderComponent",
-    data() {
+
+    setup() {
+        const title = ref("Joshua");
+        const isAuthenticated = ref(false);
+        const navItems = ref([
+            { text: "HOME", href: "/" },
+            { text: "HOLOLIVE", href: "/hololive" },
+            { text: "TOOL", href: "/tool" },
+            { text: "ABOUT", href: "/about" },
+            { text: "CONTACT", href: "/contact" }
+        ]);
+
         return {
-            title: "Joshua",
-            isAuthenticated: false,
-            navItems: [
-                { text: "Home", href: "/" },
-                { text: "Admin", href: "/admin" },
-                { text: "Hololive", href: "/hololive" },
-                { text: "Tool", href: "/tool" },
-                { text: "About", href: "/about" },
-                { text: "Contact", href: "/contact" }
-            ]
+            title,
+            isAuthenticated,
+            navItems
         };
     }
-};
+});
 </script>
 
 <style scoped>
@@ -75,15 +81,15 @@ export default {
 }
 
 .auth-buttons button {
-  background-color: #007bff;
-  border: none;
-  color: white;
-  padding: 0.5rem 1rem;
-  margin-left: 1rem;
-  cursor: pointer;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    margin-left: 1rem;
+    cursor: pointer;
 }
 
 .auth-buttons button:hover {
-  background-color: #0056b3;
+    background-color: #0056b3;
 }
 </style>

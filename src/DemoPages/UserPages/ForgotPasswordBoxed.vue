@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="h-100 bg-plum-plate bg-animation">
+        <div class="h-100 bg-premium-dark bg-animation">
             <div class="d-flex h-100 justify-content-center align-items-center">
                 <div class="col-md-6 mx-auto app-login-box">
                     <div class="app-logo-inverse mx-auto mb-3"></div>
@@ -15,17 +15,14 @@
                                 </div>
                             </div>
                             <div class="modal-body">
-                                <div>
-                                    <Form>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label for="exampleEmail">Email</label>
-                                                    <input type="email" class="form-control" name="email" id="exampleEmail" placeholder="Email here...">
-                                                </div>
-                                            </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="exampleEmail">Email</label>
+                                            <input type="email" class="form-control" name="email" id="exampleEmail"
+                                                placeholder="Email here...">
                                         </div>
-                                    </Form>
+                                    </div>
                                 </div>
                                 <div class="divider"></div>
                                 <h6 class="mb-0">
@@ -47,3 +44,16 @@
         </div>
     </div>
 </template>
+
+<script>
+import { defineComponent } from "vue";
+
+export default defineComponent({
+    name: "ForgotPasswordBoxed",
+    setup() {
+
+        return {
+        };
+    }
+});
+</script>

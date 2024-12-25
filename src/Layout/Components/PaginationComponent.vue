@@ -21,10 +21,10 @@
       </ul>
     </div>
     <div class="form-group page-info-group">
-      <p>Page {{ currentPage }} of {{ totalPages }} Total Items: {{ totalItems }}</p>
+      Page {{ currentPage }} of {{ totalPages }} | Total Items: {{ totalItems }}
     </div>
     <div class="form-group page-size-group">
-      <select v-model="selectedPageSize" @change="changePageSize" class="form-control">
+      <select v-model="selectedPageSize" @change="changePageSize" class="form-control" name="selectedPageSize">
         <option v-for="size in pageSizes" :key="size" :value="size">{{ size }}</option>
       </select>
     </div>
@@ -32,31 +32,26 @@
 </template>
 
 <script>
-export default {
-  name: 'PaginationComponent',
+import { defineComponent, ref, computed, onMounted } from "vue";
+
+export default defineComponent({
+  name: "PaginationComponent",
   props: {
     currentPage: {
       type: Number,
       default: 1,
-      required: false,
     },
-
     perPage: {
       type: Number,
       default: 10,
-      required: false,
     },
-
     totalItems: {
       type: Number,
       default: 0,
-      required: false,
     },
-
     totalPages: {
       type: Number,
       default: 1,
-      required: false,
     },
     maxVisiblePages: {
       type: Number,
@@ -64,46 +59,37 @@ export default {
     },
   },
 
+  setup(props, { emit }) {
+    const selectedPageSize = ref(props.perPage);
+    const pageSizes = [5, 10, 20, 40, 60, 80, 100];
 
-  data: () => ({
-    selectedPageSize: 20,
-    pageSizes: [5, 10, 20, 40, 60, 80, 100],
-  }),
-
-  mounted() {
-    this.selectedPageSize = this.perPage;
-  },
-
-  computed: {
-    visiblePages() {
-      const startPage = Math.max(1, this.currentPage - Math.floor(this.maxVisiblePages / 2));
-      const endPage = Math.min(this.totalPages, startPage + this.maxVisiblePages - 1);
+    const visiblePages = computed(() => {
+      const startPage = Math.max(1, props.currentPage - Math.floor(props.maxVisiblePages / 2));
+      const endPage = Math.min(props.totalPages, startPage + props.maxVisiblePages - 1);
       return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
-    },
+    });
+
+    const loadPage = (page) => {
+      emit("load-page", page);
+    };
+
+    const changePageSize = () => {
+      emit("change-page-size", selectedPageSize.value);
+    };
+
+    onMounted(() => {
+      selectedPageSize.value = props.perPage;
+    });
+
+    return {
+      selectedPageSize,
+      pageSizes,
+      visiblePages,
+      loadPage,
+      changePageSize,
+    };
   },
-
-  methods: {
-    loadPage(page) {
-      this.$emit('load-page', page);
-    },
-
-    changePageSize() {
-      this.$emit('change-page-size', this.selectedPageSize);
-    },
-
-    prevPage() {
-      if (this.currentPage > 1) {
-        this.$emit('update-page', this.currentPage - 1);
-      }
-    },
-
-    nextPage() {
-      if (this.currentPage < this.totalPages) {
-        this.$emit('update-page', this.currentPage + 1);
-      }
-    },
-  }
-}
+});
 </script>
 
 <style scoped>
@@ -111,12 +97,15 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-bottom: 10px;
 }
 
 .pagination-group {
   text-align: center;
 }
-
+.pagination-group .pagination{
+  margin: 0px;
+}
 .page-info-group {
   margin-left: auto;
 }

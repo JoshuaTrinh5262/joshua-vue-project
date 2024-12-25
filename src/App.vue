@@ -1,25 +1,38 @@
 <template>
   <div id="app">
     <component :is="layout">
+      <router-view v-slot="{ Component }">
         <transition name="fade" mode="out-in">
-            <router-view></router-view>
+          <div>
+            <component :is="Component" />
+          </div>
         </transition>
+      </router-view>
     </component>
   </div>
 </template>
 
 <script>
-  const default_layout = "default";
+import { defineComponent, computed } from 'vue';
+import { useRoute } from 'vue-router';
 
-  export default {
-    computed: {
-      layout() {
-        return (this.$route.meta.layout || default_layout) + '-layout';
-      }
-    }
-  }
+export default defineComponent({
+  name: 'App',
+  setup() {
+    const route = useRoute();
+
+    const layout = computed(() => {
+      const defaultLayout = 'default';
+      return (route.meta.layout || defaultLayout) + '-layout';
+    });
+
+    return {
+      layout,
+    };
+  },
+});
 </script>
 
 <style lang="scss">
-  @import "assets/base.scss";
+@import "assets/base.scss";
 </style>

@@ -1,4 +1,7 @@
 <template>
+  <div class="banner">
+    <BannerComponent></BannerComponent>
+  </div>
   <div class="timeline">
     <div class="timeline-container right">
       <div class="timeline-content">
@@ -226,6 +229,19 @@
 </template>
 
 <script>
+import { defineComponent } from "vue";
+import BannerComponent from "../Layout/Components/BannerComponent.vue";
+
+export default defineComponent({
+  name: "HomePage",
+  data() {
+    return {
+    };
+  },
+  components: {
+    BannerComponent,
+  },
+});
 </script>
 
 <style scoped>
@@ -235,7 +251,7 @@
 
 /* The actual timeline (the vertical ruler) */
 .timeline::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 6px;
   background-color: white;
@@ -255,7 +271,7 @@
 
 /* The circles on the timeline */
 .timeline-container::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 25px;
   height: 25px;

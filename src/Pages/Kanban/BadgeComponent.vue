@@ -1,16 +1,13 @@
 <template>
-  <div
-    class="px-3 rounded-circle text-xs font-weight-bold d-flex align-items-center"
-    :class="`bg-${color}-100 text-${color}-700`"
-  >
-    <span class="w-2 h-2 rounded-circle mr-1" :class="`bg-${color}-400`"></span>
-    <span>
-      <slot></slot>
-    </span>
+  <div class="px-1 text-xs font-weight-bold d-flex align-items-center" :class="badgeClasses">
+    <slot></slot>
   </div>
 </template>
+
 <script>
-export default {
+import { defineComponent, computed } from "vue";
+
+export default defineComponent({
   name: "BadgeComponent",
 
   props: {
@@ -18,6 +15,14 @@ export default {
       type: String,
       default: "teal"
     }
+  },
+
+  setup(props) {
+    const badgeClasses = computed(() => `bg-${props.color}-100 text-${props.color}-700`);
+
+    return {
+      badgeClasses
+    };
   }
-};
+});
 </script>
