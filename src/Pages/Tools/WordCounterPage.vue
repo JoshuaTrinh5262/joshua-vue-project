@@ -3,7 +3,7 @@
         <page-title-component :heading="heading" :subheading="subheading" :icon="icon"></page-title-component>
 
         <div class="content">
-            <textarea v-model="text" @input="updateCounters"></textarea>
+            <textarea name="inputText" v-model="text" @input="updateCounters"></textarea>
             <div class="row">
                 <div class="col-md-6">
                     <div class="counter">
@@ -13,28 +13,28 @@
                             </div>
                             <div class="card-body">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" v-model="words" />
+                                    <input name="words" type="text" class="form-control" v-model="words" />
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">{{ $t('words') }}</span>
                                     </div>
                                 </div>
                                 <br />
                                 <div class="input-group">
-                                    <input type="text" class="form-control" v-model="sentences" />
+                                    <input name="sentences" type="text" class="form-control" v-model="sentences" />
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">{{ $t('sentences') }}</span>
                                     </div>
                                 </div>
                                 <br />
                                 <div class="input-group">
-                                    <input type="text" class="form-control" v-model="paragraphs" />
+                                    <input name="paragraphs" type="text" class="form-control" v-model="paragraphs" />
                                     <div class="input-group-prepend btn-primary">
                                         <span class="input-group-text">{{ $t('paragraphs') }}</span>
                                     </div>
                                 </div>
                                 <br />
                                 <div class="input-group">
-                                    <input type="text" class="form-control" v-model="uniqueWordCount" />
+                                    <input name="uniqueWordCount" type="text" class="form-control" v-model="uniqueWordCount" />
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">{{ $t('total_unique_word') }}</span>
                                     </div>
