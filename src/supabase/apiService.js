@@ -5,6 +5,7 @@ import * as discographyApi from "./api/discographyApi";
 import * as eventApi from "./api/eventApi";
 import * as talentApi from "./api/talentApi";
 import * as datasetApi from "./api/datasetApi";
+import * as datasetUnprocessApi from "./api/datasetUnprocessApi";
 import * as chatgroupApi from "./api/chatgroupApi";
 import * as messageApi from "./api/messageApi";
 import * as userRoleApi from "./api/userRoleApi";
@@ -18,6 +19,7 @@ export const apiService = {
     ...eventApi,
     ...talentApi,
     ...datasetApi,
+    ...datasetUnprocessApi,
     ...chatgroupApi,
     ...messageApi,
     ...userRoleApi,
