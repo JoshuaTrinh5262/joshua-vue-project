@@ -13,28 +13,56 @@ export const getDatasets = async (
 
         let query = supabase
             .from("dataset")
-            .select("*", { count: "exact" })
+            .select("id, source_text, target_text, source, category")
             .order(orderBy, { ascending: orderDirection === "asc" })
             .range(start, end);
 
         if (search) {
             query = query.or(
-                `source_text.ilike.%${search}%,target_text.ilike.%${search}%,category.ilike.%${search}%`
+                `source_text.ilike.%${search}%,target_text.ilike.%${search}%`
             );
         }
-        const { data, count, error } = await query;
+
+        const { data, error } = await query;
 
         if (error) {
-            throw error;
+            return 0;
         }
 
-        return {
-            items: data,
-            totalItems: count,
-            totalPages: Math.ceil(count / pageSize),
-        };
+        return data;
     } catch (err) {
-        console.error("Error fetching datasets:", err);
+        return 0;
+    }
+};
+
+export const getCountDataset = async (search) => {
+    try {
+        let query = `
+            SELECT
+                COUNT(id)
+            FROM 
+                dataset
+        `;
+
+        if (search) {
+            query += `
+                WHERE 
+                    lower(source_text) LIKE '%${search.toLowerCase()}%' 
+                    OR lower(target_text) LIKE '%${search.toLowerCase()}%'
+        `;
+        }
+        query += `LIMIT 1`;
+
+        const { data, error } = await supabase.rpc('execute_dynamic_query', {
+            query,
+        });
+
+        if (error) {
+            return { error: error };
+        }
+
+        return data[0].count;
+    } catch (err) {
         return { error: err.message };
     }
 };
