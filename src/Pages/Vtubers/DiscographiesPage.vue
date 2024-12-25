@@ -70,12 +70,6 @@
       </template>
     </modal-component>
     <DiscographyTable></DiscographyTable>
-    <table-component :footer="true" :fields="fields" :items="items" @search="onSearchChange"
-      @changeOrder="handleChangeOrder" @deleteRow="handleDelete" @updateRow="handleUpdate"></table-component>
-
-    <pagination-component :currentPage="currentPage" :perPage="itemsPerPage" :totalItems="totalItems"
-      :totalPages="totalPages" @load-page="loadPage" @change-page-size="changePageSize">
-    </pagination-component>
   </div>
 </template>
 
@@ -113,7 +107,7 @@ export default defineComponent({
     const isUpdateMode = ref(false);
     const showModal = ref(false);
     const orderBy = ref("created_at");
-    const orderDirection = ref("desc");
+    const orderDirection = ref("asc");
     const search = ref("");
     const currentPage = ref(1);
     const itemsPerPage = ref(40);
@@ -268,11 +262,6 @@ export default defineComponent({
       showModal.value = !showModal.value;
     };
 
-    const onSearchChange = (searchTerm) => {
-      search.value = searchTerm;
-      getDiscographiesData(1, itemsPerPage.value);
-    };
-
     const handleChangeOrder = ({ orderDirection: newOrderDirection, orderBy: newOrderBy }) => {
       orderDirection.value = newOrderDirection;
       orderBy.value = newOrderBy;
@@ -329,7 +318,6 @@ export default defineComponent({
       handleDelete,
       cleanCurrentDiscography,
       changePageSize,
-      onSearchChange,
       handleChangeOrder,
       handleselectedTalentsChange
     };
