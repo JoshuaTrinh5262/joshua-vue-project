@@ -21,7 +21,8 @@
 </template>
 
 <script>
-    import { VuePerfectScrollbar } from 'vue3-perfect-scrollbar';
+    import { defineComponent, ref, onMounted, onBeforeUnmount  } from 'vue';
+    import { PerfectScrollbar } from 'vue3-perfect-scrollbar';
     import SidebarMenu from './Sidebar/SidebarMenu.vue';
 
 export default defineComponent({
