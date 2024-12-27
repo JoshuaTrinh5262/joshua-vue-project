@@ -2,13 +2,13 @@
 
 .app-sidebar {
   &.text-lighter {
-    .app-sidebar-content {
-      background: none !important;
-    }
+    // .app-sidebar-content {
+    //   background: none !important;
+    // }
 
-    .app-header__logo {
-      background: rgba(255, 255, 255, .1) !important;
-    }
+    // .app-header__logo {
+    //   background: rgba(255, 255, 255, .1) !important;
+    // }
 
     .logo-src {
       background: url('./assets/images/logo.png');
