@@ -22,7 +22,7 @@
     <div class="task-assigned d-flex align-items-center">
       <img class="img-fluid rounded-circle" height="35" width="35" src="@/assets/images/avatars/0.jpg"
         alt="Avatar" />
-      <BadgeComponent v-if="task.assigned_to" :class="assignedBadgeColor">
+      <BadgeComponent v-if="task.assigned_to">
         Assigned To: {{ task.assigned_to }}
       </BadgeComponent>
     </div>
