@@ -1,5 +1,5 @@
 <template>
-    <div class="app-container app-theme-dark">
+    <div class="app-container" :class="isDark ? 'app-theme-dark' : 'app-theme-white'">
         <transition name="fade" mode="out-in" appear>
             <HeaderComponent />
         </transition>
@@ -22,17 +22,22 @@ import { defineComponent } from "vue";
 import HeaderComponent from "../Components/HeaderComponent";
 import SidebarComponent from "../Components/SidebarComponent";
 import FooterComponent from "../Components/FooterComponent";
+import { useDark } from "@vueuse/core";
 
 export default defineComponent({
     name: "App",
+
     components: {
         HeaderComponent,
         SidebarComponent,
         FooterComponent,
     },
+
     setup() {
+        const isDark = useDark();
 
         return {
+            isDark,
         };
     },
 });
