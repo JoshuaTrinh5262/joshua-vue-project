@@ -40,3 +40,8 @@ npm update
 npm audit fix
 ```
 ## Setup local enviroment
+1. create .env
+2. fill in data
+VUE_APP_SUPABASE_URL=[supabase_project_url]
+VUE_APP_SUPABASE_KEY=[supabase_public_key]
+VUE_APP_SERVICE_ROLE_KEY=[supabase_service_role_key]
