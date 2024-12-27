@@ -1,4 +1,4 @@
-# Project Setup
+# Project Setup and Command
 
 ```sh
 npm install
@@ -22,17 +22,8 @@ npm run build
 npm run lint
 ```
 
-##
-
 ```sh
 npm run serve
-```
-
-##
-
-```sh
-npm outdated
-npm update
 ```
 
 ## regularly used npm command
@@ -48,3 +39,4 @@ npm update
 ```sh
 npm audit fix
 ```
+## Setup local enviroment
