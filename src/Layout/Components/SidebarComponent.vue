@@ -1,5 +1,7 @@
 <template>
-    <div class="app-sidebar sidebar-shadow" @mouseover="toggleSidebarHover('add', 'closed-sidebar-open')"
+    <div class="app-sidebar sidebar-shadow"
+        :class="isDark ? 'text-lighter' : 'text-darker'"
+        @mouseover="toggleSidebarHover('add', 'closed-sidebar-open')"
         @mouseleave="toggleSidebarHover('remove', 'closed-sidebar-open')">
         <div class="app-header__logo">
             <div class="logo-src"></div>
@@ -21,9 +23,10 @@
 </template>
 
 <script>
-    import { defineComponent, ref, onMounted, onBeforeUnmount  } from 'vue';
-    import { PerfectScrollbar } from 'vue3-perfect-scrollbar';
-    import SidebarMenu from './Sidebar/SidebarMenu.vue';
+import { defineComponent, ref, onMounted, onBeforeUnmount } from 'vue';
+import { PerfectScrollbar } from 'vue3-perfect-scrollbar';
+import SidebarMenu from './Sidebar/SidebarMenu.vue';
+import { useDark } from "@vueuse/core";
 
 export default defineComponent({
     name: 'SidebarComponent',
@@ -41,6 +44,7 @@ export default defineComponent({
         const isOpen = ref(false);
         const sidebarActive = ref(false);
         const windowWidth = ref(0);
+        const isDark = useDark();
 
         const menu = ref([
             { header: true, title: 'Main Navigation' },
@@ -162,6 +166,7 @@ export default defineComponent({
             isOpen,
             sidebarActive,
             windowWidth,
+            isDark,
             menu,
             toggleBodyClass,
             toggleSidebarHover,
