@@ -2,13 +2,13 @@
 
 .app-sidebar {
   &.text-darker {
-    .app-sidebar-content {
-      background: none !important;
-    }
+    // .app-sidebar-content {
+    //   background: none !important;
+    // }
 
-    .app-header__logo {
-      background: rgba(0, 0, 0, .1) !important;
-    }
+    // .app-header__logo {
+    //   background: rgba(0, 0, 0, .1) !important;
+    // }
 
     .logo-src {
       background: url('./assets/images/logo-inverse.png');
