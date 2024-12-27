@@ -12,17 +12,21 @@
                                 </div>
                             </button>
                             <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="dropdownMenuButton">
-                                <button class="dropdown-item" type="button">Profile</button>
-                                <button class="dropdown-item" type="button">Menus</button>
-                                <button class="dropdown-item" type="button">Setting</button>
-                                <h6 class="dropdown-header">Header</h6>
-                                <button class="dropdown-item" type="button">Actions</button>
+                                <button class="dropdown-item" type="button"
+                                    @click="navigateTo('/admin/profile')">Profile</button>
+                                <button class="dropdown-item" type="button"
+                                    @click="navigateTo('/admin/menu')">Menu</button>
+                                <button class="dropdown-item" type="button"
+                                    @click="navigateTo('/admin/setting')">Setting</button>
                                 <div class="dropdown-divider"></div>
-                                <button class="dropdown-item" type="button">Dividers</button>
+                                <button class="dropdown-item" type="button" @click="navigateTo('/')">Main</button>
                                 <div class="dropdown-divider"></div>
                                 <button class="dropdown-item" type="button" @click="handleLogout">Logout</button>
                             </div>
                         </div>
+                    </div>
+                    <div class="widget-content-left ml-3">
+                        <ToggleComponent></ToggleComponent>
                     </div>
                     <div class="widget-content-left ml-3 header-user-info">
                         <div class="widget-heading">Joshua Trinh</div>
@@ -35,11 +39,18 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted, onBeforeUnmount} from 'vue';
+import { defineComponent, ref, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
 import { logout } from '../../../supabase/authService';
+import ToggleComponent from '../ToggleComponent.vue';
 
 export default defineComponent({
+    name: "HeaderUserArea",
+
+    components: {
+        ToggleComponent
+    },
+
     setup() {
         const router = useRouter();
         const isDropdownOpen = ref(false);
@@ -55,6 +66,14 @@ export default defineComponent({
         const handleClickOutside = (event) => {
             if (dropdown.value && !dropdown.value.contains(event.target)) {
                 closeDropdown();
+            }
+        };
+
+        const navigateTo = (route) => {
+            if (router) {
+                router.push(route);
+            } else {
+                window.location.href = route;
             }
         };
 
@@ -86,7 +105,8 @@ export default defineComponent({
             dropdown,
             isDropdownOpen,
             handleLogout,
-            toggleDropdown
+            toggleDropdown,
+            navigateTo
         };
     }
 });
