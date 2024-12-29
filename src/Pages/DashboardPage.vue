@@ -461,33 +461,12 @@
 <script>
 import { defineComponent, ref, onMounted } from "vue";
 import PageTitleComponent from "../Layout/Components/PageTitleComponent.vue";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { apiService } from "../supabase/apiService";
-
-import {
-    faTrashAlt,
-    faCheck,
-    faCalendarAlt,
-    faAngleDown,
-    faAngleUp,
-    faTh,
-} from "@fortawesome/free-solid-svg-icons";
-
-library.add(
-    faTrashAlt,
-    faCheck,
-    faAngleDown,
-    faAngleUp,
-    faTh,
-    faCalendarAlt,
-);
 
 export default defineComponent({
     name: "DashboardPage",
     components: {
         PageTitleComponent,
-        FontAwesomeIcon,
     },
     setup() {
         const heading = ref("Analytics Dashboard");

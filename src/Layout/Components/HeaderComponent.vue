@@ -35,18 +35,13 @@
 import { defineComponent, ref } from 'vue';
 import SearchBox from "./Header/SearchBox";
 import UserArea from "./Header/HeaderUserArea";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-
-library.add(faEllipsisV);
 
 export default defineComponent({
     name: "HeaderComponent",
+
     components: {
         SearchBox,
         UserArea,
-        FontAwesomeIcon,
     },
 
     setup() {
