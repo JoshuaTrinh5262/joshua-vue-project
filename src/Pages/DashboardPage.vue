@@ -20,7 +20,7 @@
                             <div class="widget-numbers">1,7M</div>
                             <div class="widget-description opacity-8 text-focus">
                                 <div class="d-inline text-danger pr-1">
-                                    <font-awesome-icon icon="angle-down" />
+                                    <i class="pe-7s-angle-down"></i>
                                     <span class="pl-1">54.1%</span>
                                 </div>
                                 less earnings
@@ -41,7 +41,7 @@
                             <div class="widget-description opacity-8 text-focus">
                                 Grow Rate:
                                 <span class="text-info pl-1">
-                                    <font-awesome-icon icon="angle-down" />
+                                    <i class="pe-7s-angle-down"></i>
                                     <span class="pl-1">14.1%</span>
                                 </span>
                             </div>
@@ -61,7 +61,7 @@
                             <div class="widget-description text-focus">
                                 Increased by
                                 <span class="text-warning pl-1">
-                                    <font-awesome-icon icon="angle-up" />
+                                    <i class="pe-7s-angle-up"></i>
                                     <span class="pl-1">7.35%</span>
                                 </span>
                             </div>

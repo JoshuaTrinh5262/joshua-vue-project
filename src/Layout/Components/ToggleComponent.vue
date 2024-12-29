@@ -1,6 +1,6 @@
 <template>
     <button class="theme-toggle-button toggle-slider" type="button" role="switch"
-        :title="isDark ? 'Switch to light theme' : 'Switch to dark theme'" :aria-checked="isDark" @click="toggle">
+        :title="isDark ? 'Switch to light theme' : 'Switch to dark theme'" :aria-checked="isDark" @click="handleToggle">
         <span class="check">
             <span class="icon">
                 <i class="pe-7s-moon moon"></i>
@@ -19,14 +19,13 @@ export default {
     setup() {
         const isDark = useDark();
         const toggleTheme = useToggle(isDark);
-        const toggle = () => {
+        const handleToggle = () => {
             toggleTheme();
-            console.log("is toggled", isDark.value);
         }
         return {
             isDark,
             toggleTheme,
-            toggle,
+            handleToggle,
         };
     },
 };
@@ -118,5 +117,4 @@ export default {
 .dark .moon {
     opacity: 1;
 }
-
 </style>

@@ -23,7 +23,7 @@
                 <button class="btn btn-primary btn-sm btn-icon btn-icon-only" :class="{ 'active': isOpenMobileMenu }"
                     @click="toggleMobile2('header-menu-open')">
                     <div class="btn-icon-wrapper">
-                        <font-awesome-icon icon="ellipsis-v" />
+                        <i class="pe-7s-more"></i>
                     </div>
                 </button>
             </span>

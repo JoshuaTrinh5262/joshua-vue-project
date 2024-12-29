@@ -86,7 +86,7 @@ export default defineComponent({
                 type: "success",
             };
         };
-
+        
         onMounted(() => {
             const savedLanguage = localStorage.getItem("selectedLanguage");
             if (savedLanguage) {
@@ -101,6 +101,7 @@ export default defineComponent({
             icon,
             notification,
             selectedLanguage,
+            isDark,
             changeLanguage,
             toggleDark,
         };

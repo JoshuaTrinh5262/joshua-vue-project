@@ -179,10 +179,10 @@
                     </div>
                     <div class="widget-content-right widget-content-actions">
                       <button class="border-0 btn-transition btn btn-outline-success">
-                        <font-awesome-icon icon="check" />
+                        <i class="pe-7s-check"></i>
                       </button>
                       <button class="border-0 btn-transition btn btn-outline-danger">
-                        <font-awesome-icon icon="trash-alt" />
+                        <i class="pe-7s-trash"></i>
                       </button>
                     </div>
                   </div>
@@ -255,7 +255,7 @@
                     </div>
                     <div class="widget-content-right widget-content-actions">
                       <button class="border-0 btn-transition btn btn-outline-success">
-                        <font-awesome-icon icon="check" />
+                        <i class="pe-7s-check"></i>
                       </button>
                     </div>
                     <div class="widget-content-right ml-3">
@@ -285,10 +285,10 @@
                     </div>
                     <div class="widget-content-right widget-content-actions">
                       <button class="border-0 btn-transition btn btn-outline-success">
-                        <font-awesome-icon icon="check" />
+                        <i class="pe-7s-check"></i>
                       </button>
                       <button class="border-0 btn-transition btn btn-outline-danger">
-                        <font-awesome-icon icon="trash-alt" />
+                        <i class="pe-7s-trash"></i>
                       </button>
                     </div>
                   </div>
@@ -313,10 +313,10 @@
                     </div>
                     <div class="widget-content-right">
                       <button class="border-0 btn-transition btn btn-outline-success">
-                        <font-awesome-icon icon="check" />
+                        <i class="pe-7s-check"></i>
                       </button>
                       <button class="border-0 btn-transition btn btn-outline-danger">
-                        <font-awesome-icon icon="trash-alt" />
+                        <i class="pe-7s-trash"></i>
                       </button>
                     </div>
                   </div>
@@ -622,17 +622,10 @@
 <script>
 import { defineComponent, ref } from 'vue';
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faTrashAlt, faCheck } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-
-// Add FontAwesome icons to the library
-library.add(faTrashAlt, faCheck);
 
 export default defineComponent({
   components: {
     PageTitleComponent,
-    'font-awesome-icon': FontAwesomeIcon,
   },
   setup() {
     const heading = ref('List Groups');
