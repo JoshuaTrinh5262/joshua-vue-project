@@ -1,5 +1,9 @@
 // Page title
 
+.dark .app-page-title .page-title-icon {
+  background: $dark;
+}
+
 .app-page-title {
   padding: $grid-gutter-width;
   margin: (-$grid-gutter-width) (-$grid-gutter-width) $grid-gutter-width;
@@ -73,7 +77,7 @@
       margin: 0 calc($grid-gutter-width / 1.5) 0 0;
     }
   }
-
+  
   & + .RRT__container {
     margin-top: calc(-1 * ($grid-gutter-width / 1.3));
   }
