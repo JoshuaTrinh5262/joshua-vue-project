@@ -80,7 +80,7 @@ export default defineComponent({
         const { t, locale } = useI18n();
         const heading = ref(t("word_counter"));
         const subheading = ref("easy-to-use tool for tracking word and character counts in your writing.");
-        const icon = ref("pe-7s-tools icon-gradient bg-premium-dark");
+        const icon = ref("pe-7s-tools icon-gradient bg-tempting-azure");
 
         const text = ref("");
         const words = ref(0);

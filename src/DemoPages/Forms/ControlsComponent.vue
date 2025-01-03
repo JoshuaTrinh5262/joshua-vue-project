@@ -441,7 +441,7 @@ export default defineComponent({
     setup() {
         const heading = ref("Form Controls");
         const subheading = ref("Wide selection of forms controls, using the Bootstrap 4 code base, but built with Vue.");
-        const icon = ref("pe-7s-display1 icon-gradient bg-premium-dark");
+        const icon = ref("pe-7s-display1 icon-gradient bg-tempting-azure");
 
         return {
             heading,

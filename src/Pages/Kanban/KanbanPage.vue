@@ -20,7 +20,7 @@ export default defineComponent({
   setup() {
     const heading = ref("Kanban");
     const subheading = ref("Kanban Page.");
-    const icon = ref("pe-7s-notebook icon-gradient bg-premium-dark");
+    const icon = ref("pe-7s-notebook icon-gradient bg-tempting-azure");
 
     const columns = ref(kanbanData);
 

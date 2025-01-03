@@ -47,7 +47,7 @@ export default defineComponent({
     setup(props) {
         const heading = ref("Agency");
         const subheading = ref("Agency Detail Page");
-        const icon = ref("pe-7s-user icon-gradient bg-premium-dark");
+        const icon = ref("pe-7s-user icon-gradient bg-tempting-azure");
 
         const agency = ref(null);
         const fields = ref([

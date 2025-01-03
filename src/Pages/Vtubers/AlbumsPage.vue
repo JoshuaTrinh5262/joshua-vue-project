@@ -84,7 +84,7 @@ export default defineComponent({
   setup() {
     const heading = ref('Albums');
     const subheading = ref('Albums Pages');
-    const icon = ref('pe-7s-album icon-gradient bg-premium-dark');
+    const icon = ref('pe-7s-album icon-gradient bg-tempting-azure');
 
     const isUpdateMode = ref(false);
     const showModal = ref(false);

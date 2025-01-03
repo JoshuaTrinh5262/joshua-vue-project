@@ -65,7 +65,7 @@ export default defineComponent({
   setup() {
     const heading = ref("Chatgroup");
     const subHeading = ref("Chatgroup demo");
-    const icon = ref("pe-7s-chat icon-gradient bg-premium-dark");
+    const icon = ref("pe-7s-chat icon-gradient bg-tempting-azure");
 
     const currentChat = ref({
       id: null,

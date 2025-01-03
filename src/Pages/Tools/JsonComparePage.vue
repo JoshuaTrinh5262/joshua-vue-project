@@ -41,7 +41,7 @@ export default defineComponent({
     setup() {
         const heading = ref("Json Compare");
         const subheading = ref("Validate, format, and compare two JSON documents. See the differences between the objects instead of just the new lines and mixed up properties.");
-        const icon = ref("pe-7s-shield icon-gradient bg-premium-dark");
+        const icon = ref("pe-7s-shield icon-gradient bg-tempting-azure");
 
         const oldJsonInput = ref(null);
         const newJsonInput = ref(null);

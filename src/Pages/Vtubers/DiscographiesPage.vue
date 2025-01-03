@@ -102,7 +102,7 @@ export default defineComponent({
   setup() {
     const heading = ref("Discographies");
     const subheading = ref("Dive into the Musical Journeys of Talented Artists Across Generations");
-    const icon = ref("pe-7s-musiclist icon-gradient bg-premium-dark");
+    const icon = ref("pe-7s-musiclist icon-gradient bg-tempting-azure");
 
     const isUpdateMode = ref(false);
     const showModal = ref(false);
