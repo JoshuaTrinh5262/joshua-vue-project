@@ -121,7 +121,7 @@ export default defineComponent({
     setup() {
         const heading = ref("Chatbot Dataset");
         const subheading = ref("Chatbot Dataset Page for admin.");
-        const icon = ref("pe-7s-server icon-gradient bg-premium-dark");
+        const icon = ref("pe-7s-server icon-gradient bg-tempting-azure");
 
         const onSubmit = ref(false);
         const currentPage = ref(1);

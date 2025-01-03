@@ -113,7 +113,7 @@ export default defineComponent({
   setup() {
     const heading = ref('Events');
     const subheading = ref('Events');
-    const icon = ref('pe-7s-date icon-gradient bg-premium-dark');
+    const icon = ref('pe-7s-date icon-gradient bg-tempting-azure');
 
     const isUpdateMode = ref(false);
     const showModal = ref(false);

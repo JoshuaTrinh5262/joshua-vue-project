@@ -88,7 +88,7 @@ export default defineComponent({
   setup() {
     const heading = ref("User");
     const subheading = ref("User");
-    const icon = ref("pe-7s-users icon-gradient bg-premium-dark");
+    const icon = ref("pe-7s-users icon-gradient bg-tempting-azure");
 
     const showModal = ref(false);
     const onSubmit = ref(false);

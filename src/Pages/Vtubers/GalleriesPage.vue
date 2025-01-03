@@ -25,7 +25,7 @@ export default defineComponent({
   setup() {
     const heading = ref("Gallery");
     const subheading = ref("Highlighting the Journey of Creative Minds in the Art World.");
-    const icon = ref("pe-7s-photo-gallery icon-gradient bg-premium-dark");
+    const icon = ref("pe-7s-photo-gallery icon-gradient bg-tempting-azure");
     const loadImages = ref(images);
 
     return {

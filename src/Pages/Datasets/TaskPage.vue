@@ -68,7 +68,7 @@ export default defineComponent({
   setup() {
     const heading = ref("Task");
     const subheading = ref("Task Page.");
-    const icon = ref("pe-7s-notebook icon-gradient bg-premium-dark");
+    const icon = ref("pe-7s-notebook icon-gradient bg-tempting-azure");
 
     const showModal = ref(false);
     const onSubmit = ref(false);

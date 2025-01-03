@@ -32,7 +32,7 @@ export default defineComponent({
     setup(props) {
         const heading = ref("Talent");
         const subheading = ref("Explore the Profiles of Emerging and Established Talents.");
-        const icon = ref("pe-7s-user icon-gradient bg-premium-dark");
+        const icon = ref("pe-7s-user icon-gradient bg-tempting-azure");
 
         const talent = ref(null);
 

@@ -28,7 +28,7 @@ export default defineComponent({
     setup() {
         const heading = ref('Translation Page');
         const subheading = ref('Translation Page');
-        const icon = ref('pe-7s-file icon-gradient bg-premium-dark');
+        const icon = ref('pe-7s-file icon-gradient bg-tempting-azure');
 
         const orderDirection = ref('asc');
         const orderBy = ref('key');

@@ -74,7 +74,7 @@ export default defineComponent({
         const { t, locale } = useI18n();
         const heading = ref(t("settings"));
         const subheading = ref("Setting Page.");
-        const icon = ref("pe-7s-settings icon-gradient bg-premium-dark");
+        const icon = ref("pe-7s-settings icon-gradient bg-tempting-azure");
         const notification = ref(null);
         const selectedLanguage = ref(locale.value);
         const changeLanguage = () => {
@@ -86,7 +86,7 @@ export default defineComponent({
                 type: "success",
             };
         };
-        
+
         onMounted(() => {
             const savedLanguage = localStorage.getItem("selectedLanguage");
             if (savedLanguage) {

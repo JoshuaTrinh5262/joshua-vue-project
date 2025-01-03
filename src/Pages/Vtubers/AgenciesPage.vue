@@ -67,7 +67,7 @@ export default defineComponent({
   setup() {
     const heading = ref('Agencies');
     const subheading = ref('Explore the Profiles of Emerging and Established Agencys.');
-    const icon = ref('pe-7s-home icon-gradient bg-premium-dark');
+    const icon = ref('pe-7s-home icon-gradient bg-tempting-azure');
 
     const agencyTable = ref(null);
     const isUpdateMode = ref(false);

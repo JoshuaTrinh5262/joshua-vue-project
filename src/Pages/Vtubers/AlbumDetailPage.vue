@@ -44,7 +44,7 @@ export default defineComponent({
     setup(props) {
         const heading = ref("Album");
         const subheading = ref("Album");
-        const icon = ref("pe-7s-user icon-gradient bg-premium-dark");
+        const icon = ref("pe-7s-user icon-gradient bg-tempting-azure");
 
         const album = ref(null);
         const file = ref(null);
