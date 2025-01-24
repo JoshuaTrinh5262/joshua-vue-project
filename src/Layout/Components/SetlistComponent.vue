@@ -28,6 +28,7 @@ import { reactive, watch } from 'vue';
 
 export default {
     name: "SetlistComponent",
+    emits: ["updateTracks"],
     props: {
         tracksData: {
             type: Array,
