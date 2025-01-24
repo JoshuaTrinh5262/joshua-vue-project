@@ -150,6 +150,10 @@ export default defineComponent({
     const items = ref([]);
 
     const getEventsData = async (newPage, newPageSize) => {
+      if(search.value != '') {
+        newPage = 1;
+      }
+
       const result = await apiService.getEventsWithPaging(newPage, newPageSize, orderBy.value, orderDirection.value, search.value);
 
       if (!result.error) {
@@ -172,12 +176,12 @@ export default defineComponent({
       } else {
         createEvent();
       }
+      getEventsData(currentPage.value, itemsPerPage.value);
     };
 
     const createEvent = async () => {
       try {
         await apiService.createEvent(currentEvent, selectedTalents.value);
-        cleanCurrentEvent();
         toggleModal();
         onSubmit.value = false;
         notification.value = { title: 'Success', content: 'Event created successfully!', type: 'success' };
@@ -191,7 +195,6 @@ export default defineComponent({
     const updateEvent = async () => {
       try {
         await apiService.updateEvent(currentEvent, selectedTalents.value);
-        cleanCurrentEvent();
         toggleModal();
         onSubmit.value = false;
         notification.value = {
@@ -261,6 +264,7 @@ export default defineComponent({
     };
 
     const toggleModal = () => {
+      cleanCurrentEvent();
       showModal.value = !showModal.value;
     };
 

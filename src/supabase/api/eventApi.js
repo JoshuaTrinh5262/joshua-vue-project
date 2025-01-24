@@ -175,13 +175,22 @@ export const updateEvent = async (updateData, selectedTalents) => {
 
 export const deleteEvent = async (id) => {
     try {
-        const { data, error } = await supabase
+        const { error: eventTalentError } = await supabase
+            .from("event_talent")
+            .delete()
+            .eq("event_id", id);
+        if (eventTalentError) {
+            throw new Error(`Failed to delete event_talent: ${eventTalentError.message}`);
+        }
+
+        const { data, error: eventError } = await supabase
             .from("event")
             .delete()
             .eq("id", id);
-        if (error) {
-            throw error;
+        if (eventError) {
+            throw new Error(`Failed to delete event: ${eventError.message}`);
         }
+
         return data;
     } catch (err) {
         return { error: err.message };
