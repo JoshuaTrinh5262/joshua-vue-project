@@ -7,8 +7,9 @@
                 <button class="remove-tag" @click="removeItem(item)">x</button>
             </span>
         </div>
-        <input type="text" placeholder="Search..." v-model="searchQuery" class="form-control search-input" />
-        <select @change="updateSelectedItems" multiple class="form-control">
+        <input type="text" placeholder="Search..." v-model="searchQuery" @input="onSearch"
+            class="form-control search-input" />
+        <select v-if=showOptions @change="updateSelectedItems" multiple class="form-control">
             <option v-for="item in filteredItems" :key="item.id" :value="item.id">
                 {{ item.name }}
             </option>
@@ -31,10 +32,11 @@ export default defineComponent({
             default: () => [],
         },
     },
+
     setup(props, { emit }) {
         const selected = ref([...props.modelValue]);
         const searchQuery = ref('');
-
+        const showOptions = ref(false);
         const filteredItems = computed(() => {
             return props.items.filter(item =>
                 item.name.toLowerCase().includes(searchQuery.value.toLowerCase())
@@ -48,6 +50,10 @@ export default defineComponent({
         const removeItem = (item) => {
             selected.value = selected.value.filter(i => i.id !== item.id);
             emit('update:modelValue', selected.value);
+        };
+
+        const onSearch = () => {
+            showOptions.value = searchQuery.value.trim() !== "" && filteredItems.value.length > 0;
         };
 
         const updateSelectedItems = (event) => {
@@ -76,6 +82,8 @@ export default defineComponent({
             selected,
             searchQuery,
             filteredItems,
+            showOptions,
+            onSearch,
             removeItem,
             updateSelectedItems,
             isSelected,
