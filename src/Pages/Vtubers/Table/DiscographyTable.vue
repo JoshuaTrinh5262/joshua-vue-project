@@ -48,7 +48,7 @@
                     <td colspan="9">
                         <div>
                             <p>Discography Id: {{ item.id }}</p>
-                            <p>Talents:  {{ item.talents }}</p>
+                            <p>Talents: {{ item.talents }}</p>
 
                         </div>
                     </td>
@@ -155,12 +155,12 @@ export default defineComponent({
             } else {
                 createDiscography();
             }
+            getDiscographiesData();
         };
 
         const createDiscography = async () => {
             try {
                 await apiService.createDiscography(currentDiscography);
-                cleanCurrentDiscography();
                 toggleModal();
                 onSubmit.value = false;
                 notification.value = { title: 'Success', content: 'Discography created successfully!', type: 'success' };
@@ -174,7 +174,6 @@ export default defineComponent({
         const updateDiscography = async () => {
             try {
                 await apiService.updateDiscography(currentDiscography);
-                cleanCurrentDiscography();
                 toggleModal();
                 onSubmit.value = false;
                 notification.value = {

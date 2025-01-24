@@ -30,23 +30,23 @@
         </div>
         <div class="position-relative form-group">
           <label for="lyricist">Lyricist</label>
-          <input name="lyricist" id="lyricist" placeholder="lyricist"
-            v-model="currentDiscography.lyricist" type="text" class="form-control">
+          <input name="lyricist" id="lyricist" placeholder="lyricist" v-model="currentDiscography.lyricist" type="text"
+            class="form-control">
         </div>
         <div class="position-relative form-group">
           <label for="composer">Composer</label>
-          <input name="composer" id="composer" placeholder="Composer"
-            v-model="currentDiscography.composer" type="text" class="form-control">
+          <input name="composer" id="composer" placeholder="Composer" v-model="currentDiscography.composer" type="text"
+            class="form-control">
         </div>
         <div class="position-relative form-group">
           <label for="arrangement">Arrangement</label>
-          <input name="arrangement" id="arrangement" placeholder="Arrangement"
-            v-model="currentDiscography.arrangement" type="text" class="form-control">
+          <input name="arrangement" id="arrangement" placeholder="Arrangement" v-model="currentDiscography.arrangement"
+            type="text" class="form-control">
         </div>
         <div class="position-relative form-group">
           <label for="ensemble_as">ensemble_as</label>
-          <input name="ensemble_as" id="ensemble_as" placeholder="Ensemble As"
-            v-model="currentDiscography.ensemble_as" type="text" class="form-control">
+          <input name="ensemble_as" id="ensemble_as" placeholder="Ensemble As" v-model="currentDiscography.ensemble_as"
+            type="text" class="form-control">
         </div>
         <div class="position-relative form-group">
           <label for="album">Album</label>
@@ -69,7 +69,7 @@
           :normalText="isUpdateMode ? 'Update Discography' : 'Add New Discography'" />
       </template>
     </modal-component>
-    <DiscographyTable></DiscographyTable>
+    <DiscographyTable ref="discographyTable" @handleUpdate="handleUpdateClick"></DiscographyTable>
   </div>
 </template>
 
@@ -106,13 +106,6 @@ export default defineComponent({
 
     const isUpdateMode = ref(false);
     const showModal = ref(false);
-    const orderBy = ref("created_at");
-    const orderDirection = ref("asc");
-    const search = ref("");
-    const currentPage = ref(1);
-    const itemsPerPage = ref(40);
-    const totalItems = ref(0);
-    const totalPages = ref(0);
     const notification = ref(null);
     const onSubmit = ref(false);
 
@@ -127,29 +120,10 @@ export default defineComponent({
       ensemble_as: null
     });
 
-    const fields = ref([
-      { key: "id", value: "ID" },
-      { key: "name", value: "Name" },
-      { key: "original_name", value: "original Name" },
-      { key: "released_date", value: "Released Date" },
-      { key: "album", value: "album" },
-      { key: "talents", value: "talent" },
-    ]);
-
-    const items = ref([]);
+    const discographyTable = ref([]);
     const albumOptions = ref([]);
     const talentOptions = ref([]);
     const selectedTalents = ref([]);
-
-    const getDiscographiesData = async (newPage, newPageSize) => {
-      const result = await apiService.getDiscographiesWithPaging(newPage, newPageSize, orderBy.value, orderDirection.value, search.value);
-      if (!result.error) {
-        items.value = result.items;
-        totalItems.value = result.totalItems;
-        totalPages.value = result.totalPages;
-        itemsPerPage.value = newPageSize;
-      }
-    };
 
     const getAlbumsData = async () => {
       const result = await apiService.getAlbums();
@@ -173,11 +147,9 @@ export default defineComponent({
     const createDiscography = async () => {
       try {
         await apiService.createDiscography(currentDiscography, selectedTalents.value);
-        cleanCurrentDiscography();
         toggleModal();
         onSubmit.value = false;
         notification.value = { title: "Success", content: "Discography created successfully!", type: "success" };
-        getDiscographiesData(currentPage.value, itemsPerPage.value);
       } catch (error) {
         onSubmit.value = false;
         notification.value = { title: "Error", content: `Error when submitting talent: ${error}`, type: "danger" };
@@ -187,7 +159,6 @@ export default defineComponent({
     const updateDiscography = async () => {
       try {
         await apiService.updateDiscography(currentDiscography, selectedTalents.value);
-        cleanCurrentDiscography();
         toggleModal();
         onSubmit.value = false;
         notification.value = {
@@ -195,7 +166,6 @@ export default defineComponent({
           content: "Discography updated successfully!",
           type: "success",
         };
-        getDiscographiesData(currentPage.value, itemsPerPage.value);
         isUpdateMode.value = false;
       } catch (error) {
         onSubmit.value = false;
@@ -208,35 +178,28 @@ export default defineComponent({
       }
     };
 
-    const handleUpdate = (updateId) => {
+    const handleUpdateClick = (updateData) => {
       isUpdateMode.value = true;
-      const { album, talents, discography_talent, ...selectedItem } = items.value.find(x => x.id === updateId);
-
-      if (selectedItem) {
-        Object.assign(currentDiscography, selectedItem);
-      }
-
-      if (discography_talent && discography_talent.length > 0) {
-        selectedTalents.value = discography_talent.map(t => t.talent);
-      } else {
-        selectedTalents.value = [];
+      if (updateData) {
+        currentDiscography.id = updateData.id;
+        currentDiscography.name = updateData.name;
+        currentDiscography.original_name = updateData.original_name;
+        currentDiscography.agency_description = updateData.agency_description;
+        currentDiscography.released_date = updateData.released_date;
+        currentDiscography.album_id = updateData.album_id;
+        currentDiscography.lyricist = updateData.lyricist;
+        currentDiscography.composer = updateData.composer;
+        currentDiscography.arrangement = updateData.arrangement;
+        currentDiscography.ensemble_as = updateData.ensemble_as;
+        selectedTalents.value = updateData.discography_talent.map(item => ({
+          id: item.talent.id,
+          name: item.talent.name
+        }));
       }
 
       showModal.value = true;
     };
 
-    const handleDelete = async (id) => {
-      const confirmDelete = confirm(`Are you sure you want to delete Discography ${id}?`);
-      if (confirmDelete) {
-        try {
-          await apiService.deleteDiscography(id);
-          notification.value = { title: "Success", content: "Discography deleted successfully!", type: "success" };
-          getDiscographiesData(1, itemsPerPage.value);
-        } catch (error) {
-          notification.value = { title: "Error", content: `Error when deleting discography: ${error}`, type: "danger" };
-        }
-      }
-    };
 
     const cleanCurrentDiscography = () => {
       Object.assign(currentDiscography, {
@@ -262,20 +225,10 @@ export default defineComponent({
       showModal.value = !showModal.value;
     };
 
-    const handleChangeOrder = ({ orderDirection: newOrderDirection, orderBy: newOrderBy }) => {
-      orderDirection.value = newOrderDirection;
-      orderBy.value = newOrderBy;
-      getDiscographiesData(currentPage.value, itemsPerPage.value);
-    };
-
-    const loadPage = (page) => {
-      currentPage.value = page;
-      getDiscographiesData(currentPage.value, itemsPerPage.value);
-    };
-
-    const changePageSize = async (newPageSize) => {
-      itemsPerPage.value = newPageSize;
-      await getDiscographiesData(1, itemsPerPage.value);
+    const reloadDiscographyTable = () => {
+      if (discographyTable.value) {
+        discographyTable.value.getDiscographiesData();
+      }
     };
 
     const handleselectedTalentsChange = (newSelection) => {
@@ -283,7 +236,6 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      getDiscographiesData(currentPage.value, itemsPerPage.value);
       getAlbumsData();
       getTalentsData();
     });
@@ -295,30 +247,18 @@ export default defineComponent({
       isUpdateMode,
       showModal,
       onSubmit,
-      orderBy,
-      orderDirection,
-      search,
-      currentPage,
-      itemsPerPage,
-      totalItems,
-      totalPages,
-      fields,
-      items,
       albumOptions,
       talentOptions,
       selectedTalents,
       currentDiscography,
       notification,
       toggleModal,
-      loadPage,
+      reloadDiscographyTable,
       getAlbumsData,
       getTalentsData,
       handleSubmit,
-      handleUpdate,
-      handleDelete,
+      handleUpdateClick,
       cleanCurrentDiscography,
-      changePageSize,
-      handleChangeOrder,
       handleselectedTalentsChange
     };
   }
