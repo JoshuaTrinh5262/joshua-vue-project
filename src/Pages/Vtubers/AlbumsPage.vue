@@ -49,23 +49,19 @@
       </template>
     </ModalComponent>
 
-    <TableComponent :footer="true" :fields="fields" :items="items" @search="onSearchChange"
-      @changeOrder="handleChangeOrder" @deleteRow="handleDelete" @updateRow="handleUpdate"></TableComponent>
-
-    <PaginationComponent :currentPage="currentPage" :perPage="itemsPerPage" :totalItems="totalItems"
-      :totalPages="totalPages" @load-page="loadPage" @change-page-size="changePageSize" />
+    <AlbumTable ref="albumTable" @handleUpdate="handleUpdateClick"></AlbumTable>
   </div>
 </template>
 
 <script>
 import { ref, onMounted, defineComponent, reactive } from 'vue';
 import ModalComponent from '../../Layout/Components/ModalComponent.vue';
-import TableComponent from '../../Layout/Components/TableComponent.vue';
 import PageTitleComponent from '../../Layout/Components/PageTitleComponent.vue';
 import PaginationComponent from '../../Layout/Components/PaginationComponent.vue';
 import NotificationComponent from '../../Layout/Components/NotificationComponent.vue';
 import ButtonSpinner from '../../Layout/Components/ButtonSpinner.vue';
 import TagSelectorComponent from '../../Layout/Components/TagSelectorComponent.vue';
+import AlbumTable from "../../Pages/Vtubers/Table/AlbumTable.vue";
 import { apiService } from '../../supabase/apiService';
 
 export default defineComponent({
@@ -73,12 +69,12 @@ export default defineComponent({
 
   components: {
     ModalComponent,
-    TableComponent,
     PageTitleComponent,
     PaginationComponent,
     NotificationComponent,
     ButtonSpinner,
-    TagSelectorComponent
+    TagSelectorComponent,
+    AlbumTable,
   },
 
   setup() {
@@ -105,28 +101,8 @@ export default defineComponent({
       released_date: null,
     });
 
-    const fields = ref([
-      { key: 'id', value: 'ID' },
-      { key: 'name', value: 'Album Name' },
-      { key: 'album_type', value: 'Album Type' },
-      { key: 'discography_count', value: 'Discography' },
-      { key: 'released_date', value: 'Album Released Date' },
-      { key: 'talents', value: 'talent' }
-    ]);
-    const items = ref([]);
     const talentOptions = ref([]);
     const selectedTalents = ref([]);
-
-    const getAlbumsData = async (newPage, newPageSize) => {
-      const result = await apiService.getAlbumsWithPaging(newPage, newPageSize, orderBy.value, orderDirection.value, search.value);
-
-      if (!result.error) {
-        items.value = result.items;
-        totalItems.value = result.totalItems;
-        totalPages.value = result.totalPages;
-        itemsPerPage.value = newPageSize;
-      }
-    };
 
     const getTalentsData = async () => {
       const result = await apiService.getTalents();
@@ -230,32 +206,7 @@ export default defineComponent({
       showModal.value = !showModal.value;
     };
 
-    const loadPage = (page) => {
-      currentPage.value = page;
-      getAlbumsData(currentPage.value, itemsPerPage.value);
-    };
-
-    const onSearchChange = (searchTerm) => {
-      search.value = searchTerm;
-      getAlbumsData(1, itemsPerPage.value);
-    };
-
-    const handleChangeOrder = ({ orderDirection: newOrderDirection, orderBy: newOrderBy }) => {
-      orderDirection.value = newOrderDirection;
-      orderBy.value = newOrderBy;
-      getAlbumsData(currentPage.value, itemsPerPage.value);
-    };
-
-    const changePageSize = async (newPageSize) => {
-      itemsPerPage.value = newPageSize;
-      await getAlbumsData(1, itemsPerPage.value);
-    };
-
-    const handleselectedTalentsChange = (newSelection) => {
-      selectedTalents.value = newSelection;
-    };
     onMounted(() => {
-      getAlbumsData(currentPage.value, itemsPerPage.value);
       getTalentsData();
     });
 
@@ -269,8 +220,6 @@ export default defineComponent({
       search,
       orderBy,
       orderDirection,
-      fields,
-      items,
       talentOptions,
       selectedTalents,
       notification,
@@ -281,16 +230,10 @@ export default defineComponent({
       totalPages,
       toggleModal,
       createAlbum,
-      loadPage,
-      changePageSize,
-      getAlbumsData,
       getTalentsData,
-      onSearchChange,
       handleSubmit,
       handleUpdate,
       handleDelete,
-      handleChangeOrder,
-      handleselectedTalentsChange,
     };
   }
 });
