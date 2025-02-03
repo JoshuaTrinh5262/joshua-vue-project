@@ -167,7 +167,7 @@ export default defineComponent({
                 getAgenciesData();
             } catch (error) {
                 onSubmit.value = false;
-                notification.value = { title: 'Error', content: `Error when submitting talent: ${error}`, type: 'danger' };
+                notification.value = { title: 'Error', content: `Error when submitting agency: ${error}`, type: 'danger' };
             }
         }
 
@@ -208,7 +208,7 @@ export default defineComponent({
                     currentPage.value = 1;
                     getAgenciesData();
                 } catch (error) {
-                    notification.value = { title: 'Error', content: `Error when deleting talent: ${error}`, type: 'danger' };
+                    notification.value = { title: 'Error', content: `Error when deleting agency: ${error}`, type: 'danger' };
                 }
             }
         };

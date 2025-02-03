@@ -32,7 +32,6 @@
                     <td>{{ item.album_type }}</td>
                     <td>{{ item.discography_count }}</td>
                     <td>{{ item.released_date }}</td>
-                    <td>{{ item.talents }}</td>
                     <td>
                         <button type="button" class="btn btn-sm btn-success" @click="handleUpdate(item)">
                             <i class="pe-7s-file"></i>
@@ -47,6 +46,10 @@
                 </tr>
                 <tr v-if="expandedRows[index]" class="details-row">
                     <td colspan="6">
+                        <div>
+                            <p>Talens: </p>
+                            <p>{{ item.talents }}</p>
+                        </div>
                         <div>
                             <p>Album Description: </p>
                             <p>{{ item.album_description }}</p>
@@ -119,7 +122,6 @@ export default defineComponent({
             { key: 'album_type', value: 'Album Type' },
             { key: 'discography_count', value: 'Discography' },
             { key: 'released_date', value: 'Released Date' },
-            { key: 'talents', value: 'talent' }
         ];
         const items = ref([]);
 
@@ -159,7 +161,7 @@ export default defineComponent({
                 getAlbumsData();
             } catch (error) {
                 onSubmit.value = false;
-                notification.value = { title: 'Error', content: `Error when submitting talent: ${error}`, type: 'danger' };
+                notification.value = { title: 'Error', content: `Error when create album: ${error}`, type: 'danger' };
             }
         }
 
@@ -200,7 +202,7 @@ export default defineComponent({
                     currentPage.value = 1;
                     getAlbumsData();
                 } catch (error) {
-                    notification.value = { title: 'Error', content: `Error when deleting talent: ${error}`, type: 'danger' };
+                    notification.value = { title: 'Error', content: `Error when deleting album: ${error}`, type: 'danger' };
                 }
             }
         };

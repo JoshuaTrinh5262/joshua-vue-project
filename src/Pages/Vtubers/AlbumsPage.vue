@@ -57,7 +57,6 @@
 import { ref, onMounted, defineComponent, reactive } from 'vue';
 import ModalComponent from '../../Layout/Components/ModalComponent.vue';
 import PageTitleComponent from '../../Layout/Components/PageTitleComponent.vue';
-import PaginationComponent from '../../Layout/Components/PaginationComponent.vue';
 import NotificationComponent from '../../Layout/Components/NotificationComponent.vue';
 import ButtonSpinner from '../../Layout/Components/ButtonSpinner.vue';
 import TagSelectorComponent from '../../Layout/Components/TagSelectorComponent.vue';
@@ -70,7 +69,6 @@ export default defineComponent({
   components: {
     ModalComponent,
     PageTitleComponent,
-    PaginationComponent,
     NotificationComponent,
     ButtonSpinner,
     TagSelectorComponent,
@@ -85,13 +83,6 @@ export default defineComponent({
     const isUpdateMode = ref(false);
     const showModal = ref(false);
     const onSubmit = ref(false);
-    const search = ref('');
-    const orderBy = ref('released_date');
-    const orderDirection = ref('desc');
-    const currentPage = ref(1);
-    const itemsPerPage = ref(20);
-    const totalItems = ref(0);
-    const totalPages = ref(0);
     const notification = ref(null);
 
     const currentAlbum = reactive({
@@ -217,17 +208,10 @@ export default defineComponent({
       isUpdateMode,
       showModal,
       onSubmit,
-      search,
-      orderBy,
-      orderDirection,
       talentOptions,
       selectedTalents,
       notification,
       currentAlbum,
-      currentPage,
-      itemsPerPage,
-      totalItems,
-      totalPages,
       toggleModal,
       createAlbum,
       getTalentsData,

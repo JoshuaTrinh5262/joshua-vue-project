@@ -76,38 +76,33 @@
       </template>
     </ModalComponent>
 
-    <TableComponent :footer="true" :fields="fields" :items="items" @search="onSearchChange"
-      @changeOrder="handleChangeOrder" @deleteRow="handleDelete" @updateRow="handleUpdate"></TableComponent>
+    <EventTable ref="eventTable" @handleUpdate="handleUpdateClick"></EventTable>
 
-    <PaginationComponent :currentPage="currentPage" :perPage="itemsPerPage" :totalItems="totalItems"
-      :totalPages="totalPages" @load-page="loadPage" @change-page-size="changePageSize"></PaginationComponent>
   </div>
 </template>
 
 <script>
 import { ref, onMounted, defineComponent, reactive } from 'vue';
 import ModalComponent from '../../Layout/Components/ModalComponent.vue';
-import TableComponent from '../../Layout/Components/TableComponent.vue';
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
-import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
 import NotificationComponent from "../../Layout/Components/NotificationComponent.vue";
 import ButtonSpinner from '../../Layout/Components/ButtonSpinner.vue';
 import TagSelectorComponent from '../../Layout/Components/TagSelectorComponent.vue';
 import { apiService } from '../../supabase/apiService';
 import SetlistComponent from '../../Layout/Components/SetlistComponent.vue';
+import EventTable from './Table/EventTable.vue';
 
 export default defineComponent({
   name: "EventsPage",
 
   components: {
     ModalComponent,
-    TableComponent,
     PageTitleComponent,
-    PaginationComponent,
     NotificationComponent,
     ButtonSpinner,
     TagSelectorComponent,
-    SetlistComponent
+    SetlistComponent,
+    EventTable
   },
 
   setup() {
@@ -118,13 +113,6 @@ export default defineComponent({
     const isUpdateMode = ref(false);
     const showModal = ref(false);
     const onSubmit = ref(false);
-    const orderBy = ref('event_date');
-    const orderDirection = ref('desc');
-    const currentPage = ref(1);
-    const itemsPerPage = ref(20);
-    const totalItems = ref(0);
-    const totalPages = ref(0);
-    const search = ref('');
     const notification = ref(null);
     const talentOptions = ref([]);
     const selectedTalents = ref([]);
@@ -139,30 +127,6 @@ export default defineComponent({
       event_setlist: null,
     });
 
-    const fields = ref([
-      { key: 'id', value: 'ID' },
-      { key: 'event_title', value: 'title' },
-      { key: 'event_summary', value: 'summary' },
-      { key: 'event_date', value: 'Date' },
-      { key: 'event_hashtag', value: 'Hashtag' },
-      { key: 'talents', value: 'talent' }
-    ]);
-    const items = ref([]);
-
-    const getEventsData = async (newPage, newPageSize) => {
-      if(search.value != '') {
-        newPage = 1;
-      }
-
-      const result = await apiService.getEventsWithPaging(newPage, newPageSize, orderBy.value, orderDirection.value, search.value);
-
-      if (!result.error) {
-        items.value = result.items;
-        totalItems.value = result.totalItems;
-        totalPages.value = result.totalPages;
-        itemsPerPage.value = newPageSize;
-      }
-    };
 
     const getTalentsData = async () => {
       const result = await apiService.getTalents();
@@ -176,7 +140,6 @@ export default defineComponent({
       } else {
         createEvent();
       }
-      getEventsData(currentPage.value, itemsPerPage.value);
     };
 
     const createEvent = async () => {
@@ -185,7 +148,6 @@ export default defineComponent({
         toggleModal();
         onSubmit.value = false;
         notification.value = { title: 'Success', content: 'Event created successfully!', type: 'success' };
-        getEventsData(currentPage.value, itemsPerPage.value);
       } catch (error) {
         onSubmit.value = false;
         notification.value = { title: 'Error', content: `Error when submitting talent: ${error}`, type: 'danger' };
@@ -202,7 +164,6 @@ export default defineComponent({
           content: 'Event updated successfully!',
           type: 'success',
         };
-        getEventsData(currentPage.value, itemsPerPage.value);
         isUpdateMode.value = false;
       } catch (error) {
         onSubmit.value = false;
@@ -238,7 +199,6 @@ export default defineComponent({
         try {
           await apiService.deleteEvent(id);
           notification.value = { title: 'Success', content: 'Event deleted successfully!', type: 'success' };
-          getEventsData(1, itemsPerPage.value);
         } catch (error) {
           notification.value = { title: 'Error', content: `Error when deleting talent: ${error}`, type: 'danger' };
         }
@@ -268,27 +228,6 @@ export default defineComponent({
       showModal.value = !showModal.value;
     };
 
-    const onSearchChange = (searchTerm) => {
-      search.value = searchTerm;
-      getEventsData(1, itemsPerPage.value);
-    };
-
-    const handleChangeOrder = ({ orderDirection: newOrderDirection, orderBy: newOrderBy }) => {
-      orderDirection.value = newOrderDirection;
-      orderBy.value = newOrderBy;
-      getEventsData(currentPage.value, itemsPerPage.value);
-    };
-
-    const loadPage = (page) => {
-      currentPage.value = page;
-      getEventsData(currentPage.value, itemsPerPage.value);
-    };
-
-    const changePageSize = async (newPageSize) => {
-      itemsPerPage.value = newPageSize;
-      await getEventsData(1, itemsPerPage.value);
-    };
-
     const handleSelectedTalentsChange = (newSelection) => {
       selectedTalents.value = newSelection;
     };
@@ -298,7 +237,6 @@ export default defineComponent({
     };
 
     onMounted(async () => {
-      await getEventsData(currentPage.value, itemsPerPage.value);
       await getTalentsData();
     });
 
@@ -309,12 +247,6 @@ export default defineComponent({
       isUpdateMode,
       showModal,
       onSubmit,
-      fields,
-      items,
-      currentPage,
-      itemsPerPage,
-      totalItems,
-      totalPages,
       notification,
       talentOptions,
       selectedTalents,
@@ -322,14 +254,9 @@ export default defineComponent({
       handleSelectedTalentsChange,
       handleUpdateTrackList,
       toggleModal,
-      onSearchChange,
-      handleChangeOrder,
       handleSubmit,
       handleUpdate,
       handleDelete,
-      loadPage,
-      changePageSize,
-      getEventsData,
       getTalentsData,
     };
   }
