@@ -10,7 +10,7 @@
             </div>
         </div>
     </div>
-    <table class="table table-dark table-sm table-bordered">
+    <table class="table table-sm table-bordered">
         <thead>
             <tr>
                 <th><input type="checkbox" class="" name="checkbox" /></th>
@@ -48,8 +48,9 @@
                     <td colspan="9">
                         <div>
                             <p>Discography Id: {{ item.id }}</p>
+                        </div>
+                        <div>
                             <p>Talents: {{ item.talents }}</p>
-
                         </div>
                     </td>
                 </tr>

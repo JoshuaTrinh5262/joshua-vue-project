@@ -11,7 +11,7 @@
         </div>
       </div>
     </div>
-    <table :class="customClass" class="table table-dark table-sm table-bordered">
+    <table :class="customClass" class="table table-sm table-bordered">
       <thead>
         <tr>
           <th v-if="showAction"><input type="checkbox" class="" name="checkbox" /></th>
