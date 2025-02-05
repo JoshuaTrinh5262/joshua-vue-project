@@ -1,10 +1,10 @@
 <template>
-  <div class="d-flex justify-content-center">
-    <div class="d-flex overflow-auto">
-      <div v-for="(column, columnIndex) in columns" :key="column.title"
-        class="bg-dark rounded p-2 column-width rounded mr-1" @dragover.prevent @drop="dropTask(columnIndex)">
-        <p class="font-weight-bold font-sans tracking-wide text-white">{{ column.title }}</p>
-        <div v-for="task in column.tasks" :key="task.id" class="mt-3 cursor-move task" :draggable="true"
+  <div class="kanban">
+    <div class="kanban-container">
+      <div v-for="(column, columnIndex) in columns" :key="column.title" class="kanban-column" @dragover.prevent
+        @drop="dropTask(columnIndex)">
+        <p class="column-title">{{ getFormattedText(column.title) }}</p>
+        <div v-for="task in column.tasks" :key="task.id" class="kanban-cards" :draggable="true"
           @dragstart="dragTask(task, columnIndex)">
           <task-component :task="task"></task-component>
         </div>
@@ -16,6 +16,7 @@
 <script>
 import { defineComponent, ref, toRef } from "vue";
 import TaskComponent from "./TaskComponent";
+import formatString from "../../utils/utils.js";
 
 export default defineComponent({
   name: "KanbanComponent",
@@ -35,7 +36,7 @@ export default defineComponent({
     const draggedTask = ref(null);
     const draggedFromColumnIndex = ref(null);
     const columns = toRef(props, 'data');
-  
+
     const dragTask = (task, columnIndex) => {
       draggedTask.value = task;
       draggedFromColumnIndex.value = columnIndex;
@@ -52,26 +53,58 @@ export default defineComponent({
       }
     };
 
+    const getFormattedText = (str) => {
+      return formatString(str);
+    }
+
     return {
       columns,
       draggedTask,
       draggedFromColumnIndex,
       dragTask,
       dropTask,
+      getFormattedText,
     };
   },
 });
 </script>
 
 <style scoped>
-.column-width {
-  min-width: 320px;
-  width: 320px;
+.kanban {
+  display: flex;
+  justify-content: center;
 }
 
-.ghost-card {
-  opacity: 0.5;
-  background: #F7FAFC;
-  border: 1px solid #4299e1;
+.kanban-container {
+  display: flex;
+  overflow: auto;
+}
+
+.kanban-column {
+  min-width: 300px;
+  min-height: 600px;
+  width: 320px;
+  padding: 0.5rem;
+  margin-right: 0.25rem;
+  border-radius: 0.25rem;
+  background-color: white;
+}
+
+.column-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: black;
+}
+
+.kanban-cards {
+  margin-top: 0.5rem;
+}
+
+.dark .column-title {
+  color: white;
+}
+
+.dark .kanban-column {
+  background-color: black;
 }
 </style>
