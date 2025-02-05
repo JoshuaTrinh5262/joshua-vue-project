@@ -1,30 +1,32 @@
 <template>
-  <div class="task-card bg-white shadow-sm rounded p-3 pt-3 pb-4 border border-light">
-    <div class="d-flex justify-content-between align-items-center mb-2">
+  <div class="task-card">
+    <div class="task-header">
       <p class="task-title font-weight-bold text-dark m-0">{{ task.title }}</p>
       <small class="text-muted">{{ formatDate(task.created_at) }}</small>
     </div>
-
-    <div class="task-badges d-flex justify-content-start align-items-center">
-      Status:
-      <BadgeComponent v-if="task.status" :class="statusBadgeColor">
-        {{ task.status }}
-      </BadgeComponent>
+    <div class="task-body">
+      <div class="task-badges">
+        Status:
+        <BadgeComponent v-if="task.status" :class="statusBadgeColor">
+          {{ getFormattedText(task.status) }}
+        </BadgeComponent>
+      </div>
+      <div class="task-badges">
+        Priority:
+        <BadgeComponent v-if="task.priority" :class="priorityBadgeColor">
+          {{ getFormattedText(task.priority) }}
+        </BadgeComponent>
+      </div>
+      <div class="task-badges">
+        Code: {{ task.code }}
+      </div>
     </div>
-    <div class="task-badges d-flex justify-content-start align-items-center">
-
-      Priority:
-      <BadgeComponent v-if="task.priority" :class="priorityBadgeColor">
-        {{ task.priority }}
-      </BadgeComponent>
-    </div>
-
-    <div class="task-assigned d-flex align-items-center">
-      <img class="img-fluid rounded-circle" height="35" width="35" src="@/assets/images/avatars/0.jpg"
-        alt="Avatar" />
-      <BadgeComponent v-if="task.assigned_to">
-        Assigned To: {{ task.assigned_to }}
-      </BadgeComponent>
+    <div class="task-footer">
+      <img class="img-fluid rounded-circle" height="30" width="30" src="@/assets/images/avatars/0.jpg" alt="Avatar" />
+      <div>
+        <i class="action pe-7s-trash"></i>
+        <i class="action pe-7s-keypad"></i>
+      </div>
     </div>
   </div>
 </template>
@@ -33,6 +35,7 @@
 import { defineComponent, computed } from "vue";
 import BadgeComponent from "./BadgeComponent.vue";
 import { TaskStatus, TaskPriority } from "../../utils/enums";
+import formatString from "../../utils/utils.js";
 
 export default defineComponent({
   name: "TaskComponent",
@@ -66,10 +69,15 @@ export default defineComponent({
       return new Date(date).toLocaleDateString();
     };
 
+    const getFormattedText = (str) => {
+      return formatString(str);
+    }
+
     return {
       statusBadgeColor,
       priorityBadgeColor,
       formatDate,
+      getFormattedText,
     };
   },
 });
@@ -77,11 +85,33 @@ export default defineComponent({
 
 <style scoped>
 .task-card {
+  padding: 0.5rem;
   max-width: 400px;
+  border-radius: .5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  border: 1px solid #dee2e6;
+  background-color: white;
+}
+
+.task-header {
+  align-items: center;
+  justify-content: space-between;
+  display: flex;
+  margin-bottom: 0.5rem;
 }
 
 .task-title {
   font-size: 1rem;
+}
+
+.task-body {
+  margin-bottom: 0.5rem;
+}
+
+.task-badges {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .task-badges .badge-component {
@@ -89,8 +119,17 @@ export default defineComponent({
   padding: 0.4rem 0.6rem;
 }
 
-.task-assigned .badge-component {
-  font-size: 0.85rem;
-  padding: 0.4rem 0.6rem;
+.task-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.task-footer .action {
+  padding: 2px;
+  margin: 2px;
+  font-size: 24px;
+  border: 1px solid black;
+  border-radius: 50px;
 }
 </style>
