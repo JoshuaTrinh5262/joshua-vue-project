@@ -10,7 +10,7 @@
         </div>
       </div>
     </div>
-    <div class="card main-card mb-4 text-white bg-premium-dark">
+    <div class="card main-card mb-4">
       <div class="card-body">
         <h3 class="card-title">Regular Table Example</h3>
         <table class="table" :class="tableClasses">
