@@ -1,5 +1,5 @@
 <template>
-  <div class="px-1 text-xs font-weight-bold d-flex align-items-center" :class="badgeClasses">
+  <div class="kanban-badge" :class="badgeClasses">
     <slot></slot>
   </div>
 </template>
@@ -26,3 +26,11 @@ export default defineComponent({
   }
 });
 </script>
+
+<style scoped>
+.kanban-badge {
+  margin: 2px;
+  padding: 0 0.5rem 0 0.5rem;
+  border-radius: 0.5rem;
+}
+</style>
