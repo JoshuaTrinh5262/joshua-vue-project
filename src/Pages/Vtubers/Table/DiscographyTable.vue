@@ -48,8 +48,9 @@
                     <td colspan="9">
                         <div>
                             <p>Discography Id: {{ item.id }}</p>
+                        </div>
+                        <div>
                             <p>Talents: {{ item.talents }}</p>
-
                         </div>
                     </td>
                 </tr>
