@@ -117,7 +117,30 @@
   }
 }
 
+.dark .table {
+  color: $table-dark-color;
+  background-color: $table-dark-bg;
 
+  th,
+  td,
+  thead th {
+    border-color: $table-dark-border-color;
+  }
+
+  &.table-striped {
+    tbody tr:nth-of-type(odd) {
+      background-color: $table-dark-accent-bg;
+    }
+  }
+
+  &.table-hover {
+    tbody tr {
+      @include hover {
+        background-color: $table-dark-hover-bg;
+      }
+    }
+  }
+}
 // Table backgrounds
 //
 // Exact selectors below required to override `.table-striped` and prevent
