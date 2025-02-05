@@ -11,7 +11,13 @@
     <template #body>
       <div class="position-relative form-group">
         <label for="task_title">Task Title</label>
-        <input name="task_title" id="task_title" placeholder="Task Title" type="text" v-model=currentTask.title class="form-control">
+        <input name="task_title" id="task_title" placeholder="Task Title" type="text" v-model=currentTask.title
+          class="form-control">
+      </div>
+      <div class="position-relative form-group">
+        <label for="task_code">Task Code</label>
+        <input name="task_code" id="task_code" placeholder="Task Code" type="text" v-model=currentTask.code
+          class="form-control">
       </div>
       <div class="position-relative form-group">
         <label for="task_status">Task Status</label>
@@ -32,8 +38,8 @@
 
       <div class="position-relative form-group">
         <label for="task_description">Task Description</label>
-        <textarea rows="5" name="task_description" id="task_description" placeholder="Task Description" type="text" v-model=currentTask.description
-          class="form-control"></textarea>
+        <textarea rows="5" name="task_description" id="task_description" placeholder="Task Description" type="text"
+          v-model=currentTask.description class="form-control"></textarea>
       </div>
     </template>
     <template #footer>
@@ -54,6 +60,7 @@ import ModalComponent from '../../Layout/Components/ModalComponent.vue';
 import ButtonSpinner from "../../Layout/Components/ButtonSpinner.vue";
 import { apiService } from "../../supabase/apiService";
 import { TaskStatus, TaskPriority } from "../../utils/enums";
+
 export default defineComponent({
   name: "Kanban Page",
 
@@ -82,6 +89,7 @@ export default defineComponent({
     const taskPriorityOptions = ref([]);
     const currentTask = reactive({
       title: null,
+      code: null,
       status: null,
       priority: null,
       description: null,
@@ -120,6 +128,7 @@ export default defineComponent({
     const cleanCurrentTask = () => {
       Object.assign(currentTask, {
         title: null,
+        code: null,
         status: null,
         priority: null,
         description: null,
@@ -145,6 +154,7 @@ export default defineComponent({
       getTaskStatus();
       getTaskPriority();
     });
+
     return {
       heading,
       subheading,
