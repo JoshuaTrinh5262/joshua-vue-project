@@ -14,7 +14,7 @@
       </div>
       <div class="page-title-actions">
         <slot name="actions"></slot>
-        <button type="button" class="btn-shadow ml-2 btn btn-dark" @click="goBack">
+        <button type="button" class="btn-shadow ml-2 btn btn-primary" @click="goBack">
           <i class="pe-7s-back"></i>
         </button>
       </div>
