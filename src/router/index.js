@@ -183,6 +183,16 @@ const routes = [
         props: true,
         component: () => import("../Pages/Vtubers/EventDetailPage.vue"),
     },
+    // Yu-gi-oh
+    {
+        path: "/admin/card",
+        name: "card",
+        meta: {
+            layout: "admin",
+            requiresAuth: true,
+        },
+        component: () => import("../Pages/Yugioh/CardPage.vue"),
+    },
     // Settings
     {
         path: "/admin/setting",

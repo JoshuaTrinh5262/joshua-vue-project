@@ -10,6 +10,7 @@ import * as chatgroupApi from "./api/chatgroupApi";
 import * as messageApi from "./api/messageApi";
 import * as userRoleApi from "./api/userRoleApi";
 import * as taskApi from "./api/taskApi";
+import * as yugiohCardApi from "./api/yugiohCardApi";
 
 export const apiService = {
     ...authUserApi,
@@ -23,5 +24,6 @@ export const apiService = {
     ...chatgroupApi,
     ...messageApi,
     ...userRoleApi,
-    ...taskApi
+    ...taskApi,
+    ...yugiohCardApi,
 };
