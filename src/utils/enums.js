@@ -15,3 +15,9 @@ export const TaskPriority = {
     HIGH: "high",
     CRITICAL: "critical"
 }
+
+// Task Type Enum
+export const TaskType= {
+    BUG: "bug",
+    STORY: "story",
+}

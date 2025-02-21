@@ -78,16 +78,16 @@ export const getTasks = async () => {
             throw error;
         }
         const columnsData = [
-            { title: "refinement", tasks: [] },
-            { title: "to_do", tasks: [] },
-            { title: "in_progress", tasks: [] },
-            { title: "review", tasks: [] },
-            { title: "testing", tasks: [] },
-            { title: "done", tasks: [] }
+            { status: "refinement", tasks: [] },
+            { status: "to_do", tasks: [] },
+            { status: "in_progress", tasks: [] },
+            { status: "review", tasks: [] },
+            { status: "testing", tasks: [] },
+            { status: "completed", tasks: [] }
         ];
 
         data.forEach(task => {
-            const statusColumn = columnsData.find(column => column.title === task.status);
+            const statusColumn = columnsData.find(column => column.status === task.status);
             if (statusColumn) {
                 statusColumn.tasks.push(task);
             }
@@ -95,7 +95,6 @@ export const getTasks = async () => {
 
         return columnsData;
     } catch (err) {
-        console.error("Error fetching tasks:", err);
         return { error: err.message };
     }
 };
@@ -112,7 +111,6 @@ export const getTaskById = async (id) => {
         }
         return data;
     } catch (err) {
-        console.error(`Error fetching task with ID ${id}:`, err);
         return { error: err.message };
     }
 };
@@ -128,7 +126,6 @@ export const createTask = async (task) => {
         }
         return data;
     } catch (err) {
-        console.error("Error creating task:", err);
         return { error: err.message };
     }
 };
@@ -145,7 +142,6 @@ export const updateTask = async (updateData) => {
         }
         return data;
     } catch (err) {
-        console.error(`Error updating task with ID ${id}:`, err);
         return { error: err.message };
     }
 };
@@ -161,7 +157,6 @@ export const deleteTask = async (id) => {
         }
         return data;
     } catch (err) {
-        console.error(`Error deleting task with ID ${id}:`, err);
         return { error: err.message };
     }
 };
@@ -176,7 +171,6 @@ export const countTaskRecord = async () => {
         }
         return count;
     } catch (err) {
-        console.error("Error counting tasks:", err);
         return { error: err.message };
     }
 };
