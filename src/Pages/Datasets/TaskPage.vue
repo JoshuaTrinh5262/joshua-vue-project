@@ -28,6 +28,14 @@
         </select>
       </div>
       <div class="position-relative form-group">
+        <label for="task_status">Task Type</label>
+        <select name="select" id="task_type" class="form-control" v-model=currentTask.type>
+          <option v-for="taskType in taskTypeOptions" :key="taskType">
+            {{ status }}
+          </option>
+        </select>
+      </div>
+      <div class="position-relative form-group">
         <label for="task_priority">Task Priority</label>
         <select name="task_priority" id="task_priority" class="form-control" v-model=currentTask.priority>
           <option v-for="priority in taskPriorityOptions" :key="priority" :value="priority">
@@ -48,7 +56,7 @@
         :normalText="'Add New Task'" />
     </template>
   </modal-component>
-  <KanbanComponent :data="columns"></KanbanComponent>
+  <KanbanComponent :data="columns" @changeTaskStatus="updateTaskStatus"></KanbanComponent>
 </template>
 
 <script>
@@ -59,7 +67,7 @@ import NotificationComponent from "../../Layout/Components/NotificationComponent
 import ModalComponent from '../../Layout/Components/ModalComponent.vue';
 import ButtonSpinner from "../../Layout/Components/ButtonSpinner.vue";
 import { apiService } from "../../supabase/apiService";
-import { TaskStatus, TaskPriority } from "../../utils/enums";
+import { TaskStatus, TaskPriority, TaskType } from "../../utils/enums";
 
 export default defineComponent({
   name: "Kanban Page",
@@ -87,11 +95,13 @@ export default defineComponent({
 
     const taskStatusOptions = ref([]);
     const taskPriorityOptions = ref([]);
+    const taskTypeOptions = ref([]);
     const currentTask = reactive({
       title: null,
       code: null,
       status: null,
       priority: null,
+      type: null,
       description: null,
       assigned_to: "36e160b8-2dde-4793-a2f1-f2058bca0e46"
     });
@@ -111,6 +121,10 @@ export default defineComponent({
       taskPriorityOptions.value = TaskPriority;
     };
 
+    const getTaskType = () => {
+      taskTypeOptions.value = TaskType;
+    };
+
     const createTask = async () => {
       try {
         await apiService.createTask(currentTask);
@@ -125,12 +139,27 @@ export default defineComponent({
       }
     }
 
+    const updateTaskStatus = async (updatedColumns, updatedTask) => {
+      try {
+        await apiService.updateTask({
+          id: updatedTask.id,
+          status: updatedColumns
+        });
+
+        notification.value = { title: "Success", content: "Changed Task to updatedColumns", type: "success" };
+      } catch (error) {
+        onSubmit.value = false;
+        notification.value = { title: "Error", content: `Error when update task: ${error}`, type: "danger" };
+      }
+    };
+
     const cleanCurrentTask = () => {
       Object.assign(currentTask, {
         title: null,
         code: null,
         status: null,
         priority: null,
+        type: null,
         description: null,
         assigned_to: "36e160b8-2dde-4793-a2f1-f2058bca0e46"
       });
@@ -153,6 +182,7 @@ export default defineComponent({
       getTasksData(currentPage.value, itemsPerPage.value);
       getTaskStatus();
       getTaskPriority();
+      getTaskType();
     });
 
     return {
@@ -165,9 +195,11 @@ export default defineComponent({
       columns,
       taskStatusOptions,
       taskPriorityOptions,
+      taskTypeOptions,
       currentTask,
       toggleModal,
-      handleSubmit
+      handleSubmit,
+      updateTaskStatus,
     };
   },
 });

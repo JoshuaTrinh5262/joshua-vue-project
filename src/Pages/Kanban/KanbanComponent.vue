@@ -1,9 +1,9 @@
 <template>
   <div class="kanban">
     <div class="kanban-container">
-      <div v-for="(column, columnIndex) in columns" :key="column.title" class="kanban-column" @dragover.prevent
+      <div v-for="(column, columnIndex) in columns" :key="column.status" class="kanban-column" @dragover.prevent
         @drop="dropTask(columnIndex)">
-        <p class="column-title">{{ getFormattedText(column.title) }}</p>
+        <p class="column-title">{{ getFormattedText(column.status) }}</p>
         <div v-for="task in column.tasks" :key="task.id" class="kanban-cards" :draggable="true"
           @dragstart="dragTask(task, columnIndex)">
           <task-component :task="task"></task-component>
@@ -14,13 +14,13 @@
 </template>
 
 <script>
-import { defineComponent, ref, toRef } from "vue";
+import { defineComponent, ref, toRef, emit } from "vue";
 import TaskComponent from "./TaskComponent";
 import formatString from "../../utils/utils.js";
 
 export default defineComponent({
   name: "KanbanComponent",
-
+  emits: ["changeTaskStatus"],
   components: {
     TaskComponent,
   },
@@ -32,7 +32,7 @@ export default defineComponent({
     },
   },
 
-  setup(props) {
+  setup(props, { emit }) {
     const draggedTask = ref(null);
     const draggedFromColumnIndex = ref(null);
     const columns = toRef(props, 'data');
@@ -48,6 +48,10 @@ export default defineComponent({
           (task) => task.id !== draggedTask.value.id
         );
         columns.value[targetColumnIndex].tasks.push(draggedTask.value);
+
+        if (columns.value[targetColumnIndex].status != columns.value[targetColumnIndex].tasks[0].status) {
+          emit("changeTaskStatus", columns.value[targetColumnIndex].status, columns.value[targetColumnIndex].tasks[0]);
+        }
         draggedTask.value = null;
         draggedFromColumnIndex.value = null;
       }

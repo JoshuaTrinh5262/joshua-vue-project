@@ -18,6 +18,9 @@
         </BadgeComponent>
       </div>
       <div class="task-badges">
+        Type: {{ getFormattedText(task.type) }}
+      </div>
+      <div class="task-badges">
         Code: {{ task.code }}
       </div>
     </div>
