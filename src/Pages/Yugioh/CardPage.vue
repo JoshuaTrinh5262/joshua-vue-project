@@ -2,15 +2,15 @@
   <div>
     <page-title-component :heading=heading :subheading=subheading :icon=icon>
       <template v-slot:actions>
-        <button type="button" @click="toggleModal" class="btn-shadow d-inline-flex align-items-center btn btn-primary">
-          Add New User
+        <button type="button" disabled @click="toggleModal" class="btn-shadow d-inline-flex align-items-center btn btn-primary">
+          Add New Card
         </button>
       </template>
     </page-title-component>
 
     <NotificationComponent v-model:notification="notification"></NotificationComponent>
 
-    <modal-component title="Add New User" :isOpen="showModal" @closeModal="toggleModal">
+    <modal-component title="Add New Card" :isOpen="showModal" @closeModal="toggleModal">
       <template #body>
         <div class="form">
           <div class="position-relative form-group">
@@ -55,7 +55,8 @@
           normalText="Add New Talent" />
       </template>
     </modal-component>
-    <table-component :footer=true :fields="fields" :items="items" @deleteRow="handleDeleteUser"></table-component>
+    <table-component :footer=true :fields="fields" :items="items" :searchTerm="search"
+      @deleteRow="handleDeleteUser"></table-component>
 
     <pagination-component :currentPage="currentPage" :perPage="itemsPerPage" :totalItems="totalItems"
       :totalPages="totalPages"></pagination-component>
@@ -86,9 +87,9 @@ export default defineComponent({
   },
 
   setup() {
-    const heading = ref("User");
-    const subheading = ref("User");
-    const icon = ref("pe-7s-users icon-gradient bg-tempting-azure");
+    const heading = ref("Yu-Gi-Oh Card");
+    const subheading = ref("Yu-Gi-Oh Data page");
+    const icon = ref("pe-7s-copy-file icon-gradient bg-tempting-azure");
 
     const showModal = ref(false);
     const onSubmit = ref(false);
@@ -103,7 +104,7 @@ export default defineComponent({
     });
     const validationErrors = ref({});
 
-    const currentPage = ref(0);
+    const currentPage = ref(1);
     const itemsPerPage = ref(20);
     const totalItems = ref(0);
     const totalPages = ref(0);
