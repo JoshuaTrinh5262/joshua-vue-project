@@ -19,7 +19,7 @@ export const getYugiohCardsWithPaging = async (
             .range(start, end);
 
         if (search) {
-            query = query.or(`card_name.ilike.%${search}%`);
+            query = query.or(`name.ilike.%${search}%`);
         }
 
         const { data, count, error } = await query;
