@@ -6,12 +6,12 @@
     </table-component>
 
     <pagination-component :currentPage="currentPage" :perPage="itemsPerPage" :totalItems="totalItems"
-      :totalPages="totalPages" :change-page-size="changePageSize"></pagination-component>
+      :totalPages="totalPages" @load-page="changeCurrentPage" @change-page-size="changePageSize"></pagination-component>
   </div>
 </template>
 
 <script>
-import { defineComponent, ref, onMounted, reactive } from "vue";
+import { defineComponent, ref, onMounted } from "vue";
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 import TableComponent from "../../Layout/Components/TableComponent.vue";
 import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
@@ -49,18 +49,29 @@ export default defineComponent({
         value: "Id"
       },
       {
-        key: "card_id",
+        key: "passcode",
         value: "Passcode"
       },
       {
-        key: "card_name",
+        key: "name",
         value: "Name"
       },
       {
-        key: "card_type",
+        key: "icon",
+        value: "Properties"
+      },
+      {
+        key: "category",
+        value: "Category"
+      },
+      {
+        key: "type",
         value: "Type"
       },
-
+      {
+        key: "attribute",
+        value: "Attribute"
+      },
     ]);
     const items = ref([]);
 
@@ -80,11 +91,16 @@ export default defineComponent({
     };
 
     const changePageSize = async (newPageSize) => {
-      console.log("test");
       await getYugiohCardsData(1, newPageSize);
     };
-    onMounted(() => {
-      getYugiohCardsData(currentPage.value, itemsPerPage.value);
+
+    const changeCurrentPage = async (newPage) => {
+      currentPage.value = newPage;
+      await getYugiohCardsData(currentPage.value, itemsPerPage.value);
+    };
+
+    onMounted(async () => {
+      await getYugiohCardsData(currentPage.value, itemsPerPage.value);
     });
 
     return {
@@ -98,7 +114,8 @@ export default defineComponent({
       fields,
       items,
       onSearch,
-      changePageSize
+      changePageSize,
+      changeCurrentPage
     };
   },
 });
