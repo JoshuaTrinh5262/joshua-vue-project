@@ -83,6 +83,8 @@ export default defineComponent({
             { title: 'Gallery', icon: 'pe-7s-photo-gallery', href: '/admin/gallery' },
             { header: true, title: 'Yu-Gi-Oh Data' },
             { title: 'Card', icon: 'pe-7s-copy-file', href: '/admin/card' },
+            { title: 'Banlist', icon: 'pe-7s-lock', href: '/admin/banlist' },
+            { title: 'Tournament', icon: 'pe-7s-cup', href: '/admin/tournament' },
             { header: true, title: 'DataSet' },
             { title: 'Dataset', icon: 'pe-7s-server', href: '/admin/dataset' },
             { title: 'Dataset Unprocess', icon: 'pe-7s-server', href: '/admin/dataset-unprocess' },
