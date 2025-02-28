@@ -46,7 +46,6 @@ export const getYugiohCards = async () => {
         }
         return data;
     } catch (err) {
-        console.error("Error fetching yugioh card data:", err);
         return { error: err.message };
     }
 };
@@ -63,115 +62,36 @@ export const getYugiohCardById = async (id) => {
         }
         return data;
     } catch (err) {
-        console.error(`Error fetching yugioh_card with ID ${id}:`, err);
         return { error: err.message };
     }
 };
 
-export const createYugiohCard = async (yugioh_card, selectedTalents) => {
+export const createYugiohCard = async (yugioh_card) => {
     try {
-        const { data: albumData, error: albumError } = await supabase
+        const { data, error } = await supabase
             .from("yugioh_card")
             .insert(yugioh_card)
-            .select("*")
             .single();
-        if (albumError) {
-            throw albumError;
+        if (error) {
+            throw error;
         }
-
-        const albumTalentRecords = selectedTalents.map((talent) => ({
-            album_id: albumData.id,
-            talent_id: talent.id,
-        }));
-        const { data: talentData, error: talentError } = await supabase
-            .from("album_talent")
-            .insert(albumTalentRecords);
-
-        if (talentError) {
-            throw talentError;
-        }
-
-        return {
-            yugioh_card: albumData,
-            talents: talentData,
-        };
+        return data;
     } catch (err) {
-        console.error("Error creating yugioh_card:", err);
         return { error: err.message };
     }
 };
 
-export const updateYugiohCard = async (updateData, selectedTalents) => {
+export const updateYugiohCard = async (update) => {
     try {
-        const { data: albumData, error: albumError } = await supabase
+        const { data, error } = await supabase
             .from("yugioh_card")
-            .update(updateData)
-            .eq("id", updateData.id)
+            .update(update)
+            .eq("id", update.id)
             .single();
-
-        if (albumError) {
-            throw albumError;
+        if (error) {
+            throw error;
         }
-
-        // Step 2: Handle album_talent updates
-        const albumId = updateData.id;
-
-        // Convert selected talents to an array of talent_id
-        const talentIds = selectedTalents.map((talent) => talent.id);
-
-        // Fetch existing album_talent entries for the yugioh_card
-        const { data: existingTalents, error: fetchError } = await supabase
-            .from("album_talent")
-            .select("talent_id")
-            .eq("album_id", albumId);
-
-        if (fetchError) {
-            throw fetchError;
-        }
-
-        // Get the existing talent IDs
-        const existingTalentIds = existingTalents.map((t) => t.talent_id);
-
-        // Find talents to insert (those in selected but not in existing)
-        const talentsToInsert = talentIds.filter(
-            (id) => !existingTalentIds.includes(id)
-        );
-
-        // Find talents to delete (those in existing but not in selected)
-        const talentsToDelete = existingTalentIds.filter(
-            (id) => !talentIds.includes(id)
-        );
-
-        // Step 3: Insert new talents
-        if (talentsToInsert.length > 0) {
-            const { error: insertError } = await supabase
-                .from("album_talent")
-                .insert(
-                    talentsToInsert.map((talentId) => ({
-                        album_id: albumId,
-                        talent_id: talentId,
-                    }))
-                );
-
-            if (insertError) {
-                throw insertError;
-            }
-        }
-
-        // Step 4: Delete removed talents
-        if (talentsToDelete.length > 0) {
-            const { error: deleteError } = await supabase
-                .from("album_talent")
-                .delete()
-                .in("talent_id", talentsToDelete)
-                .eq("album_id", albumId);
-
-            if (deleteError) {
-                throw deleteError;
-            }
-        }
-
-        return { yugioh_card: albumData, updatedTalents: talentIds };
+        return data;
     } catch (err) {
         return { error: err.message };
     }
@@ -188,7 +108,6 @@ export const deleteYugiohCard = async (id) => {
         }
         return data;
     } catch (err) {
-        console.error(`Error deleting yugioh card with ID ${id}:`, err);
         return { error: err.message };
     }
 };
@@ -204,7 +123,6 @@ export const countYugiohCardRecord = async () => {
         }
         return count;
     } catch (err) {
-        console.error("Error counting albums:", err);
         return { error: err.message };
     }
 };
