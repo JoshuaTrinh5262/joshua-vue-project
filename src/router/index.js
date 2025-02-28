@@ -193,6 +193,24 @@ const routes = [
         },
         component: () => import("../Pages/Yugioh/CardPage.vue"),
     },
+    {
+        path: "/admin/banlist",
+        name: "banlist",
+        meta: {
+            layout: "admin",
+            requiresAuth: true,
+        },
+        component: () => import("../Pages/Yugioh/BanlistPage.vue"),
+    },
+    {
+        path: "/admin/tournament",
+        name: "tournament",
+        meta: {
+            layout: "admin",
+            requiresAuth: true,
+        },
+        component: () => import("../Pages/Yugioh/TournamentPage.vue"),
+    },
     // Settings
     {
         path: "/admin/setting",
