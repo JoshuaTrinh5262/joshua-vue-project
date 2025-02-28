@@ -11,6 +11,8 @@ import * as messageApi from "./api/messageApi";
 import * as userRoleApi from "./api/userRoleApi";
 import * as taskApi from "./api/taskApi";
 import * as yugiohCardApi from "./api/yugiohCardApi";
+import * as yugiohBanlistApi from "./api/yugiohBanlistApi";
+import * as yugiohTournamentApi from "./api/yugiohTournamentApi";
 
 export const apiService = {
     ...authUserApi,
@@ -25,5 +27,7 @@ export const apiService = {
     ...messageApi,
     ...userRoleApi,
     ...taskApi,
+    ...yugiohBanlistApi,
     ...yugiohCardApi,
+    ...yugiohTournamentApi,
 };
