@@ -26,17 +26,22 @@
       </thead>
 
       <tbody>
-        <tr v-for="(item, index) in items" :key="index">
-          <td v-if="showAction"><input type="checkbox" name="checkbox" /></td>
-          <td v-for="field in fields" :key="field.key">{{ item[field.key] }}</td>
-          <td v-if="showAction">
-            <button type="button" class="btn btn-sm btn-success" @click="updateRow(item.id)">
-              <i class="pe-7s-file"></i>
-            </button>
-            <button type="button" class="btn btn-sm btn-warning" @click="deleteRow(item.id)">
-              <i class="pe-7s-trash"></i>
-            </button>
-          </td>
+        <template v-if="items.length > 0">
+          <tr v-for="(item, index) in items" :key="index">
+            <td v-if="showAction"><input type="checkbox" name="checkbox" /></td>
+            <td v-for="field in fields" :key="field.key">{{ item[field.key] }}</td>
+            <td v-if="showAction">
+              <button type="button" class="btn btn-sm btn-success" @click="updateRow(item.id)">
+                <i class="pe-7s-file"></i>
+              </button>
+              <button type="button" class="btn btn-sm btn-warning" @click="deleteRow(item.id)">
+                <i class="pe-7s-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </template>
+        <tr v-else>
+          <td :colspan="fields.length + (showAction ? 2 : 1)" class="text-center">No records found</td>
         </tr>
       </tbody>
 
