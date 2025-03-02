@@ -24,39 +24,44 @@
             </tr>
         </thead>
         <tbody>
-            <template v-for="(item, index) in items" :key="index">
-                <tr>
-                    <td><input type="checkbox" name="checkbox" /></td>
-                    <td>{{ item.id }}</td>
-                    <td><a :href="`album/${item.id}`">{{ item.name }}</a></td>
-                    <td>{{ item.album_type }}</td>
-                    <td>{{ item.discography_count }}</td>
-                    <td>{{ item.released_date }}</td>
-                    <td>
-                        <button type="button" class="btn btn-sm btn-success" @click="handleUpdate(item)">
-                            <i class="pe-7s-file"></i>
-                        </button>
-                        <button type="button" class="btn btn-sm btn-warning" @click="handleDelete(item.id)">
-                            <i class="pe-7s-trash"></i>
-                        </button>
-                        <button type="button" @click="toggleDetails(index)" class="btn btn-sm btn-info">
-                            <i :class="['pe-7s-angle-right', expandedRows[index] ? 'rotate-icon' : '']"></i>
-                        </button>
-                    </td>
-                </tr>
-                <tr v-if="expandedRows[index]" class="details-row">
-                    <td colspan="6">
-                        <div>
-                            <p>Talens: </p>
-                            <p>{{ item.talents }}</p>
-                        </div>
-                        <div>
-                            <p>Album Description: </p>
-                            <p>{{ item.album_description }}</p>
-                        </div>
-                    </td>
-                </tr>
+            <template v-if="items.length > 0">
+                <template v-for="(item, index) in items" :key="index">
+                    <tr>
+                        <td><input type="checkbox" name="checkbox" /></td>
+                        <td>{{ item.id }}</td>
+                        <td><a :href="`album/${item.id}`">{{ item.name }}</a></td>
+                        <td>{{ item.album_type }}</td>
+                        <td>{{ item.discography_count }}</td>
+                        <td>{{ item.released_date }}</td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-success" @click="handleUpdate(item)">
+                                <i class="pe-7s-file"></i>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-warning" @click="handleDelete(item.id)">
+                                <i class="pe-7s-trash"></i>
+                            </button>
+                            <button type="button" @click="toggleDetails(index)" class="btn btn-sm btn-info">
+                                <i :class="['pe-7s-angle-right', expandedRows[index] ? 'rotate-icon' : '']"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr v-if="expandedRows[index]" class="details-row">
+                        <td colspan="6">
+                            <div>
+                                <p>Talens: </p>
+                                <p>{{ item.talents }}</p>
+                            </div>
+                            <div>
+                                <p>Album Description: </p>
+                                <p>{{ item.album_description }}</p>
+                            </div>
+                        </td>
+                    </tr>
+                </template>
             </template>
+            <tr v-else>
+                <td :colspan="fields.length + 2" class="text-center">No records found</td>
+            </tr>
         </tbody>
         <tfoot>
             <tr>
@@ -77,7 +82,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted, reactive } from 'vue';
+import { defineComponent, ref, onMounted } from 'vue';
 import ModalComponent from '../../../Layout/Components/ModalComponent.vue';
 import TableComponent from '../../../Layout/Components/TableComponent.vue';
 import NotificationComponent from '../../../Layout/Components/NotificationComponent.vue';

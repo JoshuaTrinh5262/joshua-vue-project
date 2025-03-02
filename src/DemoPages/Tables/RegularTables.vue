@@ -20,8 +20,13 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item, rowIndex) in items" :key="rowIndex">
-              <td v-for="(field, colIndex) in fields" :key="colIndex">{{ item[field] }}</td>
+            <template v-if="items.length > 0">
+              <tr v-for="(item, rowIndex) in items" :key="rowIndex">
+                <td v-for="(field, colIndex) in fields" :key="colIndex">{{ item[field] }}</td>
+              </tr>
+            </template>
+            <tr v-else>
+              <td :colspan="fields.length" class="text-center">No records found</td>
             </tr>
           </tbody>
           <tfoot v-if="footClone">

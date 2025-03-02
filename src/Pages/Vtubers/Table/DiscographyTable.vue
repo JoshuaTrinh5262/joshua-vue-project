@@ -24,37 +24,42 @@
             </tr>
         </thead>
         <tbody>
-            <template v-for="(item, index) in items" :key="index">
-                <tr>
-                    <td><input type="checkbox" name="checkbox" /></td>
-                    <td>{{ item.id }}</td>
-                    <td><a :href="`discography/${item.id}`">{{ item.name }}</a></td>
-                    <td>{{ item.original_name }}</td>
-                    <td>{{ item.released_date }}</td>
-                    <td><a :href="`album/${item.album_id}`">{{ item.album }}</a></td>
-                    <td>
-                        <button type="button" class="btn btn-sm btn-success" @click="handleUpdate(item)">
-                            <i class="pe-7s-file"></i>
-                        </button>
-                        <button type="button" class="btn btn-sm btn-warning" @click="handleDelete(item.id)">
-                            <i class="pe-7s-trash"></i>
-                        </button>
-                        <button type="button" @click="toggleDetails(index)" class="btn btn-sm btn-info">
-                            <i :class="['pe-7s-angle-right', expandedRows[index] ? 'rotate-icon' : '']"></i>
-                        </button>
-                    </td>
-                </tr>
-                <tr v-if="expandedRows[index]" class="details-row">
-                    <td colspan="9">
-                        <div>
-                            <p>Discography Id: {{ item.id }}</p>
-                        </div>
-                        <div>
-                            <p>Talents: {{ item.talents }}</p>
-                        </div>
-                    </td>
-                </tr>
+            <template v-if="items.length > 0">
+                <template v-for="(item, index) in items" :key="index">
+                    <tr>
+                        <td><input type="checkbox" name="checkbox" /></td>
+                        <td>{{ item.id }}</td>
+                        <td><a :href="`discography/${item.id}`">{{ item.name }}</a></td>
+                        <td>{{ item.original_name }}</td>
+                        <td>{{ item.released_date }}</td>
+                        <td><a :href="`album/${item.album_id}`">{{ item.album }}</a></td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-success" @click="handleUpdate(item)">
+                                <i class="pe-7s-file"></i>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-warning" @click="handleDelete(item.id)">
+                                <i class="pe-7s-trash"></i>
+                            </button>
+                            <button type="button" @click="toggleDetails(index)" class="btn btn-sm btn-info">
+                                <i :class="['pe-7s-angle-right', expandedRows[index] ? 'rotate-icon' : '']"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr v-if="expandedRows[index]" class="details-row">
+                        <td colspan="9">
+                            <div>
+                                <p>Discography Id: {{ item.id }}</p>
+                            </div>
+                            <div>
+                                <p>Talents: {{ item.talents }}</p>
+                            </div>
+                        </td>
+                    </tr>
+                </template>
             </template>
+            <tr v-else>
+                <td :colspan="fields.length + 2" class="text-center">No records found</td>
+            </tr>
         </tbody>
         <tfoot>
             <tr>
@@ -134,7 +139,7 @@ export default defineComponent({
             const response = await apiService.getDiscographiesWithPaging(currentPage.value, itemsPerPage.value, orderBy.value, orderDirection.value, search.value);
 
             if (!response.error) {
-                items.value = response.items;
+                items.value = response.items ? response.items : [];
                 totalItems.value = response.totalItems;
                 totalPages.value = response.totalPages;
                 itemsPerPage.value = itemsPerPage.value;
