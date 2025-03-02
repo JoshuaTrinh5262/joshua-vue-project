@@ -49,7 +49,7 @@
       </template>
     </ModalComponent>
 
-    <AlbumTable ref="albumTable" @handleUpdate="handleUpdateClick"></AlbumTable>
+    <AlbumTable ref="albumTable" @handleUpdate="handleUpdateClick" @handleDelete="handleDeleteClick"></AlbumTable>
   </div>
 </template>
 
@@ -92,6 +92,7 @@ export default defineComponent({
       released_date: null,
     });
 
+    const albumTable = ref(null);
     const talentOptions = ref([]);
     const selectedTalents = ref([]);
 
@@ -114,9 +115,10 @@ export default defineComponent({
         await apiService.createAlbum(currentAlbum, selectedTalents.value);
         cleanCurrentAlbum();
         toggleModal();
+        reloadAlbumTable();
         onSubmit.value = false;
         notification.value = { title: 'Success', content: 'Album created successfully!', type: 'success' };
-        getAlbumsData(currentPage.value, itemsPerPage.value);
+        reloadAlbumTable();
       } catch (error) {
         onSubmit.value = false;
         notification.value = { title: 'Error', content: `Error when submitting talent: ${error}`, type: 'danger' };
@@ -128,13 +130,14 @@ export default defineComponent({
         await apiService.updateAlbum(currentAlbum, selectedTalents.value);
         cleanCurrentAlbum();
         toggleModal();
+        reloadAlbumTable();
         onSubmit.value = false;
         notification.value = {
           title: 'Success',
           content: 'Album updated successfully!',
           type: 'success',
         };
-        getAlbumsData(currentPage.value, itemsPerPage.value);
+        reloadAlbumTable();
         isUpdateMode.value = false;
       } catch (error) {
         onSubmit.value = false;
@@ -144,36 +147,6 @@ export default defineComponent({
           type: 'danger',
         };
         isUpdateMode.value = false;
-      }
-    };
-
-    const handleUpdate = (updateId) => {
-      isUpdateMode.value = true;
-      const { album_talent, discography, discography_count, talents, ...selectedItem } = items.value.find(x => x.id === updateId);
-
-      if (selectedItem) {
-        Object.assign(currentAlbum, selectedItem);
-      }
-
-      if (album_talent && album_talent.length > 0) {
-        selectedTalents.value = album_talent.map(t => t.talent);
-      } else {
-        selectedTalents.value = [];
-      }
-
-      showModal.value = true;
-    };
-
-    const handleDelete = async (id) => {
-      const confirmDelete = confirm(`Are you sure you want to delete Album ${id}?`);
-      if (confirmDelete) {
-        try {
-          await apiService.deleteAlbumWithRelations(id);
-          notification.value = { title: 'Success', content: 'Album deleted successfully!', type: 'success' };
-          getAlbumsData(1, itemsPerPage.value);
-        } catch (error) {
-          notification.value = { title: 'Error', content: `Error when deleting talent: ${error}`, type: 'danger' };
-        }
       }
     };
 
@@ -197,8 +170,54 @@ export default defineComponent({
       showModal.value = !showModal.value;
     };
 
-    onMounted(() => {
-      getTalentsData();
+    const reloadAlbumTable = () => {
+      if (albumTable.value) {
+        albumTable.value.getAlbumsData();
+      }
+    };
+
+    const handleUpdateClick = (updateData) => {
+      isUpdateMode.value = true;
+
+      if (updateData) {
+        currentAlbum.id = updateData.id;
+        currentAlbum.name = updateData.name;
+        currentAlbum.album_type = updateData.album_type;
+        currentAlbum.ensemble_as = updateData.ensemble_as;
+        currentAlbum.released_date = updateData.released_date;
+        selectedTalents.value = updateData.album_talent.map(item => ({
+          id: item.talent.id,
+          name: item.talent.name
+        }));
+      }
+
+      showModal.value = true;
+    };
+
+    const handleDeleteClick = async (id) => {
+      try {
+        await apiService.deleteAlbum(id);
+        notification.value = {
+          title: 'Success',
+          content: 'Album deleted successfully!',
+          type: 'success'
+        };
+        reloadAlbumTable();
+      } catch (error) {
+        notification.value = {
+          title: 'Error',
+          content: `Error when deleting Album: ${error}`,
+          type: 'danger'
+        };
+      }
+    };
+
+    const handleselectedTalentsChange = (newSelection) => {
+      selectedTalents.value = newSelection;
+    };
+
+    onMounted(async () => {
+      await getTalentsData();
     });
 
     return {
@@ -212,12 +231,14 @@ export default defineComponent({
       selectedTalents,
       notification,
       currentAlbum,
+      albumTable,
       toggleModal,
       createAlbum,
       getTalentsData,
       handleSubmit,
-      handleUpdate,
-      handleDelete,
+      handleUpdateClick,
+      handleDeleteClick,
+      handleselectedTalentsChange
     };
   }
 });

@@ -93,12 +93,9 @@ export default defineComponent({
         ButtonSpinner
     },
 
-    emits: ['handleUpdate'],
+    emits: ['handleUpdate', 'handleDelete'],
 
     setup(props, { emit }) {
-        const isUpdateMode = ref(false);
-        const showModal = ref(false);
-        const onSubmit = ref(false);
         const orderBy = ref('debut_date');
         const orderDirection = ref('asc');
         const currentPage = ref(1);
@@ -106,36 +103,31 @@ export default defineComponent({
         const totalItems = ref(0);
         const totalPages = ref(0);
         const search = ref('');
-        const notification = ref(null);
         const expandedRows = ref([]);
 
-        const currentTalent = reactive({
-            id: null,
-            name: null,
-            original_name: null,
-            gender: null,
-            date_of_birth: null,
-            talent_status: "active",
-            debut_date: null,
-            retirement_date: null,
-            height: null,
-            emoji: null,
-        });
-
         const fields = ref([
-            { key: "name", value: "Name" },
-            { key: "original_name", value: "Original Name" },
-            { key: "agency", value: "Agency" },
-            { key: "talent_status", value: "Status" },
-            { key: "debut_date", value: "Debut Date" },
+            {
+                key: "name",
+                value: "Name"
+            },
+            {
+                key: "original_name",
+                value: "Original Name"
+            },
+            {
+                key: "agency",
+                value: "Agency"
+            },
+            {
+                key: "talent_status",
+                value: "Status"
+            },
+            {
+                key: "debut_date",
+                value: "Debut Date"
+            },
         ]);
         const items = ref([]);
-
-        const toggleModal = () => {
-            isUpdateMode.value = false;
-            cleanCurrentTalent();
-            showModal.value = !showModal.value;
-        };
 
         const getTalentsData = async () => {
             const response = await apiService.getTalentsWithPaging(currentPage.value, itemsPerPage.value, orderBy.value, orderDirection.value, search.value);
@@ -148,53 +140,6 @@ export default defineComponent({
             }
         };
 
-        const handleSubmit = async () => {
-            onSubmit.value = true;
-            if (isUpdateMode.value) {
-                updateTalent();
-            } else {
-                createTalent();
-            }
-        };
-
-        const createTalent = async () => {
-            try {
-                await apiService.createTalent(currentTalent);
-                cleanCurrentTalent();
-                toggleModal();
-                onSubmit.value = false;
-                notification.value = { title: 'Success', content: 'Talent created successfully!', type: 'success' };
-                getTalentsData();
-            } catch (error) {
-                onSubmit.value = false;
-                notification.value = { title: 'Error', content: `Error when submitting talent: ${error}`, type: 'danger' };
-            }
-        }
-
-        const updateTalent = async () => {
-            try {
-                await apiService.updateTalent(currentTalent);
-                cleanCurrentTalent();
-                toggleModal();
-                onSubmit.value = false;
-                notification.value = {
-                    title: 'Success',
-                    content: 'Talent updated successfully!',
-                    type: 'success',
-                };
-                getTalentsData();
-                isUpdateMode.value = false;
-            } catch (error) {
-                onSubmit.value = false;
-                notification.value = {
-                    title: 'Error',
-                    content: `Error when updating Talent: ${error}`,
-                    type: 'danger',
-                };
-                isUpdateMode.value = false;
-            }
-        };
-
         const handleUpdate = (updateData) => {
             emit('handleUpdate', updateData);
         }
@@ -202,33 +147,7 @@ export default defineComponent({
         const handleDelete = async (id) => {
             const confirmDelete = confirm(`Are you sure you want to delete Talent ${id}?`);
             if (confirmDelete) {
-                try {
-                    await apiService.deleteTalent(id);
-                    notification.value = { title: 'Success', content: 'Talent deleted successfully!', type: 'success' };
-                    currentPage.value = 1;
-                    getTalentsData();
-                } catch (error) {
-                    notification.value = { title: 'Error', content: `Error when deleting talent: ${error}`, type: 'danger' };
-                }
-            }
-        };
-
-        const cleanCurrentTalent = () => {
-            Object.assign(currentTalent, {
-                name: null,
-                original_name: null,
-                gender: null,
-                date_of_birth: null,
-                agency_id: null,
-                talent_status: "active",
-                debut_date: null,
-                retirement_date: null,
-                height: null,
-                emoji: null,
-            });
-
-            if (currentTalent.id) {
-                delete currentTalent.id;
+                emit('handleDelete', id);
             }
         };
 
@@ -273,31 +192,22 @@ export default defineComponent({
         });
 
         return {
-            showModal,
-            isUpdateMode,
-            onSubmit,
             currentPage,
             itemsPerPage,
             totalItems,
             totalPages,
             fields,
             items,
-            currentTalent,
-            notification,
             search,
             orderBy,
             orderDirection,
             expandedRows,
-            toggleModal,
             loadPage,
             changePageSize,
             onSearch,
             changeOrder,
-            handleSubmit,
             handleDelete,
             handleUpdate,
-            createTalent,
-            updateTalent,
             getTalentsData,
             toggleDetails
         };

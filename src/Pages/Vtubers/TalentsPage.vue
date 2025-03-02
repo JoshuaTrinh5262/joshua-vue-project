@@ -108,7 +108,7 @@
           :normalText="isUpdateMode ? 'Update Talent' : 'Add New Talent'" />
       </template>
     </modal-component>
-    <TalentTable ref="talentTable" @handleUpdate="handleUpdateClick"></TalentTable>
+    <TalentTable ref="talentTable" @handleUpdate="handleUpdateClick" @handleDelete="handleDeleteClick"></TalentTable>
   </div>
 </template>
 
@@ -251,27 +251,6 @@ export default defineComponent({
       }
     };
 
-    const deleteTalent = async (id) => {
-      const confirmDelete = confirm(`Are you sure you want to delete talent ${id}?`);
-      if (confirmDelete) {
-        try {
-          await apiService.deleteTalent(id);
-          notification.value = {
-            title: "Success",
-            content: "Talent deleted successfully!",
-            type: "success"
-          };
-          reloadTalentTable();
-        } catch (error) {
-          notification.value = {
-            title: "Error",
-            content: `Error when deleting talent: ${error}`,
-            type: "danger"
-          };
-        }
-      }
-    };
-
     const handleUpdateClick = (updateData) => {
       isUpdateMode.value = true;
 
@@ -292,8 +271,25 @@ export default defineComponent({
       showModal.value = true;
     };
 
+    const handleDeleteClick = async (id) => {
+      try {
+        await apiService.deleteTalent(id);
+        notification.value = {
+          title: 'Success',
+          content: 'Talent deleted successfully!',
+          type: 'success'
+        };
+        reloadTalentTable();
+      } catch (error) {
+        notification.value = {
+          title: 'Error',
+          content: `Error when deleting Talent: ${error}`,
+          type: 'danger'
+        };
+      }
+    };
+
     onMounted(async () => {
-      await reloadTalentTable();
       await getAgencyData();
     });
 
@@ -307,15 +303,15 @@ export default defineComponent({
       notification,
       currentTalent,
       agencies,
+      talentTable,
       toggleModal,
       reloadTalentTable,
       showRetirementDate,
       getAgencyData,
       handleSubmitTalent,
       createTalent,
-      updateTalent,
-      deleteTalent,
       handleUpdateClick,
+      handleDeleteClick,
     };
   },
 });

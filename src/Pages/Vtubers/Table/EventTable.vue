@@ -29,9 +29,9 @@
                     <td><input type="checkbox" name="checkbox" /></td>
                     <td>{{ item.id }}</td>
                     <td>{{ item.event_title }}</td>
-                    <td>{{ item.event_summary}}</td>
-                    <td>{{ item.event_date}}</td>
-                    <td>{{ item.event_hashtag}}</td>
+                    <td>{{ item.event_summary }}</td>
+                    <td>{{ item.event_date }}</td>
+                    <td>{{ item.event_hashtag }}</td>
                     <td>
                         <button type="button" class="btn btn-sm btn-success" @click="handleUpdate(item)">
                             <i class="pe-7s-file"></i>
@@ -92,12 +92,9 @@ export default defineComponent({
         ButtonSpinner
     },
 
-    emits: ['handleUpdate'],
+    emits: ['handleUpdate', 'handleDelete'],
 
     setup(props, { emit }) {
-        const isUpdateMode = ref(false);
-        const showModal = ref(false);
-        const onSubmit = ref(false);
         const orderBy = ref('event_date');
         const orderDirection = ref('desc');
         const currentPage = ref(1);
@@ -105,27 +102,30 @@ export default defineComponent({
         const totalItems = ref(0);
         const totalPages = ref(0);
         const search = ref('');
-        const notification = ref(null);
-        const currentEvent = reactive({
-            agency_name: null,
-            agency_status: null,
-            agency_description: null
-        });
         const expandedRows = ref([]);
         const fields = [
-            { key: 'id', value: 'ID' },
-            { key: 'event_title', value: 'Title' },
-            { key: 'event_summary', value: 'Summary' },
-            { key: 'event_date', value: 'Date' },
-            { key: 'event_hashtag', value: 'Hashtag' },
+            {
+                key: 'id',
+                value: 'ID'
+            },
+            {
+                key: 'event_title',
+                value: 'Title'
+            },
+            {
+                key: 'event_summary',
+                value: 'Summary'
+            },
+            {
+                key: 'event_date',
+                value: 'Date'
+            },
+            {
+                key: 'event_hashtag',
+                value: 'Hashtag'
+            },
         ];
         const items = ref([]);
-
-        const toggleModal = () => {
-            isUpdateMode.value = false;
-            cleanCurrentEvent();
-            showModal.value = !showModal.value;
-        };
 
         const getEventsData = async () => {
             const response = await apiService.getEventsWithPaging(currentPage.value, itemsPerPage.value, orderBy.value, orderDirection.value, search.value);
@@ -138,52 +138,6 @@ export default defineComponent({
             }
         };
 
-        const handleSubmit = async () => {
-            onSubmit.value = true;
-            if (isUpdateMode.value) {
-                updateEvent();
-            } else {
-                createEvent();
-            }
-        };
-
-        const createEvent = async () => {
-            try {
-                await apiService.createEvent(currentEvent);
-                cleanCurrentEvent();
-                toggleModal();
-                onSubmit.value = false;
-                notification.value = { title: 'Success', content: 'Event created successfully!', type: 'success' };
-                getEventsData();
-            } catch (error) {
-                onSubmit.value = false;
-                notification.value = { title: 'Error', content: `Error when submitting event: ${error}`, type: 'danger' };
-            }
-        }
-
-        const updateEvent = async () => {
-            try {
-                await apiService.updateEvent(currentEvent);
-                cleanCurrentEvent();
-                toggleModal();
-                onSubmit.value = false;
-                notification.value = {
-                    title: 'Success',
-                    content: 'Event updated successfully!',
-                    type: 'success',
-                };
-                getEventsData();
-                isUpdateMode.value = false;
-            } catch (error) {
-                onSubmit.value = false;
-                notification.value = {
-                    title: 'Error',
-                    content: `Error when updating Event: ${error}`,
-                    type: 'danger',
-                };
-                isUpdateMode.value = false;
-            }
-        };
 
         const handleUpdate = (updateData) => {
             emit('handleUpdate', updateData);
@@ -192,26 +146,7 @@ export default defineComponent({
         const handleDelete = async (id) => {
             const confirmDelete = confirm(`Are you sure you want to delete Event ${id}?`);
             if (confirmDelete) {
-                try {
-                    await apiService.deleteEvent(id);
-                    notification.value = { title: 'Success', content: 'Event deleted successfully!', type: 'success' };
-                    currentPage.value = 1;
-                    getEventsData();
-                } catch (error) {
-                    notification.value = { title: 'Error', content: `Error when deleting event: ${error}`, type: 'danger' };
-                }
-            }
-        };
-
-        const cleanCurrentEvent = () => {
-            Object.assign(currentEvent, {
-                agency_name: null,
-                agency_status: null,
-                agency_description: null,
-            });
-
-            if (currentEvent.id) {
-                delete currentEvent.id;
+                emit('handleDelete', id);
             }
         };
 
@@ -256,31 +191,22 @@ export default defineComponent({
         });
 
         return {
-            showModal,
-            isUpdateMode,
-            onSubmit,
             currentPage,
             itemsPerPage,
             totalItems,
             totalPages,
             fields,
             items,
-            currentEvent,
-            notification,
             search,
             orderBy,
             orderDirection,
             expandedRows,
-            toggleModal,
             loadPage,
             changePageSize,
             onSearch,
             changeOrder,
-            handleSubmit,
             handleDelete,
             handleUpdate,
-            createEvent,
-            updateEvent,
             getEventsData,
             toggleDetails
         };

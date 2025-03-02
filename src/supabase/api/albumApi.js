@@ -187,16 +187,26 @@ export const updateAlbum = async (updateData, selectedTalents) => {
 
 export const deleteAlbum = async (id) => {
     try {
-        const { data, error } = await supabase
+        const { error: albumTalentError } = await supabase
+            .from("album_talent")
+            .delete()
+            .eq("album_id", id);
+        if (albumTalentError) {
+            throw new Error(
+                `Failed to delete album_talent: ${albumTalentError.message}`
+            );
+        }
+
+        const { data, error: albumError } = await supabase
             .from("album")
             .delete()
             .eq("id", id);
-        if (error) {
-            throw error;
+        if (albumError) {
+            throw new Error(`Failed to delete album: ${albumError.message}`);
         }
+
         return data;
     } catch (err) {
-        console.error(`Error deleting album with ID ${id}:`, err);
         return { error: err.message };
     }
 };
