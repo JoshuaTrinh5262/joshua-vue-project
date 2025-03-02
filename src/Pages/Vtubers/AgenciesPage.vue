@@ -37,7 +37,7 @@
           :normalText="isUpdateMode ? 'Update Agency' : 'Add New Agency'" />
       </template>
     </modal-component>
-    <AgencyTable ref="agencyTable" @handleUpdate="handleUpdateClick"></AgencyTable>
+    <AgencyTable ref="agencyTable" @handleUpdate="handleUpdateClick" @handleDelete="handleDeleteClick"></AgencyTable>
   </div>
 </template>
 
@@ -107,7 +107,6 @@ export default defineComponent({
         onSubmit.value = false;
         return;
       }
-
     };
 
     const createAgency = async () => {
@@ -121,7 +120,7 @@ export default defineComponent({
           content: 'Agency created successfully!',
           type: 'success'
         };
-        reloadTable();
+        reloadAgencyTable();
       } catch (error) {
         onSubmit.value = false;
         notification.value = {
@@ -143,7 +142,7 @@ export default defineComponent({
           content: 'Agency updated successfully!',
           type: 'success',
         };
-        reloadTable();
+        reloadAgencyTable();
         isUpdateMode.value = false;
       } catch (error) {
         onSubmit.value = false;
@@ -182,6 +181,24 @@ export default defineComponent({
 
     };
 
+    const handleDeleteClick = async (id) => {
+      try {
+        await apiService.deleteAgency(id);
+        notification.value = {
+          title: 'Success',
+          content: 'Agency deleted successfully!',
+          type: 'success'
+        };
+        reloadAgencyTable();
+      } catch (error) {
+        notification.value = {
+          title: 'Error',
+          content: `Error when deleting agency: ${error}`,
+          type: 'danger'
+        };
+      }
+    };
+
     return {
       heading,
       subheading,
@@ -197,6 +214,7 @@ export default defineComponent({
       reloadAgencyTable,
       handleSubmit,
       handleUpdateClick,
+      handleDeleteClick,
       createAgency,
       updateAgency,
     };

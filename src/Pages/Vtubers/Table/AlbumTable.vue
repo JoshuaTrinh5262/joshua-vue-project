@@ -96,12 +96,9 @@ export default defineComponent({
         ButtonSpinner
     },
 
-    emits: ['handleUpdate'],
+    emits: ['handleUpdate', 'handleDelete'],
 
     setup(props, { emit }) {
-        const isUpdateMode = ref(false);
-        const showModal = ref(false);
-        const onSubmit = ref(false);
         const orderBy = ref('released_date');
         const orderDirection = ref('desc');
         const currentPage = ref(1);
@@ -109,27 +106,30 @@ export default defineComponent({
         const totalItems = ref(0);
         const totalPages = ref(0);
         const search = ref('');
-        const notification = ref(null);
-        const currentAlbum = reactive({
-            album_name: null,
-            album_status: null,
-            album_description: null
-        });
         const expandedRows = ref([]);
         const fields = [
-            { key: 'id', value: 'ID' },
-            { key: 'name', value: 'Album Name' },
-            { key: 'album_type', value: 'Album Type' },
-            { key: 'discography_count', value: 'Discography' },
-            { key: 'released_date', value: 'Released Date' },
+            {
+                key: 'id',
+                value: 'ID'
+            },
+            {
+                key: 'name',
+                value: 'Album Name'
+            },
+            {
+                key: 'album_type',
+                value: 'Album Type'
+            },
+            {
+                key: 'discography_count',
+                value: 'Discography'
+            },
+            {
+                key: 'released_date',
+                value: 'Released Date'
+            },
         ];
         const items = ref([]);
-
-        const toggleModal = () => {
-            isUpdateMode.value = false;
-            cleanCurrentAlbum();
-            showModal.value = !showModal.value;
-        };
 
         const getAlbumsData = async () => {
             const response = await apiService.getAlbumsWithPaging(currentPage.value, itemsPerPage.value, orderBy.value, orderDirection.value, search.value);
@@ -142,52 +142,6 @@ export default defineComponent({
             }
         };
 
-        const handleSubmit = async () => {
-            onSubmit.value = true;
-            if (isUpdateMode.value) {
-                updateAlbum();
-            } else {
-                createAlbum();
-            }
-        };
-
-        const createAlbum = async () => {
-            try {
-                await apiService.createAlbum(currentAlbum);
-                cleanCurrentAlbum();
-                toggleModal();
-                onSubmit.value = false;
-                notification.value = { title: 'Success', content: 'Album created successfully!', type: 'success' };
-                getAlbumsData();
-            } catch (error) {
-                onSubmit.value = false;
-                notification.value = { title: 'Error', content: `Error when create album: ${error}`, type: 'danger' };
-            }
-        }
-
-        const updateAlbum = async () => {
-            try {
-                await apiService.updateAlbum(currentAlbum);
-                cleanCurrentAlbum();
-                toggleModal();
-                onSubmit.value = false;
-                notification.value = {
-                    title: 'Success',
-                    content: 'Album updated successfully!',
-                    type: 'success',
-                };
-                getAlbumsData();
-                isUpdateMode.value = false;
-            } catch (error) {
-                onSubmit.value = false;
-                notification.value = {
-                    title: 'Error',
-                    content: `Error when updating Album: ${error}`,
-                    type: 'danger',
-                };
-                isUpdateMode.value = false;
-            }
-        };
 
         const handleUpdate = (updateData) => {
             emit('handleUpdate', updateData);
@@ -196,26 +150,7 @@ export default defineComponent({
         const handleDelete = async (id) => {
             const confirmDelete = confirm(`Are you sure you want to delete Album ${id}?`);
             if (confirmDelete) {
-                try {
-                    await apiService.deleteAlbum(id);
-                    notification.value = { title: 'Success', content: 'Album deleted successfully!', type: 'success' };
-                    currentPage.value = 1;
-                    getAlbumsData();
-                } catch (error) {
-                    notification.value = { title: 'Error', content: `Error when deleting album: ${error}`, type: 'danger' };
-                }
-            }
-        };
-
-        const cleanCurrentAlbum = () => {
-            Object.assign(currentAlbum, {
-                album_name: null,
-                album_status: null,
-                album_description: null,
-            });
-
-            if (currentAlbum.id) {
-                delete currentAlbum.id;
+                emit('handleDelete', id);
             }
         };
 
@@ -260,31 +195,22 @@ export default defineComponent({
         });
 
         return {
-            showModal,
-            isUpdateMode,
-            onSubmit,
             currentPage,
             itemsPerPage,
             totalItems,
             totalPages,
             fields,
             items,
-            currentAlbum,
-            notification,
             search,
             orderBy,
             orderDirection,
             expandedRows,
-            toggleModal,
             loadPage,
             changePageSize,
             onSearch,
             changeOrder,
-            handleSubmit,
             handleDelete,
             handleUpdate,
-            createAlbum,
-            updateAlbum,
             getAlbumsData,
             toggleDetails
         };

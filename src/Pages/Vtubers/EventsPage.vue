@@ -76,7 +76,7 @@
       </template>
     </ModalComponent>
 
-    <EventTable ref="eventTable" @handleUpdate="handleUpdateClick"></EventTable>
+    <EventTable ref="eventTable" @handleUpdate="handleUpdateClick" @handleDelete="handleDeleteClick"></EventTable>
 
   </div>
 </template>
@@ -114,6 +114,7 @@ export default defineComponent({
     const showModal = ref(false);
     const onSubmit = ref(false);
     const notification = ref(null);
+    const eventTable = ref(null);
     const talentOptions = ref([]);
     const selectedTalents = ref([]);
     const currentEvent = reactive({
@@ -126,7 +127,6 @@ export default defineComponent({
       event_status: null,
       event_setlist: null,
     });
-
 
     const getTalentsData = async () => {
       const result = await apiService.getTalents();
@@ -147,10 +147,19 @@ export default defineComponent({
         await apiService.createEvent(currentEvent, selectedTalents.value);
         toggleModal();
         onSubmit.value = false;
-        notification.value = { title: 'Success', content: 'Event created successfully!', type: 'success' };
+        notification.value = {
+          title: 'Success',
+          content: 'Event created successfully!',
+          type: 'success'
+        };
+        reloadEventTable();
       } catch (error) {
         onSubmit.value = false;
-        notification.value = { title: 'Error', content: `Error when submitting talent: ${error}`, type: 'danger' };
+        notification.value = {
+          title: 'Error',
+          content: `Error when submitting talent: ${error}`,
+          type: 'danger'
+        };
       }
     };
 
@@ -164,6 +173,7 @@ export default defineComponent({
           content: 'Event updated successfully!',
           type: 'success',
         };
+        reloadEventTable();
         isUpdateMode.value = false;
       } catch (error) {
         onSubmit.value = false;
@@ -173,35 +183,6 @@ export default defineComponent({
           type: 'danger',
         };
         isUpdateMode.value = false;
-      }
-    };
-
-    const handleUpdate = (updateId) => {
-      isUpdateMode.value = true;
-      const { talents, event_talent, ...selectedItem } = items.value.find(x => x.id === updateId);
-
-      if (selectedItem) {
-        Object.assign(currentEvent, selectedItem);
-      }
-
-      if (event_talent && event_talent.length > 0) {
-        selectedTalents.value = event_talent.map(t => t.talent);
-      } else {
-        selectedTalents.value = [];
-      }
-
-      showModal.value = true;
-    };
-
-    const handleDelete = async (id) => {
-      const confirmDelete = confirm(`Are you sure you want to delete Event ${id}?`);
-      if (confirmDelete) {
-        try {
-          await apiService.deleteEvent(id);
-          notification.value = { title: 'Success', content: 'Event deleted successfully!', type: 'success' };
-        } catch (error) {
-          notification.value = { title: 'Error', content: `Error when deleting talent: ${error}`, type: 'danger' };
-        }
       }
     };
 
@@ -228,12 +209,59 @@ export default defineComponent({
       showModal.value = !showModal.value;
     };
 
+    const reloadEventTable = () => {
+      if (eventTable.value) {
+        eventTable.value.getEventsData();
+      }
+    };
+
+
     const handleSelectedTalentsChange = (newSelection) => {
       selectedTalents.value = newSelection;
     };
 
     const handleUpdateTrackList = (updatedTracks) => {
       currentEvent.event_setlist = updatedTracks;
+    };
+
+    const handleUpdateClick = (updateData) => {
+      isUpdateMode.value = true;
+
+      if (updateData) {
+        currentEvent.id = updateData.id;
+        currentEvent.event_title = updateData.event_title;
+        currentEvent.event_summary = updateData.event_summary;
+        currentEvent.event_hashtag = updateData.event_hashtag;
+        currentEvent.event_url = updateData.event_url;
+        currentEvent.event_date = updateData.event_date;
+        currentEvent.event_type = updateData.event_type;
+        currentEvent.event_status = updateData.event_status;
+        currentEvent.event_setlist = updateData.event_setlist;
+        selectedTalents.value = updateData.event_talent.map(item => ({
+          id: item.talent.id,
+          name: item.talent.name
+        }));
+      }
+
+      showModal.value = true;
+    };
+
+    const handleDeleteClick = async (id) => {
+      try {
+        await apiService.deleteEvent(id);
+        notification.value = {
+          title: 'Success',
+          content: 'Event deleted successfully!',
+          type: 'success'
+        };
+        reloadEventTable();
+      } catch (error) {
+        notification.value = {
+          title: 'Error',
+          content: `Error when deleting Event: ${error}`,
+          type: 'danger'
+        };
+      }
     };
 
     onMounted(async () => {
@@ -251,13 +279,13 @@ export default defineComponent({
       talentOptions,
       selectedTalents,
       currentEvent,
+      eventTable,
       handleSelectedTalentsChange,
       handleUpdateTrackList,
       toggleModal,
       handleSubmit,
-      handleUpdate,
-      handleDelete,
-      getTalentsData,
+      handleUpdateClick,
+      handleDeleteClick
     };
   }
 });

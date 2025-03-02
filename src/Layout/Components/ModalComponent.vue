@@ -50,6 +50,7 @@ export default defineComponent({
 
 <style scoped>
 .modal-overlay {
+  padding: 10px;
   position: fixed;
   top: 0;
   left: 0;
@@ -60,11 +61,11 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 2000;
+  z-index: 10;
 }
 
 .modal-content {
-  max-width: 800px;
+  max-width: 1000px;
   width: 100%;
   position: relative;
   display: flex;

@@ -91,16 +91,13 @@ export default defineComponent({
         ButtonSpinner
     },
 
-    emits: ['handleUpdate'],
+    emits: ['handleUpdate', 'handleDelete'],
 
     setup(props, { emit }) {
-        const isUpdateMode = ref(false);
-        const showModal = ref(false);
-        const onSubmit = ref(false);
         const orderBy = ref('agency_id');
         const orderDirection = ref('asc');
         const currentPage = ref(1);
-        const itemsPerPage = ref(5);
+        const itemsPerPage = ref(10);
         const totalItems = ref(0);
         const totalPages = ref(0);
         const search = ref('');
@@ -131,12 +128,6 @@ export default defineComponent({
         ];
         const items = ref([]);
 
-        const toggleModal = () => {
-            isUpdateMode.value = false;
-            cleanCurrentAgency();
-            showModal.value = !showModal.value;
-        };
-
         const getAgenciesData = async () => {
             const response = await apiService.getAgenciesWithPaging(currentPage.value, itemsPerPage.value, orderBy.value, orderDirection.value, search.value);
 
@@ -148,52 +139,6 @@ export default defineComponent({
             }
         };
 
-        const handleSubmit = async () => {
-            onSubmit.value = true;
-            if (isUpdateMode.value) {
-                updateAgency();
-            } else {
-                createAgency();
-            }
-        };
-
-        const createAgency = async () => {
-            try {
-                await apiService.createAgency(currentAgency);
-                cleanCurrentAgency();
-                toggleModal();
-                onSubmit.value = false;
-                notification.value = { title: 'Success', content: 'Agency created successfully!', type: 'success' };
-                getAgenciesData();
-            } catch (error) {
-                onSubmit.value = false;
-                notification.value = { title: 'Error', content: `Error when submitting agency: ${error}`, type: 'danger' };
-            }
-        }
-
-        const updateAgency = async () => {
-            try {
-                await apiService.updateAgency(currentAgency);
-                cleanCurrentAgency();
-                toggleModal();
-                onSubmit.value = false;
-                notification.value = {
-                    title: 'Success',
-                    content: 'Agency updated successfully!',
-                    type: 'success',
-                };
-                getAgenciesData();
-                isUpdateMode.value = false;
-            } catch (error) {
-                onSubmit.value = false;
-                notification.value = {
-                    title: 'Error',
-                    content: `Error when updating Agency: ${error}`,
-                    type: 'danger',
-                };
-                isUpdateMode.value = false;
-            }
-        };
 
         const handleUpdate = (updateData) => {
             emit('handleUpdate', updateData);
@@ -202,26 +147,7 @@ export default defineComponent({
         const handleDelete = async (id) => {
             const confirmDelete = confirm(`Are you sure you want to delete Agency ${id}?`);
             if (confirmDelete) {
-                try {
-                    await apiService.deleteAgency(id);
-                    notification.value = { title: 'Success', content: 'Agency deleted successfully!', type: 'success' };
-                    currentPage.value = 1;
-                    getAgenciesData();
-                } catch (error) {
-                    notification.value = { title: 'Error', content: `Error when deleting agency: ${error}`, type: 'danger' };
-                }
-            }
-        };
-
-        const cleanCurrentAgency = () => {
-            Object.assign(currentAgency, {
-                agency_name: null,
-                agency_status: null,
-                agency_description: null,
-            });
-
-            if (currentAgency.id) {
-                delete currentAgency.id;
+                emit('handleDelete', id);
             }
         };
 
@@ -266,9 +192,6 @@ export default defineComponent({
         });
 
         return {
-            showModal,
-            isUpdateMode,
-            onSubmit,
             currentPage,
             itemsPerPage,
             totalItems,
@@ -281,16 +204,12 @@ export default defineComponent({
             orderBy,
             orderDirection,
             expandedRows,
-            toggleModal,
             loadPage,
             changePageSize,
             onSearch,
             changeOrder,
-            handleSubmit,
             handleDelete,
             handleUpdate,
-            createAgency,
-            updateAgency,
             getAgenciesData,
             toggleDetails
         };
