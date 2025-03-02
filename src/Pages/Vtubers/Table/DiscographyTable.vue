@@ -94,12 +94,9 @@ export default defineComponent({
         ButtonSpinner
     },
 
-    emits: ['handleUpdate'],
+    emits: ['handleUpdate', 'handleDelete'],
 
     setup(props, { emit }) {
-        const isUpdateMode = ref(false);
-        const showModal = ref(false);
-        const onSubmit = ref(false);
         const orderBy = ref('released_date');
         const orderDirection = ref('desc');
         const currentPage = ref(1);
@@ -107,36 +104,31 @@ export default defineComponent({
         const totalItems = ref(0);
         const totalPages = ref(0);
         const search = ref('');
-        const notification = ref(null);
         const expandedRows = ref([]);
 
-        const currentDiscography = reactive({
-            id: null,
-            name: null,
-            original_name: null,
-            gender: null,
-            date_of_birth: null,
-            discography_status: "active",
-            debut_date: null,
-            retirement_date: null,
-            height: null,
-            emoji: null,
-        });
-
         const fields = ref([
-            { key: "id", value: "Id" },
-            { key: "name", value: "Name" },
-            { key: "original_name", value: "original Name" },
-            { key: "released_date", value: "Released Date" },
-            { key: "album", value: "album" },
+            {
+                key: "id",
+                value: "Id"
+            },
+            {
+                key: "name",
+                value: "Name"
+            },
+            {
+                key: "original_name",
+                value: "original Name"
+            },
+            {
+                key: "released_date",
+                value: "Released Date"
+            },
+            {
+                key: "album",
+                value: "album"
+            },
         ]);
         const items = ref([]);
-
-        const toggleModal = () => {
-            isUpdateMode.value = false;
-            cleanCurrentDiscography();
-            showModal.value = !showModal.value;
-        };
 
         const getDiscographiesData = async () => {
             const response = await apiService.getDiscographiesWithPaging(currentPage.value, itemsPerPage.value, orderBy.value, orderDirection.value, search.value);
@@ -149,52 +141,6 @@ export default defineComponent({
             }
         };
 
-        const handleSubmit = async () => {
-            onSubmit.value = true;
-            if (isUpdateMode.value) {
-                updateDiscography();
-            } else {
-                createDiscography();
-            }
-            getDiscographiesData();
-        };
-
-        const createDiscography = async () => {
-            try {
-                await apiService.createDiscography(currentDiscography);
-                toggleModal();
-                onSubmit.value = false;
-                notification.value = { title: 'Success', content: 'Discography created successfully!', type: 'success' };
-                getDiscographiesData();
-            } catch (error) {
-                onSubmit.value = false;
-                notification.value = { title: 'Error', content: `Error when submitting discography: ${error}`, type: 'danger' };
-            }
-        }
-
-        const updateDiscography = async () => {
-            try {
-                await apiService.updateDiscography(currentDiscography);
-                toggleModal();
-                onSubmit.value = false;
-                notification.value = {
-                    title: 'Success',
-                    content: 'Discography updated successfully!',
-                    type: 'success',
-                };
-                getDiscographiesData();
-                isUpdateMode.value = false;
-            } catch (error) {
-                onSubmit.value = false;
-                notification.value = {
-                    title: 'Error',
-                    content: `Error when updating Discography: ${error}`,
-                    type: 'danger',
-                };
-                isUpdateMode.value = false;
-            }
-        };
-
         const handleUpdate = (updateData) => {
             emit('handleUpdate', updateData);
         }
@@ -202,33 +148,7 @@ export default defineComponent({
         const handleDelete = async (id) => {
             const confirmDelete = confirm(`Are you sure you want to delete Discography ${id}?`);
             if (confirmDelete) {
-                try {
-                    await apiService.deleteDiscography(id);
-                    notification.value = { title: 'Success', content: 'Discography deleted successfully!', type: 'success' };
-                    currentPage.value = 1;
-                    getDiscographiesData();
-                } catch (error) {
-                    notification.value = { title: 'Error', content: `Error when deleting discography: ${error}`, type: 'danger' };
-                }
-            }
-        };
-
-        const cleanCurrentDiscography = () => {
-            Object.assign(currentDiscography, {
-                name: null,
-                original_name: null,
-                gender: null,
-                date_of_birth: null,
-                agency_id: null,
-                discography_status: "active",
-                debut_date: null,
-                retirement_date: null,
-                height: null,
-                emoji: null,
-            });
-
-            if (currentDiscography.id) {
-                delete currentDiscography.id;
+                emit('handleDelete', id);
             }
         };
 
@@ -273,31 +193,22 @@ export default defineComponent({
         });
 
         return {
-            showModal,
-            isUpdateMode,
-            onSubmit,
             currentPage,
             itemsPerPage,
             totalItems,
             totalPages,
             fields,
             items,
-            currentDiscography,
-            notification,
             search,
             orderBy,
             orderDirection,
             expandedRows,
-            toggleModal,
             loadPage,
             changePageSize,
             onSearch,
             changeOrder,
-            handleSubmit,
             handleDelete,
             handleUpdate,
-            createDiscography,
-            updateDiscography,
             getDiscographiesData,
             toggleDetails
         };

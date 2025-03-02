@@ -69,7 +69,8 @@
           :normalText="isUpdateMode ? 'Update Discography' : 'Add New Discography'" />
       </template>
     </modal-component>
-    <DiscographyTable ref="discographyTable" @handleUpdate="handleUpdateClick"></DiscographyTable>
+    <DiscographyTable ref="discographyTable" @handleUpdate="handleUpdateClick" @handleDelete="handleDeleteClick">
+    </DiscographyTable>
   </div>
 </template>
 
@@ -120,7 +121,7 @@ export default defineComponent({
       ensemble_as: null
     });
 
-    const discographyTable = ref([]);
+    const discographyTable = ref(null);
     const albumOptions = ref([]);
     const talentOptions = ref([]);
     const selectedTalents = ref([]);
@@ -148,6 +149,7 @@ export default defineComponent({
       try {
         await apiService.createDiscography(currentDiscography, selectedTalents.value);
         toggleModal();
+        reloadDiscographyTable();
         onSubmit.value = false;
         notification.value = { title: "Success", content: "Discography created successfully!", type: "success" };
       } catch (error) {
@@ -160,6 +162,7 @@ export default defineComponent({
       try {
         await apiService.updateDiscography(currentDiscography, selectedTalents.value);
         toggleModal();
+        reloadDiscographyTable();
         onSubmit.value = false;
         notification.value = {
           title: "Success",
@@ -200,6 +203,23 @@ export default defineComponent({
       showModal.value = true;
     };
 
+    const handleDeleteClick = async (id) => {
+      try {
+        await apiService.deleteDiscography(id);
+        notification.value = {
+          title: 'Success',
+          content: 'Discography deleted successfully!',
+          type: 'success'
+        };
+        reloadDiscographyTable();
+      } catch (error) {
+        notification.value = {
+          title: 'Error',
+          content: `Error when deleting Discography: ${error}`,
+          type: 'danger'
+        };
+      }
+    };
 
     const cleanCurrentDiscography = () => {
       Object.assign(currentDiscography, {
@@ -235,9 +255,9 @@ export default defineComponent({
       selectedTalents.value = newSelection;
     };
 
-    onMounted(() => {
-      getAlbumsData();
-      getTalentsData();
+    onMounted(async () => {
+      await getAlbumsData();
+      await getTalentsData();
     });
 
     return {
@@ -252,12 +272,13 @@ export default defineComponent({
       selectedTalents,
       currentDiscography,
       notification,
+      discographyTable,
       toggleModal,
-      reloadDiscographyTable,
       getAlbumsData,
       getTalentsData,
       handleSubmit,
       handleUpdateClick,
+      handleDeleteClick,
       cleanCurrentDiscography,
       handleselectedTalentsChange
     };
