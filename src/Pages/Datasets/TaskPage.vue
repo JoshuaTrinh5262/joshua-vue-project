@@ -14,39 +14,50 @@
         <input name="task_title" id="task_title" placeholder="Task Title" type="text" v-model=currentTask.title
           class="form-control">
       </div>
-      <div class="position-relative form-group">
-        <label for="task_code">Task Code</label>
-        <input name="task_code" id="task_code" placeholder="Task Code" type="text" v-model=currentTask.code
-          class="form-control">
+      <div class="form-row">
+        <div class="col-md-6">
+          <div class="position-relative form-group">
+            <label for="task_code">Task Code</label>
+            <input name="task_code" id="task_code" placeholder="Task Code" type="text" v-model=currentTask.code
+              class="form-control">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="position-relative form-group">
+            <label for="task_status">Task Status</label>
+            <select name="select" id="task_status" class="form-control" v-model=currentTask.status>
+              <option v-for="status in taskStatusOptions" :key="status">
+                {{ status }}
+              </option>
+            </select>
+          </div>
+        </div>
       </div>
-      <div class="position-relative form-group">
-        <label for="task_status">Task Status</label>
-        <select name="select" id="task_status" class="form-control" v-model=currentTask.status>
-          <option v-for="status in taskStatusOptions" :key="status">
-            {{ status }}
-          </option>
-        </select>
+      <div class="form-row">
+        <div class="col-md-6">
+          <div class="position-relative form-group">
+            <label for="task_status">Task Type</label>
+            <select name="select" id="task_type" class="form-control" v-model=currentTask.type>
+              <option v-for="status in taskTypeOptions" :key="status" :value="status">
+                {{ status }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="position-relative form-group">
+            <label for="task_priority">Task Priority</label>
+            <select name="task_priority" id="task_priority" class="form-control" v-model=currentTask.priority>
+              <option v-for="priority in taskPriorityOptions" :key="priority" :value="priority">
+                {{ priority }}
+              </option>
+            </select>
+          </div>
+        </div>
       </div>
-      <div class="position-relative form-group">
-        <label for="task_status">Task Type</label>
-        <select name="select" id="task_type" class="form-control" v-model=currentTask.type>
-          <option v-for="taskType in taskTypeOptions" :key="taskType">
-            {{ status }}
-          </option>
-        </select>
-      </div>
-      <div class="position-relative form-group">
-        <label for="task_priority">Task Priority</label>
-        <select name="task_priority" id="task_priority" class="form-control" v-model=currentTask.priority>
-          <option v-for="priority in taskPriorityOptions" :key="priority" :value="priority">
-            {{ priority }}
-          </option>
-        </select>
-      </div>
-
       <div class="position-relative form-group">
         <label for="task_description">Task Description</label>
-        <textarea rows="5" name="task_description" id="task_description" placeholder="Task Description" type="text"
+        <textarea rows="8" name="task_description" id="task_description" placeholder="Task Description" type="text"
           v-model=currentTask.description class="form-control"></textarea>
       </div>
     </template>
@@ -82,7 +93,7 @@ export default defineComponent({
 
   setup() {
     const heading = ref("Task");
-    const subheading = ref("Task Page.");
+    const subheading = ref("Task Page where I tracking my tasks.");
     const icon = ref("pe-7s-notebook icon-gradient bg-tempting-azure");
 
     const showModal = ref(false);
@@ -131,11 +142,19 @@ export default defineComponent({
         cleanCurrentTask();
         toggleModal();
         onSubmit.value = false;
-        notification.value = { title: "Success", content: "Task created successfully!", type: "success" };
+        notification.value = {
+          title: "Success",
+          content: "Task created successfully!",
+          type: "success"
+        };
         getTasksData();
       } catch (error) {
         onSubmit.value = false;
-        notification.value = { title: "Error", content: `Error when submitting task: ${error}`, type: "danger" };
+        notification.value = {
+          title: "Error",
+          content: `Error when submitting task: ${error}`,
+          type: "danger"
+        };
       }
     }
 
@@ -146,10 +165,19 @@ export default defineComponent({
           status: updatedColumns
         });
 
-        notification.value = { title: "Success", content: "Changed Task to updatedColumns", type: "success" };
+        notification.value = {
+          title:
+            "Success",
+          content: "Changed Task to updatedColumns",
+          type: "success"
+        };
       } catch (error) {
         onSubmit.value = false;
-        notification.value = { title: "Error", content: `Error when update task: ${error}`, type: "danger" };
+        notification.value = {
+          title: "Error",
+          content: `Error when update task: ${error}`,
+          type: "danger"
+        };
       }
     };
 
