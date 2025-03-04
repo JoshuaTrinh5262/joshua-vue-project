@@ -133,6 +133,10 @@ export default defineComponent({
         const items = ref([]);
 
         const getEventsData = async () => {
+            if (search.value) {
+                currentPage.value = 1;
+            }
+
             const response = await apiService.getEventsWithPaging(currentPage.value, itemsPerPage.value, orderBy.value, orderDirection.value, search.value);
 
             if (!response.error) {
