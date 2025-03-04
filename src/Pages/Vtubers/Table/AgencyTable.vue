@@ -134,6 +134,10 @@ export default defineComponent({
         const items = ref([]);
 
         const getAgenciesData = async () => {
+            if (search.value) {
+                currentPage.value = 1;
+            }
+
             const response = await apiService.getAgenciesWithPaging(currentPage.value, itemsPerPage.value, orderBy.value, orderDirection.value, search.value);
 
             if (!response.error) {
