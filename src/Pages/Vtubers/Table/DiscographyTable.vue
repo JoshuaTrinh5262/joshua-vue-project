@@ -136,6 +136,10 @@ export default defineComponent({
         const items = ref([]);
 
         const getDiscographiesData = async () => {
+            if (search.value) {
+                currentPage.value = 1;
+            }
+
             const response = await apiService.getDiscographiesWithPaging(currentPage.value, itemsPerPage.value, orderBy.value, orderDirection.value, search.value);
 
             if (!response.error) {
