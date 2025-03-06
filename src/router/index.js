@@ -185,6 +185,15 @@ const routes = [
     },
     // Yu-gi-oh
     {
+        path: "/admin/banlist",
+        name: "banlist",
+        meta: {
+            layout: "admin",
+            requiresAuth: true,
+        },
+        component: () => import("../Pages/Yugioh/BanlistPage.vue"),
+    },
+    {
         path: "/admin/card",
         name: "card",
         meta: {
@@ -194,13 +203,31 @@ const routes = [
         component: () => import("../Pages/Yugioh/CardPage.vue"),
     },
     {
-        path: "/admin/banlist",
-        name: "banlist",
+        path: "/admin/decklist",
+        name: "decklist",
         meta: {
             layout: "admin",
             requiresAuth: true,
         },
-        component: () => import("../Pages/Yugioh/BanlistPage.vue"),
+        component: () => import("../Pages/Yugioh/DecklistPage.vue"),
+    },
+    {
+        path: "/admin/duelist",
+        name: "duelist",
+        meta: {
+            layout: "admin",
+            requiresAuth: true,
+        },
+        component: () => import("../Pages/Yugioh/DuelistPage.vue"),
+    },
+    {
+        path: "/admin/product",
+        name: "product",
+        meta: {
+            layout: "admin",
+            requiresAuth: true,
+        },
+        component: () => import("../Pages/Yugioh/ProductPage.vue"),
     },
     {
         path: "/admin/tournament",
