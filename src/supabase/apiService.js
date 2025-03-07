@@ -12,7 +12,7 @@ import * as userRoleApi from "./api/userRoleApi";
 import * as taskApi from "./api/taskApi";
 import * as yugiohBanlistApi from "./api/yugiohBanlistApi";
 import * as yugiohCardApi from "./api/yugiohCardApi";
-import * as yugiohDecklistApi from "./api/yugiohDecklistApi";
+import * as yugiohDeckApi from "./api/yugiohDeckApi";
 import * as yugiohDuelistApi from "./api/yugiohDuelistApi";
 import * as yugiohProductApi from "./api/yugiohProductApi";
 import * as yugiohTournamentApi from "./api/yugiohTournamentApi";
@@ -32,7 +32,7 @@ export const apiService = {
     ...taskApi,
     ...yugiohBanlistApi,
     ...yugiohCardApi,
-    ...yugiohDecklistApi,
+    ...yugiohDeckApi,
     ...yugiohDuelistApi,
     ...yugiohProductApi,
     ...yugiohTournamentApi,
