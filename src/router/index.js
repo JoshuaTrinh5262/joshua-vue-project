@@ -203,13 +203,13 @@ const routes = [
         component: () => import("../Pages/Yugioh/CardPage.vue"),
     },
     {
-        path: "/admin/decklist",
-        name: "decklist",
+        path: "/admin/Deck",
+        name: "Deck",
         meta: {
             layout: "admin",
             requiresAuth: true,
         },
-        component: () => import("../Pages/Yugioh/DecklistPage.vue"),
+        component: () => import("../Pages/Yugioh/DeckPage.vue"),
     },
     {
         path: "/admin/duelist",
