@@ -84,7 +84,7 @@ export default defineComponent({
             { header: true, title: 'Yu-Gi-Oh Data' },
             { title: 'Banlist', icon: 'pe-7s-lock', href: '/admin/banlist' },
             { title: 'Card', icon: 'pe-7s-copy-file', href: '/admin/card' },
-            { title: 'Decklist', icon: 'pe-7s-users', href: '/admin/decklist' },
+            { title: 'Deck', icon: 'pe-7s-portfolio', href: '/admin/deck' },
             { title: 'Duelist', icon: 'pe-7s-users', href: '/admin/duelist' },
             { title: 'Product', icon: 'pe-7s-plugin', href: '/admin/product' },
             { title: 'Tournament', icon: 'pe-7s-cup', href: '/admin/tournament' },
