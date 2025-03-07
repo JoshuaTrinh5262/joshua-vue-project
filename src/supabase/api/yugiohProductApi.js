@@ -1,5 +1,5 @@
 import { supabase } from "../supabase";
-export const getYugiohCardsWithPaging = async (
+export const getYugiohProductsWithPaging = async (
     page,
     pageSize,
     orderBy,
@@ -11,7 +11,7 @@ export const getYugiohCardsWithPaging = async (
         const end = start + pageSize - 1;
 
         let query = supabase
-            .from("yugioh_card")
+            .from("yugioh_product")
             .select("*", {
                 count: "exact",
             })
@@ -38,9 +38,9 @@ export const getYugiohCardsWithPaging = async (
     }
 };
 
-export const getYugiohCards = async () => {
+export const getYugiohProducts = async () => {
     try {
-        const { data, error } = await supabase.from("yugioh_card").select("*");
+        const { data, error } = await supabase.from("yugioh_product").select("*");
         if (error) {
             throw error;
         }
@@ -50,10 +50,10 @@ export const getYugiohCards = async () => {
     }
 };
 
-export const getYugiohCardById = async (id) => {
+export const getYugiohProductById = async (id) => {
     try {
         const { data, error } = await supabase
-            .from("yugioh_card")
+            .from("yugioh_product")
             .select("*")
             .eq("id", id)
             .single();
@@ -66,11 +66,11 @@ export const getYugiohCardById = async (id) => {
     }
 };
 
-export const createYugiohCard = async (yugioh_card) => {
+export const createYugiohProduct = async (yugioh_product) => {
     try {
         const { data, error } = await supabase
-            .from("yugioh_card")
-            .insert(yugioh_card)
+            .from("yugioh_product")
+            .insert(yugioh_product)
             .single();
         if (error) {
             throw error;
@@ -81,10 +81,10 @@ export const createYugiohCard = async (yugioh_card) => {
     }
 };
 
-export const updateYugiohCard = async (update) => {
+export const updateYugiohProduct = async (update) => {
     try {
         const { data, error } = await supabase
-            .from("yugioh_card")
+            .from("yugioh_product")
             .update(update)
             .eq("id", update.id)
             .single();
@@ -97,10 +97,10 @@ export const updateYugiohCard = async (update) => {
     }
 };
 
-export const deleteYugiohCard = async (id) => {
+export const deleteYugiohProduct = async (id) => {
     try {
         const { data, error } = await supabase
-            .from("yugioh_card")
+            .from("yugioh_product")
             .delete()
             .eq("id", id);
         if (error) {
@@ -113,10 +113,10 @@ export const deleteYugiohCard = async (id) => {
 };
 
 
-export const countYugiohCardRecord = async () => {
+export const countYugiohProductRecord = async () => {
     try {
         const { count, error } = await supabase
-            .from("yugioh_card")
+            .from("yugioh_product")
             .select("*", { count: "exact", head: true });
         if (error) {
             throw error;
