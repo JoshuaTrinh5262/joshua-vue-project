@@ -20,7 +20,7 @@ import ButtonSpinner from "../../Layout/Components/ButtonSpinner.vue";
 import { apiService } from "../../supabase/apiService";
 
 export default defineComponent({
-  name: "YugiohCardPage",
+  name: "YugiohProductPage",
 
   components: {
     PageTitleComponent,
@@ -31,16 +31,16 @@ export default defineComponent({
   },
 
   setup() {
-    const heading = ref("Yu-Gi-Oh Card");
-    const subheading = ref("Yu-Gi-Oh Card page");
+    const heading = ref("Yu-Gi-Oh Product");
+    const subheading = ref("Yu-Gi-Oh Product page");
     const icon = ref("pe-7s-copy-file icon-gradient bg-tempting-azure");
 
     const currentPage = ref(1);
     const itemsPerPage = ref(20);
     const totalItems = ref(0);
     const totalPages = ref(0);
-    const orderBy = ref("id");
-    const orderDirection = ref("asc");
+    const orderBy = ref("release_date");
+    const orderDirection = ref("desc");
     const search = ref("");
 
     const fields = ref([
@@ -49,39 +49,35 @@ export default defineComponent({
         value: "Id"
       },
       {
-        key: "passcode",
-        value: "Passcode"
-      },
-      {
         key: "name",
         value: "Name"
       },
       {
-        key: "icon",
-        value: "Properties"
+        key: "release_date",
+        value: "release_date"
       },
       {
         key: "category",
         value: "Category"
       },
       {
-        key: "type",
-        value: "Type"
+        key: "format",
+        value: "format"
       },
       {
-        key: "attribute",
-        value: "Attribute"
+        key: "prefix",
+        value: "prefix"
       },
     ]);
     const items = ref([]);
 
     const onSearch = (newSearchTerm) => {
       search.value = newSearchTerm;
-      getYugiohCardsData(1, itemsPerPage.value);
+      getYugiohProductsData(1, itemsPerPage.value);
     };
 
-    const getYugiohCardsData = async (newPage, newPageSize) => {
-      const result = await apiService.getYugiohCardsWithPaging(newPage, newPageSize, orderBy.value, orderDirection.value, search.value);
+    const getYugiohProductsData = async (newPage, newPageSize) => {
+      const result = await apiService.getYugiohProductsWithPaging(newPage, newPageSize, orderBy.value, orderDirection.value, search.value);
       if (!result.error) {
         items.value = result.items;
         totalItems.value = result.totalItems;
@@ -91,16 +87,16 @@ export default defineComponent({
     };
 
     const changePageSize = async (newPageSize) => {
-      await getYugiohCardsData(1, newPageSize);
+      await getYugiohProductsData(1, newPageSize);
     };
 
     const changeCurrentPage = async (newPage) => {
       currentPage.value = newPage;
-      await getYugiohCardsData(currentPage.value, itemsPerPage.value);
+      await getYugiohProductsData(currentPage.value, itemsPerPage.value);
     };
 
     onMounted(async () => {
-      await getYugiohCardsData(currentPage.value, itemsPerPage.value);
+      await getYugiohProductsData(currentPage.value, itemsPerPage.value);
     });
 
     return {
