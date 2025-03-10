@@ -1,0 +1,1 @@
+"use strict";(self["webpackChunkjoshua_vue_project"]=self["webpackChunkjoshua_vue_project"]||[]).push([[591],{1591:function(e){e.exports=function(){throw new Error("ws does not work in the browser. Browser clients must use the native WebSocket object")}}}]);
