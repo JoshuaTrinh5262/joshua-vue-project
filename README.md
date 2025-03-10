@@ -1,5 +1,7 @@
 # Project Setup and Command
 
+make sure to install node.js and npm
+
 ```sh
 npm install
 ```
@@ -8,6 +10,10 @@ npm install
 
 ```sh
 npm run dev
+```
+
+```sh
+npm run serve
 ```
 
 ## Compile and Minify for Production
@@ -20,10 +26,6 @@ npm run build
 
 ```sh
 npm run lint
-```
-
-```sh
-npm run serve
 ```
 
 ## regularly used npm command
