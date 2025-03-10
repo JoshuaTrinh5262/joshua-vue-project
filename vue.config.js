@@ -13,6 +13,6 @@ module.exports = defineConfig({
   productionSourceMap: false,
 
   publicPath: process.env.NODE_ENV === 'production'
-    ? './' // Production base path
+    ? '/joshua-vue-project/' // Production base path
     : '/', // Development base path
 });
