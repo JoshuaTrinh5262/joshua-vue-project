@@ -51,3 +51,5 @@ VUE_APP_SUPABASE_KEY=[supabase_public_key]
 
 VUE_APP_SERVICE_ROLE_KEY=[supabase_service_role_key]
 
+# Project Deployment (W.I.P)
+
