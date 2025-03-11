@@ -10,6 +10,12 @@ import * as chatgroupApi from "./api/chatgroupApi";
 import * as messageApi from "./api/messageApi";
 import * as userRoleApi from "./api/userRoleApi";
 import * as taskApi from "./api/taskApi";
+import * as yugiohBanlistApi from "./api/yugiohBanlistApi";
+import * as yugiohCardApi from "./api/yugiohCardApi";
+import * as yugiohDeckApi from "./api/yugiohDeckApi";
+import * as yugiohDuelistApi from "./api/yugiohDuelistApi";
+import * as yugiohProductApi from "./api/yugiohProductApi";
+import * as yugiohTournamentApi from "./api/yugiohTournamentApi";
 
 export const apiService = {
     ...authUserApi,
@@ -23,5 +29,11 @@ export const apiService = {
     ...chatgroupApi,
     ...messageApi,
     ...userRoleApi,
-    ...taskApi
+    ...taskApi,
+    ...yugiohBanlistApi,
+    ...yugiohCardApi,
+    ...yugiohDeckApi,
+    ...yugiohDuelistApi,
+    ...yugiohProductApi,
+    ...yugiohTournamentApi,
 };

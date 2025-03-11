@@ -17,7 +17,13 @@ export const TaskPriority = {
 }
 
 // Task Type Enum
-export const TaskType= {
+export const TaskType = {
     BUG: "bug",
     STORY: "story",
+}
+
+export const BanlistCardStatus = {
+    LIMITED: "limited",
+    SEMILIMITED: "semi-limited",
+    BANNED: "banned"
 }

@@ -49,7 +49,7 @@ export default defineComponent({
         const menu = ref([
             { header: true, title: 'Main Navigation' },
             { title: 'Dashboards', icon: 'pe-7s-menu', href: '/admin', },
-            { title: 'User', icon: 'pe-7s-users', href: '/admin/user' },
+            { title: 'User', icon: 'pe-7s-id', href: '/admin/user' },
             { title: 'Task', icon: 'pe-7s-notebook', href: '/admin/task' },
             {
                 title: 'Tools',
@@ -81,6 +81,13 @@ export default defineComponent({
             { title: 'Album', icon: 'pe-7s-album', href: '/admin/album' },
             { title: 'Event', icon: 'pe-7s-date', href: '/admin/event' },
             { title: 'Gallery', icon: 'pe-7s-photo-gallery', href: '/admin/gallery' },
+            { header: true, title: 'Yu-Gi-Oh Data' },
+            { title: 'Banlist', icon: 'pe-7s-lock', href: '/admin/banlist' },
+            { title: 'Card', icon: 'pe-7s-copy-file', href: '/admin/card' },
+            { title: 'Deck', icon: 'pe-7s-portfolio', href: '/admin/deck' },
+            { title: 'Duelist', icon: 'pe-7s-users', href: '/admin/duelist' },
+            { title: 'Product', icon: 'pe-7s-plugin', href: '/admin/product' },
+            { title: 'Tournament', icon: 'pe-7s-cup', href: '/admin/tournament' },
             { header: true, title: 'DataSet' },
             { title: 'Dataset', icon: 'pe-7s-server', href: '/admin/dataset' },
             { title: 'Dataset Unprocess', icon: 'pe-7s-server', href: '/admin/dataset-unprocess' },
