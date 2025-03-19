@@ -1,12 +1,21 @@
 <template>
   <div>
-    <page-title-component :heading=heading :subheading=subheading :icon=icon></page-title-component>
-
-    <table-component :footer=true :fields="fields" :items="items" @search="onSearch">
+    <table-component
+      :footer="true"
+      :fields="fields"
+      :items="items"
+      @search="onSearch"
+    >
     </table-component>
 
-    <pagination-component :currentPage="currentPage" :perPage="itemsPerPage" :totalItems="totalItems"
-      :totalPages="totalPages" @load-page="changeCurrentPage" @change-page-size="changePageSize"></pagination-component>
+    <pagination-component
+      :currentPage="currentPage"
+      :perPage="itemsPerPage"
+      :totalItems="totalItems"
+      :totalPages="totalPages"
+      @load-page="changeCurrentPage"
+      @change-page-size="changePageSize"
+    ></pagination-component>
   </div>
 </template>
 
@@ -20,21 +29,17 @@ import ButtonSpinner from "../../Layout/Components/ButtonSpinner.vue";
 import { apiService } from "../../supabase/apiService";
 
 export default defineComponent({
-  name: "YugiohDeckPage",
+  name: "YugiohTournamentPublicPage",
 
   components: {
     PageTitleComponent,
     TableComponent,
     PaginationComponent,
     ModalComponent,
-    ButtonSpinner
+    ButtonSpinner,
   },
 
   setup() {
-    const heading = ref("Yu-Gi-Oh Deck");
-    const subheading = ref("Yu-Gi-Oh Deck page");
-    const icon = ref("pe-7s-portfolio icon-gradient bg-tempting-azure");
-
     const currentPage = ref(1);
     const itemsPerPage = ref(20);
     const totalItems = ref(0);
@@ -46,22 +51,28 @@ export default defineComponent({
     const fields = ref([
       {
         key: "id",
-        value: "Id"
+        value: "Id",
       },
       {
         key: "name",
-        value: "Name"
+        value: "Name",
       },
     ]);
     const items = ref([]);
 
     const onSearch = (newSearchTerm) => {
       search.value = newSearchTerm;
-      getYugiohDecksData(1, itemsPerPage.value);
+      getYugiohTournamentsData(1, itemsPerPage.value);
     };
 
-    const getYugiohDecksData = async (newPage, newPageSize) => {
-      const result = await apiService.getYugiohDecksWithPaging(newPage, newPageSize, orderBy.value, orderDirection.value, search.value);
+    const getYugiohTournamentsData = async (newPage, newPageSize) => {
+      const result = await apiService.getYugiohTournamentsWithPaging(
+        newPage,
+        newPageSize,
+        orderBy.value,
+        orderDirection.value,
+        search.value
+      );
       if (!result.error) {
         items.value = result.items;
         totalItems.value = result.totalItems;
@@ -71,22 +82,19 @@ export default defineComponent({
     };
 
     const changePageSize = async (newPageSize) => {
-      await getYugiohDecksData(1, newPageSize);
+      await getYugiohTournamentsData(1, newPageSize);
     };
 
     const changeCurrentPage = async (newPage) => {
       currentPage.value = newPage;
-      await getYugiohDecksData(currentPage.value, itemsPerPage.value);
+      await getYugiohTournamentsData(currentPage.value, itemsPerPage.value);
     };
 
     onMounted(async () => {
-      await getYugiohDecksData(currentPage.value, itemsPerPage.value);
+      await getYugiohTournamentsData(currentPage.value, itemsPerPage.value);
     });
 
     return {
-      heading,
-      subheading,
-      icon,
       currentPage,
       itemsPerPage,
       totalItems,
@@ -95,7 +103,7 @@ export default defineComponent({
       items,
       onSearch,
       changePageSize,
-      changeCurrentPage
+      changeCurrentPage,
     };
   },
 });

@@ -18,7 +18,7 @@ export default defineComponent({
     const router = useRouter();
 
     const goHome = () => {
-      router.push("/admin");
+      router.push("/");
     };
 
     return {
