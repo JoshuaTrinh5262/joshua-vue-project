@@ -421,15 +421,6 @@ const adminRoutes = [
         component: () =>
             import("../DemoPages/UserPages/ForgotPasswordBoxed.vue"),
     },
-    {
-        path: "/admin/notfound",
-        name: "not-found-admin",
-        meta: {
-            layout: "admin",
-            requiresAuth: true,
-        },
-        component: () => import("../Public/NotFoundPage.vue"),
-    },
 ];
 
 export default adminRoutes;

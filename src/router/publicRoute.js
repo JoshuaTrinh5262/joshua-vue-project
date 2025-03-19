@@ -2,22 +2,22 @@ const publicRoutes = [
     {
         path: "/",
         name: "Home",
-        component: () => import("../Public/HomePage.vue"),
+        component: () => import("../public/HomePage.vue"),
     },
     {
         path: "/yugioh/card",
         name: "Public Card",
-        component: () => import("../Public/Yugioh/CardPublicPage.vue"),
+        component: () => import("../public/yugioh/CardPublicPage.vue"),
     },
     {
         path: "/yugioh/banlist",
         name: "Public Banlist",
-        component: () => import("../Public/Yugioh/BanlistPublicPage.vue"),
+        component: () => import("../public/yugioh/BanlistPublicPage.vue"),
     },
     {
         path: "/yugioh/tournament",
         name: "Public Tournament",
-        component: () => import("../Public/Yugioh/TournamentPublicPage.vue"),
+        component: () => import("../public/yugioh/TournamentPublicPage.vue"),
     },
     {
         path: "/:pathMatch(.*)*",
@@ -25,7 +25,7 @@ const publicRoutes = [
         meta: {
             layout: "userpages",
         },
-        component: () => import("../Public/NotFoundPage.vue"),
+        component: () => import("../public/NotFoundPage.vue"),
     },
 ];
 
