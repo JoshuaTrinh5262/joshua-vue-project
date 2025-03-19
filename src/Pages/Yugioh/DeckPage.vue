@@ -33,7 +33,7 @@ export default defineComponent({
   setup() {
     const heading = ref("Yu-Gi-Oh Deck");
     const subheading = ref("Yu-Gi-Oh Deck page");
-    const icon = ref("pe-7s-copy-file icon-gradient bg-tempting-azure");
+    const icon = ref("pe-7s-portfolio icon-gradient bg-tempting-azure");
 
     const currentPage = ref(1);
     const itemsPerPage = ref(20);
