@@ -78,7 +78,6 @@ export const getTasks = async () => {
             throw error;
         }
         const columnsData = [
-            { status: "refinement", tasks: [] },
             { status: "to_do", tasks: [] },
             { status: "in_progress", tasks: [] },
             { status: "review", tasks: [] },

@@ -168,7 +168,7 @@ export default defineComponent({
         notification.value = {
           title:
             "Success",
-          content: "Changed Task to updatedColumns",
+          content: `Changed Task with Id ${updatedTask.id} to ${updatedColumns}`,
           type: "success"
         };
       } catch (error) {

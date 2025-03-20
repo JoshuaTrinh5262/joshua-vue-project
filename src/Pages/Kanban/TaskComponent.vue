@@ -17,18 +17,20 @@
           {{ getFormattedText(task.priority) }}
         </BadgeComponent>
       </div>
-      <div class="task-badges">
-        Type: {{ getFormattedText(task.type) }}
-      </div>
-      <div class="task-badges">
-        Code: {{ task.code }}
-      </div>
+      <div class="task-badges">Type: {{ getFormattedText(task.type) }}</div>
+      <div class="task-badges">Code: {{ task.code }}</div>
     </div>
     <div class="task-footer">
-      <img class="img-fluid rounded-circle" height="30" width="30" src="@/assets/images/avatars/0.jpg" alt="Avatar" />
+      <img
+        class="img-fluid rounded-circle"
+        height="30"
+        width="30"
+        src="@/assets/images/avatars/0.jpg"
+        alt="Avatar"
+      />
       <div>
-        <i class="action pe-7s-trash"></i>
-        <i class="action pe-7s-keypad"></i>
+        <i class="task-action pe-7s-trash" @click="handleDelete(task)"></i>
+        <i class="task-action pe-7s-keypad" @click="handleUpdate(task.id)"></i>
       </div>
     </div>
   </div>
@@ -49,7 +51,10 @@ export default defineComponent({
       default: () => ({}),
     },
   },
-  setup(props) {
+
+  emits: ["handleUpdate", "handleDelete"],
+
+  setup(props, { emit }) {
     const statusBadgeColor = computed(() => {
       const colorMap = {
         [TaskStatus.TO_DO]: "badge-secondary",
@@ -74,13 +79,25 @@ export default defineComponent({
 
     const getFormattedText = (str) => {
       return formatString(str);
-    }
+    };
+
+    const handleUpdate = (updateData) => {
+      emit("handleUpdate", updateData);
+    };
+
+    const handleDelete = async (id) => {
+      if (confirm(`Are you sure you want to delete this Task ${id}?`)) {
+        emit("handleDelete", id);
+      }
+    };
 
     return {
       statusBadgeColor,
       priorityBadgeColor,
       formatDate,
       getFormattedText,
+      handleUpdate,
+      handleDelete,
     };
   },
 });
@@ -90,7 +107,7 @@ export default defineComponent({
 .task-card {
   padding: 0.5rem;
   max-width: 400px;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
   border: 1px solid #dee2e6;
   background-color: white;
@@ -128,11 +145,17 @@ export default defineComponent({
   justify-content: space-between;
 }
 
-.task-footer .action {
+.task-footer .task-action {
   padding: 2px;
   margin: 2px;
   font-size: 24px;
   border: 1px solid black;
   border-radius: 50px;
+}
+
+.task-footer .task-action:hover {
+  background-color: black;
+  color: white;
+  transform: scale(1.1);
 }
 </style>
