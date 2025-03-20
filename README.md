@@ -50,6 +50,32 @@ VUE_APP_SUPABASE_URL=[supabase_project_url]
 VUE_APP_SUPABASE_KEY=[supabase_public_key]
 
 VUE_APP_SERVICE_ROLE_KEY=[supabase_service_role_key]
+# Package Update Version 
+
+## Install npm-check-updates globally if not 
+
+```sh
+npm install -g npm-check-updates
+```
+
+## Check outdated dependencies:
+
+```sh
+ncu
+```
+
+## Update package.json with the latest versions:
+
+```sh
+ncu -u
+```
+
+## Install the updated dependencies:
+
+```sh
+npm install
+
+```
 
 # Project Deployment (W.I.P)
 
