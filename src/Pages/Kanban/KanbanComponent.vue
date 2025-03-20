@@ -48,9 +48,8 @@ export default defineComponent({
           (task) => task.id !== draggedTask.value.id
         );
         columns.value[targetColumnIndex].tasks.push(draggedTask.value);
-
-        if (columns.value[targetColumnIndex].status != columns.value[targetColumnIndex].tasks[0].status) {
-          emit("changeTaskStatus", columns.value[targetColumnIndex].status, columns.value[targetColumnIndex].tasks[0]);
+        if (columns.value[targetColumnIndex].status != draggedTask.value.status) {
+          emit("changeTaskStatus", columns.value[targetColumnIndex].status, draggedTask.value);
         }
         draggedTask.value = null;
         draggedFromColumnIndex.value = null;
