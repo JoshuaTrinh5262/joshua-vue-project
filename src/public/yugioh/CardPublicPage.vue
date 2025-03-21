@@ -1,5 +1,6 @@
 <template>
   <div>
+    <breadcrumb-component></breadcrumb-component>
     <table-component
       :showAction="false"
       :footer="true"
@@ -21,6 +22,7 @@
 
 <script>
 import { defineComponent, ref, onMounted } from "vue";
+import BreadcrumbComponent from "../../Layout/Components/BreadcrumbComponent.vue";
 import TableComponent from "../../Layout/Components/TableComponent.vue";
 import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
 import ModalComponent from "../../Layout/Components/ModalComponent.vue";
@@ -31,6 +33,7 @@ export default defineComponent({
   name: "Yugioh Public Card Page",
 
   components: {
+    BreadcrumbComponent,
     TableComponent,
     PaginationComponent,
     ModalComponent,
