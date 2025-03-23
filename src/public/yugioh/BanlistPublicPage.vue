@@ -1,22 +1,10 @@
 <template>
   <div>
     <breadcrumb-component></breadcrumb-component>
-    <table-component
-      :showAction="false"
-      :footer="true"
-      :fields="fields"
-      :items="items"
-      @search="onSearch"
-    >
-    </table-component>
-    <pagination-component
-      :currentPage="currentPage"
-      :perPage="itemsPerPage"
-      :totalItems="totalItems"
-      :totalPages="totalPages"
-      @load-page="changeCurrentPage"
-      @change-page-size="changePageSize"
-    ></pagination-component>
+
+    <div v-for="(item, index) in items" :key="index">
+      {{ item.id }} {{ item.name }}
+    </div>
   </div>
 </template>
 
