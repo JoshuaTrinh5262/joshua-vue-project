@@ -7,9 +7,10 @@ const publicRoutes = [
         },
         component: () => import("../public/HomePage.vue"),
     },
+    // YUGIOH
     {
         path: "/yugioh",
-        name: "yugioh",
+        name: "Yugioh",
         component: () => import("../public/YugiohPage.vue"),
         meta: {
             breadcrumb: "yugioh",
@@ -38,6 +39,23 @@ const publicRoutes = [
             breadcrumb: "Tournament",
         },
         component: () => import("../public/yugioh/TournamentPublicPage.vue"),
+    },
+    // VTUBER
+    {
+        path: "/vtuber",
+        name: "Vtuber",
+        component: () => import("../public/VtuberPage.vue"),
+        meta: {
+            breadcrumb: "Vtuber",
+        },
+    },
+    {
+        path: "/vtuber/event",
+        name: "event",
+        component: () => import("../public/vtuber/EventPublicPage.vue"),
+        meta: {
+            breadcrumb: "Event",
+        },
     },
     {
         path: "/:pathMatch(.*)*",
