@@ -60,6 +60,7 @@ export default {
 
 .check {
     position: absolute;
+    margin: 1px;
     top: 1px;
     left: 1px;
     width: 18px;
@@ -72,6 +73,7 @@ export default {
 
 .dark .check {
     position: absolute;
+    margin: 1px;
     top: 1px;
     left: 1px;
     width: 18px;
