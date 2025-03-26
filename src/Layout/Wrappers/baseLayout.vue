@@ -1,9 +1,7 @@
 <template>
   <div class="app-container" :class="isDark? 'app-theme-dark' : 'app-theme-white'">
-    <transition name="fade" mode="out-in" appear>
       <MainHeaderComponent />
-    </transition>
-    <div>
+    <div class="m-4">
       <slot></slot>
     </div>
   </div>
