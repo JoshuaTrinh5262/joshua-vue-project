@@ -53,14 +53,23 @@ export const getYugiohBanlists = async () => {
 export const getYugiohBanlistById = async (id) => {
     try {
         const { data, error } = await supabase
-            .from("yugioh_banlist")
-            .select("*")
-            .eq("id", id)
-            .single();
+            .from("yugioh_banlist_card")
+            .select("*, yugioh_card(name, category, description, icon)")
+            .eq("banlist_id", id);
         if (error) {
             throw error;
         }
-        return data;
+
+        const groupedData = data.reduce((acc, card) => {
+            const status = card.status || "Unknown";
+            if (!acc[status]) {
+                acc[status] = [];
+            }
+            acc[status].push(card);
+            return acc;
+        }, {});
+
+        return groupedData;
     } catch (err) {
         return { error: err.message };
     }
