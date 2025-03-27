@@ -19,7 +19,7 @@
                                 <button class="dropdown-item" type="button"
                                     @click="navigateTo('/admin/setting')">Setting</button>
                                 <div class="dropdown-divider"></div>
-                                <button class="dropdown-item" type="button" @click="navigateTo('/')">Main</button>
+                                <button class="dropdown-item" type="button" @click="navigateTo('/')">Public</button>
                                 <div class="dropdown-divider"></div>
                                 <button class="dropdown-item" type="button" @click="handleLogout">Logout</button>
                             </div>
