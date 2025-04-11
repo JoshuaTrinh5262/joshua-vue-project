@@ -1,6 +1,14 @@
 //
 // Base styles
 //
+.dark .card {
+  background-color: rgba(50, 50, 50, .45);
+  .card-header,
+  .card-footer {
+    color: $gray-700;
+    background-color: rgba(50, 50, 50, .45);
+  }
+}
 
 .card {
   position: relative;
