@@ -1,6 +1,43 @@
 <template>
-    <div class="form-inline">
-        <div class="input-group mb-2">
+    <div class="card">
+       <div class="card-body"> 
+        <h3 class="card-title">Talent Filter</h3>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="position-relative form-group">
+                        <label for="exampleCustomSelect" class="">Custom Select</label>
+                        <select type="select" id="exampleCustomSelect" name="customSelect" class="custom-select">
+                            <option value="">Select</option>
+                            <option>Value 1</option>
+                            <option>Value 2</option>
+                            <option>Value 3</option>
+                            <option>Value 4</option>
+                            <option>Value 5</option>
+                        </select>
+                        </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="position-relative form-group">
+                        <label for="exampleCustomSelectDisabled" class="">Custom Select</label>
+                            <select type="select" id="exampleCustomSelectDisabled" name="customSelect" class="custom-select">
+                            <option value="">Select</option>
+                            <option>Value 1</option>
+                            <option>Value 2</option>
+                            <option>Value 3</option>
+                            <option>Value 4</option>
+                            <option>Value 5</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="position-relative form-group">
+                    </div>
+                </div>
+            </div>
+       </div>
+    </div>
+    <div class="form-inline mb-2">
+        <div class="input-group">
             <input placeholder="Searching..." @input="onSearch" v-model="search" type="text" class="form-control"
                 name="search" />
             <div class="input-group-append">
@@ -9,31 +46,48 @@
                 </button>
             </div>
         </div>
+        <div v-if="selectedCount > 0" class="input-group">
+            <button type="button" class="btn btn-primary">
+                Selected ({{ selectedCount }})
+            </button>
+        </div>
     </div>
     <table class="table table-hover table-sm table-bordered">
         <thead>
             <tr>
-                <th><input type="checkbox" class="" name="checkbox" /></th>
+                <th class="checkbox">
+                    <div class="center-cell">
+                        <input type="checkbox" class="checkbox" name="checkbox"
+                            @change="selectedItems = $event.target.checked ? items.map(item => item.id) : []" />
+                    </div>
+                </th>
+                <th>Avatar</th>
                 <th v-for="field in fields" :key="field.key" :id="field.key" @click="changeOrder(field.key)">
                     {{ field.value }}
                     <span v-if="orderBy === field.key && orderDirection === 'asc'">&#9660;</span>
                     <span v-else-if="orderBy === field.key && orderDirection === 'desc'">&#9650;</span>
                     <span v-else>&#9670;</span>
                 </th>
-                <th>Action</th>
+                <th class="action">Action</th>
             </tr>
         </thead>
         <tbody>
             <template v-if="items.length > 0">
                 <template v-for="(item, index) in items" :key="index">
                     <tr>
-                        <td><input type="checkbox" name="checkbox" /></td>
+                        <td class="checkbox">
+                            <div class="center-cell">
+                                <input type="checkbox" class="checkbox" name="checkbox" :value="item.id"
+                                    v-model="selectedItems">
+                            </div>
+                        </td>
+                        <td><img :src="`/storage/talents/${item.id}.png`" @error="onImageError" alt="Talent Image" width="50" height="50" /></td>
                         <td><a :href="`talent/${item.id}`">{{ item.name }}</a></td>
                         <td>{{ item.original_name }}</td>
                         <td><a :href="`agency/${item.agency_id}`">{{ item.agency }}</a></td>
                         <td>{{ item.talent_status }}</td>
                         <td>{{ item.debut_date }}</td>
-                        <td>
+                        <td class="action">
                             <button type="button" class="btn btn-sm btn-success" @click="handleUpdate(item)">
                                 <i class="pe-7s-file"></i>
                             </button>
@@ -46,7 +100,7 @@
                         </td>
                     </tr>
                     <tr v-if="expandedRows[index]" class="details-row">
-                        <td colspan="9">
+                        <td :colspan="fields.length + 2">
                             <div>
                                 <p>Talent Id: {{ item.id }}</p>
                                 <p>Discography Count: {{ item.discography_count }}</p>
@@ -62,14 +116,18 @@
         </tbody>
         <tfoot>
             <tr>
-                <th><input type="checkbox" name="checkbox" /></th>
+                <th>
+                    <input type="checkbox" class="checkbox" name="checkbox"
+                        @change="selectedItems = $event.target.checked ? items.map(item => item.id) : []" />
+                </th>
+                <th>Avatar</th>
                 <th v-for="field in fields" :key="field.key" :id="field.key" @click="changeOrder(field.key)">
                     {{ field.value }}
                     <span v-if="orderBy === field.key && orderDirection === 'asc'">&#9660;</span>
                     <span v-else-if="orderBy === field.key && orderDirection === 'desc'">&#9650;</span>
                     <span v-else>&#9670;</span>
                 </th>
-                <th>Action</th>
+                <th class="action">Action</th>
             </tr>
         </tfoot>
     </table>
@@ -79,7 +137,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref, reactive, onMounted } from 'vue';
 import ModalComponent from '../../../Layout/Components/ModalComponent.vue';
 import TableComponent from '../../../Layout/Components/TableComponent.vue';
 import NotificationComponent from '../../../Layout/Components/NotificationComponent.vue';
@@ -104,11 +162,13 @@ export default defineComponent({
         const orderBy = ref('debut_date');
         const orderDirection = ref('asc');
         const currentPage = ref(1);
-        const itemsPerPage = ref(20);
+        const itemsPerPage = ref(10);
         const totalItems = ref(0);
         const totalPages = ref(0);
         const search = ref('');
         const expandedRows = ref([]);
+        const selectedItems  = ref([]);
+        const selectedCount  = ref(0);
 
         const fields = ref([
             {
@@ -196,6 +256,10 @@ export default defineComponent({
             expandedRows.value[index] = !expandedRows.value[index];
         };
 
+        const onImageError = (e) => {
+            e.target.src = '/default.jpg';
+        }
+
         onMounted(() => {
             getTalentsData();
         });
@@ -211,6 +275,8 @@ export default defineComponent({
             orderBy,
             orderDirection,
             expandedRows,
+            selectedItems,
+            selectedCount,
             loadPage,
             changePageSize,
             onSearch,
@@ -218,7 +284,8 @@ export default defineComponent({
             handleDelete,
             handleUpdate,
             getTalentsData,
-            toggleDetails
+            toggleDetails,
+            onImageError
         };
     }
 });
