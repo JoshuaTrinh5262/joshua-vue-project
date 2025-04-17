@@ -101,7 +101,7 @@ export const getTalentById = async (id) => {
     try {
         const { data, error } = await supabase
             .from("talent")
-            .select("*, agency(*)")
+            .select("*, agency(*), discography(*), album(*), event(*)")
             .eq("id", id)
             .single();
         if (error) {

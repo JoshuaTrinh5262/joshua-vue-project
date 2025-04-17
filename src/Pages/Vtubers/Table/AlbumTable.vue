@@ -14,6 +14,7 @@
         <thead>
             <tr>
                 <th><input type="checkbox" class="" name="checkbox" /></th>
+                <th>Avatar</th>
                 <th v-for="field in fields" :key="field.key" :id="field.key" @click="changeOrder(field.key)">
                     {{ field.value }}
                     <span v-if="orderBy === field.key && orderDirection === 'asc'">&#9660;</span>
@@ -28,6 +29,7 @@
                 <template v-for="(item, index) in items" :key="index">
                     <tr>
                         <td><input type="checkbox" name="checkbox" /></td>
+                        <td><img :src="`/storage/albums/${item.id}.png`" @error="onImageError" alt="Album Image" width="50" height="50" /></td>
                         <td>{{ item.id }}</td>
                         <td><a :href="`album/${item.id}`">{{ item.name }}</a></td>
                         <td>{{ item.album_type }}</td>
@@ -66,6 +68,7 @@
         <tfoot>
             <tr>
                 <th><input type="checkbox" name="checkbox" /></th>
+                <th>Avatar</th>
                 <th v-for="field in fields" :key="field.key" :id="field.key" @click="changeOrder(field.key)">
                     {{ field.value }}
                     <span v-if="orderBy === field.key && orderDirection === 'asc'">&#9660;</span>
@@ -199,6 +202,10 @@ export default defineComponent({
             expandedRows.value[index] = !expandedRows.value[index];
         };
 
+        const onImageError = (e) => {
+            e.target.src = '/default.jpg';
+        }
+
         onMounted(() => {
             getAlbumsData();
         });
@@ -221,7 +228,8 @@ export default defineComponent({
             handleDelete,
             handleUpdate,
             getAlbumsData,
-            toggleDetails
+            toggleDetails,
+            onImageError
         };
     }
 });
