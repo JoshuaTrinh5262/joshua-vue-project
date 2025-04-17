@@ -56,9 +56,7 @@ export default defineComponent({
 <style lang="css">
 .tabs-wrapper {
   width: 100%;
-  min-height: 100vh;
   margin: 0;
-  padding: 10px;
 }
 
 ul.tabs__header {
