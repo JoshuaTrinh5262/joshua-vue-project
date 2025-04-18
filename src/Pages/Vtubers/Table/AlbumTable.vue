@@ -13,7 +13,8 @@
     <table class="table table-hover table-sm table-bordered">
         <thead>
             <tr>
-                <th class="checkbox"><div class="center-cell"><input type="checkbox" class="checkbox"/></div></th>
+                <th class="checkbox"><div class="center-cell"><input type="checkbox" name="checkbox" class="checkbox"/></div></th>
+                <th>Avatar</th>
                 <th v-for="field in fields" :key="field.key" :id="field.key" @click="changeOrder(field.key)">
                     {{ field.value }}
                     <span v-if="orderBy === field.key && orderDirection === 'asc'">&#9660;</span>
@@ -27,14 +28,12 @@
             <template v-if="items.length > 0">
                 <template v-for="(item, index) in items" :key="index">
                     <tr>
-                        <td class="checkbox">
-                            <div class="center-cell">
-                                <input type="checkbox" class="checkbox" />
-                            </div>
-                        </td>
+                        <td class="checkbox"><div class="center-cell"><input type="checkbox" name="checkbox" class="checkbox"/></div></td>
+                        <td><img :src="`/storage/albums/${item.id}.png`" @error="onImageError" alt="Album Image" width="50" height="50" /></td>
                         <td>{{ item.id }}</td>
-                        <td><a :href="`discography/${item.id}`">{{ item.name }}</a></td>
-                        <td>{{ item.original_name }}</td>
+                        <td><a :href="`album/${item.id}`">{{ item.name }}</a></td>
+                        <td>{{ item.album_type }}</td>
+                        <td>{{ item.tracklist_count }}</td>
                         <td>{{ item.released_date }}</td>
                         <td class="action">
                             <button type="button" class="btn btn-sm btn-success" @click="handleUpdate(item)">
@@ -49,12 +48,14 @@
                         </td>
                     </tr>
                     <tr v-if="expandedRows[index]" class="details-row">
-                        <td colspan="9">
+                        <td colspan="6">
                             <div>
-                                <p>Discography Id: {{ item.id }}</p>
+                                <p>Talens: </p>
+                                <p>{{ item.talents }}</p>
                             </div>
                             <div>
-                                <p>Talents: {{ item.talents }}</p>
+                                <p>Album Description: </p>
+                                <p>{{ item.album_description }}</p>
                             </div>
                         </td>
                     </tr>
@@ -66,7 +67,8 @@
         </tbody>
         <tfoot>
             <tr>
-                <th class="checkbox"><input type="checkbox" class="checkbox" /></th>
+                <th class="checkbox"><div class="center-cell"><input type="checkbox" name="checkbox" class="checkbox"/></div></th>
+                <th>Avatar</th>
                 <th v-for="field in fields" :key="field.key" :id="field.key" @click="changeOrder(field.key)">
                     {{ field.value }}
                     <span v-if="orderBy === field.key && orderDirection === 'asc'">&#9660;</span>
@@ -83,7 +85,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted, reactive } from 'vue';
+import { defineComponent, ref, onMounted } from 'vue';
 import ModalComponent from '../../../Layout/Components/ModalComponent.vue';
 import TableComponent from '../../../Layout/Components/TableComponent.vue';
 import NotificationComponent from '../../../Layout/Components/NotificationComponent.vue';
@@ -92,7 +94,7 @@ import ButtonSpinner from "../../../Layout/Components/ButtonSpinner.vue";
 import { apiService } from '../../../supabase/apiService';
 
 export default defineComponent({
-    name: "DiscographyTable",
+    name: "AlbumTable",
 
     components: {
         ModalComponent,
@@ -113,48 +115,52 @@ export default defineComponent({
         const totalPages = ref(0);
         const search = ref('');
         const expandedRows = ref([]);
-
-        const fields = ref([
+        const fields = [
             {
-                key: "id",
-                value: "Id"
+                key: 'id',
+                value: 'ID'
             },
             {
-                key: "name",
-                value: "Name"
+                key: 'name',
+                value: 'Album Name'
             },
             {
-                key: "original_name",
-                value: "original Name"
+                key: 'album_type',
+                value: 'Album Type'
             },
             {
-                key: "released_date",
-                value: "Released Date"
+                key: 'tracklist_count',
+                value: 'Tracklist'
             },
-        ]);
+            {
+                key: 'released_date',
+                value: 'Released Date'
+            },
+        ];
         const items = ref([]);
 
-        const getDiscographiesData = async () => {
+        const getAlbumsData = async () => {
             if (search.value) {
                 currentPage.value = 1;
             }
 
-            const response = await apiService.getDiscographiesWithPaging(currentPage.value, itemsPerPage.value, orderBy.value, orderDirection.value, search.value);
+            const response = await apiService.getAlbumsWithPaging(currentPage.value, itemsPerPage.value, orderBy.value, orderDirection.value, search.value);
 
             if (!response.error) {
-                items.value = response.items ? response.items : [];
+                items.value = response.items;
                 totalItems.value = response.totalItems;
                 totalPages.value = response.totalPages;
                 itemsPerPage.value = itemsPerPage.value;
             }
         };
 
+
         const handleUpdate = (updateData) => {
             emit('handleUpdate', updateData);
         }
 
         const handleDelete = async (id) => {
-            const confirmDelete = confirm(`Are you sure you want to delete Discography ${id}?`);
+            const confirmDelete = confirm(`Are you sure you want to delete Album ${id}?`);
             if (confirmDelete) {
                 emit('handleDelete', id);
             }
@@ -162,12 +168,12 @@ export default defineComponent({
 
         const loadPage = (page) => {
             currentPage.value = page;
-            getDiscographiesData();
+            getAlbumsData();
         };
 
         const onSearch = () => {
             currentPage.value = 1;
-            getDiscographiesData();
+            getAlbumsData();
         };
 
         const changeOrder = (field) => {
@@ -183,21 +189,25 @@ export default defineComponent({
                 orderBy.value = field;
                 orderDirection.value = 'asc';
             }
-            getDiscographiesData();
+            getAlbumsData();
         };
 
         const changePageSize = async (newPageSize) => {
             itemsPerPage.value = newPageSize;
             currentPage.value = 1;
-            await getDiscographiesData();
+            await getAlbumsData();
         };
 
         const toggleDetails = (index) => {
             expandedRows.value[index] = !expandedRows.value[index];
         };
 
+        const onImageError = (e) => {
+            e.target.src = '/default.jpg';
+        }
+
         onMounted(() => {
-            getDiscographiesData();
+            getAlbumsData();
         });
 
         return {
@@ -217,8 +227,9 @@ export default defineComponent({
             changeOrder,
             handleDelete,
             handleUpdate,
-            getDiscographiesData,
-            toggleDetails
+            getAlbumsData,
+            toggleDetails,
+            onImageError
         };
     }
 });
