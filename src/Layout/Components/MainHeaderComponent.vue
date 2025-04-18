@@ -4,14 +4,31 @@
       <h1 class="header-title">{{ title }}</h1>
       <nav class="header-nav">
         <ul>
-          <li v-for="item in navItems" :key="item.text">
+          <li
+            v-for="item in navItems"
+            :key="item.text"
+            class="nav-item"
+            @mouseenter="toggleDropdown(item.text, true)"
+            @mouseleave="toggleDropdown(item.text, false)"
+          >
             <a :href="item.href">{{ item.text }}</a>
+
+            <ul
+              v-if="item.submenu && dropdownOpen[item.text]"
+              class="drop-list"
+            >
+              <!-- <ul class="drop-list"> -->
+              <li v-for="subItem in item.submenu" :key="subItem.text">
+                <a :href="subItem.href">{{ subItem.text }}</a>
+              </li>
+            </ul>
           </li>
         </ul>
       </nav>
       <div class="auth-buttons">
-        <button v-if="!isAuthenticated">Login</button>
-        <button v-if="isAuthenticated">Logout</button>
+        <toggle-component></toggle-component>
+        <button v-if="!isAuthenticated" class="btn btn-primary">Login</button>
+        <button v-if="isAuthenticated" class="btn btn-primary">Logout</button>
       </div>
     </div>
   </header>
@@ -19,34 +36,68 @@
 
 <script>
 import { defineComponent, ref } from "vue";
+import ToggleComponent from "./ToggleComponent.vue";
 
 export default defineComponent({
+  components: { ToggleComponent },
   name: "MainHeaderComponent",
 
   setup() {
-    const title = ref("Joshua");
+    const title = ref("BRAND");
     const isAuthenticated = ref(false);
+    const dropdownOpen = ref({});
+
     const navItems = ref([
       { text: "HOME", href: "/" },
-      { text: "CARD", href: "/yugioh/card" },
-      { text: "BANLIST", href: "/yugioh/banlist" },
-      { text: "TOURNAMENT", href: "/yugioh/tournament" },
+      {
+        text: "YUGIOH",
+        href: "/yugioh",
+        submenu: [
+          { text: "CARD", href: "/yugioh/card" },
+          { text: "BANLIST", href: "/yugioh/banlist" },
+          { text: "TOURNAMENT", href: "/yugioh/tournament" },
+        ],
+      },
+      {
+        text: "VTUBER",
+        href: "/vtuber",
+        submenu: [{ text: "EVENT", href: "/vtuber/event" }],
+      },
     ]);
+
+    const toggleDropdown = (menu, state) => {
+      dropdownOpen.value = { ...dropdownOpen.value, [menu]: state };
+    };
 
     return {
       title,
       isAuthenticated,
       navItems,
+      dropdownOpen,
+      toggleDropdown,
     };
   },
 });
 </script>
 
 <style scoped>
-.main-header {
+.dark .main-header {
   background-color: #333;
-  color: #fff;
-  padding: 1rem;
+  color: #fafbfc;
+}
+
+.dark .header-nav a {
+  color: #fafbfc;
+}
+
+.dark .header-nav .drop-list {
+  background-color: #333;
+}
+
+.main-header {
+  background-color: #fafbfc;
+  color: #333;
+  padding: 0 1.5rem 0 1.5rem;
 }
 
 .header-content {
@@ -66,29 +117,55 @@ export default defineComponent({
   display: flex;
 }
 
-.header-nav li {
-  margin-left: 1rem;
+.header-nav .nav-item {
+  position: relative;
+  margin: 0px;
+  padding: 12px;
 }
 
 .header-nav a {
-  color: #fff;
-  text-decoration: none;
+  color: #333;
 }
 
 .header-nav a:hover {
-  text-decoration: underline;
+  text-decoration: none;
+}
+
+.header-nav .drop-list {
+  background-color: #fafbfc;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  color: #fff;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+}
+
+.header-nav .drop-list a {
+  display: block;
+  padding: 1rem;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.header-nav .drop-list a:hover {
+  background-color: #333;
+}
+
+.auth-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
 }
 
 .auth-buttons button {
-  background-color: #007bff;
   border: none;
-  color: white;
   padding: 0.5rem 1rem;
   margin-left: 1rem;
   cursor: pointer;
-}
-
-.auth-buttons button:hover {
-  background-color: #0056b3;
 }
 </style>
