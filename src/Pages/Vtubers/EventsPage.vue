@@ -64,7 +64,7 @@
         </div>
         <div class="position-relative form-group">
           <label for="event_status">Talent</label>
-          <TagSelectorComponent :items="talentOptions" :model-value="selectedTalents"
+          <TagSelectorComponent :items="vtuberStore?.talentOptions" :model-value="selectedTalents"
             @update:modelValue="handleSelectedTalentsChange" />
         </div>
 
@@ -91,6 +91,7 @@ import TagSelectorComponent from '../../Layout/Components/TagSelectorComponent.v
 import { apiService } from '../../supabase/apiService';
 import SetlistComponent from '../../Layout/Components/SetlistComponent.vue';
 import EventTable from './Table/EventTable.vue';
+import { useVtuberStore } from '@/stores/useVtuberStore';
 
 export default defineComponent({
   name: "EventsPage",
@@ -110,12 +111,13 @@ export default defineComponent({
     const subheading = ref('Events');
     const icon = ref('pe-7s-date icon-gradient bg-tempting-azure');
 
+    const vtuberStore = useVtuberStore()
+
     const isUpdateMode = ref(false);
     const showModal = ref(false);
     const onSubmit = ref(false);
     const notification = ref(null);
     const eventTable = ref(null);
-    const talentOptions = ref([]);
     const selectedTalents = ref([]);
     const currentEvent = reactive({
       event_title: null,
@@ -127,11 +129,6 @@ export default defineComponent({
       event_status: null,
       event_setlist: null,
     });
-
-    const getTalentsData = async () => {
-      const result = await apiService.getTalents();
-      talentOptions.value = result;
-    };
 
     const handleSubmit = async () => {
       onSubmit.value = true;
@@ -265,7 +262,7 @@ export default defineComponent({
     };
 
     onMounted(async () => {
-      await getTalentsData();
+      vtuberStore.fetchTalents();
     });
 
     return {
@@ -276,10 +273,10 @@ export default defineComponent({
       showModal,
       onSubmit,
       notification,
-      talentOptions,
       selectedTalents,
       currentEvent,
       eventTable,
+      vtuberStore,
       handleSelectedTalentsChange,
       handleUpdateTrackList,
       toggleModal,
