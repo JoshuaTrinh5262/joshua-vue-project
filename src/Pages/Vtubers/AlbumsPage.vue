@@ -38,7 +38,7 @@
         </div>
         <div class="position-relative form-group">
           <label for="talent">Talent</label>
-          <TagSelectorComponent :items="talentOptions" :model-value="selectedTalents"
+          <TagSelectorComponent :items="vtuberStore?.talentOptions" :model-value="selectedTalents"
             @update:modelValue="handleselectedTalentsChange"></TagSelectorComponent>
         </div>
       </template>
@@ -61,7 +61,8 @@ import NotificationComponent from '../../Layout/Components/NotificationComponent
 import ButtonSpinner from '../../Layout/Components/ButtonSpinner.vue';
 import TagSelectorComponent from '../../Layout/Components/TagSelectorComponent.vue';
 import AlbumTable from "../../Pages/Vtubers/Table/AlbumTable.vue";
-import { apiService } from '../../supabase/apiService';
+import { apiService } from '@/supabase/apiService';
+import { useVtuberStore } from '@/stores/useVtuberStore';
 
 export default defineComponent({
   name: "AlbumsPage",
@@ -80,6 +81,8 @@ export default defineComponent({
     const subheading = ref('Albums Pages');
     const icon = ref('pe-7s-album icon-gradient bg-tempting-azure');
 
+    const vtuberStore = useVtuberStore()
+
     const isUpdateMode = ref(false);
     const showModal = ref(false);
     const onSubmit = ref(false);
@@ -93,13 +96,7 @@ export default defineComponent({
     });
 
     const albumTable = ref(null);
-    const talentOptions = ref([]);
     const selectedTalents = ref([]);
-
-    const getTalentsData = async () => {
-      const result = await apiService.getTalents();
-      talentOptions.value = result;
-    };
 
     const handleSubmit = async () => {
       onSubmit.value = true;
@@ -217,24 +214,23 @@ export default defineComponent({
     };
 
     onMounted(async () => {
-      await getTalentsData();
+      vtuberStore.fetchTalents();
     });
 
     return {
       heading,
       subheading,
       icon,
+      vtuberStore,
       isUpdateMode,
       showModal,
       onSubmit,
-      talentOptions,
       selectedTalents,
       notification,
       currentAlbum,
       albumTable,
       toggleModal,
       createAlbum,
-      getTalentsData,
       handleSubmit,
       handleUpdateClick,
       handleDeleteClick,
