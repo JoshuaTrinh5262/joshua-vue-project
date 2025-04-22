@@ -14,7 +14,7 @@
         <thead>
             <tr>
                 <th class="checkbox"><div class="center-cell"><input type="checkbox" name="checkbox" class="checkbox"/></div></th>
-                <th>Avatar</th>
+                <th class="avatar">Avatar</th>
                 <th v-for="field in fields" :key="field.key" :id="field.key" @click="changeOrder(field.key)">
                     {{ field.value }}
                     <span v-if="orderBy === field.key && orderDirection === 'asc'">&#9660;</span>
@@ -68,7 +68,7 @@
         <tfoot>
             <tr>
                 <th class="checkbox"><div class="center-cell"><input type="checkbox" name="checkbox" class="checkbox"/></div></th>
-                <th>Avatar</th>
+                <th class="avatar">Avatar</th>
                 <th v-for="field in fields" :key="field.key" :id="field.key" @click="changeOrder(field.key)">
                     {{ field.value }}
                     <span v-if="orderBy === field.key && orderDirection === 'asc'">&#9660;</span>
