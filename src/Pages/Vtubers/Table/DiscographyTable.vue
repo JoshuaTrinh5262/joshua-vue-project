@@ -1,6 +1,6 @@
 <template>
-    <div class="form-inline">
-        <div class="input-group mb-2">
+    <div class="form-inline mb-2">
+        <div class="input-group mr-2">
             <input placeholder="Searching..." @input="onSearch" v-model="search" type="text" class="form-control"
                 name="search" />
             <div class="input-group-append">
@@ -14,6 +14,7 @@
         <thead>
             <tr>
                 <th class="checkbox"><div class="center-cell"><input type="checkbox" class="checkbox"/></div></th>
+                <th class="avatar">Avatar</th>
                 <th v-for="field in fields" :key="field.key" :id="field.key" @click="changeOrder(field.key)">
                     {{ field.value }}
                     <span v-if="orderBy === field.key && orderDirection === 'asc'">&#9660;</span>
@@ -32,6 +33,7 @@
                                 <input type="checkbox" class="checkbox" />
                             </div>
                         </td>
+                        <td><img :src="`/storage/discographies/${item.id}.png`" @error="onImageError" alt="Album Image" width="50" height="50" /></td>
                         <td>{{ item.id }}</td>
                         <td><a :href="`discography/${item.id}`">{{ item.name }}</a></td>
                         <td>{{ item.original_name }}</td>
@@ -67,6 +69,7 @@
         <tfoot>
             <tr>
                 <th class="checkbox"><input type="checkbox" class="checkbox" /></th>
+                <th class="avatar">Avatar</th>
                 <th v-for="field in fields" :key="field.key" :id="field.key" @click="changeOrder(field.key)">
                     {{ field.value }}
                     <span v-if="orderBy === field.key && orderDirection === 'asc'">&#9660;</span>
@@ -196,8 +199,12 @@ export default defineComponent({
             expandedRows.value[index] = !expandedRows.value[index];
         };
 
-        onMounted(() => {
-            getDiscographiesData();
+        const onImageError = (e) => {
+            e.target.src = '/default.jpg';
+        }
+
+        onMounted(async () => {
+            await getDiscographiesData();
         });
 
         return {
@@ -218,7 +225,8 @@ export default defineComponent({
             handleDelete,
             handleUpdate,
             getDiscographiesData,
-            toggleDetails
+            toggleDetails,
+            onImageError
         };
     }
 });
