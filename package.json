@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "supabase": "supabase"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.1",
@@ -22,7 +23,8 @@
     "vuex": "^4.1.0"
   },
   "devDependencies": {
-    "@vue/cli-service": "^5.0.8"
+    "@vue/cli-service": "^5.0.8",
+    "supabase": "^2.22.4"
   },
   "eslintConfig": {
     "root": true,
