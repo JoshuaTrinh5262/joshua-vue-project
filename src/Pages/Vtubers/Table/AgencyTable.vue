@@ -13,26 +13,34 @@
     <table class="table table-hover table-sm table-bordered">
         <thead>
             <tr>
-                <th><input type="checkbox" class="" name="checkbox" /></th>
+                <th class="checkbox">
+                    <div class="center-cell">
+                        <input type="checkbox" class="checkbox" />
+                    </div>
+                </th>
                 <th v-for="field in fields" :key="field.key" :id="field.key" @click="changeOrder(field.key)">
                     {{ field.value }}
                     <span v-if="orderBy === field.key && orderDirection === 'asc'">&#9660;</span>
                     <span v-else-if="orderBy === field.key && orderDirection === 'desc'">&#9650;</span>
                     <span v-else>&#9670;</span>
                 </th>
-                <th>Action</th>
+                <th class="action">Action</th>
             </tr>
         </thead>
         <tbody>
             <template v-if="items.length > 0">
                 <template v-for="(item, index) in items" :key="index">
                     <tr>
-                        <td><input type="checkbox" name="checkbox" /></td>
+                        <td class="checkbox">
+                            <div class="center-cell">
+                                <input type="checkbox" class="checkbox" />
+                            </div>
+                        </td>
                         <td>{{ item.id }}</td>
                         <td><a :href="`agency/${item.id}`">{{ item.agency_name }}</a></td>
                         <td>{{ item.agency_status }}</td>
                         <td>{{ item.talent_count }}</td>
-                        <td>
+                        <td class="action">
                             <button type="button" class="btn btn-sm btn-success" @click="handleUpdate(item)">
                                 <i class="pe-7s-file"></i>
                             </button>
@@ -60,14 +68,18 @@
         </tbody>
         <tfoot>
             <tr>
-                <th><input type="checkbox" name="checkbox" /></th>
+                <th class="checkbox">
+                    <div class="center-cell">
+                        <input type="checkbox" class="checkbox" />
+                    </div>
+                </th>
                 <th v-for="field in fields" :key="field.key" :id="field.key" @click="changeOrder(field.key)">
                     {{ field.value }}
                     <span v-if="orderBy === field.key && orderDirection === 'asc'">&#9660;</span>
                     <span v-else-if="orderBy === field.key && orderDirection === 'desc'">&#9650;</span>
                     <span v-else>&#9670;</span>
                 </th>
-                <th>Action</th>
+                <th class="action">Action</th>
             </tr>
         </tfoot>
     </table>

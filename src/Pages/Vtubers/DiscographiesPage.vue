@@ -52,14 +52,14 @@
           <label for="album">Album</label>
           <select name="select" id="album" v-model="currentDiscography.album_id" class="form-control">
             <option :value=null></option>
-            <option v-for="album in albumOptions" :key="album.id" :value="album.id">
+            <option v-for="album in vtuberStore.albumOptions" :key="album.id" :value="album.id">
               {{ album.name }}
             </option>
           </select>
         </div>
         <div class="position-relative form-group">
           <label for="talent">Talent</label>
-          <TagSelectorComponent :items="talentOptions" :model-value="selectedTalents"
+          <TagSelectorComponent :items="vtuberStore.talentOptions" :model-value="selectedTalents"
             @update:modelValue="handleselectedTalentsChange"></TagSelectorComponent>
         </div>
       </template>
@@ -76,15 +76,16 @@
 
 <script>
 import { ref, onMounted, reactive, defineComponent } from "vue";
-import ModalComponent from "../../Layout/Components/ModalComponent.vue";
-import TableComponent from "../../Layout/Components/TableComponent.vue";
-import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
-import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
-import ButtonSpinner from "../../Layout/Components/ButtonSpinner.vue";
-import NotificationComponent from "../../Layout/Components/NotificationComponent.vue";
-import TagSelectorComponent from "../../Layout/Components/TagSelectorComponent.vue";
-import DiscographyTable from "../../Pages/Vtubers/Table/DiscographyTable.vue";
-import { apiService } from "../../supabase/apiService";
+import ModalComponent from "@/Layout/Components/ModalComponent.vue";
+import TableComponent from "@/Layout/Components/TableComponent.vue";
+import PageTitleComponent from "@/Layout/Components/PageTitleComponent.vue";
+import PaginationComponent from "@/Layout/Components/PaginationComponent.vue";
+import ButtonSpinner from "@/Layout/Components/ButtonSpinner.vue";
+import NotificationComponent from "@/Layout/Components/NotificationComponent.vue";
+import TagSelectorComponent from "@/Layout/Components/TagSelectorComponent.vue";
+import DiscographyTable from "@/Pages/Vtubers/Table/DiscographyTable.vue";
+import { apiService } from "@/supabase/apiService";
+import { useVtuberStore } from "@/stores/useVtuberStore";
 
 export default defineComponent({
   name: "DiscographiesPage",
@@ -105,6 +106,8 @@ export default defineComponent({
     const subheading = ref("Dive into the Musical Journeys of Talented Artists Across Generations");
     const icon = ref("pe-7s-musiclist icon-gradient bg-tempting-azure");
 
+    const vtuberStore = useVtuberStore();
+  
     const isUpdateMode = ref(false);
     const showModal = ref(false);
     const notification = ref(null);
@@ -122,19 +125,7 @@ export default defineComponent({
     });
 
     const discographyTable = ref(null);
-    const albumOptions = ref([]);
-    const talentOptions = ref([]);
     const selectedTalents = ref([]);
-
-    const getAlbumsData = async () => {
-      const result = await apiService.getAlbums();
-      albumOptions.value = result;
-    };
-
-    const getTalentsData = async () => {
-      const result = await apiService.getTalents();
-      talentOptions.value = result;
-    };
 
     const handleSubmit = async () => {
       onSubmit.value = true;
@@ -256,26 +247,23 @@ export default defineComponent({
     };
 
     onMounted(async () => {
-      await getAlbumsData();
-      await getTalentsData();
+      vtuberStore.fetchTalents();
+      vtuberStore.fetchAlbums();
     });
 
     return {
       heading,
       subheading,
       icon,
+      vtuberStore,
       isUpdateMode,
       showModal,
       onSubmit,
-      albumOptions,
-      talentOptions,
       selectedTalents,
       currentDiscography,
       notification,
       discographyTable,
       toggleModal,
-      getAlbumsData,
-      getTalentsData,
       handleSubmit,
       handleUpdateClick,
       handleDeleteClick,

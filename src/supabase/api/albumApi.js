@@ -12,7 +12,7 @@ export const getAlbumsWithPaging = async (
 
         let query = supabase
             .from("album")
-            .select("*, album_talent(talent(*)), discography(count)", {
+            .select("*, album_talent(talent(*)), tracklist(count)", {
                 count: "exact",
             })
             .order(orderBy, { ascending: orderDirection === "asc" })
@@ -31,8 +31,8 @@ export const getAlbumsWithPaging = async (
         const formattedAlbums = data.map((album) => ({
             ...album,
             talents: album.album_talent?.map((at) => at.talent?.name) || [],
-            discography_count: album.discography.length
-                ? album.discography[0].count
+            tracklist_count: album.tracklist.length
+                ? album.tracklist[0].count
                 : 0,
         }));
 
@@ -54,7 +54,6 @@ export const getAlbums = async () => {
         }
         return data;
     } catch (err) {
-        console.error("Error fetching albums:", err);
         return { error: err.message };
     }
 };
@@ -63,7 +62,7 @@ export const getAlbumById = async (id) => {
     try {
         const { data, error } = await supabase
             .from("album")
-            .select("*")
+            .select("*, tracklist(*)")
             .eq("id", id)
             .single();
         if (error) {
@@ -71,7 +70,6 @@ export const getAlbumById = async (id) => {
         }
         return data;
     } catch (err) {
-        console.error(`Error fetching album with ID ${id}:`, err);
         return { error: err.message };
     }
 };
@@ -104,7 +102,6 @@ export const createAlbum = async (album, selectedTalents) => {
             talents: talentData,
         };
     } catch (err) {
-        console.error("Error creating album:", err);
         return { error: err.message };
     }
 };
@@ -259,7 +256,43 @@ export const countAlbumRecord = async () => {
         }
         return count;
     } catch (err) {
-        console.error("Error counting albums:", err);
         return { error: err.message };
     }
 };
+
+export const updateAlbumTracklist = async (albumId, tracklist) => {
+    if (!albumId || !Array.isArray(tracklist)) {
+        return { error: 'Invalid album Id or tracklist format' }
+    }
+    try {
+        // Step 1: Delete old tracklist for this album
+        const { error: deleteError } = await supabase
+            .from('tracklist')
+            .delete()
+            .eq('album_id', albumId)
+
+        if (deleteError) {
+            return { error: deleteError.message }
+        }
+
+        // Step 2: Insert new tracklist
+        const tracklistWithAlbumId = tracklist.map((track) => ({
+            order: track.order,
+            version: track.version,
+            discography_id: track.discography_id,
+            album_id: albumId,
+        }))
+
+        const { data, error: insertError } = await supabase
+            .from('tracklist')
+            .insert(tracklistWithAlbumId)
+
+        if (insertError) {
+            return { error: insertError.message };
+        }
+
+        return true;
+    } catch (err) {
+        return { error: err.message };
+    }
+}

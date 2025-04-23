@@ -1,4 +1,5 @@
 import { createApp } from 'vue';
+import { createPinia } from 'pinia';
 import { createI18n } from 'vue-i18n';
 import en from './translations/en.json';
 import vn from './translations/vn.json';
@@ -32,6 +33,7 @@ const Translation = createI18n({
 });
 
 const app = createApp(App);
+const pinia = createPinia();
 
 // Register global components
 app.component('admin-layout', Admin);
@@ -46,6 +48,9 @@ app.use(PerfectScrollbarPlugin);
 
 // Use Translation
 app.use(Translation);
+
+// Use pinia
+app.use(pinia);
 
 // Mount the app
 app.mount('#app');

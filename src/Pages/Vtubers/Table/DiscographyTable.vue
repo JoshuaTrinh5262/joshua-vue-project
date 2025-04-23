@@ -1,6 +1,6 @@
 <template>
-    <div class="form-inline">
-        <div class="input-group mb-2">
+    <div class="form-inline mb-2">
+        <div class="input-group mr-2">
             <input placeholder="Searching..." @input="onSearch" v-model="search" type="text" class="form-control"
                 name="search" />
             <div class="input-group-append">
@@ -13,27 +13,32 @@
     <table class="table table-hover table-sm table-bordered">
         <thead>
             <tr>
-                <th><input type="checkbox" class="" name="checkbox" /></th>
+                <th class="checkbox"><div class="center-cell"><input type="checkbox" class="checkbox"/></div></th>
+                <th class="avatar">Avatar</th>
                 <th v-for="field in fields" :key="field.key" :id="field.key" @click="changeOrder(field.key)">
                     {{ field.value }}
                     <span v-if="orderBy === field.key && orderDirection === 'asc'">&#9660;</span>
                     <span v-else-if="orderBy === field.key && orderDirection === 'desc'">&#9650;</span>
                     <span v-else>&#9670;</span>
                 </th>
-                <th>Action</th>
+                <th class="action">Action</th>
             </tr>
         </thead>
         <tbody>
             <template v-if="items.length > 0">
                 <template v-for="(item, index) in items" :key="index">
                     <tr>
-                        <td><input type="checkbox" name="checkbox" /></td>
+                        <td class="checkbox">
+                            <div class="center-cell">
+                                <input type="checkbox" class="checkbox" />
+                            </div>
+                        </td>
+                        <td><img :src="`/storage/discographies/${item.id}.png`" @error="onImageError" alt="Album Image" width="50" height="50" /></td>
                         <td>{{ item.id }}</td>
                         <td><a :href="`discography/${item.id}`">{{ item.name }}</a></td>
                         <td>{{ item.original_name }}</td>
                         <td>{{ item.released_date }}</td>
-                        <td><a :href="`album/${item.album_id}`">{{ item.album }}</a></td>
-                        <td>
+                        <td class="action">
                             <button type="button" class="btn btn-sm btn-success" @click="handleUpdate(item)">
                                 <i class="pe-7s-file"></i>
                             </button>
@@ -63,14 +68,15 @@
         </tbody>
         <tfoot>
             <tr>
-                <th><input type="checkbox" name="checkbox" /></th>
+                <th class="checkbox"><input type="checkbox" class="checkbox" /></th>
+                <th class="avatar">Avatar</th>
                 <th v-for="field in fields" :key="field.key" :id="field.key" @click="changeOrder(field.key)">
                     {{ field.value }}
                     <span v-if="orderBy === field.key && orderDirection === 'asc'">&#9660;</span>
                     <span v-else-if="orderBy === field.key && orderDirection === 'desc'">&#9650;</span>
                     <span v-else>&#9670;</span>
                 </th>
-                <th>Action</th>
+                <th class="action">Action</th>
             </tr>
         </tfoot>
     </table>
@@ -127,10 +133,6 @@ export default defineComponent({
             {
                 key: "released_date",
                 value: "Released Date"
-            },
-            {
-                key: "album",
-                value: "album"
             },
         ]);
         const items = ref([]);
@@ -197,8 +199,12 @@ export default defineComponent({
             expandedRows.value[index] = !expandedRows.value[index];
         };
 
-        onMounted(() => {
-            getDiscographiesData();
+        const onImageError = (e) => {
+            e.target.src = '/default.jpg';
+        }
+
+        onMounted(async () => {
+            await getDiscographiesData();
         });
 
         return {
@@ -219,7 +225,8 @@ export default defineComponent({
             handleDelete,
             handleUpdate,
             getDiscographiesData,
-            toggleDetails
+            toggleDetails,
+            onImageError
         };
     }
 });

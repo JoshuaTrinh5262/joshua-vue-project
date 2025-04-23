@@ -5,7 +5,8 @@ export const getTalentsWithPaging = async (
     pageSize,
     orderBy,
     orderDirection,
-    search = ""
+    search = "",
+    AgencyId
 ) => {
     try {
         const start = (page - 1) * pageSize;
@@ -37,10 +38,18 @@ export const getTalentsWithPaging = async (
             LEFT JOIN 
                 agency ON talent.agency_id = agency.id
         `;
+        let conditions = [];
 
-        // Apply search filter if needed
+        if (AgencyId) {
+          conditions.push(`talent.agency_id = '${AgencyId}'`);
+        }
+        
         if (search) {
-            query += ` WHERE talent.name ILIKE '%${search}%' OR talent.original_name ILIKE '%${search}%'`;
+          conditions.push(`(talent.name ILIKE '%${search}%' OR talent.original_name ILIKE '%${search}%')`);
+        }
+        
+        if (conditions.length > 0) {
+          query += " WHERE " + conditions.join(" AND ");
         }
 
         // Add GROUP BY, ORDER BY, and pagination
