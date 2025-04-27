@@ -107,7 +107,7 @@ export default defineComponent({
     const icon = ref("pe-7s-musiclist icon-gradient bg-tempting-azure");
 
     const vtuberStore = useVtuberStore();
-  
+
     const isUpdateMode = ref(false);
     const showModal = ref(false);
     const notification = ref(null);
@@ -155,6 +155,7 @@ export default defineComponent({
         toggleModal();
         reloadDiscographyTable();
         onSubmit.value = false;
+
         notification.value = {
           title: "Success",
           content: "Discography updated successfully!",
@@ -174,6 +175,7 @@ export default defineComponent({
 
     const handleUpdateClick = (updateData) => {
       isUpdateMode.value = true;
+
       if (updateData) {
         currentDiscography.id = updateData.id;
         currentDiscography.name = updateData.name;
