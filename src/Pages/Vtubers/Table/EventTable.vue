@@ -81,9 +81,13 @@
           <tr v-if="expandedRows[index]" class="details-row">
             <td colspan="6">
               <div>
-                <p>Id: {{ item.id }}</p>
-                <p>Talents :</p>
-                <p>{{ item.event_talent }}</p>
+                <div>Id: {{ item.id }}</div>
+                <div>
+                  Talents:
+                  <div v-for="talent in item.event_talent" :key="talent.id">
+                    <a :href="`talent/${talent.id}`">{{ talent.name }}</a>
+                  </div>
+                </div>
               </div>
             </td>
           </tr>
