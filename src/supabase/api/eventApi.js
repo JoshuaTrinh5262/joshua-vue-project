@@ -5,43 +5,86 @@ export const getEventsWithPaging = async (
     pageSize,
     orderBy,
     orderDirection,
-    search = ""
+    search = "",
+    TalentId = ""
 ) => {
     try {
         const start = (page - 1) * pageSize;
-        const end = start + pageSize - 1;
+        const queryLimit = `LIMIT ${pageSize} OFFSET ${start}`;
 
-        let query = supabase
-            .from("event")
-            .select("*, event_talent(talent(id, name))", { count: "exact" })
-            .order(orderBy, { ascending: orderDirection === "asc" })
-            .range(start, end);
+        let query = `
+            SELECT 
+                event.id,
+                event.event_title,
+                event.event_summary,
+                event.event_hashtag,
+                event.event_date,
+                event.event_status,
+                ARRAY_AGG(DISTINCT jsonb_build_object('id', talent.id, 'name', talent.name)) AS event_talent
+            FROM event
+            LEFT JOIN event_talent ON event.id = event_talent.event_id
+            LEFT JOIN talent ON talent.id = event_talent.talent_id
+        `;
+
+        // Filter conditions
+        let conditions = [];
 
         if (search) {
-            query = query.or(
-                `event_title.ilike.%${search}%,event_summary.ilike.%${search}%,event_hashtag.ilike.%${search}%`
-            );
-        }
-        const { data, count, error } = await query;
-
-        if (error) {
-            throw error;
+            conditions.push(`
+                event.event_title ILIKE '%${search}%' OR 
+                event.event_summary ILIKE '%${search}%' OR 
+                event.event_hashtag ILIKE '%${search}%'
+            `);
         }
 
-        const formattedEvents = data.map((event) => ({
-            ...event,
-            talents: event.event_talent?.map((et) => et.talent?.name) || [],
-        }));
+        if (TalentId) {
+            conditions.push(`event_talent.talent_id = '${TalentId}'`);
+        }
+
+        if (conditions.length > 0) {
+            query += ` WHERE ` + conditions.join(" AND ");
+        }
+
+        query += `
+            GROUP BY event.id
+            ORDER BY ${orderBy} ${orderDirection === "asc" ? "ASC" : "DESC"}
+            ${queryLimit}
+        `;
+
+        // Execute query
+        const { data, error } = await supabase.rpc("execute_dynamic_query", { query });
+        if (error) return { error: error.message };
+
+        // Count query with discography_talent join included
+        let countQuery = `
+            SELECT COUNT(DISTINCT event.id) AS total_count
+            FROM event
+            LEFT JOIN event_talent ON event.id = event_talent.event_id
+            LEFT JOIN talent ON talent.id = event_talent.talent_id
+        `;
+
+        if (conditions.length > 0) {
+            countQuery += ` WHERE ` + conditions.join(" AND ");
+        }
+
+        const { data: countData, error: countError } = await supabase.rpc("execute_dynamic_query", {
+            query: countQuery,
+        });
+
+        if (countError) return { error: countError.message };
+
+        const totalItems = countData[0]?.total_count || 0;
 
         return {
-            items: formattedEvents,
-            totalItems: count,
-            totalPages: Math.ceil(count / pageSize),
+            items: data,
+            totalItems,
+            totalPages: Math.ceil(totalItems / pageSize),
         };
     } catch (err) {
         return { error: err.message };
     }
 };
+
 
 export const getEvents = async () => {
     try {

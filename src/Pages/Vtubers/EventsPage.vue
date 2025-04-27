@@ -14,31 +14,31 @@
         <div class="position-relative form-group">
           <label for="event_title">Event Title</label>
           <input name="event_title" id="event_title" placeholder="Event Title" type="text"
-            v-model="currentEvent.event_title" class="form-control">
+            v-model="currentEvent.event_title" class="form-control" />
         </div>
         <div class="position-relative form-group">
           <label for="event_summary">Event Summary</label>
           <input name="event_summary" id="event_summary" placeholder="Event Summary" type="text"
-            v-model="currentEvent.event_summary" class="form-control">
+            v-model="currentEvent.event_summary" class="form-control" />
         </div>
         <div class="position-relative form-group">
           <label for="event_hashtag">Event Hashtag</label>
           <input name="event_hashtag" id="event_hashtag" placeholder="Event Hashtag" type="text"
-            v-model="currentEvent.event_hashtag" class="form-control">
+            v-model="currentEvent.event_hashtag" class="form-control" />
         </div>
         <div class="form-row">
           <div class="col-md-6">
             <div class="position-relative form-group">
               <label for="event_url">Event Url</label>
               <input name="event_url" id="event_url" placeholder="Event Url" type="text"
-                v-model="currentEvent.event_url" class="form-control">
+                v-model="currentEvent.event_url" class="form-control" />
             </div>
           </div>
           <div class="col-md-6">
             <div class="position-relative form-group">
               <label for="event_date">Event Date</label>
               <input name="event_date" id="event_date" placeholder="Event Date" type="date"
-                v-model="currentEvent.event_date" class="form-control">
+                v-model="currentEvent.event_date" class="form-control" />
             </div>
           </div>
         </div>
@@ -47,14 +47,14 @@
             <div class="position-relative form-group">
               <label for="event_type">Event Type</label>
               <input name="event_type" id="event_type" placeholder="Event Type" type="text"
-                v-model="currentEvent.event_type" class="form-control">
+                v-model="currentEvent.event_type" class="form-control" />
             </div>
           </div>
           <div class="col-md-6">
             <div class="position-relative form-group">
               <label for="event_status">Event Status</label>
               <input name="event_status" id="event_status" placeholder="Event Status" type="text"
-                v-model="currentEvent.event_status" class="form-control">
+                v-model="currentEvent.event_status" class="form-control" />
             </div>
           </div>
         </div>
@@ -67,7 +67,6 @@
           <TagSelectorComponent :items="vtuberStore?.talentOptions" :model-value="selectedTalents"
             @update:modelValue="handleSelectedTalentsChange" />
         </div>
-
       </template>
       <template #footer>
         <button class="btn btn-primary" @click="toggleModal">Cancel</button>
@@ -77,21 +76,20 @@
     </ModalComponent>
 
     <EventTable ref="eventTable" @handleUpdate="handleUpdateClick" @handleDelete="handleDeleteClick"></EventTable>
-
   </div>
 </template>
 
 <script>
-import { ref, onMounted, defineComponent, reactive } from 'vue';
-import ModalComponent from '../../Layout/Components/ModalComponent.vue';
+import { ref, onMounted, defineComponent, reactive } from "vue";
+import ModalComponent from "../../Layout/Components/ModalComponent.vue";
 import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
 import NotificationComponent from "../../Layout/Components/NotificationComponent.vue";
-import ButtonSpinner from '../../Layout/Components/ButtonSpinner.vue';
-import TagSelectorComponent from '../../Layout/Components/TagSelectorComponent.vue';
-import { apiService } from '../../supabase/apiService';
-import SetlistComponent from '../../Layout/Components/SetlistComponent.vue';
-import EventTable from './Table/EventTable.vue';
-import { useVtuberStore } from '@/stores/useVtuberStore';
+import ButtonSpinner from "../../Layout/Components/ButtonSpinner.vue";
+import TagSelectorComponent from "../../Layout/Components/TagSelectorComponent.vue";
+import { apiService } from "../../supabase/apiService";
+import SetlistComponent from "../../Layout/Components/SetlistComponent.vue";
+import EventTable from "./Table/EventTable.vue";
+import { useVtuberStore } from "@/stores/useVtuberStore";
 
 export default defineComponent({
   name: "EventsPage",
@@ -103,15 +101,15 @@ export default defineComponent({
     ButtonSpinner,
     TagSelectorComponent,
     SetlistComponent,
-    EventTable
+    EventTable,
   },
 
   setup() {
-    const heading = ref('Events');
-    const subheading = ref('Events');
-    const icon = ref('pe-7s-date icon-gradient bg-tempting-azure');
+    const heading = ref("Events");
+    const subheading = ref("Events");
+    const icon = ref("pe-7s-date icon-gradient bg-tempting-azure");
 
-    const vtuberStore = useVtuberStore()
+    const vtuberStore = useVtuberStore();
 
     const isUpdateMode = ref(false);
     const showModal = ref(false);
@@ -145,17 +143,17 @@ export default defineComponent({
         toggleModal();
         onSubmit.value = false;
         notification.value = {
-          title: 'Success',
-          content: 'Event created successfully!',
-          type: 'success'
+          title: "Success",
+          content: "Event created successfully!",
+          type: "success",
         };
         reloadEventTable();
       } catch (error) {
         onSubmit.value = false;
         notification.value = {
-          title: 'Error',
+          title: "Error",
           content: `Error when submitting talent: ${error}`,
-          type: 'danger'
+          type: "danger",
         };
       }
     };
@@ -166,18 +164,18 @@ export default defineComponent({
         toggleModal();
         onSubmit.value = false;
         notification.value = {
-          title: 'Success',
-          content: 'Event updated successfully!',
-          type: 'success',
+          title: "Success",
+          content: "Event updated successfully!",
+          type: "success",
         };
         reloadEventTable();
         isUpdateMode.value = false;
       } catch (error) {
         onSubmit.value = false;
         notification.value = {
-          title: 'Error',
+          title: "Error",
           content: `Error when updating Event: ${error}`,
-          type: 'danger',
+          type: "danger",
         };
         isUpdateMode.value = false;
       }
@@ -212,7 +210,6 @@ export default defineComponent({
       }
     };
 
-
     const handleSelectedTalentsChange = (newSelection) => {
       selectedTalents.value = newSelection;
     };
@@ -234,9 +231,9 @@ export default defineComponent({
         currentEvent.event_type = updateData.event_type;
         currentEvent.event_status = updateData.event_status;
         currentEvent.event_setlist = updateData.event_setlist;
-        selectedTalents.value = updateData.event_talent.map(item => ({
-          id: item.talent.id,
-          name: item.talent.name
+        selectedTalents.value = updateData.event_talent.map((item) => ({
+          id: item.id,
+          name: item.name,
         }));
       }
 
@@ -247,16 +244,16 @@ export default defineComponent({
       try {
         await apiService.deleteEvent(id);
         notification.value = {
-          title: 'Success',
-          content: 'Event deleted successfully!',
-          type: 'success'
+          title: "Success",
+          content: "Event deleted successfully!",
+          type: "success",
         };
         reloadEventTable();
       } catch (error) {
         notification.value = {
-          title: 'Error',
+          title: "Error",
           content: `Error when deleting Event: ${error}`,
-          type: 'danger'
+          type: "danger",
         };
       }
     };
@@ -282,8 +279,8 @@ export default defineComponent({
       toggleModal,
       handleSubmit,
       handleUpdateClick,
-      handleDeleteClick
+      handleDeleteClick,
     };
-  }
+  },
 });
 </script>
