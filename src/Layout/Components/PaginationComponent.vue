@@ -1,21 +1,21 @@
 <template>
-  <div class="table-pagination form-inline">
+  <div class="table-pagination">
     <div class="form-group pagination-group">
       <ul class="pagination">
-        <li class="page-item">
+        <li class="page-item" :class="currentPage === 1 ? 'disabled' : ''">
           <button class="page-link" @click="loadPage(1)" :disabled="currentPage === 1">First</button>
         </li>
-        <li class="page-item">
+        <li class="page-item" :class="currentPage === 1 ? 'disabled' : ''">
           <button class="page-link" @click="loadPage(currentPage - 1)" :disabled="currentPage === 1">Previous</button>
         </li>
         <li v-for="page in visiblePages" :key="page" :class="{ 'page-item': true, 'active': currentPage === page }">
           <button class="page-link" @click="loadPage(page)">{{ page }}</button>
         </li>
-        <li class="page-item">
+        <li class="page-item" :class="currentPage === totalPages ? 'disabled' : ''">
           <button class="page-link" @click="loadPage(currentPage + 1)"
             :disabled="currentPage === totalPages">Next</button>
         </li>
-        <li class="page-item">
+        <li class="page-item" :class="currentPage === totalPages ? 'disabled' : ''">
           <button class="page-link" @click="loadPage(totalPages)" :disabled="currentPage === totalPages">Last</button>
         </li>
       </ul>
@@ -95,6 +95,7 @@ export default defineComponent({
 <style scoped>
 .table-pagination {
   display: flex;
+  flex-flow: row wrap;
   justify-content: space-between;
   align-items: center;
   padding-bottom: 10px;
@@ -103,10 +104,22 @@ export default defineComponent({
 .pagination-group {
   text-align: center;
 }
-.pagination-group .pagination{
+
+.pagination-group .pagination {
   margin: 0px;
 }
+
+.dark .page-info-group {
+  color: #fff;
+  border: 1px solid #fff;
+  background-color: #212529;
+}
+
 .page-info-group {
+  color: #5a5a5a;
+  border: 1px solid #5a5a5a;
+  border-radius: 5px;
+  padding: 6px;
   margin-left: auto;
 }
 
