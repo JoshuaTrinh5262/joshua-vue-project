@@ -18,8 +18,10 @@ export const getEventsWithPaging = async (
                 event.event_title,
                 event.event_summary,
                 event.event_hashtag,
+                event.event_url,
                 event.event_date,
                 event.event_status,
+                event.event_type,
                 ARRAY_AGG(DISTINCT jsonb_build_object('id', talent.id, 'name', talent.name)) AS event_talent
             FROM event
             LEFT JOIN event_talent ON event.id = event_talent.event_id
@@ -38,7 +40,15 @@ export const getEventsWithPaging = async (
         }
 
         if (TalentId) {
-            conditions.push(`event_talent.talent_id = '${TalentId}'`);
+            if (TalentId) {
+                conditions.push(`
+                    event.id IN (
+                        SELECT event_id
+                        FROM event_talent
+                        WHERE talent_id = '${TalentId}'
+                    )
+                `);
+            }
         }
 
         if (conditions.length > 0) {

@@ -40,6 +40,7 @@
             <input type="checkbox" class="checkbox" />
           </div>
         </th>
+        <th class="avatar">Avatar</th>
         <th v-for="field in fields" :key="field.key" :id="field.key" @click="changeOrder(field.key)">
           {{ field.value }}
           <span v-if="orderBy === field.key && orderDirection === 'asc'">&#9660;</span>
@@ -58,7 +59,9 @@
                 <input type="checkbox" class="checkbox" />
               </div>
             </td>
-            <td>{{ item.id }}</td>
+            <td>
+              <img :src="`/storage/events/${item.id}.jpg`" @error="onImageError" alt="Album Image" width="100" height="60" />
+            </td>
             <td>{{ item.event_title }}</td>
             <td>{{ item.event_summary }}</td>
             <td>{{ item.event_date }}</td>
@@ -79,14 +82,15 @@
             </td>
           </tr>
           <tr v-if="expandedRows[index]" class="details-row">
-            <td colspan="6">
+            <td :colspan="fields.length + 3">
               <div>
                 <div>Id: {{ item.id }}</div>
                 <div>
                   Talents:
-                  <div v-for="talent in item.event_talent" :key="talent.id">
-                    <a :href="`talent/${talent.id}`">{{ talent.name }}</a>
-                  </div>
+                  <span v-for="(talent, index) in item.event_talent" :key="talent.id">
+                    <a :href="`talent/${talent.id}`">{{ talent.name }}</a><span
+                      v-if="index < item.event_talent.length - 1">, </span>
+                  </span>
                 </div>
               </div>
             </td>
@@ -94,7 +98,7 @@
         </template>
       </template>
       <tr v-else>
-        <td :colspan="fields.length + 2" class="text-center">
+        <td :colspan="fields.length + 3" class="text-center">
           No records found
         </td>
       </tr>
@@ -106,6 +110,7 @@
             <input type="checkbox" class="checkbox" />
           </div>
         </th>
+        <th class="avatar">Avatar</th>
         <th v-for="field in fields" :key="field.key" :id="field.key" @click="changeOrder(field.key)">
           {{ field.value }}
           <span v-if="orderBy === field.key && orderDirection === 'asc'">&#9660;</span>
@@ -159,10 +164,6 @@ export default defineComponent({
 
     const expandedRows = ref([]);
     const fields = [
-      {
-        key: "id",
-        value: "ID",
-      },
       {
         key: "event_title",
         value: "Title",
@@ -267,6 +268,10 @@ export default defineComponent({
       );
     };
 
+    const onImageError = (e) => {
+      e.target.src = '/default.jpg';
+    }
+
     onMounted(async () => {
       await getEventsData();
     });
@@ -293,7 +298,8 @@ export default defineComponent({
       toggleDetails,
       handleFilter,
       cleanFilter,
-      showCleanFilter
+      showCleanFilter,
+      onImageError
     };
   },
 });
