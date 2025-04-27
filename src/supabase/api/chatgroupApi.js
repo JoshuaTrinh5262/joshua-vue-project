@@ -9,7 +9,7 @@ export const getChatgroupsWithMessage = async () => {
         const { data, count, error } = await query;
 
         if (error) {
-            throw error;
+            return { error: error.message };
         }
 
         return {
@@ -28,7 +28,7 @@ export const getChatgroupsWithMessageById = async (id) => {
             .eq("id", id)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -43,7 +43,7 @@ export const createChatgroup = async (chatgroup) => {
             .insert(chatgroup)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -59,7 +59,7 @@ export const updateChatgroup = async (updateData) => {
             .eq("id", updateData.id)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -74,7 +74,7 @@ export const deleteChatgroup = async (id) => {
             .delete()
             .eq("id", id);
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -88,7 +88,7 @@ export const countChatgroupRecord = async () => {
             .from("chatgroup")
             .select("*", { count: "exact", head: true });
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return count;
     } catch (err) {

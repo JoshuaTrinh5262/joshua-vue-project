@@ -25,7 +25,7 @@ export const getYugiohBanlistsWithPaging = async (
         const { data, count, error } = await query;
 
         if (error) {
-            throw error;
+            return { error: error.message };
         }
 
         return {
@@ -42,7 +42,7 @@ export const getYugiohBanlists = async () => {
     try {
         const { data, error } = await supabase.from("yugioh_banlist").select("*");
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -57,7 +57,7 @@ export const getYugiohBanlistById = async (id) => {
             .select("*, yugioh_card(name, category, description, icon)")
             .eq("banlist_id", id);
         if (error) {
-            throw error;
+            return { error: error.message };
         }
 
         const groupedData = data.reduce((acc, card) => {
@@ -82,7 +82,7 @@ export const createYugiohBanlist = async (yugioh_banlist) => {
             .insert(yugioh_banlist)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -98,7 +98,7 @@ export const updateYugiohBanlist = async (update) => {
             .eq("id", update.id)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -113,7 +113,7 @@ export const deleteYugiohBanlist = async (id) => {
             .delete()
             .eq("id", id);
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -128,7 +128,7 @@ export const countYugiohBanlistRecord = async () => {
             .from("yugioh_banlist")
             .select("*", { count: "exact", head: true });
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return count;
     } catch (err) {

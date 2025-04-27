@@ -75,7 +75,7 @@ export const getDatasetUnprocessById = async (id) => {
             .eq("id", id)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -90,7 +90,7 @@ export const createDataset = async (dataset) => {
             .insert(dataset)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -106,7 +106,7 @@ export const updateDatasetUnprocess = async (updateData) => {
             .eq("id", updateData.id)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -121,7 +121,7 @@ export const deleteDatasetUnprocess = async (id) => {
             .delete()
             .eq("id", id);
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -135,7 +135,7 @@ export const countDatasetUnprocessRecord = async () => {
             .from("dataset_unprocess")
             .select("*", { count: "exact", head: true });
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return count;
     } catch (err) {

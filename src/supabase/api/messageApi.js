@@ -7,7 +7,7 @@ export const getMessages = async () => {
         const { data, count, error } = await query;
 
         if (error) {
-            throw error;
+            return { error: error.message };
         }
 
         return {
@@ -25,7 +25,7 @@ export const getMessagesById = async (id) => {
             .eq("id", id)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -40,7 +40,7 @@ export const createMessage = async (newMessage) => {
             .insert(newMessage)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -56,7 +56,7 @@ export const updateMessage = async (updateData) => {
             .eq("id", updateData.id)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -71,7 +71,7 @@ export const deleteMessage = async (id) => {
             .delete()
             .eq("id", id);
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -85,7 +85,7 @@ export const countMessageRecord = async () => {
             .from("message")
             .select("*", { count: "exact", head: true });
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return count;
     } catch (err) {

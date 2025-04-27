@@ -53,7 +53,7 @@ export const getCountDataset = async (search) => {
         }
         query += `LIMIT 1`;
 
-        const { data, error } = await supabase.rpc('execute_dynamic_query', {
+        const { data, error } = await supabase.rpc("execute_dynamic_query", {
             query,
         });
 
@@ -75,11 +75,10 @@ export const getDatasetById = async (id) => {
             .eq("id", id)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
-        console.error(`Error fetching dataset with ID ${id}:`, err);
         return { error: err.message };
     }
 };
@@ -91,11 +90,10 @@ export const createDataset = async (dataset) => {
             .insert(dataset)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
-        console.error("Error creating dataset:", err);
         return { error: err.message };
     }
 };
@@ -108,11 +106,10 @@ export const updateDataset = async (updateData) => {
             .eq("id", updateData.id)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
-        console.error(`Error updating dataset with ID ${id}:`, err);
         return { error: err.message };
     }
 };
@@ -124,11 +121,10 @@ export const deleteDataset = async (id) => {
             .delete()
             .eq("id", id);
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
-        console.error(`Error deleting dataset with ID ${id}:`, err);
         return { error: err.message };
     }
 };
@@ -139,11 +135,10 @@ export const countDatasetRecord = async () => {
             .from("dataset")
             .select("*", { count: "exact", head: true });
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return count;
     } catch (err) {
-        console.error("Error counting datasets:", err);
         return { error: err.message };
     }
 };
@@ -199,12 +194,12 @@ export const exportDataset = async (
                 AND
                 (array_length(regexp_split_to_array(target_text, '\\s+'), 1) <= ${targetTextMaxLength})
         `;
-        const { data, error } = await supabase.rpc('execute_dynamic_query', {
+        const { data, error } = await supabase.rpc("execute_dynamic_query", {
             query,
         });
 
         if (error) {
-            throw error;
+            return { error: error.message };
         }
 
         // Convert data to CSV
@@ -225,7 +220,10 @@ export const exportDataset = async (
         document.body.removeChild(link);
         return { success: true, message: "Export successful" };
     } catch (error) {
-        return { success: false, message: `Error exporting data: ${error.message}` };
+        return {
+            success: false,
+            message: `Error exporting data: ${error.message}`,
+        };
     }
 };
 
@@ -255,10 +253,11 @@ export const importDataset = async (event) => {
                     .from("your_table_name")
                     .insert(parsedData);
 
-                if (error) throw error;
-                alert("Data imported successfully");
+                if (error) {
+                    return { error: error.message };
+                }
             } catch (error) {
-                console.error("Error importing data:", error.message);
+                return { error: error.message };
             }
         }
     };

@@ -52,7 +52,9 @@ export const getEventsWithPaging = async (
         `;
 
         // Execute query
-        const { data, error } = await supabase.rpc("execute_dynamic_query", { query });
+        const { data, error } = await supabase.rpc("execute_dynamic_query", {
+            query,
+        });
         if (error) return { error: error.message };
 
         // Count query with discography_talent join included
@@ -67,11 +69,16 @@ export const getEventsWithPaging = async (
             countQuery += ` WHERE ` + conditions.join(" AND ");
         }
 
-        const { data: countData, error: countError } = await supabase.rpc("execute_dynamic_query", {
-            query: countQuery,
-        });
+        const { data: countData, error: countError } = await supabase.rpc(
+            "execute_dynamic_query",
+            {
+                query: countQuery,
+            }
+        );
 
-        if (countError) return { error: countError.message };
+        if (countError) {
+            return { error: countError.message };
+        }
 
         const totalItems = countData[0]?.total_count || 0;
 
@@ -85,12 +92,11 @@ export const getEventsWithPaging = async (
     }
 };
 
-
 export const getEvents = async () => {
     try {
         const { data, error } = await supabase.from("event").select("*");
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -106,7 +112,7 @@ export const getEventById = async (id) => {
             .eq("id", id)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -123,7 +129,7 @@ export const createEvent = async (event, selectedTalents) => {
             .single();
 
         if (eventError) {
-            throw eventError;
+            return { error: eventError.message };
         }
 
         const eventTalentRecords = selectedTalents.map((talent) => ({
@@ -136,7 +142,7 @@ export const createEvent = async (event, selectedTalents) => {
             .insert(eventTalentRecords);
 
         if (talentError) {
-            throw talentError;
+            return { error: talentError.message };
         }
 
         return {
@@ -157,14 +163,14 @@ export const updateEvent = async (updateData, selectedTalents) => {
             .single();
 
         if (eventError) {
-            throw eventError;
+            return { error: eventError.message };
         }
 
         // Step 2: Handle event_talent updates
         const eventId = updateData.id;
 
         // Convert selected talents to an array of talent_id
-        const talentIds = selectedTalents.map(talent => talent.id);
+        const talentIds = selectedTalents.map((talent) => talent.id);
 
         // Fetch existing event_talent entries for the event
         const { data: existingTalents, error: fetchError } = await supabase
@@ -173,26 +179,35 @@ export const updateEvent = async (updateData, selectedTalents) => {
             .eq("event_id", eventId);
 
         if (fetchError) {
-            throw fetchError;
+            return { error: fetchError.message };
         }
 
         // Get the existing talent IDs
-        const existingTalentIds = existingTalents.map(t => t.talent_id);
+        const existingTalentIds = existingTalents.map((t) => t.talent_id);
 
         // Find talents to insert (those in selected but not in existing)
-        const talentsToInsert = talentIds.filter(id => !existingTalentIds.includes(id));
+        const talentsToInsert = talentIds.filter(
+            (id) => !existingTalentIds.includes(id)
+        );
 
         // Find talents to delete (those in existing but not in selected)
-        const talentsToDelete = existingTalentIds.filter(id => !talentIds.includes(id));
+        const talentsToDelete = existingTalentIds.filter(
+            (id) => !talentIds.includes(id)
+        );
 
         // Step 3: Insert new talents
         if (talentsToInsert.length > 0) {
             const { error: insertError } = await supabase
                 .from("event_talent")
-                .insert(talentsToInsert.map(talentId => ({ event_id: eventId, talent_id: talentId })));
+                .insert(
+                    talentsToInsert.map((talentId) => ({
+                        event_id: eventId,
+                        talent_id: talentId,
+                    }))
+                );
 
             if (insertError) {
-                throw insertError;
+                return { error: insertError.message };
             }
         }
 
@@ -205,7 +220,7 @@ export const updateEvent = async (updateData, selectedTalents) => {
                 .eq("event_id", eventId);
 
             if (deleteError) {
-                throw deleteError;
+                return { error: deleteError.message };
             }
         }
 
@@ -215,7 +230,6 @@ export const updateEvent = async (updateData, selectedTalents) => {
     }
 };
 
-
 export const deleteEvent = async (id) => {
     try {
         const { error: eventTalentError } = await supabase
@@ -223,7 +237,7 @@ export const deleteEvent = async (id) => {
             .delete()
             .eq("event_id", id);
         if (eventTalentError) {
-            throw new Error(`Failed to delete event_talent: ${eventTalentError.message}`);
+            return { error: eventTalentError.message };
         }
 
         const { data, error: eventError } = await supabase
@@ -231,7 +245,7 @@ export const deleteEvent = async (id) => {
             .delete()
             .eq("id", id);
         if (eventError) {
-            throw new Error(`Failed to delete event: ${eventError.message}`);
+            return { error: eventError.message };
         }
 
         return data;
@@ -246,7 +260,7 @@ export const countEventRecord = async () => {
             .from("event")
             .select("*", { count: "exact", head: true });
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return count;
     } catch (err) {

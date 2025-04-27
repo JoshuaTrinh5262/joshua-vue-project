@@ -25,7 +25,7 @@ export const getYugiohDuelistsWithPaging = async (
         const { data, count, error } = await query;
 
         if (error) {
-            throw error;
+            return { error: error.message };
         }
 
         return {
@@ -42,7 +42,7 @@ export const getYugiohDuelists = async () => {
     try {
         const { data, error } = await supabase.from("yugioh_duelist").select("*");
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -58,7 +58,7 @@ export const getYugiohDuelistById = async (id) => {
             .eq("id", id)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -73,7 +73,7 @@ export const createYugiohDuelist = async (yugioh_duelist) => {
             .insert(yugioh_duelist)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -89,7 +89,7 @@ export const updateYugiohDuelist = async (update) => {
             .eq("id", update.id)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -104,7 +104,7 @@ export const deleteYugiohDuelist = async (id) => {
             .delete()
             .eq("id", id);
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -119,7 +119,7 @@ export const countYugiohDuelistRecord = async () => {
             .from("yugioh_duelist")
             .select("*", { count: "exact", head: true });
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return count;
     } catch (err) {

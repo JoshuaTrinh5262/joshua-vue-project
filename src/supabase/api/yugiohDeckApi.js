@@ -25,7 +25,7 @@ export const getYugiohDecksWithPaging = async (
         const { data, count, error } = await query;
 
         if (error) {
-            throw error;
+            return { error: error.message };
         }
 h
         return {
@@ -42,7 +42,7 @@ export const getYugiohDecks = async () => {
     try {
         const { data, error } = await supabase.from("yugioh_deck").select("*");
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -58,7 +58,7 @@ export const getYugiohDeckById = async (id) => {
             .eq("id", id)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -73,7 +73,7 @@ export const createYugiohDeck = async (yugioh_deck) => {
             .insert(yugioh_deck)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -89,7 +89,7 @@ export const updateYugiohDeck = async (update) => {
             .eq("id", update.id)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -104,7 +104,7 @@ export const deleteYugiohDeck = async (id) => {
             .delete()
             .eq("id", id);
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -119,7 +119,7 @@ export const countYugiohDeckRecord = async () => {
             .from("yugioh_deck")
             .select("*", { count: "exact", head: true });
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return count;
     } catch (err) {

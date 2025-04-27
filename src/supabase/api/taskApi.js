@@ -38,10 +38,12 @@ export const getTasksWithPaging = async (
         `;
 
         // Execute dynamic query using Supabase RPC function
-        const { data, error } = await supabase.rpc("execute_dynamic_query", { query });
+        const { data, error } = await supabase.rpc("execute_dynamic_query", {
+            query,
+        });
 
         if (error) {
-            throw error;
+            return { error: error.message };
         }
 
         // Fetch total item count for pagination
@@ -49,10 +51,13 @@ export const getTasksWithPaging = async (
             SELECT COUNT(*) AS total_count
             FROM task
         `;
-        const { data: countData, error: countError } = await supabase.rpc("execute_dynamic_query", { query: countQuery });
+        const { data: countData, error: countError } = await supabase.rpc(
+            "execute_dynamic_query",
+            { query: countQuery }
+        );
 
         if (countError) {
-            throw countError;
+            return { error: countError.message };
         }
 
         const totalItems = countData[0]?.total_count || 0;
@@ -63,30 +68,29 @@ export const getTasksWithPaging = async (
             totalPages: Math.ceil(totalItems / pageSize),
         };
     } catch (err) {
-        console.error("Error fetching tasks:", err);
         return { error: err.message };
     }
 };
 
 export const getTasks = async () => {
     try {
-        const { data, error } = await supabase
-            .from("task")
-            .select("*");
+        const { data, error } = await supabase.from("task").select("*");
 
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         const columnsData = [
             { status: "to_do", tasks: [] },
             { status: "in_progress", tasks: [] },
             { status: "review", tasks: [] },
             { status: "testing", tasks: [] },
-            { status: "completed", tasks: [] }
+            { status: "completed", tasks: [] },
         ];
 
-        data.forEach(task => {
-            const statusColumn = columnsData.find(column => column.status === task.status);
+        data.forEach((task) => {
+            const statusColumn = columnsData.find(
+                (column) => column.status === task.status
+            );
             if (statusColumn) {
                 statusColumn.tasks.push(task);
             }
@@ -106,7 +110,7 @@ export const getTaskById = async (id) => {
             .eq("id", id)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -121,7 +125,7 @@ export const createTask = async (task) => {
             .insert(task)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -137,7 +141,7 @@ export const updateTask = async (updateData) => {
             .eq("id", updateData.id)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -152,7 +156,7 @@ export const deleteTask = async (id) => {
             .delete()
             .eq("id", id);
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -166,7 +170,7 @@ export const countTaskRecord = async () => {
             .from("task")
             .select("*", { count: "exact", head: true });
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return count;
     } catch (err) {

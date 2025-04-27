@@ -25,7 +25,7 @@ export const getYugiohTournamentsWithPaging = async (
         const { data, count, error } = await query;
 
         if (error) {
-            throw error;
+            return { error: error.message };
         }
 
         return {
@@ -42,7 +42,7 @@ export const getYugiohTournaments = async () => {
     try {
         const { data, error } = await supabase.from("yugioh_tournament").select("*");
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -58,7 +58,7 @@ export const getYugiohTournamentById = async (id) => {
             .eq("id", id)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -73,7 +73,7 @@ export const createYugiohTournament = async (yugioh_tournament) => {
             .insert(yugioh_tournament)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -89,7 +89,7 @@ export const updateYugiohTournament = async (update) => {
             .eq("id", update.id)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -104,7 +104,7 @@ export const deleteYugiohTournament = async (id) => {
             .delete()
             .eq("id", id);
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -119,7 +119,7 @@ export const countYugiohTournamentRecord = async () => {
             .from("yugioh_tournament")
             .select("*", { count: "exact", head: true });
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return count;
     } catch (err) {

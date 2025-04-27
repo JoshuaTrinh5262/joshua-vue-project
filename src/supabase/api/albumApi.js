@@ -25,7 +25,7 @@ export const getAlbumsWithPaging = async (
         const { data, count, error } = await query;
 
         if (error) {
-            throw error;
+            return { error: error.message };
         }
 
         const formattedAlbums = data.map((album) => ({
@@ -50,7 +50,7 @@ export const getAlbums = async () => {
     try {
         const { data, error } = await supabase.from("album").select("*");
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -66,7 +66,7 @@ export const getAlbumById = async (id) => {
             .eq("id", id)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -82,7 +82,7 @@ export const createAlbum = async (album, selectedTalents) => {
             .select("*")
             .single();
         if (albumError) {
-            throw albumError;
+            return { error: albumError.message };
         }
 
         const albumTalentRecords = selectedTalents.map((talent) => ({
@@ -94,7 +94,7 @@ export const createAlbum = async (album, selectedTalents) => {
             .insert(albumTalentRecords);
 
         if (talentError) {
-            throw talentError;
+            return { error: talentError.message };
         }
 
         return {
@@ -115,7 +115,7 @@ export const updateAlbum = async (updateData, selectedTalents) => {
             .single();
 
         if (albumError) {
-            throw albumError;
+            return { error: albumError.message };
         }
 
         // Step 2: Handle album_talent updates
@@ -131,7 +131,7 @@ export const updateAlbum = async (updateData, selectedTalents) => {
             .eq("album_id", albumId);
 
         if (fetchError) {
-            throw fetchError;
+            return { error: fetchError.message };
         }
 
         // Get the existing talent IDs
@@ -159,7 +159,7 @@ export const updateAlbum = async (updateData, selectedTalents) => {
                 );
 
             if (insertError) {
-                throw insertError;
+                return { error: insertError.message };
             }
         }
 
@@ -172,7 +172,7 @@ export const updateAlbum = async (updateData, selectedTalents) => {
                 .eq("album_id", albumId);
 
             if (deleteError) {
-                throw deleteError;
+                return { error: deleteError.message };
             }
         }
 
@@ -189,9 +189,7 @@ export const deleteAlbum = async (id) => {
             .delete()
             .eq("album_id", id);
         if (albumTalentError) {
-            throw new Error(
-                `Failed to delete album_talent: ${albumTalentError.message}`
-            );
+            return { error: albumTalentError.message };
         }
 
         const { data, error: albumError } = await supabase
@@ -199,7 +197,7 @@ export const deleteAlbum = async (id) => {
             .delete()
             .eq("id", id);
         if (albumError) {
-            throw new Error(`Failed to delete album: ${albumError.message}`);
+            return { error: albumError.message };
         }
 
         return data;
@@ -217,7 +215,7 @@ export const deleteAlbumWithRelations = async (albumId) => {
             .eq("album_id", albumId);
 
         if (talentError) {
-            throw talentError;
+            return { error: talentError.message };
         }
 
         // Delete from discography
@@ -227,7 +225,7 @@ export const deleteAlbumWithRelations = async (albumId) => {
             .eq("album_id", albumId);
 
         if (discographyError) {
-            throw discographyError;
+            return { error: discographyError.message };
         }
 
         // Finally, delete from album
@@ -237,7 +235,7 @@ export const deleteAlbumWithRelations = async (albumId) => {
             .eq("id", albumId);
 
         if (albumError) {
-            throw albumError;
+            return { error: albumError.message };
         }
 
         return { success: true };
@@ -252,7 +250,7 @@ export const countAlbumRecord = async () => {
             .from("album")
             .select("*", { count: "exact", head: true });
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return count;
     } catch (err) {
@@ -262,17 +260,17 @@ export const countAlbumRecord = async () => {
 
 export const updateAlbumTracklist = async (albumId, tracklist) => {
     if (!albumId || !Array.isArray(tracklist)) {
-        return { error: 'Invalid album Id or tracklist format' }
+        return { error: "Invalid album Id or tracklist format" };
     }
     try {
         // Step 1: Delete old tracklist for this album
         const { error: deleteError } = await supabase
-            .from('tracklist')
+            .from("tracklist")
             .delete()
-            .eq('album_id', albumId)
+            .eq("album_id", albumId);
 
         if (deleteError) {
-            return { error: deleteError.message }
+            return { error: deleteError.message };
         }
 
         // Step 2: Insert new tracklist
@@ -281,11 +279,11 @@ export const updateAlbumTracklist = async (albumId, tracklist) => {
             version: track.version,
             discography_id: track.discography_id,
             album_id: albumId,
-        }))
+        }));
 
         const { data, error: insertError } = await supabase
-            .from('tracklist')
-            .insert(tracklistWithAlbumId)
+            .from("tracklist")
+            .insert(tracklistWithAlbumId);
 
         if (insertError) {
             return { error: insertError.message };
@@ -295,4 +293,4 @@ export const updateAlbumTracklist = async (albumId, tracklist) => {
     } catch (err) {
         return { error: err.message };
     }
-}
+};
