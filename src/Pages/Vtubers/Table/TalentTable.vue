@@ -213,6 +213,7 @@ export default defineComponent({
     const items = ref([]);
 
     const getTalentsData = async () => {
+
       const response = await apiService.getTalentsWithPaging(
         currentPage.value,
         itemsPerPage.value,
@@ -244,6 +245,7 @@ export default defineComponent({
     };
 
     const handleFilter = () => {
+      currentPage.value = 1;
       getTalentsData();
     };
 
