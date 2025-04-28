@@ -73,6 +73,7 @@
                         <td><a :href="`album/${item.id}`">{{ item.name }}</a></td>
                         <td>{{ item.album_type }}</td>
                         <td>{{ item.released_date }}</td>
+                        <td>{{ item.tracklist }}</td>
                         <td class="action">
                             <button type="button" class="btn btn-sm btn-success" @click="handleUpdate(item)">
                                 <i class="pe-7s-file"></i>
@@ -175,6 +176,10 @@ export default defineComponent({
             {
                 key: 'released_date',
                 value: 'Released Date'
+            },
+            {
+                key: 'tracklist',
+                value: 'tracklist'
             },
         ];
         const items = ref([]);
