@@ -19,7 +19,7 @@ export const getDiscographiesWithPaging = async (
                 discography.name AS name,
                 discography.original_name AS original_name,
                 discography.released_date AS released_date,
-                ARRAY_AGG(talent.name) AS talents
+                ARRAY_AGG(DISTINCT jsonb_build_object('id', talent.id, 'name', talent.name)) AS discography_talent
             FROM discography
             LEFT JOIN discography_talent ON discography_talent.discography_id = discography.id
             LEFT JOIN talent ON talent.id = discography_talent.talent_id
@@ -33,7 +33,13 @@ export const getDiscographiesWithPaging = async (
         }
 
         if (TalentId) {
-            conditions.push(`discography_talent.talent_id = '${TalentId}'`);
+            conditions.push(`
+                discography.id IN (
+                    SELECT discography_id
+                    FROM discography_talent
+                    WHERE talent_id = '${TalentId}'
+                )
+            `);
         }
 
         if (conditions.length > 0) {
@@ -58,11 +64,12 @@ export const getDiscographiesWithPaging = async (
 
         // Count query (same filter, no limit/offset)
         let countQuery = `
-            SELECT COUNT(*) AS total_count
+            SELECT COUNT(DISTINCT discography.id) AS total_count
             FROM discography
             LEFT JOIN discography_talent ON discography_talent.discography_id = discography.id
             LEFT JOIN talent ON talent.id = discography_talent.talent_id
         `;
+
         if (conditions.length > 0) {
             countQuery += ` WHERE ` + conditions.join(" AND ");
         }

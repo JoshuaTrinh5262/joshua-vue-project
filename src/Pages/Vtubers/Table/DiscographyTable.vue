@@ -1,6 +1,7 @@
 <template>
   <div class="filter-section">
-    <h3 class="card-title">Event Filter</h3>
+    <h3 class="card-title">
+      Discography Filter</h3>
     <div class="row">
       <div class="col-md-2">
         <div class="position-relative form-group">
@@ -63,7 +64,6 @@
               <img :src="`/storage/discographies/${item.id}.png`" @error="onImageError" alt="Album Image" width="50"
                 height="50" />
             </td>
-            <td>{{ item.id }}</td>
             <td>
               <a :href="`discography/${item.id}`">{{ item.name }}</a>
             </td>
@@ -78,19 +78,23 @@
               </button>
               <button type="button" @click="toggleDetails(index)" class="btn btn-sm btn-info">
                 <i :class="[
-                    'pe-7s-angle-right',
-                    expandedRows[index] ? 'rotate-icon' : '',
-                  ]"></i>
+                  'pe-7s-angle-right',
+                  expandedRows[index] ? 'rotate-icon' : '',
+                ]"></i>
               </button>
             </td>
           </tr>
           <tr v-if="expandedRows[index]" class="details-row">
-            <td colspan="9">
+            <td :colspan="fields.length + 3">
               <div>
-                <p>Discography Id: {{ item.id }}</p>
-              </div>
-              <div>
-                <p>Talents: {{ item.talents }}</p>
+                <div>Id: {{ item.id }}</div>
+                <div>
+                  Talents:
+                  <span v-for="(talent, index) in item.discography_talent" :key="talent.id">
+                    <a :href="`talent/${talent.id}`">{{ talent.name }}</a><span
+                      v-if="index < item.discography_talent.length - 1">, </span>
+                  </span>
+                </div>
               </div>
             </td>
           </tr>
@@ -161,10 +165,6 @@ export default defineComponent({
 
     const fields = ref([
       {
-        key: "id",
-        value: "Id",
-      },
-      {
         key: "name",
         value: "Name",
       },
@@ -180,10 +180,6 @@ export default defineComponent({
     const items = ref([]);
 
     const getDiscographiesData = async () => {
-      if (search.value) {
-        currentPage.value = 1;
-      }
-
       const response = await apiService.getDiscographiesWithPaging(
         currentPage.value,
         itemsPerPage.value,
@@ -251,6 +247,7 @@ export default defineComponent({
     };
 
     const handleFilter = () => {
+      currentPage.value = 1;
       getDiscographiesData();
     };
 

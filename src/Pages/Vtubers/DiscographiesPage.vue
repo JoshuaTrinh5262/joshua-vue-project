@@ -188,8 +188,8 @@ export default defineComponent({
         currentDiscography.arrangement = updateData.arrangement;
         currentDiscography.ensemble_as = updateData.ensemble_as;
         selectedTalents.value = updateData.discography_talent.map(item => ({
-          id: item.talent.id,
-          name: item.talent.name
+          id: item.id,
+          name: item.name
         }));
       }
 
