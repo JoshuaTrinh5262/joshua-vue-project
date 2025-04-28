@@ -48,7 +48,7 @@
           <input name="ensemble_as" id="ensemble_as" placeholder="Ensemble As" v-model="currentDiscography.ensemble_as"
             type="text" class="form-control">
         </div>
-        <div class="position-relative form-group">
+        <!-- <div class="position-relative form-group">
           <label for="album">Album</label>
           <select name="select" id="album" v-model="currentDiscography.album_id" class="form-control">
             <option :value=null></option>
@@ -56,7 +56,7 @@
               {{ album.name }}
             </option>
           </select>
-        </div>
+        </div> -->
         <div class="position-relative form-group">
           <label for="talent">Talent</label>
           <TagSelectorComponent :items="vtuberStore.talentOptions" :model-value="selectedTalents"
@@ -117,7 +117,6 @@ export default defineComponent({
       name: null,
       original_name: null,
       released_date: null,
-      album_id: null,
       lyricist: null,
       composer: null,
       arrangement: null,
@@ -182,7 +181,6 @@ export default defineComponent({
         currentDiscography.original_name = updateData.original_name;
         currentDiscography.agency_description = updateData.agency_description;
         currentDiscography.released_date = updateData.released_date;
-        currentDiscography.album_id = updateData.album_id;
         currentDiscography.lyricist = updateData.lyricist;
         currentDiscography.composer = updateData.composer;
         currentDiscography.arrangement = updateData.arrangement;
@@ -219,7 +217,6 @@ export default defineComponent({
         name: null,
         original_name: null,
         released_date: null,
-        album_id: null,
         lyricist: null,
         composer: null,
         arrangement: null,

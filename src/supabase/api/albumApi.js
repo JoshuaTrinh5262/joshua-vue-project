@@ -1,45 +1,103 @@
 import { supabase } from "../supabase";
+
 export const getAlbumsWithPaging = async (
     page,
     pageSize,
     orderBy,
     orderDirection,
-    search = ""
+    search = "",
+    TalentId = "",
+    AlbumType = ""
 ) => {
     try {
         const start = (page - 1) * pageSize;
-        const end = start + pageSize - 1;
+        const queryLimit = `LIMIT ${pageSize} OFFSET ${start}`;
 
-        let query = supabase
-            .from("album")
-            .select("*, album_talent(talent(*)), tracklist(count)", {
-                count: "exact",
-            })
-            .order(orderBy, { ascending: orderDirection === "asc" })
-            .range(start, end);
+        let query = `
+            SELECT 
+                album.id,
+                album.name,
+                album.album_type,
+                album.released_date,
+                ARRAY_AGG(DISTINCT jsonb_build_object('id', talent.id, 'name', talent.name)) AS album_talent
+            FROM album
+            LEFT JOIN album_talent ON album.id = album_talent.album_id
+            LEFT JOIN talent ON talent.id = album_talent.talent_id
+        `;
+
+        // Filter conditions
+        let conditions = [];
 
         if (search) {
-            query = query.or(`name.ilike.%${search}%`);
+            conditions.push(`
+                album.name ILIKE '%${search}%'
+            `);
         }
 
-        const { data, count, error } = await query;
+        if (AlbumType) {
+            conditions.push(`album.album_type = '${AlbumType}'`);
+        }
+
+        if (TalentId) {
+            if (TalentId) {
+                conditions.push(`
+                    album.id IN (
+                        SELECT album_id
+                        FROM album_talent
+                        WHERE talent_id = '${TalentId}'
+                    )
+                `);
+            }
+        }
+
+        if (conditions.length > 0) {
+            query += ` WHERE ` + conditions.join(" AND ");
+        }
+
+        query += `
+            GROUP BY album.id
+            ORDER BY ${orderBy} ${orderDirection === "asc" ? "ASC" : "DESC"}
+            ${queryLimit}
+        `;
+
+        // Execute query
+        const { data, error } = await supabase.rpc("execute_dynamic_query", {
+            query,
+        });
 
         if (error) {
             return { error: error.message };
         }
 
-        const formattedAlbums = data.map((album) => ({
-            ...album,
-            talents: album.album_talent?.map((at) => at.talent?.name) || [],
-            tracklist_count: album.tracklist.length
-                ? album.tracklist[0].count
-                : 0,
-        }));
+        // Count query with discography_talent join included
+        let countQuery = `
+            SELECT COUNT(DISTINCT album.id) AS total_count
+            FROM album
+            LEFT JOIN album_talent ON album.id = album_talent.album_id
+            LEFT JOIN talent ON talent.id = album_talent.talent_id
+        `;
+
+        if (conditions.length > 0) {
+            countQuery += ` WHERE ` + conditions.join(" AND ");
+        }
+
+        const { data: countData, error: countError } = await supabase.rpc(
+            "execute_dynamic_query",
+            {
+                query: countQuery,
+            }
+        );
+
+        if (countError) {
+            return { error: countError.message };
+        }
+
+        const totalItems = countData[0]?.total_count || 0;
 
         return {
-            items: formattedAlbums,
-            totalItems: count,
-            totalPages: Math.ceil(count / pageSize),
+            items: data,
+            totalItems,
+            totalPages: Math.ceil(totalItems / pageSize),
         };
     } catch (err) {
         return { error: err.message };
@@ -188,14 +246,25 @@ export const deleteAlbum = async (id) => {
             .from("album_talent")
             .delete()
             .eq("album_id", id);
+
         if (albumTalentError) {
             return { error: albumTalentError.message };
+        }
+
+        const { error: albumTracklistError } = await supabase
+            .from("tracklist")
+            .delete()
+            .eq("album_id", id);
+
+        if (albumTracklistError) {
+            return { error: albumTracklistError.message };
         }
 
         const { data, error: albumError } = await supabase
             .from("album")
             .delete()
             .eq("id", id);
+
         if (albumError) {
             return { error: albumError.message };
         }

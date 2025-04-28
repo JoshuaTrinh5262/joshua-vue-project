@@ -21,7 +21,7 @@
       </div>
       <div class="col-md-2">
         <div class="position-relative form-group">
-          <label for="talent_status">Select Status</label>
+          <label for="talent_status">Talent Status</label>
           <select name="talent_status" id="talent_status" v-model="selectedStatus" class="form-control">
             <option :value="null"></option>
             <option value="active">Active</option>
@@ -49,9 +49,9 @@
         <th class="checkbox">
           <div class="center-cell">
             <input type="checkbox" class="checkbox" name="checkbox" @change="
-                selectedItems = $event.target.checked
-                  ? items.map((item) => item.id)
-                  : []
+              selectedItems = $event.target.checked
+                ? items.map((item) => item.id)
+                : []
               " />
           </div>
         </th>
@@ -97,9 +97,9 @@
               </button>
               <button type="button" @click="toggleDetails(index)" class="btn btn-sm btn-info">
                 <i :class="[
-                    'pe-7s-angle-right',
-                    expandedRows[index] ? 'rotate-icon' : '',
-                  ]"></i>
+                  'pe-7s-angle-right',
+                  expandedRows[index] ? 'rotate-icon' : '',
+                ]"></i>
               </button>
             </td>
           </tr>
@@ -124,9 +124,9 @@
       <tr>
         <th>
           <input type="checkbox" class="checkbox" name="checkbox" @change="
-              selectedItems = $event.target.checked
-                ? items.map((item) => item.id)
-                : []
+            selectedItems = $event.target.checked
+              ? items.map((item) => item.id)
+              : []
             " />
         </th>
         <th>Avatar</th>
