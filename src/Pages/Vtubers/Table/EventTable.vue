@@ -246,6 +246,7 @@ export default defineComponent({
     };
 
     const handleFilter = () => {
+      currentPage.value = 1;
       getEventsData();
     };
 
