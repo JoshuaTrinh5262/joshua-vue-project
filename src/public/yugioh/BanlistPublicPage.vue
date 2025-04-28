@@ -99,7 +99,6 @@ export default defineComponent({
         selectedBanlist.value
       );
       if (!result.error) {
-        console.log(result);
         banlistDetail.value = result;
       }
     };

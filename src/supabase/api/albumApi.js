@@ -1,45 +1,103 @@
 import { supabase } from "../supabase";
+
 export const getAlbumsWithPaging = async (
     page,
     pageSize,
     orderBy,
     orderDirection,
-    search = ""
+    search = "",
+    TalentId = "",
+    AlbumType = ""
 ) => {
     try {
         const start = (page - 1) * pageSize;
-        const end = start + pageSize - 1;
+        const queryLimit = `LIMIT ${pageSize} OFFSET ${start}`;
 
-        let query = supabase
-            .from("album")
-            .select("*, album_talent(talent(*)), tracklist(count)", {
-                count: "exact",
-            })
-            .order(orderBy, { ascending: orderDirection === "asc" })
-            .range(start, end);
+        let query = `
+            SELECT 
+                album.id,
+                album.name,
+                album.album_type,
+                album.released_date,
+                ARRAY_AGG(DISTINCT jsonb_build_object('id', talent.id, 'name', talent.name)) AS album_talent
+            FROM album
+            LEFT JOIN album_talent ON album.id = album_talent.album_id
+            LEFT JOIN talent ON talent.id = album_talent.talent_id
+        `;
+
+        // Filter conditions
+        let conditions = [];
 
         if (search) {
-            query = query.or(`name.ilike.%${search}%`);
+            conditions.push(`
+                album.name ILIKE '%${search}%'
+            `);
         }
 
-        const { data, count, error } = await query;
+        if (AlbumType) {
+            conditions.push(`album.album_type = '${AlbumType}'`);
+        }
+
+        if (TalentId) {
+            if (TalentId) {
+                conditions.push(`
+                    album.id IN (
+                        SELECT album_id
+                        FROM album_talent
+                        WHERE talent_id = '${TalentId}'
+                    )
+                `);
+            }
+        }
+
+        if (conditions.length > 0) {
+            query += ` WHERE ` + conditions.join(" AND ");
+        }
+
+        query += `
+            GROUP BY album.id
+            ORDER BY ${orderBy} ${orderDirection === "asc" ? "ASC" : "DESC"}
+            ${queryLimit}
+        `;
+
+        // Execute query
+        const { data, error } = await supabase.rpc("execute_dynamic_query", {
+            query,
+        });
 
         if (error) {
-            throw error;
+            return { error: error.message };
         }
 
-        const formattedAlbums = data.map((album) => ({
-            ...album,
-            talents: album.album_talent?.map((at) => at.talent?.name) || [],
-            tracklist_count: album.tracklist.length
-                ? album.tracklist[0].count
-                : 0,
-        }));
+        // Count query with discography_talent join included
+        let countQuery = `
+            SELECT COUNT(DISTINCT album.id) AS total_count
+            FROM album
+            LEFT JOIN album_talent ON album.id = album_talent.album_id
+            LEFT JOIN talent ON talent.id = album_talent.talent_id
+        `;
+
+        if (conditions.length > 0) {
+            countQuery += ` WHERE ` + conditions.join(" AND ");
+        }
+
+        const { data: countData, error: countError } = await supabase.rpc(
+            "execute_dynamic_query",
+            {
+                query: countQuery,
+            }
+        );
+
+        if (countError) {
+            return { error: countError.message };
+        }
+
+        const totalItems = countData[0]?.total_count || 0;
 
         return {
-            items: formattedAlbums,
-            totalItems: count,
-            totalPages: Math.ceil(count / pageSize),
+            items: data,
+            totalItems,
+            totalPages: Math.ceil(totalItems / pageSize),
         };
     } catch (err) {
         return { error: err.message };
@@ -50,7 +108,7 @@ export const getAlbums = async () => {
     try {
         const { data, error } = await supabase.from("album").select("*");
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -66,7 +124,7 @@ export const getAlbumById = async (id) => {
             .eq("id", id)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -82,7 +140,7 @@ export const createAlbum = async (album, selectedTalents) => {
             .select("*")
             .single();
         if (albumError) {
-            throw albumError;
+            return { error: albumError.message };
         }
 
         const albumTalentRecords = selectedTalents.map((talent) => ({
@@ -94,7 +152,7 @@ export const createAlbum = async (album, selectedTalents) => {
             .insert(albumTalentRecords);
 
         if (talentError) {
-            throw talentError;
+            return { error: talentError.message };
         }
 
         return {
@@ -115,7 +173,7 @@ export const updateAlbum = async (updateData, selectedTalents) => {
             .single();
 
         if (albumError) {
-            throw albumError;
+            return { error: albumError.message };
         }
 
         // Step 2: Handle album_talent updates
@@ -131,7 +189,7 @@ export const updateAlbum = async (updateData, selectedTalents) => {
             .eq("album_id", albumId);
 
         if (fetchError) {
-            throw fetchError;
+            return { error: fetchError.message };
         }
 
         // Get the existing talent IDs
@@ -159,7 +217,7 @@ export const updateAlbum = async (updateData, selectedTalents) => {
                 );
 
             if (insertError) {
-                throw insertError;
+                return { error: insertError.message };
             }
         }
 
@@ -172,7 +230,7 @@ export const updateAlbum = async (updateData, selectedTalents) => {
                 .eq("album_id", albumId);
 
             if (deleteError) {
-                throw deleteError;
+                return { error: deleteError.message };
             }
         }
 
@@ -188,18 +246,27 @@ export const deleteAlbum = async (id) => {
             .from("album_talent")
             .delete()
             .eq("album_id", id);
+
         if (albumTalentError) {
-            throw new Error(
-                `Failed to delete album_talent: ${albumTalentError.message}`
-            );
+            return { error: albumTalentError.message };
+        }
+
+        const { error: albumTracklistError } = await supabase
+            .from("tracklist")
+            .delete()
+            .eq("album_id", id);
+
+        if (albumTracklistError) {
+            return { error: albumTracklistError.message };
         }
 
         const { data, error: albumError } = await supabase
             .from("album")
             .delete()
             .eq("id", id);
+
         if (albumError) {
-            throw new Error(`Failed to delete album: ${albumError.message}`);
+            return { error: albumError.message };
         }
 
         return data;
@@ -217,7 +284,7 @@ export const deleteAlbumWithRelations = async (albumId) => {
             .eq("album_id", albumId);
 
         if (talentError) {
-            throw talentError;
+            return { error: talentError.message };
         }
 
         // Delete from discography
@@ -227,7 +294,7 @@ export const deleteAlbumWithRelations = async (albumId) => {
             .eq("album_id", albumId);
 
         if (discographyError) {
-            throw discographyError;
+            return { error: discographyError.message };
         }
 
         // Finally, delete from album
@@ -237,7 +304,7 @@ export const deleteAlbumWithRelations = async (albumId) => {
             .eq("id", albumId);
 
         if (albumError) {
-            throw albumError;
+            return { error: albumError.message };
         }
 
         return { success: true };
@@ -252,7 +319,7 @@ export const countAlbumRecord = async () => {
             .from("album")
             .select("*", { count: "exact", head: true });
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return count;
     } catch (err) {
@@ -262,17 +329,17 @@ export const countAlbumRecord = async () => {
 
 export const updateAlbumTracklist = async (albumId, tracklist) => {
     if (!albumId || !Array.isArray(tracklist)) {
-        return { error: 'Invalid album Id or tracklist format' }
+        return { error: "Invalid album Id or tracklist format" };
     }
     try {
         // Step 1: Delete old tracklist for this album
         const { error: deleteError } = await supabase
-            .from('tracklist')
+            .from("tracklist")
             .delete()
-            .eq('album_id', albumId)
+            .eq("album_id", albumId);
 
         if (deleteError) {
-            return { error: deleteError.message }
+            return { error: deleteError.message };
         }
 
         // Step 2: Insert new tracklist
@@ -281,11 +348,11 @@ export const updateAlbumTracklist = async (albumId, tracklist) => {
             version: track.version,
             discography_id: track.discography_id,
             album_id: albumId,
-        }))
+        }));
 
         const { data, error: insertError } = await supabase
-            .from('tracklist')
-            .insert(tracklistWithAlbumId)
+            .from("tracklist")
+            .insert(tracklistWithAlbumId);
 
         if (insertError) {
             return { error: insertError.message };
@@ -295,4 +362,4 @@ export const updateAlbumTracklist = async (albumId, tracklist) => {
     } catch (err) {
         return { error: err.message };
     }
-}
+};

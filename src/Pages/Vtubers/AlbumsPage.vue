@@ -114,11 +114,19 @@ export default defineComponent({
         toggleModal();
         reloadAlbumTable();
         onSubmit.value = false;
-        notification.value = { title: 'Success', content: 'Album created successfully!', type: 'success' };
+        notification.value = {
+          title: 'Success',
+          content: 'Album created successfully!',
+          type: 'success'
+        };
         reloadAlbumTable();
       } catch (error) {
         onSubmit.value = false;
-        notification.value = { title: 'Error', content: `Error when submitting talent: ${error}`, type: 'danger' };
+        notification.value = {
+          title: 'Error',
+          content: `Error when submitting talent: ${error}`,
+          type: 'danger'
+        };
       }
     }
 
@@ -183,8 +191,8 @@ export default defineComponent({
         currentAlbum.ensemble_as = updateData.ensemble_as;
         currentAlbum.released_date = updateData.released_date;
         selectedTalents.value = updateData.album_talent.map(item => ({
-          id: item.talent.id,
-          name: item.talent.name
+          id: item.id,
+          name: item.name
         }));
       }
 

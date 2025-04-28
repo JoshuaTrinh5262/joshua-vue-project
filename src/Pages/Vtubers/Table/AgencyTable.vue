@@ -153,7 +153,7 @@ export default defineComponent({
             const response = await apiService.getAgenciesWithPaging(currentPage.value, itemsPerPage.value, orderBy.value, orderDirection.value, search.value);
 
             if (!response.error) {
-                items.value = response.items;
+                items.value = response.items ? response.items : [];
                 totalItems.value = response.totalItems;
                 totalPages.value = response.totalPages;
                 itemsPerPage.value = itemsPerPage.value;

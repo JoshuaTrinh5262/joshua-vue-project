@@ -5,42 +5,92 @@ export const getDiscographiesWithPaging = async (
     pageSize,
     orderBy,
     orderDirection,
-    search = ""
+    search = "",
+    TalentId
 ) => {
     try {
         const start = (page - 1) * pageSize;
-        const end = start + pageSize - 1;
+        const queryLimit = `LIMIT ${pageSize} OFFSET ${start}`;
 
-        let query = supabase
-            .from("discography")
-            .select("*, album(id,name), discography_talent(talent(id, name))", {
-                count: "exact",
-            })
-            .order(orderBy, { ascending: orderDirection === "asc" })
-            .range(start, end);
+        // Base query
+        let query = `
+            SELECT 
+                discography.id AS id,
+                discography.name AS name,
+                discography.original_name AS original_name,
+                discography.released_date AS released_date,
+                ARRAY_AGG(DISTINCT jsonb_build_object('id', talent.id, 'name', talent.name)) AS discography_talent
+            FROM discography
+            LEFT JOIN discography_talent ON discography_talent.discography_id = discography.id
+            LEFT JOIN talent ON talent.id = discography_talent.talent_id
+        `;
+
+        // Where clause
+        let conditions = [];
 
         if (search) {
-            query = query.or(`name.ilike.%${search}%`);
+            conditions.push(`discography.name ILIKE '%${search}%'`);
         }
 
-        const { data, count, error } = await query;
+        if (TalentId) {
+            conditions.push(`
+                discography.id IN (
+                    SELECT discography_id
+                    FROM discography_talent
+                    WHERE talent_id = '${TalentId}'
+                )
+            `);
+        }
+
+        if (conditions.length > 0) {
+            query += ` WHERE ` + conditions.join(" AND ");
+        }
+
+        // Grouping, ordering, pagination
+        query += `
+            GROUP BY discography.id
+            ORDER BY ${orderBy} ${orderDirection === "asc" ? "ASC" : "DESC"}
+            ${queryLimit}
+        `;
+
+        // Execute data query
+        const { data, error } = await supabase.rpc("execute_dynamic_query", {
+            query,
+        });
 
         if (error) {
-            throw error;
+            return { error: error.message };
         }
 
-        const discographies = data.map((discography) => ({
-            ...discography,
-            album: discography.album?.name,
-            talents:
-                discography.discography_talent?.map((et) => et.talent?.name) ||
-                [],
-        }));
+        // Count query (same filter, no limit/offset)
+        let countQuery = `
+            SELECT COUNT(DISTINCT discography.id) AS total_count
+            FROM discography
+            LEFT JOIN discography_talent ON discography_talent.discography_id = discography.id
+            LEFT JOIN talent ON talent.id = discography_talent.talent_id
+        `;
+
+        if (conditions.length > 0) {
+            countQuery += ` WHERE ` + conditions.join(" AND ");
+        }
+
+        const { data: countData, error: countError } = await supabase.rpc(
+            "execute_dynamic_query",
+            {
+                query: countQuery,
+            }
+        );
+
+        if (countError) {
+            return { error: countError.message };
+        }
+
+        const totalItems = countData[0]?.total_count || 0;
 
         return {
-            items: discographies,
-            totalItems: count,
-            totalPages: Math.ceil(count / pageSize),
+            items: data,
+            totalItems,
+            totalPages: Math.ceil(totalItems / pageSize),
         };
     } catch (err) {
         return { error: err.message };
@@ -51,11 +101,10 @@ export const getDiscographies = async () => {
     try {
         const { data, error } = await supabase.from("discography").select("*");
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
-        console.error("Error fetching discographies:", err);
         return { error: err.message };
     }
 };
@@ -68,17 +117,17 @@ export const getDiscographyById = async (id) => {
             .eq("id", id)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
-        console.error(`Error fetching discography with ID ${id}:`, err);
         return { error: err.message };
     }
 };
 
 export const createDiscography = async (discography, selectedTalents) => {
     try {
+        console.log(discography)
         const { data: discographyData, error: discographyError } =
             await supabase
                 .from("discography")
@@ -87,7 +136,7 @@ export const createDiscography = async (discography, selectedTalents) => {
                 .single();
 
         if (discographyError) {
-            throw discographyError;
+            return { error: discographyError.message };
         }
 
         const discographyTalentRecords = selectedTalents.map((talent) => ({
@@ -100,7 +149,7 @@ export const createDiscography = async (discography, selectedTalents) => {
             .insert(discographyTalentRecords);
 
         if (talentError) {
-            throw talentError;
+            return { error: talentError.message };
         }
 
         return {
@@ -122,7 +171,7 @@ export const updateDiscography = async (updateData, selectedTalents) => {
                 .single();
 
         if (discographyError) {
-            throw discographyError;
+            return { error: discographyError.message };
         }
 
         // Step 2: Handle discography_talent updates
@@ -138,7 +187,7 @@ export const updateDiscography = async (updateData, selectedTalents) => {
             .eq("discography_id", discographyId);
 
         if (fetchError) {
-            throw fetchError;
+            return { error: fetchError.message };
         }
 
         // Get the existing talent IDs
@@ -166,7 +215,7 @@ export const updateDiscography = async (updateData, selectedTalents) => {
                 );
 
             if (insertError) {
-                throw insertError;
+                return { error: insertError.message };
             }
         }
 
@@ -179,7 +228,7 @@ export const updateDiscography = async (updateData, selectedTalents) => {
                 .eq("discography_id", discographyId);
 
             if (deleteError) {
-                throw deleteError;
+                return { error: deleteError.message };
             }
         }
 
@@ -196,9 +245,7 @@ export const deleteDiscography = async (id) => {
             .delete()
             .eq("discography_id", id);
         if (discographyTalentError) {
-            throw new Error(
-                `Failed to delete discography_talent: ${discographyTalentError.message}`
-            );
+            return { error: discographyTalentError.message };
         }
 
         const { data, error: discographyError } = await supabase
@@ -206,7 +253,7 @@ export const deleteDiscography = async (id) => {
             .delete()
             .eq("id", id);
         if (discographyError) {
-            throw new Error(`Failed to delete discography: ${discographyError.message}`);
+            return { error: discographyError.message };
         }
 
         return data;
@@ -221,11 +268,10 @@ export const countDiscographyRecord = async () => {
             .from("discography")
             .select("*", { count: "exact", head: true });
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return count;
     } catch (err) {
-        console.error("Error counting discographies:", err);
         return { error: err.message };
     }
 };

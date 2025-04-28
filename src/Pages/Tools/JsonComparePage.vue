@@ -59,7 +59,6 @@ export default defineComponent({
         };
 
         const loadSampleJson = () => {
-            console.log(olsSample)
             oldJsonInput.value = JSON.stringify(olsSample, null, 2);
             newJsonInput.value = JSON.stringify(newSample, null, 2);
         };

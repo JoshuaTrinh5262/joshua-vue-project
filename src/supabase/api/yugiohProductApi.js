@@ -25,7 +25,7 @@ export const getYugiohProductsWithPaging = async (
         const { data, count, error } = await query;
 
         if (error) {
-            throw error;
+            return { error: error.message };
         }
 
         return {
@@ -42,7 +42,7 @@ export const getYugiohProducts = async () => {
     try {
         const { data, error } = await supabase.from("yugioh_product").select("*");
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -58,7 +58,7 @@ export const getYugiohProductById = async (id) => {
             .eq("id", id)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -73,7 +73,7 @@ export const createYugiohProduct = async (yugioh_product) => {
             .insert(yugioh_product)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -89,7 +89,7 @@ export const updateYugiohProduct = async (update) => {
             .eq("id", update.id)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -104,7 +104,7 @@ export const deleteYugiohProduct = async (id) => {
             .delete()
             .eq("id", id);
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -119,7 +119,7 @@ export const countYugiohProductRecord = async () => {
             .from("yugioh_product")
             .select("*", { count: "exact", head: true });
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return count;
     } catch (err) {

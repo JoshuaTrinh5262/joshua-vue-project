@@ -1,45 +1,5 @@
 import { supabase } from "../supabase";
 
-// export const getAgenciesWithPaging = async (
-//     page,
-//     pageSize,
-//     orderBy,
-//     orderDirection,
-//     search = ""
-// ) => {
-//     try {
-//         const start = (page - 1) * pageSize;
-//         const end = start + pageSize - 1;
-
-//         let query = supabase
-//             .from("agency")
-//             .select("*, talent(count)", { count: "exact" })
-//             .order(orderBy, { ascending: orderDirection === "asc" })
-//             .range(start, end);
-
-//         if (search) {
-//             query = query.or(`agency_name.ilike.%${search}%`);
-//         }
-
-//         const { data, count, error } = await query;
-
-//         if (error) {
-//             throw error;
-//         }
-//         const agencies = data.map((agency) => ({
-//             ...agency,
-//             talent_count: agency.talent.length ? agency.talent[0].count : 0,
-//         }));
-//         return {
-//             items: agencies,
-//             totalItems: count,
-//             totalPages: Math.ceil(count / pageSize),
-//         };
-//     } catch (err) {
-//         return { error: err.message };
-//     }
-// };
-
 export const getAgenciesWithPaging = async (
     page,
     pageSize,
@@ -49,7 +9,6 @@ export const getAgenciesWithPaging = async (
 ) => {
     try {
         const start = (page - 1) * pageSize;
-        const end = start + pageSize - 1;
 
         // Construct SQL query dynamically
         let query = `
@@ -83,20 +42,26 @@ export const getAgenciesWithPaging = async (
         `;
 
         // Execute the query via the RPC function
-        const { data, error } = await supabase.rpc('execute_dynamic_query', {
+        const { data, error } = await supabase.rpc("execute_dynamic_query", {
             query,
         });
 
+        if (error) {
+            return { error: error.message };
+        }
         // Fetch the total count for pagination
         const countQuery = `
             SELECT COUNT(*) FROM agency
         `;
-        const { data: countData, error: countError } = await supabase.rpc('execute_dynamic_query', {
-            query: countQuery,
-        });
+        const { data: countData, error: countError } = await supabase.rpc(
+            "execute_dynamic_query",
+            {
+                query: countQuery,
+            }
+        );
 
-        if (error || countError) {
-            throw error || countError;
+        if (countError) {
+            return { error: countError.message };
         }
 
         const totalItems = countData[0].count;
@@ -110,16 +75,14 @@ export const getAgenciesWithPaging = async (
     }
 };
 
-
 export const getAgencies = async () => {
     try {
         const { data, error } = await supabase.from("agency").select("*");
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
-        console.error("Error fetching agencies:", err);
         return { error: err.message };
     }
 };
@@ -132,13 +95,12 @@ export const getAgencyById = async (id) => {
             .eq("id", id)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         const talentCount = data.talent ? data.talent.length : 0;
 
         return { ...data, talentCount };
     } catch (err) {
-        console.error(`Error fetching agency with ID ${id}:`, err);
         return { error: err.message };
     }
 };
@@ -150,11 +112,10 @@ export const createAgency = async (agency) => {
             .insert(agency)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
-        console.error("Error creating agency:", err);
         return { error: err.message };
     }
 };
@@ -167,11 +128,10 @@ export const updateAgency = async (update) => {
             .eq("id", update.id)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
-        console.error(`Error updating agency with ID ${id}:`, err);
         return { error: err.message };
     }
 };
@@ -183,11 +143,10 @@ export const deleteAgency = async (id) => {
             .delete()
             .eq("id", id);
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
-        console.error(`Error deleting agency with ID ${id}:`, err);
         return { error: err.message };
     }
 };
@@ -198,11 +157,10 @@ export const countAgencyRecord = async () => {
             .from("agency")
             .select("*", { count: "exact", head: true });
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return count;
     } catch (err) {
-        console.error("Error counting agencies:", err);
         return { error: err.message };
     }
 };

@@ -1,57 +1,46 @@
 <template>
-  <h3 class="card-title">Talent Filter</h3>
-  <div class="row">
-    <div class="col-md-2">
-      <div class="position-relative form-group">
-        <label for="agency-selector">Select Agency</label>
-        <select
-          id="agency-selector"
-          v-model="selectedAgency"
-          class="custom-select"
-        >
-          <option :value="null"></option>
-          <option
-            v-for="agency in vtuberStore?.agencyOptions"
-            :key="agency.id"
-            :value="agency.id"
-          >
-            {{ agency.agency_name }}
-          </option>
-        </select>
+  <div class="filter-section">
+    <h3 class="card-title">Talent Filter</h3>
+    <div class="row">
+      <div class="col-md-2">
+        <div class="position-relative form-group">
+          <label for="agency-selector">Search By Name</label>
+          <input placeholder="Searching..." v-model="search" type="text" class="form-control" name="search" />
+        </div>
       </div>
-    </div>
-    <div class="col-md-2">
-      <div class="position-relative form-group">
-        <label for="btn">Action</label>
-        <button-spinner
-          buttonClass="btn btn-primary"
-          @click="handleFilter"
-          normalText="Filter"
-        />
+      <div class="col-md-2">
+        <div class="position-relative form-group">
+          <label for="agency-selector">Select Agency</label>
+          <select id="agency-selector" v-model="selectedAgency" class="custom-select">
+            <option :value="null"></option>
+            <option v-for="agency in vtuberStore?.agencyOptions" :key="agency.id" :value="agency.id">
+              {{ agency.agency_name }}
+            </option>
+          </select>
+        </div>
       </div>
-    </div>
-  </div>
-
-  <div class="form-inline mb-2">
-    <div class="input-group">
-      <input
-        placeholder="Searching..."
-        @input="onSearch"
-        v-model="search"
-        type="text"
-        class="form-control"
-        name="search"
-      />
-      <div class="input-group-append">
-        <button class="btn btn-primary">
-          <i class="pe-7s-search"></i>
-        </button>
+      <div class="col-md-2">
+        <div class="position-relative form-group">
+          <label for="talent_status">Talent Status</label>
+          <select name="talent_status" id="talent_status" v-model="selectedStatus" class="form-control">
+            <option :value="null"></option>
+            <option value="active">Active</option>
+            <option value="graduation">Graduation</option>
+            <option value="terminated">Terminated</option>
+          </select>
+        </div>
       </div>
-    </div>
-    <div v-if="selectedCount > 0" class="input-group">
-      <button type="button" class="btn btn-primary">
-        Selected ({{ selectedCount }})
-      </button>
+      <div class="col-md-4">
+        <div class="position-relative form-group">
+          <label for="btn">Action</label>
+          <div class="form-inline">
+            <button-spinner buttonClass="btn btn-primary mr-2" @click="handleFilter" normalText="Filter" />
+            <button v-if="showCleanFilter()" class="btn btn-primary" @click="cleanFilter">
+              Clean Filter
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <table class="table table-hover table-sm table-bordered">
@@ -59,32 +48,18 @@
       <tr>
         <th class="checkbox">
           <div class="center-cell">
-            <input
-              type="checkbox"
-              class="checkbox"
-              name="checkbox"
-              @change="
-                selectedItems = $event.target.checked
-                  ? items.map((item) => item.id)
-                  : []
-              "
-            />
+            <input type="checkbox" class="checkbox" name="checkbox" @change="
+              selectedItems = $event.target.checked
+                ? items.map((item) => item.id)
+                : []
+              " />
           </div>
         </th>
         <th>Avatar</th>
-        <th
-          v-for="field in fields"
-          :key="field.key"
-          :id="field.key"
-          @click="changeOrder(field.key)"
-        >
+        <th v-for="field in fields" :key="field.key" :id="field.key" @click="changeOrder(field.key)">
           {{ field.value }}
-          <span v-if="orderBy === field.key && orderDirection === 'asc'"
-            >&#9660;</span
-          >
-          <span v-else-if="orderBy === field.key && orderDirection === 'desc'"
-            >&#9650;</span
-          >
+          <span v-if="orderBy === field.key && orderDirection === 'asc'">&#9660;</span>
+          <span v-else-if="orderBy === field.key && orderDirection === 'desc'">&#9650;</span>
           <span v-else>&#9670;</span>
         </th>
         <th class="action">Action</th>
@@ -96,23 +71,12 @@
           <tr>
             <td class="checkbox">
               <div class="center-cell">
-                <input
-                  type="checkbox"
-                  class="checkbox"
-                  name="checkbox"
-                  :value="item.id"
-                  v-model="selectedItems"
-                />
+                <input type="checkbox" class="checkbox" name="checkbox" :value="item.id" v-model="selectedItems" />
               </div>
             </td>
             <td>
-              <img
-                :src="`/storage/talents/${item.id}.png`"
-                @error="onImageError"
-                alt="Talent Image"
-                width="50"
-                height="50"
-              />
+              <img :src="`/storage/talents/${item.id}.png`" @error="onImageError" alt="Talent Image" width="50"
+                height="50" />
             </td>
             <td>
               <a :href="`talent/${item.id}`">{{ item.name }}</a>
@@ -123,32 +87,19 @@
             </td>
             <td>{{ item.talent_status }}</td>
             <td>{{ item.debut_date }}</td>
+            <td>{{ item.retirement_date }}</td>
             <td class="action">
-              <button
-                type="button"
-                class="btn btn-sm btn-success"
-                @click="handleUpdate(item)"
-              >
+              <button type="button" class="btn btn-sm btn-success" @click="handleUpdate(item)">
                 <i class="pe-7s-file"></i>
               </button>
-              <button
-                type="button"
-                class="btn btn-sm btn-warning"
-                @click="handleDelete(item.id)"
-              >
+              <button type="button" class="btn btn-sm btn-warning" @click="handleDelete(item.id)">
                 <i class="pe-7s-trash"></i>
               </button>
-              <button
-                type="button"
-                @click="toggleDetails(index)"
-                class="btn btn-sm btn-info"
-              >
-                <i
-                  :class="[
-                    'pe-7s-angle-right',
-                    expandedRows[index] ? 'rotate-icon' : '',
-                  ]"
-                ></i>
+              <button type="button" @click="toggleDetails(index)" class="btn btn-sm btn-info">
+                <i :class="[
+                  'pe-7s-angle-right',
+                  expandedRows[index] ? 'rotate-icon' : '',
+                ]"></i>
               </button>
             </td>
           </tr>
@@ -172,45 +123,25 @@
     <tfoot>
       <tr>
         <th>
-          <input
-            type="checkbox"
-            class="checkbox"
-            name="checkbox"
-            @change="
-              selectedItems = $event.target.checked
-                ? items.map((item) => item.id)
-                : []
-            "
-          />
+          <input type="checkbox" class="checkbox" name="checkbox" @change="
+            selectedItems = $event.target.checked
+              ? items.map((item) => item.id)
+              : []
+            " />
         </th>
         <th>Avatar</th>
-        <th
-          v-for="field in fields"
-          :key="field.key"
-          :id="field.key"
-          @click="changeOrder(field.key)"
-        >
+        <th v-for="field in fields" :key="field.key" :id="field.key" @click="changeOrder(field.key)">
           {{ field.value }}
-          <span v-if="orderBy === field.key && orderDirection === 'asc'"
-            >&#9660;</span
-          >
-          <span v-else-if="orderBy === field.key && orderDirection === 'desc'"
-            >&#9650;</span
-          >
+          <span v-if="orderBy === field.key && orderDirection === 'asc'">&#9660;</span>
+          <span v-else-if="orderBy === field.key && orderDirection === 'desc'">&#9650;</span>
           <span v-else>&#9670;</span>
         </th>
         <th class="action">Action</th>
       </tr>
     </tfoot>
   </table>
-  <pagination-component
-    :currentPage="currentPage"
-    :perPage="itemsPerPage"
-    :totalItems="totalItems"
-    :totalPages="totalPages"
-    @load-page="loadPage"
-    @change-page-size="changePageSize"
-  >
+  <pagination-component :currentPage="currentPage" :perPage="itemsPerPage" :totalItems="totalItems"
+    :totalPages="totalPages" @load-page="loadPage" @change-page-size="changePageSize">
   </pagination-component>
 </template>
 
@@ -246,11 +177,12 @@ export default defineComponent({
     const itemsPerPage = ref(10);
     const totalItems = ref(0);
     const totalPages = ref(0);
-    const search = ref("");
+    const search = ref(null);
     const expandedRows = ref([]);
     const selectedItems = ref([]);
     const selectedCount = ref(0);
     const selectedAgency = ref(null);
+    const selectedStatus = ref(null);
 
     const fields = ref([
       {
@@ -273,13 +205,14 @@ export default defineComponent({
         key: "debut_date",
         value: "Debut Date",
       },
+      {
+        key: "retirement_date",
+        value: "Retirement Date",
+      },
     ]);
     const items = ref([]);
 
     const getTalentsData = async () => {
-      if (search.value) {
-        currentPage.value = 1;
-      }
 
       const response = await apiService.getTalentsWithPaging(
         currentPage.value,
@@ -287,14 +220,14 @@ export default defineComponent({
         orderBy.value,
         orderDirection.value,
         search.value,
-        selectedAgency.value
+        selectedAgency.value,
+        selectedStatus.value
       );
 
       if (!response.error) {
         items.value = response.items ? response.items : [];
         totalItems.value = response.totalItems;
         totalPages.value = response.totalPages;
-        itemsPerPage.value = itemsPerPage.value;
       }
     };
 
@@ -312,16 +245,34 @@ export default defineComponent({
     };
 
     const handleFilter = () => {
+      currentPage.value = 1;
+      getTalentsData();
+    };
+
+    const cleanFilter = () => {
+      search.value = null;
+      selectedAgency.value = null;
+      selectedStatus.value = null;
+      if (
+        search.value == null &&
+        selectedAgency.value == null &&
+        selectedStatus.value == null
+      ) {
+        currentPage.value = 1;
         getTalentsData();
+      }
+    };
+
+    const showCleanFilter = () => {
+      return (
+        search.value != null ||
+        selectedAgency.value != null ||
+        selectedStatus.value != null
+      );
     };
 
     const loadPage = (page) => {
       currentPage.value = page;
-      getTalentsData();
-    };
-
-    const onSearch = () => {
-      currentPage.value = 1;
       getTalentsData();
     };
 
@@ -374,14 +325,16 @@ export default defineComponent({
       selectedItems,
       selectedCount,
       selectedAgency,
+      selectedStatus,
       vtuberStore,
       loadPage,
       changePageSize,
-      onSearch,
       changeOrder,
       handleDelete,
       handleUpdate,
       handleFilter,
+      cleanFilter,
+      showCleanFilter,
       getTalentsData,
       toggleDetails,
       onImageError,

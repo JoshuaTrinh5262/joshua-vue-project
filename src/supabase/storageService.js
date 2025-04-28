@@ -10,7 +10,7 @@ export const storageService = {
                 .upload(uniqueFileName, file);
 
             if (error) {
-                throw error;
+                return { error: error.message };
             }
             return data;
         } catch (error) {
@@ -25,7 +25,7 @@ export const storageService = {
                 .download(filePath);
 
             if (error) {
-                throw error;
+                return { error: error.message };
             }
             const url = URL.createObjectURL(data);
             return url;
@@ -41,7 +41,7 @@ export const storageService = {
                 .remove([filePath]);
 
             if (error) {
-                throw error;
+                return { error: error.message };
             }
             return data;
         } catch (error) {
@@ -56,7 +56,7 @@ export const storageService = {
                 .getPublicUrl(path);
 
             if (error) {
-                throw error;
+                return { error: error.message };
             }
 
             return publicURL;
@@ -72,7 +72,7 @@ export const storageService = {
                 .createSignedUrl(path, expiresIn);
 
             if (error) {
-                throw error;
+                return { error: error.message };
             }
 
             return data.signedUrl;

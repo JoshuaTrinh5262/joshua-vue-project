@@ -6,7 +6,8 @@ export const getTalentsWithPaging = async (
     orderBy,
     orderDirection,
     search = "",
-    AgencyId
+    AgencyId,
+    TalentStatus
 ) => {
     try {
         const start = (page - 1) * pageSize;
@@ -41,15 +42,19 @@ export const getTalentsWithPaging = async (
         let conditions = [];
 
         if (AgencyId) {
-          conditions.push(`talent.agency_id = '${AgencyId}'`);
+            conditions.push(`talent.agency_id = '${AgencyId}'`);
         }
-        
+
+        if (TalentStatus) {
+            conditions.push(`talent.talent_status = '${TalentStatus}'`);
+        }
+
         if (search) {
-          conditions.push(`(talent.name ILIKE '%${search}%' OR talent.original_name ILIKE '%${search}%')`);
+            conditions.push(`(talent.name ILIKE '%${search}%' OR talent.original_name ILIKE '%${search}%')`);
         }
-        
+
         if (conditions.length > 0) {
-          query += " WHERE " + conditions.join(" AND ");
+            query += " WHERE " + conditions.join(" AND ");
         }
 
         // Add GROUP BY, ORDER BY, and pagination
@@ -63,18 +68,26 @@ export const getTalentsWithPaging = async (
         const { data, error } = await supabase.rpc("execute_dynamic_query", { query });
 
         if (error) {
-            throw error;
+            return { error: error.message };
         }
 
         // Fetch total item count for pagination
-        const countQuery = `
-            SELECT COUNT(*) AS total_count
+        let countQuery = `
+            SELECT COUNT(DISTINCT talent.id) AS total_count
             FROM talent
+            LEFT JOIN album_talent ON talent.id = album_talent.talent_id
+            LEFT JOIN discography_talent ON talent.id = discography_talent.talent_id
+            LEFT JOIN agency ON talent.agency_id = agency.id
         `;
+
+        if (conditions.length > 0) {
+            countQuery += " WHERE " + conditions.join(" AND ");
+        }
+
         const { data: countData, error: countError } = await supabase.rpc("execute_dynamic_query", { query: countQuery });
 
         if (countError) {
-            throw countError;
+            return { error: countError.message };
         }
 
         const totalItems = countData[0]?.total_count || 0;
@@ -85,7 +98,6 @@ export const getTalentsWithPaging = async (
             totalPages: Math.ceil(totalItems / pageSize),
         };
     } catch (err) {
-        console.error("Error fetching talents:", err);
         return { error: err.message };
     }
 };
@@ -97,11 +109,10 @@ export const getTalents = async () => {
             .select("id, name")
             .order("name", { ascending: true });
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
-        console.error("Error fetching talents:", err);
         return { error: err.message };
     }
 };
@@ -114,11 +125,10 @@ export const getTalentById = async (id) => {
             .eq("id", id)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
-        console.error(`Error fetching talent with ID ${id}:`, err);
         return { error: err.message };
     }
 };
@@ -130,11 +140,10 @@ export const createTalent = async (talent) => {
             .insert(talent)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
-        console.error("Error creating talent:", err);
         return { error: err.message };
     }
 };
@@ -147,11 +156,10 @@ export const updateTalent = async (updateData) => {
             .eq("id", updateData.id)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
-        console.error(`Error updating talent with ID ${id}:`, err);
         return { error: err.message };
     }
 };
@@ -163,11 +171,10 @@ export const deleteTalent = async (id) => {
             .delete()
             .eq("id", id);
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
-        console.error(`Error deleting talent with ID ${id}:`, err);
         return { error: err.message };
     }
 };
@@ -178,11 +185,10 @@ export const countTalentRecord = async () => {
             .from("talent")
             .select("*", { count: "exact", head: true });
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return count;
     } catch (err) {
-        console.error("Error counting talents:", err);
         return { error: err.message };
     }
 };

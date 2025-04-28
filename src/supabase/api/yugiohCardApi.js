@@ -25,7 +25,7 @@ export const getYugiohCardsWithPaging = async (
         const { data, count, error } = await query;
 
         if (error) {
-            throw error;
+            return { error: error.message };
         }
 
         return {
@@ -42,7 +42,7 @@ export const getYugiohCards = async () => {
     try {
         const { data, error } = await supabase.from("yugioh_card").select("*");
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -58,7 +58,7 @@ export const getYugiohCardById = async (id) => {
             .eq("id", id)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -73,7 +73,7 @@ export const createYugiohCard = async (yugioh_card) => {
             .insert(yugioh_card)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -89,7 +89,7 @@ export const updateYugiohCard = async (update) => {
             .eq("id", update.id)
             .single();
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -104,7 +104,7 @@ export const deleteYugiohCard = async (id) => {
             .delete()
             .eq("id", id);
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return data;
     } catch (err) {
@@ -119,7 +119,7 @@ export const countYugiohCardRecord = async () => {
             .from("yugioh_card")
             .select("*", { count: "exact", head: true });
         if (error) {
-            throw error;
+            return { error: error.message };
         }
         return count;
     } catch (err) {
