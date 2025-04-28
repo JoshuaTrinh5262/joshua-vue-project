@@ -60,7 +60,8 @@
               </div>
             </td>
             <td>
-              <img :src="`/storage/events/${item.id}.jpg`" @error="onImageError" alt="Album Image" width="100" height="60" />
+              <img :src="`/storage/events/${item.id}.jpg`" @error="onImageError" alt="Event Image" width="100"
+                height="60" />
             </td>
             <td>{{ item.event_title }}</td>
             <td>{{ item.event_summary }}</td>
@@ -194,7 +195,7 @@ export default defineComponent({
       );
 
       if (!response.error) {
-        items.value = response.items;
+        items.value = response.items ? response.items : [];
         totalItems.value = response.totalItems;
         totalPages.value = response.totalPages;
         itemsPerPage.value = itemsPerPage.value;
