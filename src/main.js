@@ -26,6 +26,7 @@ const messages = {
 };
 
 const Translation = createI18n({
+    legacy: false,
     locale: 'en',
     fallbackLocale: 'en',
     messages,
