@@ -2,6 +2,12 @@
 //
 // Easily usable on <ul>, <ol>, or <div>.
 
+.dark .list-group {
+  .list-group-item {
+    background-color: rgba(50, 50, 50, .45);
+  }
+}
+
 .list-group {
   display: flex;
   flex-direction: column;
