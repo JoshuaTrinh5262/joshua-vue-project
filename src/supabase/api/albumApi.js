@@ -19,10 +19,12 @@ export const getAlbumsWithPaging = async (
                 album.name,
                 album.album_type,
                 album.released_date,
+                COUNT(tracklist.album_id) AS tracklist,
                 ARRAY_AGG(DISTINCT jsonb_build_object('id', talent.id, 'name', talent.name)) AS album_talent
             FROM album
             LEFT JOIN album_talent ON album.id = album_talent.album_id
             LEFT JOIN talent ON talent.id = album_talent.talent_id
+            LEFT JOIN tracklist ON album.id = tracklist.album_id
         `;
 
         // Filter conditions
@@ -75,6 +77,7 @@ export const getAlbumsWithPaging = async (
             FROM album
             LEFT JOIN album_talent ON album.id = album_talent.album_id
             LEFT JOIN talent ON talent.id = album_talent.talent_id
+            LEFT JOIN tracklist ON album.id = tracklist.album_id
         `;
 
         if (conditions.length > 0) {
