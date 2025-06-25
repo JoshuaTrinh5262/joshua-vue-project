@@ -16,6 +16,7 @@
                             <option value="jp">{{ $t('japanese') }}</option>
                             <option value="id">{{ $t('indonesian') }}</option>
                             <option value="kr">{{ $t('korean') }}</option>
+                            <option value="ru">{{ $t('russian') }}</option>
                         </select>
                     </div>
                 </div>

@@ -36,6 +36,15 @@ const adminRoutes = [
         },
         component: () => import("../Pages/Tools/CalculatorPage.vue"),
     },
+        {
+        path: "/admin/timer",
+        name: "timer",
+        meta: {
+            layout: "admin",
+            requiresAuth: true,
+        },
+        component: () => import("../Pages/Tools/TimerPage.vue"),
+    },
     // DataSet
     {
         path: "/admin/user",
@@ -200,13 +209,23 @@ const adminRoutes = [
         component: () => import("../Pages/Yugioh/CardPage.vue"),
     },
     {
-        path: "/admin/Deck",
+        path: "/admin/deck",
         name: "Deck",
         meta: {
             layout: "admin",
             requiresAuth: true,
         },
         component: () => import("../Pages/Yugioh/DeckPage.vue"),
+    },
+    {
+        path: "/admin/deck/:id",
+        name: "deck detail",
+        meta: {
+            layout: "admin",
+            requiresAuth: true,
+        },
+        props: true,
+        component: () => import("../Pages/Yugioh/Detail/DeckDetailPage.vue"),
     },
     {
         path: "/admin/duelist",
