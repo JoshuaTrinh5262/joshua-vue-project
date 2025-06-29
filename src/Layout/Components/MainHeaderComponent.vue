@@ -4,21 +4,12 @@
       <h1 class="header-title">{{ title }}</h1>
       <nav class="header-nav">
         <ul>
-          <li
-            v-for="item in navItems"
-            :key="item.text"
-            class="nav-item"
-            @mouseenter="toggleDropdown(item.text, true)"
-            @mouseleave="toggleDropdown(item.text, false)"
-          >
-            <a :href="item.href">{{ item.text }}</a>
-
-            <ul
-              v-if="item.submenu && dropdownOpen[item.text]"
-              class="drop-list"
-            >
-              <!-- <ul class="drop-list"> -->
-              <li v-for="subItem in item.submenu" :key="subItem.text">
+          <li v-for="item in navItems" :key="item.text" class="nav-item" @mouseenter="toggleDropdown(item.text, true)"
+            @mouseleave="toggleDropdown(item.text, false)">
+            <a v-if="href" :href="item.href">{{ item.text }}</a>
+            <span v-else>{{ item.text }}</span>
+            <ul v-if="item.submenu && dropdownOpen[item.text]" class="drop-list">
+              <li class="drop-list-item" v-for="subItem in item.submenu" :key="subItem.text">
                 <a :href="subItem.href">{{ subItem.text }}</a>
               </li>
             </ul>
@@ -51,7 +42,6 @@ export default defineComponent({
       { text: "HOME", href: "/" },
       {
         text: "YUGIOH",
-        href: "/yugioh",
         submenu: [
           { text: "CARD", href: "/yugioh/card" },
           { text: "BANLIST", href: "/yugioh/banlist" },
@@ -60,9 +50,11 @@ export default defineComponent({
         ],
       },
       {
-        text: "VTUBER",
-        href: "/vtuber",
-        submenu: [{ text: "EVENT", href: "/vtuber/event" }],
+        text: "OTHER",
+        submenu: [
+          { text: "MASTER RULE", href: "/master_rule" },
+          { text: "CONTACT", href: "/contact" },
+        ],
       },
     ]);
 
@@ -151,6 +143,7 @@ export default defineComponent({
   padding: 1rem;
   text-decoration: none;
   transition: background-color 0.3s ease;
+  width: auto;
 }
 
 .header-nav .drop-list a:hover {

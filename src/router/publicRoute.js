@@ -73,6 +73,23 @@ const publicRoutes = [
         },
         component: () => import("../public/NotFoundPage.vue"),
     },
+    // Other
+    {
+        path: "/master_rule",
+        name: "Master Rule",
+        component: () => import("../public/MasterRulePage.vue"),
+        meta: {
+            breadcrumb: "master_rule",
+        },
+    },
+        {
+        path: "/contact",
+        name: "Contact",
+        component: () => import("../public/ContactPage.vue"),
+        meta: {
+            breadcrumb: "contact",
+        },
+    },
 ];
 
 export default publicRoutes;
