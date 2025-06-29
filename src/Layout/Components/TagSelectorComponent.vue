@@ -1,7 +1,7 @@
 <template>
     <div class="tag-container">
         <div class="tags">
-            <div v-if="selected.length === 0">No selected value.</div>
+            <div class="no-result" v-if="selected.length === 0">No selected value.</div>
             <span v-for="item in selected" :key="item.id" class="tag">
                 {{ item.name }}
                 <button class="remove-tag" @click="removeItem(item)">x</button>
@@ -44,6 +44,8 @@ export default defineComponent({
         });
 
         const isSelected = (item) => {
+            searchQuery.value = "";
+            showOptions.value = false;
             return selected.value.some(selectedItem => selectedItem.id === item.id);
         };
 
@@ -95,7 +97,7 @@ export default defineComponent({
 
 <style scoped>
 .tag-container {
-    margin-top: 10px;
+    margin: 0px;
 }
 
 .tags {
@@ -111,6 +113,11 @@ export default defineComponent({
     margin: 5px;
     display: flex;
     align-items: center;
+
+}
+
+.no-result {
+    padding: 10px;
 }
 
 .remove-tag {
