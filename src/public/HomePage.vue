@@ -1,7 +1,7 @@
 <template>
-  <div class="banner">
+  <!-- <div class="banner">
     <BannerComponent></BannerComponent>
-  </div>
+  </div> -->
   <div class="timeline">
     <div
       v-for="(event, index) in timelineData"
