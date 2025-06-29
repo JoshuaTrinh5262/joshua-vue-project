@@ -16,7 +16,7 @@ import vn from "@/translations/vn.json";
 import id from "@/translations/id.json";
 import jp from "@/translations/jp.json";
 import kr from "@/translations/kr.json";
-
+import ru from "@/translations/ru.json";
 
 export default defineComponent({
     name: "TranslationPage",
@@ -39,9 +39,10 @@ export default defineComponent({
             { key: "vn", value: "Vietnamese (VN)" },
             { key: "id", value: "Indonesian (ID)" },
             { key: "jp", value: "Japanese (JP)" },
-            { key: "kr", value: "Korean (FR)" }
+            { key: "kr", value: "Korean (FR)" },
+            { key: "ru", value: "Russian (RU)" }
         ]);
-        const translationFiles = { en, vn, id, jp, kr };
+        const translationFiles = { en, vn, id, jp, kr, ru };
 
         function loadTranslations() {
             const allKeys = new Set();

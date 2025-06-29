@@ -58,10 +58,10 @@
             </div>
           </div>
         </div>
-        <div class="position-relative form-group">
+        <!-- <div class="position-relative form-group">
           <label for="setlist">Setlist</label>
           <SetlistComponent :tracksData="currentEvent.event_setlist" @updateTracks="handleUpdateTrackList" />
-        </div>
+        </div> -->
         <div class="position-relative form-group">
           <label for="event_status">Talent</label>
           <TagSelectorComponent :items="vtuberStore?.talentOptions" :model-value="selectedTalents"

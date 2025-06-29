@@ -27,3 +27,40 @@ export const BanlistCardStatus = {
     SEMILIMITED: "semi-limited",
     BANNED: "banned"
 }
+
+export const CardAttribute = {
+    DARK: "dark",
+    LIGHT: "light",
+    FIRE: "fire",
+    WATER: "water",
+    EARTH: "earth",
+}
+
+export const MonsterType = {
+    Aqua: "aqua",
+    Beast: "beast",
+    BeastWarrior: "beast-warrior",
+    CreatorGod: "creator-god",
+    Cyberse: "cyberse",
+    Dinosaur: "dinosaur",
+    DivineBeast: "divine-beast",
+    Dragon: "dragon",
+    Fairy: "fairy",
+    Fiend: "fiend",
+    Fish: "fish",
+    Illusion: "illusion",
+    Insect: "insect",
+    Machine: "machine",
+    Plant: "plant",
+    Psychic: "psychic",
+    Pyro: "pyro",
+    Reptile: "reptile",
+    Rock: "rock",
+    SeaSerpent: "sea-serpent",
+    Spellcaster: "spellcaster",
+    Thunder: "thunder",
+    Warrior: "warrior",
+    WingedBeast: "winged-beast",
+    Wyrm: "wyrm",
+    Zombie: "zombie"
+}

@@ -58,6 +58,7 @@ export default defineComponent({
                     { title: 'Word Counter', href: '/admin/word-counter' },
                     { title: 'Json Compare', href: '/admin/json-compare' },
                     { title: 'Calculator', href: '/admin/calculator' },
+                    { title: 'Timer', href: '/admin/timer' },
                 ],
             },
             { title: 'Setting', icon: 'pe-7s-settings', href: '/admin/setting' },
