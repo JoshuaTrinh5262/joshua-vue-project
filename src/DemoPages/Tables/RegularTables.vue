@@ -42,8 +42,8 @@
 
 <script>
 import { ref, computed, onMounted, defineComponent } from "vue";
-import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
-import defaultData from "../../utils/defaultData.js";
+import PageTitleComponent from "@/Layout/Components/PageTitleComponent.vue";
+import defaultData from "@/utils/defaultData.js";
 
 export default defineComponent({
   components: {

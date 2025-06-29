@@ -12,8 +12,8 @@
 
 <script>
 import { defineComponent, ref } from "vue";
-import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
-import images from "../../utils/loadImages";
+import PageTitleComponent from "@/Layout/Components/PageTitleComponent.vue";
+import images from "@/utils/loadImages";
 
 export default defineComponent({
   name: "GalleriesPage",

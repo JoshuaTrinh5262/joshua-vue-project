@@ -83,8 +83,8 @@
 </template>
 <script>
 import { defineComponent, ref } from 'vue';
-import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
-import stroke7IconList from "../../utils/icon.js";
+import PageTitleComponent from "@/Layout/Components/PageTitleComponent.vue";
+import stroke7IconList from "@/utils/icon.js";
 
 export default defineComponent({
   components: {

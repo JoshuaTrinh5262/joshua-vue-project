@@ -6,9 +6,9 @@
 
 <script>
 import { ref, onMounted, defineComponent } from "vue";
-import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
-import TableComponent from "../../Layout/Components/TableComponent.vue";
-import defaultData from "../../utils/defaultData.js";
+import PageTitleComponent from "@/Layout/Components/PageTitleComponent.vue";
+import TableComponent from "@/Layout/Components/TableComponent.vue";
+import defaultData from "@/utils/defaultData.js";
 
 export default defineComponent({
   name: "AdvanceTablePage",

@@ -115,10 +115,10 @@
 
 <script>
 import { defineComponent, ref, onMounted } from "vue";
-import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
+import PageTitleComponent from "@/Layout/Components/PageTitleComponent.vue";
 import { apiService } from "@/supabase/apiService";
-import TabsComponent from "../../Layout/Components/Tabs/TabsComponent.vue";
-import TabComponent from "../../Layout/Components/Tabs/TabComponent.vue";
+import TabsComponent from "@/Layout/Components/Tabs/TabsComponent.vue";
+import TabComponent from "@/Layout/Components/Tabs/TabComponent.vue";
 
 export default defineComponent({
   name: "TalentDetailPage",

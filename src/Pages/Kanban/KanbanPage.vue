@@ -5,9 +5,9 @@
 
 <script>
 import { defineComponent, ref } from "vue";
-import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
-import KanbanComponent from "../../Pages/Kanban/KanbanComponent.vue";
-import kanbanData from "../../utils/kanbanData.js";
+import PageTitleComponent from "@/Layout/Components/PageTitleComponent.vue";
+import KanbanComponent from "@/Pages/Kanban/KanbanComponent.vue";
+import kanbanData from "@/utils/kanbanData.js";
 
 export default defineComponent({
   name: "Kanban Page",

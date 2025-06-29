@@ -188,7 +188,7 @@
 
 <script>
 import { defineComponent, ref, onMounted, onBeforeUnmount } from 'vue';
-import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
+import PageTitleComponent from "@/Layout/Components/PageTitleComponent.vue";
 
 export default defineComponent({
   name: "ProgressBarComponent",

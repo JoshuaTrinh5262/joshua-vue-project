@@ -41,7 +41,7 @@
 <script>
 import { defineComponent, ref, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
-import { logout } from '../../../supabase/authService';
+import { logout } from '@/supabase/authService';
 import ToggleComponent from '../ToggleComponent.vue';
 
 export default defineComponent({

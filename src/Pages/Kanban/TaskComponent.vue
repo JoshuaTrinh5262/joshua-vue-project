@@ -39,8 +39,8 @@
 <script>
 import { defineComponent, computed } from "vue";
 import BadgeComponent from "./BadgeComponent.vue";
-import { TaskStatus, TaskPriority } from "../../utils/enums";
-import formatString from "../../utils/utils.js";
+import { TaskStatus, TaskPriority } from "@/utils/enums";
+import formatString from "@/utils/utils.js";
 
 export default defineComponent({
   name: "TaskComponent",

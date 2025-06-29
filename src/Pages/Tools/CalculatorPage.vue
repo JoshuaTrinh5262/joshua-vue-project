@@ -7,8 +7,8 @@
   
   <script>
   import { defineComponent, ref } from "vue";
-  import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
-  import CalculatorComponent from "../../Layout/Components/CalculatorComponent.vue";
+  import PageTitleComponent from "@/Layout/Components/PageTitleComponent.vue";
+  import CalculatorComponent from "@/Layout/Components/CalculatorComponent.vue";
   
   export default defineComponent({
     name: "CalculatorPage",

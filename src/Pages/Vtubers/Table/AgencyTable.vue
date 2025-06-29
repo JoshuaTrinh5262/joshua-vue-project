@@ -90,12 +90,12 @@
 
 <script>
 import { defineComponent, ref, onMounted, reactive } from 'vue';
-import ModalComponent from '../../../Layout/Components/ModalComponent.vue';
-import TableComponent from '../../../Layout/Components/TableComponent.vue';
-import NotificationComponent from '../../../Layout/Components/NotificationComponent.vue';
-import PaginationComponent from '../../../Layout/Components/PaginationComponent.vue';
-import ButtonSpinner from "../../../Layout/Components/ButtonSpinner.vue";
-import { apiService } from '../../../supabase/apiService';
+import ModalComponent from '@/Layout/Components/ModalComponent.vue';
+import TableComponent from '@/Layout/Components/TableComponent.vue';
+import NotificationComponent from '@/Layout/Components/NotificationComponent.vue';
+import PaginationComponent from '@/Layout/Components/PaginationComponent.vue';
+import ButtonSpinner from "@/Layout/Components/ButtonSpinner.vue";
+import { apiService } from '@/supabase/apiService';
 
 export default defineComponent({
     name: "AgencyTable",

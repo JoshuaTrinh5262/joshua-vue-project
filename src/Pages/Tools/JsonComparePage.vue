@@ -25,11 +25,11 @@
 
 <script>
 import { defineComponent, ref } from "vue";
-import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
-import CalculatorComponent from "../../Layout/Components/CalculatorComponent.vue";
-import JsonCompareComponent from "../../Layout/Components/JsonCompare/JsonCompareComponent";
-import olsSample from "../../Layout/Components/JsonCompare/sample1.json";
-import newSample from "../../Layout/Components/JsonCompare/sample2.json";
+import PageTitleComponent from "@/Layout/Components/PageTitleComponent.vue";
+import CalculatorComponent from "@/Layout/Components/CalculatorComponent.vue";
+import JsonCompareComponent from "@/Layout/Components/JsonCompare/JsonCompareComponent";
+import olsSample from "@/Layout/Components/JsonCompare/sample1.json";
+import newSample from "@/Layout/Components/JsonCompare/sample2.json";
 
 export default defineComponent({
     name: "JsonComparePage",

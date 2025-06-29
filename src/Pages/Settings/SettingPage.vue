@@ -55,9 +55,9 @@
 <script>
 import { defineComponent, ref, onMounted } from "vue";
 import { useI18n } from 'vue-i18n';
-import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
-import NotificationComponent from "../../Layout/Components/NotificationComponent.vue";
-import DateTimePicker from "../../DemoPages/Components/DateTimePicker.vue";
+import PageTitleComponent from "@/Layout/Components/PageTitleComponent.vue";
+import NotificationComponent from "@/Layout/Components/NotificationComponent.vue";
+import DateTimePicker from "@/DemoPages/Components/DateTimePicker.vue";
 import { useDark, useToggle } from "@vueuse/core";
 
 export default defineComponent({

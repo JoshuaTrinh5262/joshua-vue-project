@@ -81,7 +81,7 @@
 <script>
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { login } from '../../supabase/authService';
+import { login } from '@/supabase/authService';
 
 export default defineComponent({
     name: 'LoginPage',

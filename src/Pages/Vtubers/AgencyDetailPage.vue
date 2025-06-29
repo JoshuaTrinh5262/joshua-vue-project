@@ -21,10 +21,10 @@
 
 <script>
 import { defineComponent, ref, onMounted } from 'vue';
-import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
-import TableComponent from "../../Layout/Components/TableComponent.vue"
-import TabsComponent from "../../Layout/Components/Tabs/TabsComponent.vue";
-import TabComponent from "../../Layout/Components/Tabs/TabComponent.vue";
+import PageTitleComponent from "@/Layout/Components/PageTitleComponent.vue";
+import TableComponent from "@/Layout/Components/TableComponent.vue"
+import TabsComponent from "@/Layout/Components/Tabs/TabsComponent.vue";
+import TabComponent from "@/Layout/Components/Tabs/TabComponent.vue";
 import { apiService } from '@/supabase/apiService';
 
 export default defineComponent({

@@ -4,14 +4,7 @@
     <div class="col-md-4" v-for="page in pageList" :key="page">
       <div class="card animated-card mb-2">
         <span class="ribbon">New</span>
-
-        <img
-          src="photo-coming-soon-holder.png"
-          width="300"
-          height="300"
-          alt="Card image cap"
-          class="card-img"
-        />
+        <img src="photo-coming-soon-holder.png" width="300" height="300" alt="Card image cap" class="card-img" />
         <div class="card-img-overlay">
           <div>
             <h5 class="card-title">
@@ -53,6 +46,9 @@ export default defineComponent({
         name: "Banlist",
       },
       {
+        name: "Product",
+      },
+      {
         name: "Tournament",
       },
     ]);
@@ -63,20 +59,26 @@ export default defineComponent({
   components: { BreadcrumbComponent },
 });
 </script>
- <style scoped>
+<style scoped>
 .transparent-card {
-  background-color: rgba(255, 255, 255, 0.2); /* Slight transparency */
-  backdrop-filter: blur(5px); /* Adds blur effect */
+  background-color: rgba(255, 255, 255, 0.2);
+  /* Slight transparency */
+  backdrop-filter: blur(5px);
+  /* Adds blur effect */
   padding: 15px;
   border-radius: 10px;
   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-  opacity: 0; /* Initially hidden */
-  transform: translateY(30px); /* Moves card-body down */
+  opacity: 0;
+  /* Initially hidden */
+  transform: translateY(30px);
+  /* Moves card-body down */
 }
 
 .card:hover .transparent-card {
-  opacity: 1; /* Fully visible on hover */
-  transform: translateY(0); /* Moves up to original position */
+  opacity: 1;
+  /* Fully visible on hover */
+  transform: translateY(0);
+  /* Moves up to original position */
 }
 
 .new-tag {
@@ -91,6 +93,7 @@ export default defineComponent({
   border-radius: 5px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
 }
+
 .ribbon {
   position: absolute;
   top: 10px;
@@ -115,8 +118,10 @@ export default defineComponent({
 }
 
 .animated-card {
-  opacity: 0; /* Hidden initially */
-  transform: translateY(50px); /* Starts below */
+  opacity: 0;
+  /* Hidden initially */
+  transform: translateY(50px);
+  /* Starts below */
   animation: slideUp 0.6s ease-out forwards;
 }
 
@@ -126,6 +131,7 @@ export default defineComponent({
     opacity: 0;
     transform: translateY(50px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

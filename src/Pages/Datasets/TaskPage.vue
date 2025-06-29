@@ -72,13 +72,13 @@
 
 <script>
 import { defineComponent, ref, onMounted, reactive } from "vue";
-import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
-import KanbanComponent from "../../Pages/Kanban/KanbanComponent.vue";
-import NotificationComponent from "../../Layout/Components/NotificationComponent.vue";
-import ModalComponent from '../../Layout/Components/ModalComponent.vue';
-import ButtonSpinner from "../../Layout/Components/ButtonSpinner.vue";
-import { apiService } from "../../supabase/apiService";
-import { TaskStatus, TaskPriority, TaskType } from "../../utils/enums";
+import PageTitleComponent from "@/Layout/Components/PageTitleComponent.vue";
+import KanbanComponent from "@/Pages/Kanban/KanbanComponent.vue";
+import NotificationComponent from "@/Layout/Components/NotificationComponent.vue";
+import ModalComponent from '@/Layout/Components/ModalComponent.vue';
+import ButtonSpinner from "@/Layout/Components/ButtonSpinner.vue";
+import { apiService } from "@/supabase/apiService";
+import { TaskStatus, TaskPriority, TaskType } from "@/utils/enums";
 
 export default defineComponent({
   name: "Kanban Page",

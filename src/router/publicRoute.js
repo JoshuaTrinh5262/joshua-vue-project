@@ -32,6 +32,14 @@ const publicRoutes = [
             breadcrumb: "Banlist",
         },
     },
+        {
+        path: "/yugioh/product",
+        name: "Product",
+        component: () => import("../public/yugioh/ProductPublicPage.vue"),
+        meta: {
+            breadcrumb: "Product",
+        },
+    },
     {
         path: "/yugioh/tournament",
         name: "Tournament",

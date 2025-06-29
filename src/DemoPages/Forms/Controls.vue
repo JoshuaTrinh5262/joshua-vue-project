@@ -353,7 +353,7 @@
 
 <script>
 import { defineComponent, ref } from 'vue';
-import PageTitle from "../../../Layout/Components/PageTitle.vue";
+import PageTitle from "@/Layout/Components/PageTitle.vue";
 
 export default defineComponent({
     components: {

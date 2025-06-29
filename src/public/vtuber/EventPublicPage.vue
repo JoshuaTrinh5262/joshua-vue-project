@@ -68,10 +68,10 @@
 
 <script>
 import { defineComponent, ref, onMounted } from "vue";
-import BreadcrumbComponent from "../../Layout/Components/BreadcrumbComponent.vue";
-import ModalComponent from "../../Layout/Components/ModalComponent.vue";
-import ButtonSpinner from "../../Layout/Components/ButtonSpinner.vue";
-import { apiService } from "../../supabase/apiService";
+import BreadcrumbComponent from "@/Layout/Components/BreadcrumbComponent.vue";
+import ModalComponent from "@/Layout/Components/ModalComponent.vue";
+import ButtonSpinner from "@/Layout/Components/ButtonSpinner.vue";
+import { apiService } from "@/supabase/apiService";
 
 export default defineComponent({
   name: "YugiohBanlistPublicPage",

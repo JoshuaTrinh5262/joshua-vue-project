@@ -81,13 +81,13 @@
 
 <script>
 import { ref, onMounted, defineComponent, reactive } from "vue";
-import ModalComponent from "../../Layout/Components/ModalComponent.vue";
-import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
-import NotificationComponent from "../../Layout/Components/NotificationComponent.vue";
-import ButtonSpinner from "../../Layout/Components/ButtonSpinner.vue";
-import TagSelectorComponent from "../../Layout/Components/TagSelectorComponent.vue";
-import { apiService } from "../../supabase/apiService";
-import SetlistComponent from "../../Layout/Components/SetlistComponent.vue";
+import ModalComponent from "@/Layout/Components/ModalComponent.vue";
+import PageTitleComponent from "@/Layout/Components/PageTitleComponent.vue";
+import NotificationComponent from "@/Layout/Components/NotificationComponent.vue";
+import ButtonSpinner from "@/Layout/Components/ButtonSpinner.vue";
+import TagSelectorComponent from "@/Layout/Components/TagSelectorComponent.vue";
+import { apiService } from "@/supabase/apiService";
+import SetlistComponent from "@/Layout/Components/SetlistComponent.vue";
 import EventTable from "./Table/EventTable.vue";
 import { useVtuberStore } from "@/stores/useVtuberStore";
 

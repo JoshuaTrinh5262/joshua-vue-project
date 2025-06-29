@@ -34,12 +34,12 @@
 
 <script>
 import { defineComponent, ref, onMounted } from "vue";
-import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
+import PageTitleComponent from "@/Layout/Components/PageTitleComponent.vue";
 import { apiService } from "@/supabase/apiService";
-import TabsComponent from "../../Layout/Components/Tabs/TabsComponent.vue";
-import TabComponent from "../../Layout/Components/Tabs/TabComponent.vue";
-import AlbumTracklistComponent from "../../Layout/Components/AlbumTracklistComponent.vue";
-import NotificationComponent from "../../Layout/Components/NotificationComponent.vue";
+import TabsComponent from "@/Layout/Components/Tabs/TabsComponent.vue";
+import TabComponent from "@/Layout/Components/Tabs/TabComponent.vue";
+import AlbumTracklistComponent from "@/Layout/Components/AlbumTracklistComponent.vue";
+import NotificationComponent from "@/Layout/Components/NotificationComponent.vue";
 
 export default defineComponent({
   name: "AlbumDetailPage",

@@ -16,7 +16,7 @@
 <script>
 import { defineComponent, ref, toRef, emit } from "vue";
 import TaskComponent from "./TaskComponent";
-import formatString from "../../utils/utils.js";
+import formatString from "@/utils/utils.js";
 
 export default defineComponent({
   name: "KanbanComponent",

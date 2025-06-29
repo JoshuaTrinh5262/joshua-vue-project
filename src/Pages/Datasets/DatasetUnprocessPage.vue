@@ -99,14 +99,14 @@
 </template>
 <script>
 import { ref, reactive, onMounted, defineComponent } from "vue";
-import TableComponent from "../../Layout/Components/TableComponent.vue";
-import PageTitleComponent from "../../Layout/Components/PageTitleComponent.vue";
-import PaginationComponent from "../../Layout/Components/PaginationComponent.vue";
-import NotificationComponent from "../../Layout/Components/NotificationComponent.vue";
-import ModalComponent from "../../Layout/Components/ModalComponent.vue";
-import ButtonSpinner from "../../Layout/Components/ButtonSpinner.vue";
-import { validateDatasetForm } from '../../utils/validations';
-import { apiService } from "../../supabase/apiService";
+import TableComponent from "@/Layout/Components/TableComponent.vue";
+import PageTitleComponent from "@/Layout/Components/PageTitleComponent.vue";
+import PaginationComponent from "@/Layout/Components/PaginationComponent.vue";
+import NotificationComponent from "@/Layout/Components/NotificationComponent.vue";
+import ModalComponent from "@/Layout/Components/ModalComponent.vue";
+import ButtonSpinner from "@/Layout/Components/ButtonSpinner.vue";
+import { validateDatasetForm } from '@/utils/validations';
+import { apiService } from "@/supabase/apiService";
 
 export default defineComponent({
     name: "DatasetPage",

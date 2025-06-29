@@ -3,16 +3,15 @@
     <BannerComponent></BannerComponent>
   </div> -->
   <div class="timeline">
-    <div
-      v-for="(event, index) in timelineData"
-      :key="index"
-      :class="['timeline-container', index % 2 === 0 ? 'right' : 'left']"
-    >
+    <div v-for="(event, index) in items" :key="index"
+      :class="['timeline-container', index % 2 === 0 ? 'right' : 'left']">
       <div class="timeline-content">
         <div class="timeline-title">
           <h3>{{ event.title }}</h3>
-          <div class="badge badge-danger">Rejected</div>
+          <div class="badge badge-success">{{ event.type }}</div>
         </div>
+        <div class="divider"></div>
+        <p>{{ event.date }}</p>
         <p>{{ event.description }}</p>
       </div>
     </div>
@@ -20,156 +19,16 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import BannerComponent from "../Layout/Components/BannerComponent.vue";
+import timelineData from "@/utils/timelineData.js";
 
 export default defineComponent({
   name: "HomePage",
   data() {
-    const timelineData = [
-      {
-        title: "2025",
-        description:
-          "Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.",
-      },
-      {
-        title: "2024",
-        description:
-          "Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.",
-      },
-      {
-        title: "2023",
-        description:
-          "Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.",
-      },
-      {
-        title: "2022",
-        description:
-          "Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.",
-      },
-      {
-        title: "2021",
-        description:
-          "Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.",
-      },
-      {
-        title: "2020",
-        description:
-          "Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.",
-      },
-      {
-        title: "2019",
-        description:
-          "Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.",
-      },
-      {
-        title: "2018",
-        description:
-          "Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.",
-      },
-      {
-        title: "2017",
-        description:
-          "Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.",
-      },
-      {
-        title: "2016",
-        description:
-          "Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.",
-      },
-      {
-        title: "2015",
-        description:
-          "Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.",
-      },
-      {
-        title: "2014",
-        description:
-          "Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.",
-      },
-      {
-        title: "2013",
-        description:
-          "Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.",
-      },
-      {
-        title: "2012",
-        description:
-          "Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.",
-      },
-      {
-        title: "2011",
-        description:
-          "Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.",
-      },
-      {
-        title: "2010",
-        description:
-          "Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.",
-      },
-      {
-        title: "2009",
-        description:
-          "Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.",
-      },
-      {
-        title: "2008",
-        description:
-          "Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.",
-      },
-      {
-        title: "2007",
-        description:
-          "Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.",
-      },
-      {
-        title: "2006",
-        description:
-          "Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.",
-      },
-      {
-        title: "2005",
-        description:
-          "Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.",
-      },
-      {
-        title: "2004",
-        description:
-          "Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.",
-      },
-      {
-        title: "2003",
-        description:
-          "Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.",
-      },
-      {
-        title: "2002",
-        description:
-          "Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.",
-      },
-      {
-        title: "2001",
-        description:
-          "Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.",
-      },
-      {
-        title: "2000",
-        description:
-          "Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.",
-      },
-      {
-        title: "1999",
-        description:
-          "Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.",
-      },
-      {
-        title: "1998",
-        description:
-          "Lorem ipsum dolor sit amet, quo ei simul congue exerci, ad nec admodum perfecto mnesarchum, vim ea mazim fierent detracto. Ea quis iuvaret expetendis his, te elit voluptua dignissim per, habeo iusto primis ea eam.",
-      },
-    ];
+    const items = ref(timelineData);
     return {
-      timelineData,
+      items,
     };
   },
   components: {
@@ -183,13 +42,16 @@ export default defineComponent({
   background-color: #333;
   color: #fafbfc;
 }
+
 .dark .timeline-content {
   background-color: #333;
   color: #fafbfc;
 }
+
 .dark .timeline-container::after {
   background-color: #333;
 }
+
 .dark .left::before {
   border: medium solid #333;
   border-width: 10px 0 10px 10px;
@@ -201,6 +63,7 @@ export default defineComponent({
   border-width: 10px 10px 10px 0;
   border-color: transparent #333 transparent transparent;
 }
+
 .timeline {
   position: relative;
 }
@@ -265,6 +128,7 @@ export default defineComponent({
     opacity: 0;
     transform: translateX(-50px);
   }
+
   100% {
     opacity: 1;
     transform: translateX(0);
@@ -276,6 +140,7 @@ export default defineComponent({
     opacity: 0;
     transform: translateX(50px);
   }
+
   100% {
     opacity: 1;
     transform: translateX(0);
@@ -293,6 +158,7 @@ export default defineComponent({
   animation: slice-in-right 0.6s ease forwards;
   opacity: 0;
 }
+
 /* Add arrows to the left container (pointing right) */
 .left::before {
   content: " ";
@@ -336,6 +202,7 @@ export default defineComponent({
 
 /* Media queries - Responsive timeline on screens less than 600px wide */
 @media screen and (max-width: 800px) {
+
   /* Place the timelime to the left */
   .timeline::after {
     left: 31px;
@@ -366,6 +233,7 @@ export default defineComponent({
   .right {
     left: 0%;
   }
+
   .timeline-container.left .timeline-title {
     flex-direction: row;
   }
@@ -382,6 +250,7 @@ export default defineComponent({
     border-width: 10px 10px 10px 0;
     border-color: transparent white transparent transparent;
   }
+
   .dark .left::before {
     content: " ";
     height: 0;
@@ -401,10 +270,12 @@ export default defineComponent({
     opacity: 0;
     transform: scale(0.5);
   }
+
   60% {
     opacity: 1;
     transform: scale(1.2);
   }
+
   100% {
     transform: scale(1);
   }

@@ -55,6 +55,7 @@ export default defineComponent({
         submenu: [
           { text: "CARD", href: "/yugioh/card" },
           { text: "BANLIST", href: "/yugioh/banlist" },
+          { text: "PRODUCT", href: "/yugioh/product" },
           { text: "TOURNAMENT", href: "/yugioh/tournament" },
         ],
       },
