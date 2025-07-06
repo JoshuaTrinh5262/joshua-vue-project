@@ -27,7 +27,7 @@ export const getYugiohDecksWithPaging = async (
         if (error) {
             return { error: error.message };
         }
-h
+
         return {
             items: data,
             totalItems: count,
@@ -54,12 +54,20 @@ export const getYugiohDeckById = async (id) => {
     try {
         const { data, error } = await supabase
             .from("yugioh_deck")
-            .select("*")
+            .select(`
+          *,
+          yugioh_deck_card (
+            *,
+            yugioh_card ( id, name, category )
+          )
+        `)
             .eq("id", id)
             .single();
+
         if (error) {
             return { error: error.message };
         }
+
         return data;
     } catch (err) {
         return { error: err.message };
@@ -122,6 +130,34 @@ export const countYugiohDeckRecord = async () => {
             return { error: error.message };
         }
         return count;
+    } catch (err) {
+        return { error: err.message };
+    }
+};
+
+export const importYugiohDeck = async (deckData) => {
+    const { deck, cards } = deckData;
+
+    try {
+        const { data: insertedDeck, error: deckError } = await supabase
+            .from("yugioh_deck")
+            .insert(deck)
+            .select()
+            .single();
+        if (deckError) { throw deckError; }
+
+        const cardsWithDeckId = cards.map(card => ({
+            ...card,
+            deck_id: insertedDeck.id,
+        }));
+
+        const { error: cardError } = await supabase
+            .from("yugioh_deck_card")
+            .insert(cardsWithDeckId);
+
+        if (cardError) { throw cardError; }
+
+        return { success: true, deck: insertedDeck };
     } catch (err) {
         return { error: err.message };
     }

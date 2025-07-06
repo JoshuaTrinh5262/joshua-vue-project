@@ -52,6 +52,7 @@ export default {
 .toggle-slider {
     display: flex;
     align-items: center;
+    border: none;
 }
 
 .dark .toggle-slider .check {

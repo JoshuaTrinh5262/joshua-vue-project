@@ -228,6 +228,16 @@ const adminRoutes = [
     //     component: () => import("../Pages/Yugioh/Detail/DeckDetailPage.vue"),
     // },
     {
+        path: "/admin/deck/:id",
+        name: "deck detail",
+        meta: {
+            layout: "admin",
+            requiresAuth: true,
+        },
+        props: true,
+        component: () => import("../Pages/Yugioh/Detail/DeckDetailPage.vue"),
+    },
+    {
         path: "/admin/duelist",
         name: "duelist",
         meta: {
