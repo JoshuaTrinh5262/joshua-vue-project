@@ -3,7 +3,7 @@
         <page-title-component :heading="heading" :subheading="subheading" :icon="icon"></page-title-component>
         <notification-component v-model:notification="notification"></notification-component>
 
-        <div class="card main-card text-white bg-premium-dark">
+        <div class="card main-card">
             <div class="card-body">
                 <h4 class="card-title">{{ $t('system_setting') }}</h4>
                 <!-- Language Section -->
@@ -46,7 +46,6 @@
                 <div class="position-relative row form-check">
                     <button class="btn btn-primary" type="button">Save</button>
                 </div>
-                <div class="divider"></div>
             </div>
         </div>
     </div>
