@@ -1,13 +1,14 @@
 <template>
   <div class="calculator">
-    <div class="w-full rounded m-1 p-3 text-end lead fw-bold text-white bg-vue-dark">
+    <div class="display">
       {{ calculatorValue || 0 }}
     </div>
 
-    <div class="row g-0">
-      <div class="col-3" v-for="btn in calcBtns" :key="btn">
-        <div class="lead text-white text-center m-1 py-3 bg-vue-dark rounded btn-hover"
-          :class="{ 'bg-vue-green': ['C', '*', '/', '+', '-', '=', '%'].includes(btn) }" @click="action(btn)">
+    <div class="btn-row">
+      <div class="btn-col" v-for="btn in calcBtns" :key="btn">
+        <div class="button"
+          :class="{ 'operator': ['C', '*', '/', '+', '-', '=', '%'].includes(btn) }"
+          @click="action(btn)">
           {{ btn }}
         </div>
       </div>
@@ -20,9 +21,6 @@ import { defineComponent, ref } from "vue";
 
 export default defineComponent({
   name: "CalculatorComponent",
-  props: {
-    msg: String
-  },
 
   setup() {
     const calculatorValue = ref("");
@@ -67,24 +65,3 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-.calculator {
-  max-width: 400px;
-  margin: 50px auto;
-  background-color: #234;
-  padding: 1rem;
-}
-
-.bg-vue-dark {
-  background: #31475e;
-}
-
-.btn-hover:hover {
-  cursor: pointer;
-  background: #3D5875;
-}
-
-.bg-vue-green {
-  background: #3fb984;
-}
-</style>
