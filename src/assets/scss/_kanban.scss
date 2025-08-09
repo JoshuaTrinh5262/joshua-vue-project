@@ -1,0 +1,105 @@
+.kanban {
+    display: flex;
+    justify-content: center;
+
+    .kanban-container {
+        display: flex;
+        overflow: auto;
+    }
+
+    .kanban-column {
+        min-width: 300px;
+        min-height: 600px;
+        width: 320px;
+        padding: 0.5rem;
+        margin-right: 0.25rem;
+        border-radius: 0.25rem;
+        background-color: white;
+    }
+
+    .column-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: black;
+    }
+
+    .kanban-cards {
+        margin-top: 0.5rem;
+
+        .task-card {
+            padding: 0.5rem;
+            max-width: 400px;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            border: 1px solid #dee2e6;
+            background-color: white;
+        }
+
+        .task-header {
+            align-items: center;
+            justify-content: space-between;
+            display: flex;
+            margin-bottom: 0.5rem;
+        }
+
+        .task-title {
+            font-size: 1rem;
+        }
+
+        .task-body {
+            margin-bottom: 0.5rem;
+        }
+
+        .task-badges {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .task-badges .badge-component {
+            font-size: 0.85rem;
+            padding: 0.4rem 0.6rem;
+        }
+
+        .kanban-badge {
+            margin: 2px;
+            padding: 0 0.5rem 0 0.5rem;
+            border-radius: 0.5rem;
+        }
+
+        .task-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .task-action {
+                padding: 2px;
+                margin: 2px;
+                font-size: 24px;
+                border: 1px solid black;
+                border-radius: 50px;
+            }
+
+            .task-action:hover {
+                background-color: black;
+                color: white;
+                transform: scale(1.1);
+            }
+        }
+
+    }
+}
+
+
+
+.dark {
+    .kanban {
+        .column-title {
+            color: white;
+        }
+
+        .kanban-column {
+            background-color: black;
+        }
+    }
+}

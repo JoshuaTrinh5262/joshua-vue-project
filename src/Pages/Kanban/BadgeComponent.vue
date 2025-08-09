@@ -26,11 +26,3 @@ export default defineComponent({
   }
 });
 </script>
-
-<style scoped>
-.kanban-badge {
-  margin: 2px;
-  padding: 0 0.5rem 0 0.5rem;
-  border-radius: 0.5rem;
-}
-</style>
