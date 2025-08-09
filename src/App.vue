@@ -22,8 +22,8 @@ export default defineComponent({
     const route = useRoute();
 
     const layout = computed(() => {
-      const defaultLayout = 'default';
-      return (route.meta.layout || defaultLayout) + '-layout';
+      const emptyLayout = 'empty';
+      return (route.meta.layout || emptyLayout) + '-layout';
     });
 
     return {

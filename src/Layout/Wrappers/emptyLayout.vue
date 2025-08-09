@@ -9,7 +9,7 @@ import { defineComponent } from "vue";
 import { useDark } from "@vueuse/core";
 
 export default defineComponent({
-  name: "App",
+  name: "EmptyLayout",
   setup() {
     const isDark = useDark();
 

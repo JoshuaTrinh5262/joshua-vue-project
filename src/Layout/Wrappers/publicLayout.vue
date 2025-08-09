@@ -13,7 +13,7 @@ import MainHeaderComponent from "../Components/MainHeaderComponent";
 import { useDark } from "@vueuse/core";
 
 export default defineComponent({
-  name: "App",
+  name: "PublicLayout",
   components: {
     MainHeaderComponent,
   },

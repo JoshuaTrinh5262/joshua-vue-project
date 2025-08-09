@@ -36,7 +36,7 @@ const adminRoutes = [
         },
         component: () => import("../Pages/Tools/CalculatorPage.vue"),
     },
-        {
+    {
         path: "/admin/timer",
         name: "timer",
         meta: {
@@ -429,7 +429,11 @@ const adminRoutes = [
     {
         path: "/login",
         name: "login",
-        component: () => import("../DemoPages/UserPages/LoginPage.vue"),
+        meta: {
+            layout: "empty",
+            requiresAuth: false,
+        },
+        component: () => import("../Pages/Authentications/LoginPage.vue"),
     },
     {
         path: "/admin/register",

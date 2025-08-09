@@ -25,7 +25,7 @@ import FooterComponent from "../Components/FooterComponent";
 import { useDark } from "@vueuse/core";
 
 export default defineComponent({
-    name: "App",
+    name: "AdminLayout",
 
     components: {
         HeaderComponent,

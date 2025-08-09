@@ -6,6 +6,7 @@ import vn from './translations/vn.json';
 import jp from './translations/jp.json';
 import id from './translations/id.json';
 import kr from './translations/kr.json';
+import ru from './translations/ru.json';
 import { PerfectScrollbarPlugin } from 'vue3-perfect-scrollbar';
 import 'vue3-perfect-scrollbar/style.css';
 import router from './router';
@@ -14,8 +15,8 @@ import router from './router';
 import App from './App.vue';
 
 import Admin from './Layout/Wrappers/adminLayout.vue';
-import Default from './Layout/Wrappers/baseLayout.vue';
-import Pages from './Layout/Wrappers/pagesLayout.vue';
+import Public from './Layout/Wrappers/publicLayout.vue';
+import Empty from './Layout/Wrappers/emptyLayout.vue';
 
 const messages = {
     en,
@@ -23,6 +24,7 @@ const messages = {
     jp,
     id,
     kr,
+    ru
 };
 
 const Translation = createI18n({
@@ -37,8 +39,8 @@ const pinia = createPinia();
 
 // Register global components
 app.component('admin-layout', Admin);
-app.component('default-layout', Default);
-app.component('userpages-layout', Pages);
+app.component('public-layout', Public);
+app.component('empty-layout', Empty);
 
 // Use the router
 app.use(router);

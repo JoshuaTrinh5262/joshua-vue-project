@@ -3,6 +3,7 @@ const publicRoutes = [
         path: "/",
         name: "Home",
         meta: {
+            layout: "public",
             breadcrumb: "Home",
         },
         component: () => import("../public/HomePage.vue"),
@@ -13,6 +14,7 @@ const publicRoutes = [
         name: "Yugioh",
         component: () => import("../public/YugiohPage.vue"),
         meta: {
+            layout: "public",
             breadcrumb: "yugioh",
         },
     },
@@ -21,6 +23,7 @@ const publicRoutes = [
         name: "Card",
         component: () => import("../public/yugioh/CardPublicPage.vue"),
         meta: {
+            layout: "public",
             breadcrumb: "Cards",
         },
     },
@@ -29,14 +32,16 @@ const publicRoutes = [
         name: "Banlist",
         component: () => import("../public/yugioh/BanlistPublicPage.vue"),
         meta: {
+            layout: "public",
             breadcrumb: "Banlist",
         },
     },
-        {
+    {
         path: "/yugioh/product",
         name: "Product",
         component: () => import("../public/yugioh/ProductPublicPage.vue"),
         meta: {
+            layout: "public",
             breadcrumb: "Product",
         },
     },
@@ -44,6 +49,7 @@ const publicRoutes = [
         path: "/yugioh/tournament",
         name: "Tournament",
         meta: {
+            layout: "public",
             breadcrumb: "Tournament",
         },
         component: () => import("../public/yugioh/TournamentPublicPage.vue"),
@@ -54,6 +60,7 @@ const publicRoutes = [
         name: "Vtuber",
         component: () => import("../public/VtuberPage.vue"),
         meta: {
+            layout: "public",
             breadcrumb: "Vtuber",
         },
     },
@@ -62,6 +69,7 @@ const publicRoutes = [
         name: "event",
         component: () => import("../public/vtuber/EventPublicPage.vue"),
         meta: {
+            layout: "public",
             breadcrumb: "Event",
         },
     },
@@ -69,7 +77,7 @@ const publicRoutes = [
         path: "/:pathMatch(.*)*",
         name: "not-found",
         meta: {
-            layout: "userpages",
+            layout: "empty",
         },
         component: () => import("../public/NotFoundPage.vue"),
     },
@@ -79,14 +87,16 @@ const publicRoutes = [
         name: "Master Rule",
         component: () => import("../public/MasterRulePage.vue"),
         meta: {
+            layout: "public",
             breadcrumb: "master_rule",
         },
     },
-        {
+    {
         path: "/contact",
         name: "Contact",
         component: () => import("../public/ContactPage.vue"),
         meta: {
+            layout: "public",
             breadcrumb: "contact",
         },
     },
