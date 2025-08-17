@@ -1,0 +1,55 @@
+<template>
+            <div class="d-flex h-100 justify-content-center align-items-center">
+                <div class="col-md-6 mx-auto">
+                    <div class="modal-dialog w-100">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div class="h5 modal-title">
+                                    Forgot your Password?
+                                    <h6 class="mt-1 mb-0 opacity-8">
+                                        <span>Use the form below to recover it.</span>
+                                    </h6>
+                                </div>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="exampleEmail">Email</label>
+                                            <input type="email" class="form-control" name="email" id="exampleEmail"
+                                                placeholder="Email here...">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="divider"></div>
+                                <h6 class="mb-0">
+                                    <a href="/login" class="text-primary">Sign in existing account</a>
+                                </h6>
+                            </div>
+                            <div class="modal-footer clearfix">
+                                <div class="float-right">
+                                    <button class="btn btn-primary btn-lg">Recover Password</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center text-white opacity-8 mt-3">
+                        Copyright &copy; JoshuaTrinh 2019
+                    </div>
+                </div>
+            </div>
+
+</template>
+
+<script>
+import { defineComponent } from "vue";
+
+export default defineComponent({
+    name: "ForgotPasswordPage",
+    setup() {
+
+        return {
+        };
+    }
+});
+</script>

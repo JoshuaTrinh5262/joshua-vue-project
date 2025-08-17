@@ -436,23 +436,22 @@ const adminRoutes = [
         component: () => import("../Pages/Authentications/LoginPage.vue"),
     },
     {
-        path: "/admin/register",
+        path: "/register",
         name: "register",
         meta: {
-            layout: "admin",
-            requiresAuth: true,
+            layout: "empty",
+            requiresAuth: false,
         },
-        component: () => import("../DemoPages/UserPages/RegisterBoxed.vue"),
+        component: () => import("../Pages/Authentications/RegisterPage.vue"),
     },
     {
-        path: "/admin/forgot-password",
+        path: "/forgot-password",
         name: "forgot-password",
         meta: {
-            layout: "admin",
-            requiresAuth: true,
+            layout: "empty",
+            requiresAuth: false,
         },
-        component: () =>
-            import("../DemoPages/UserPages/ForgotPasswordBoxed.vue"),
+        component: () => import("../Pages/Authentications/ForgotPasswordPage.vue"),
     },
 ];
 

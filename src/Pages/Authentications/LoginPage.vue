@@ -48,14 +48,14 @@
                         <!-- Sign Up Link -->
                         <h6 class="mb-0">
                             No account?
-                            <a href="javascript:void(0);" class="text-primary">Sign Up Now</a>
+                            <a href="/register" class="text-primary">Sign Up Now</a>
                         </h6>
                     </div>
 
                     <!-- Footer with Actions -->
                     <div class="modal-footer clearfix">
                         <div class="float-left">
-                            <a href="javascript:void(0);" class="btn-lg btn btn-link">Recover Password</a>
+                            <a href="/forgot-password" class="btn-lg btn btn-link">Recover Password</a>
                         </div>
                         <div class="float-right">
                             <button class="btn btn-primary btn-lg" @click="handleLogin">
