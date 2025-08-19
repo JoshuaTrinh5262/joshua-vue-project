@@ -1,7 +1,8 @@
 <template>
     <div class="card">
         <div class="card-body">
-            <h1>Page is under contruction.</h1>
+            <h1>Draft Page</h1>
+            <p>Page is under contruction.</p>
         </div>
     </div>
 </template>
