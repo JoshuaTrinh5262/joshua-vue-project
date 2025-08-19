@@ -18,8 +18,9 @@
       </nav>
       <div class="auth-buttons">
         <toggle-component></toggle-component>
-        <button v-if="!isAuthenticated" class="btn btn-primary">Login</button>
-        <button v-if="isAuthenticated" class="btn btn-primary">Logout</button>
+        <a v-if="!isAuthenticated" href="login" class="btn btn-primary">Login</a>
+        <a v-if="!isAuthenticated" href="register" class="btn btn-secondary">Sign Up</a>
+        <a v-if="isAuthenticated" class="btn btn-primary">Logout</a>
       </div>
     </div>
   </header>
