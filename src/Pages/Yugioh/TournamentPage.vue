@@ -52,6 +52,10 @@ export default defineComponent({
         key: "name",
         value: "Name"
       },
+      {
+        key: "format",
+        value: "Format"
+      },
     ]);
     const items = ref([]);
 

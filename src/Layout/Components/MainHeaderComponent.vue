@@ -54,8 +54,10 @@ export default defineComponent({
         submenu: [
           { text: "MASTER RULE", href: "/master_rule" },
           { text: "CONTACT", href: "/contact" },
+          { text: "DRAFT", href: "/draft" },
         ],
       },
+      { text: "DRAFT", href: "/draft" },
     ]);
 
     const toggleDropdown = (menu, state) => {

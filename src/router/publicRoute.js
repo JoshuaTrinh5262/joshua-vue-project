@@ -91,6 +91,15 @@ const publicRoutes = [
             breadcrumb: "master_rule",
         },
     },
+        {
+        path: "/draft",
+        name: "Draft",
+        component: () => import("../public/yugioh/DraftPage.vue"),
+        meta: {
+            layout: "public",
+            breadcrumb: "draft",
+        },
+    },
     {
         path: "/contact",
         name: "Contact",
