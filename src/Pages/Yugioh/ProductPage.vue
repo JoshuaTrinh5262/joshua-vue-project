@@ -2,7 +2,7 @@
   <div>
     <page-title-component :heading=heading :subheading=subheading :icon=icon></page-title-component>
 
-    <table-component :footer=true :fields="fields" :items="items" @search="onSearch">
+    <table-component :footer=true :fields="fields" :items="items" urlType="product" @search="onSearch">
     </table-component>
 
     <pagination-component :currentPage="currentPage" :perPage="itemsPerPage" :totalItems="totalItems"

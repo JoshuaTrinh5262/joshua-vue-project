@@ -31,6 +31,9 @@
             <td v-if="showAction"><input type="checkbox" name="checkbox" /></td>
             <td v-for="field in fields" :key="field.key">{{ item[field.key] }}</td>
             <td v-if="showAction">
+              <a  v-if="urlType" class="btn btn-sm btn-info" :href="`${urlType}/${item.id}`">
+                <i class="pe-7s-link"></i>
+              </a>
               <button type="button" class="btn btn-sm btn-success" @click="updateRow(item.id)">
                 <i class="pe-7s-file"></i>
               </button>
@@ -93,6 +96,11 @@ export default defineComponent({
     footer: {
       type: Boolean,
       default: false,
+      required: false,
+    },
+    urlType: {
+      type: String,
+      default: '',
       required: false,
     },
   },
