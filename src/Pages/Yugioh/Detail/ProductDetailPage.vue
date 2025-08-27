@@ -1,112 +1,63 @@
 <template>
-  <page-title-component
-    :heading="heading"
-    :subheading="subheading"
-    :icon="icon"
-  ></page-title-component>
-  <div class="card main-card">
-    <div class="card-body">
-      <div class="card-title">Product Name: {{ deckDetail?.name }}</div>
-    </div>
-    <div v-if="deckDetail?.yugioh_deck_card.length > 0">
-      <ul
-        v-for="card in deckDetail.yugioh_deck_card"
-        :key="card.id"
-        class="list-group list-group-flush"
-      >
-        <li class="list-group-item">
-          <div class="widget-content p-0">
-            <div class="widget-content-wrapper">
-              <div class="widget-content-left mr-3">
-                <div class="widget-content-left">
-                  <img
-                    width="42"
-                    class="rounded"
-                    src="/photo-coming-soon-holder.png"
-                    alt=""
-                  />
-                </div>
-              </div>
-              <div class="widget-content-left">
-                <div class="widget-heading">
-                  Card Name: <b> {{ card.yugioh_card.name }}</b>
-                </div>
-                <div class="widget-subheading opacity-10">
-                  <span class="pr-2">
-                    Quantity <b>{{ card.quantity }}</b></span
-                  >
-                  <span>
-                    Category
-                    <b class="text-success">{{
-                      card.yugioh_card.category
-                        ? card.yugioh_card.category
-                        : "NONE"
-                    }}</b></span
-                  >
-                </div>
-              </div>
-              <div class="widget-content-right text-right mr-3">
-                <div>
-                  Quantity <b>{{ card.quantity }}</b>
-                </div>
-                <div>
-                  Slot <b>{{ card.category }}</b>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
+  <page-title-component :heading="heading" :subheading="subheading" :icon="icon"></page-title-component>
+  <tabs-component>
+    <tab-component title="Detail">
+        <div v-if="product">
+    <h1>{{ product.name }}</h1>
+    <p>{{ product.description }}</p>
   </div>
+      {{ product }}
+    </tab-component>
+    <tab-component title="Card List">
+    </tab-component>
+  </tabs-component>
 </template>
 
 <script>
 import { defineComponent, ref, onMounted } from "vue";
-import PageTitleComponent from "../../../Layout/Components/PageTitleComponent.vue";
+import PageTitleComponent from "@/Layout/Components/PageTitleComponent.vue";
+import TabsComponent from "@/Layout/Components/Tabs/TabsComponent.vue";
+import TabComponent from "@/Layout/Components/Tabs/TabComponent.vue";
 import { apiService } from "@/supabase/apiService";
+import { useRoute } from 'vue-router';
 
 export default defineComponent({
   name: "ProductDetailPage",
 
   components: {
     PageTitleComponent,
+    TabsComponent,
+    TabComponent
   },
 
-  props: {
-    id: {
-      type: String,
-      required: true,
-    },
-  },
 
-  setup(props) {
+  setup() {
     const heading = ref("Product Detail");
     const subheading = ref("Product Detail Page");
     const icon = ref("pe-7s-portfolio icon-gradient bg-tempting-azure");
+    const route = useRoute();
 
-    const deckDetail = ref(null);
+    const product = ref(null);
 
     const fetchProduct = async (id) => {
       try {
         const response = await apiService.getYugiohProductById(id);
-        deckDetail.value = response;
+        product.value = response;
       } catch (error) {
         console.error("Error fetching deck:", error);
       }
     };
 
     onMounted(async () => {
-      if (props.id) {
-        await fetchProduct(props.id);
-      }
+      const id = route.params.id;
+      await fetchProduct(id);
     });
 
     return {
       heading,
       subheading,
       icon,
-      deckDetail,
+      product,
     };
   },
 });
