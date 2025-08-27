@@ -217,16 +217,6 @@ const adminRoutes = [
         },
         component: () => import("../Pages/Yugioh/DeckPage.vue"),
     },
-    // {
-    //     path: "/admin/deck/:id",
-    //     name: "deck detail",
-    //     meta: {
-    //         layout: "admin",
-    //         requiresAuth: true,
-    //     },
-    //     props: true,
-    //     component: () => import("../Pages/Yugioh/Detail/DeckDetailPage.vue"),
-    // },
     {
         path: "/admin/deck/:id",
         name: "deck detail",
@@ -254,6 +244,15 @@ const adminRoutes = [
             requiresAuth: true,
         },
         component: () => import("../Pages/Yugioh/ProductPage.vue"),
+    },
+        {
+        path: "/admin/product/:id",
+        name: "product detail",
+        meta: {
+            layout: "admin",
+            requiresAuth: true,
+        },
+        component: () => import("../Pages/Yugioh/Detail/ProductDetailPage.vue"),
     },
     {
         path: "/admin/tournament",
