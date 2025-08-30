@@ -109,6 +109,14 @@ const publicRoutes = [
             breadcrumb: "contact",
         },
     },
+        {
+        path: "/terms-and-conditions",
+        name: "Terms And Conditions",
+        component: () => import("../public/TermsAndConditions.vue"),
+        meta: {
+            layout: "public",
+        },
+    },
 ];
 
 export default publicRoutes;
