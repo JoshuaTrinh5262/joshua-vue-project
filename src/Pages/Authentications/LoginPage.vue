@@ -68,7 +68,7 @@
 
             <!-- Footer Text -->
             <div class="text-center text-white opacity-8 mt-3">
-                Copyright &copy; JoshuaTrinh 2019
+                Copyright &copy; JoshuaTrinh {{ currentYear }}
             </div>
         </div>
     </div>
@@ -78,11 +78,13 @@
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { login } from '@/supabase/authService';
+import { getCurrentYear } from "@/helpers/dateTimeHelper";
 
 export default defineComponent({
     name: 'LoginPage',
 
     setup() {
+        const currentYear = getCurrentYear();
         const router = useRouter();
         const email = ref('');
         const password = ref('');
@@ -102,6 +104,7 @@ export default defineComponent({
         };
 
         return {
+            currentYear,
             email,
             password,
             isPasswordVisible,
