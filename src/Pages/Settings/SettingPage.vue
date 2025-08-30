@@ -2,12 +2,9 @@
     <div>
         <page-title-component :heading="heading" :subheading="subheading" :icon="icon"></page-title-component>
         <notification-component v-model:notification="notification"></notification-component>
-
-        <div class="card main-card">
-            <div class="card-body">
-                <h4 class="card-title">{{ $t('system_setting') }}</h4>
-                <!-- Language Section -->
-                <div class="position-relative row form-group">
+        <tabs-component>
+            <tab-component :title="$t('system_setting')">
+                <div class="position-relative row">
                     <label for="language" class="col-sm-2 col-form-label">{{ $t('select_language') }}</label>
                     <div class="col-sm-10">
                         <select id="language" v-model="selectedLanguage" class="form-control">
@@ -23,8 +20,20 @@
                 <div class="position-relative row form-check">
                     <button @click="changeLanguage" class="btn btn-primary"> {{ $t('apply_setting') }}</button>
                 </div>
-                <div class="divider"></div>
-                <!-- Darkmode Section -->
+
+            </tab-component>
+            <tab-component title="Demo Date Time Picker">
+                <div class="position-relative row  form-group">
+                    <label class="col-sm-2 col-form-label">Demo Date Time Picker</label>
+                    <div class="col-sm-10">
+                        <DateTimePicker></DateTimePicker>
+                    </div>
+                </div>
+                <div class="position-relative row form-check">
+                    <button class="btn btn-primary" type="button">Save</button>
+                </div>
+            </tab-component>
+            <tab-component title="Dark Mode">
                 <div class="position-relative row form-group">
                     <label for="darkmode" class="col-sm-2 col-form-label">Dark mode</label>
                     <div class="col-sm-10">
@@ -35,19 +44,26 @@
                         </button>
                     </div>
                 </div>
-                <div class="divider"></div>
-                <!-- Other Selection -->
+            </tab-component>
+            <tab-component title="General Setting">
                 <div class="position-relative row form-group">
-                    <label class="col-sm-2 col-form-label">Demo Date Time Picker</label>
+                    <label for="language" class="col-sm-2 col-form-label">Facebook</label>
                     <div class="col-sm-10">
-                        <DateTimePicker></DateTimePicker>
+                        <input class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="position-relative row form-group">
+                    <label for="language" class="col-sm-2 col-form-label">Youtube</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" disabled>
                     </div>
                 </div>
                 <div class="position-relative row form-check">
                     <button class="btn btn-primary" type="button">Save</button>
                 </div>
-            </div>
-        </div>
+            </tab-component>
+        </tabs-component>
+
     </div>
 </template>
 
@@ -58,6 +74,8 @@ import PageTitleComponent from "@/Layout/Components/PageTitleComponent.vue";
 import NotificationComponent from "@/Layout/Components/NotificationComponent.vue";
 import DateTimePicker from "@/DemoPages/Components/DateTimePicker.vue";
 import { useDark, useToggle } from "@vueuse/core";
+import TabComponent from "@/Layout/Components/Tabs/TabComponent.vue";
+import TabsComponent from "@/Layout/Components/Tabs/TabsComponent.vue";
 
 export default defineComponent({
     name: "SettingPage",
@@ -65,7 +83,9 @@ export default defineComponent({
     components: {
         PageTitleComponent,
         NotificationComponent,
-        DateTimePicker
+        DateTimePicker,
+        TabComponent,
+        TabsComponent
     },
 
     setup() {

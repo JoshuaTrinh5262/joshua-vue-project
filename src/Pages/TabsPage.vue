@@ -1,7 +1,7 @@
 <template>
   <div>
     <page-title-component :heading="heading" :subheading="subheading" :icon="icon"></page-title-component>
-    <tabs-component :mode="mode">
+    <tabs-component>
       <tab-component title="Tab Zero">Hello From Tab 0</tab-component>
       <tab-component title="Tab One">Hello From Tab 1</tab-component>
       <tab-component title="Tab Two">Hello From Tab 2</tab-component>
@@ -35,13 +35,11 @@ export default defineComponent({
     const heading = ref("Tabs");
     const subheading = ref("Tab Demo pages");
     const icon = ref("pe-7s-phone icon-gradient bg-tempting-azure");
-    const mode = ref("dark");
 
     return {
       heading,
       subheading,
       icon,
-      mode,
     };
   },
 });
