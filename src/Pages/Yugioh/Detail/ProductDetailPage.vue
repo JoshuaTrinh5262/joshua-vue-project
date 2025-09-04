@@ -41,12 +41,13 @@
           </div>
           <div class="position-relative form-group">
             <label for="created_at">created At</label>
-            <input name="created_at" id="created_at" type="text" v-model=product.created_at class="form-control" disabled>
+            <input name="created_at" id="created_at" type="text" v-model=product.created_at class="form-control"
+              disabled>
           </div>
           <div class="position-relative form-group">
-            <button class="btn btn-primary">Edit</button>
+            <button class="btn btn-primary mr-2">Edit</button>
 
-            <button class="btn btn-primary">Cancel</button>
+            <button class="btn btn-primary mr-2">Cancel</button>
             <button class="btn btn-primary">Save</button>
           </div>
         </div>
@@ -55,22 +56,30 @@
     <tab-component title="Card List">
       <div v-if="product">
         <div class="position-relative form-group">
-          <label for="number_of_cards">Number Of Cards</label>
-          <input name="number_of_cards" id="number_of_cards" type="number" v-model=product.number_of_cards
-            class="form-control" disabled>
+          <button v-if=!editMode class="btn btn-primary mr-2" @click="toggleEditMode">Edit</button>
+          <div v-else>
+            <button class="btn btn-success mr-2" @click="handleSubmit">Save</button>
+            <button class="btn btn-warning" @click="toggleEditMode">Cancel</button>
+          </div>
         </div>
         <div class="position-relative form-group">
-          <label for="card_list">Card List</label>
-          <textarea name="card_list" id="card_list" v-model=product.card_list :rows=product.number_of_cards
-            class="form-control" disabled></textarea>
+          <label for="number_of_cards">Number Of Cards</label>
+          <input name="number_of_cards" id="number_of_cards" type="number" v-model=product.number_of_cards
+            class="form-control" :disabled="!editMode">
         </div>
+        {{product.card_list}}
+        <!-- <div class="position-relative form-group">
+          <label for="card_list">Card List</label>
+          <textarea name="card_list" id="card_list" v-model= rows="10" class="form-control"
+            :disabled="!editMode"></textarea>
+        </div> -->
       </div>
     </tab-component>
   </tabs-component>
 </template>
 
 <script>
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref, onMounted, watch } from "vue";
 import PageTitleComponent from "@/Layout/Components/PageTitleComponent.vue";
 import TabsComponent from "@/Layout/Components/Tabs/TabsComponent.vue";
 import TabComponent from "@/Layout/Components/Tabs/TabComponent.vue";
@@ -95,6 +104,8 @@ export default defineComponent({
 
     const product = ref(null);
 
+    const editMode = ref(false);
+
     const fetchProduct = async (id) => {
       try {
         const response = await apiService.getYugiohProductById(id);
@@ -109,11 +120,28 @@ export default defineComponent({
       await fetchProduct(id);
     });
 
+    const toggleEditMode = () => {
+      console.log("toggle");
+      editMode.value = !editMode.value;
+    };
+
+    const handleSubmit = () => {
+      console.log("submit");
+    };
+
+    onMounted(async () => {
+      const id = route.params.id;
+      await fetchProduct(id);
+    });
+  
     return {
       heading,
       subheading,
       icon,
       product,
+      editMode,
+      toggleEditMode,
+      handleSubmit
     };
   },
 });
