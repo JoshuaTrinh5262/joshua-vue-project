@@ -91,10 +91,19 @@ const publicRoutes = [
             breadcrumb: "master_rule",
         },
     },
-        {
+    {
         path: "/draft",
         name: "Draft",
         component: () => import("../public/yugioh/DraftPage.vue"),
+        meta: {
+            layout: "public",
+            breadcrumb: "draft",
+        },
+    },
+    {
+        path: "/edison",
+        name: "Edison",
+        component: () => import("../public/Edison.vue"),
         meta: {
             layout: "public",
             breadcrumb: "draft",
@@ -109,7 +118,7 @@ const publicRoutes = [
             breadcrumb: "contact",
         },
     },
-        {
+    {
         path: "/terms-and-conditions",
         name: "Terms And Conditions",
         component: () => import("../public/TermsAndConditions.vue"),

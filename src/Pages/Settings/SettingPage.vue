@@ -63,7 +63,6 @@
                 </div>
             </tab-component>
         </tabs-component>
-
     </div>
 </template>
 

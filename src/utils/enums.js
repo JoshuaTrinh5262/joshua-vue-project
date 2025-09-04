@@ -64,3 +64,12 @@ export const MonsterType = {
     Wyrm: "wyrm",
     Zombie: "zombie"
 }
+
+export const Category = {
+  StructureDeck: "structure_deck",
+  StarterDeck: "starter_deck",
+  PrizeCard: "prize_card",
+  TacticalTryDeck: "tactical_try_deck",
+  DualSet: "dual_set",
+  BoosterPack: "booster_pack"
+}

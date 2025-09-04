@@ -52,7 +52,7 @@
       <template #footer>
         <button class="btn btn-primary" @click="toggleModal">Cancel</button>
         <button-spinner :isLoading="onSubmit" buttonClass="btn btn-primary" @click="handleSubmitUser"
-          normalText="Add New Talent" />
+          normalText="Add New User" />
       </template>
     </modal-component>
     <table-component :footer=true :fields="fields" :items="items" @deleteRow="handleDeleteUser"></table-component>

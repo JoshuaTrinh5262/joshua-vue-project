@@ -40,7 +40,9 @@ export const getYugiohProductsWithPaging = async (
 
 export const getYugiohProducts = async () => {
     try {
-        const { data, error } = await supabase.from("yugioh_product").select("*");
+        const { data, error } = await supabase
+            .from("yugioh_product")
+            .select("*");
         if (error) {
             return { error: error.message };
         }
@@ -72,7 +74,7 @@ export const createYugiohProduct = async (yugioh_product) => {
             .from("yugioh_product")
             .insert(yugioh_product)
             .single();
-        if (error) {
+        if (error != null) {
             return { error: error.message };
         }
         return data;
@@ -111,7 +113,6 @@ export const deleteYugiohProduct = async (id) => {
         return { error: err.message };
     }
 };
-
 
 export const countYugiohProductRecord = async () => {
     try {

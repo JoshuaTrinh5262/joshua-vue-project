@@ -229,16 +229,25 @@ export default defineComponent({
 
     const updateTalent = async () => {
       try {
-        await apiService.updateTalent(currentTalent);
+        var response = await apiService.updateTalent(currentTalent);
         cleanCurrentTalent();
         toggleModal();
         onSubmit.value = false;
-        notification.value = {
-          title: "Success",
-          content: "Talent updated successfully!",
-          type: "success",
-        };
-        reloadTalentTable();
+
+        if (response && response.error) {
+          notification.value = {
+            title: 'Error',
+            content: response.error,
+            type: 'danger'
+          };
+        } else {
+          notification.value = {
+            title: "Success",
+            content: "Talent updated successfully!",
+            type: "success",
+          };
+          reloadTalentTable();
+        }
         isUpdateMode.value = false;
       } catch (error) {
         onSubmit.value = false;
@@ -273,13 +282,22 @@ export default defineComponent({
 
     const handleDeleteClick = async (id) => {
       try {
-        await apiService.deleteTalent(id);
-        notification.value = {
-          title: 'Success',
-          content: 'Talent deleted successfully!',
-          type: 'success'
-        };
-        reloadTalentTable();
+        var response = await apiService.deleteTalent(id);
+
+        if (response && response.error) {
+          notification.value = {
+            title: 'Error',
+            content: response.error,
+            type: 'danger'
+          };
+        } else {
+          notification.value = {
+            title: 'Success',
+            content: 'Talent deleted successfully!',
+            type: 'success'
+          };
+          reloadTalentTable();
+        }
       } catch (error) {
         notification.value = {
           title: 'Error',

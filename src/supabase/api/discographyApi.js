@@ -127,7 +127,6 @@ export const getDiscographyById = async (id) => {
 
 export const createDiscography = async (discography, selectedTalents) => {
     try {
-        console.log(discography)
         const { data: discographyData, error: discographyError } =
             await supabase
                 .from("discography")

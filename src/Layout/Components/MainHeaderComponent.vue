@@ -6,7 +6,7 @@
         <ul>
           <li v-for="item in navItems" :key="item.text" class="nav-item" @mouseenter="toggleDropdown(item.text, true)"
             @mouseleave="toggleDropdown(item.text, false)">
-            <a v-if="href" :href="item.href">{{ item.text }}</a>
+            <P v-if="href" :href="item.href">{{ item.text }}</P>
             <span v-else>{{ item.text }}</span>
             <ul v-if="item.submenu && dropdownOpen[item.text]" class="drop-list">
               <li class="drop-list-item" v-for="subItem in item.submenu" :key="subItem.text">
@@ -56,9 +56,10 @@ export default defineComponent({
           { text: "MASTER RULE", href: "/master_rule" },
           { text: "CONTACT", href: "/contact" },
           { text: "DRAFT", href: "/draft" },
+          { text: "Edison", href: "/edison" },
         ],
       },
-      { text: "DRAFT", href: "/draft" },
+
     ]);
 
     const toggleDropdown = (menu, state) => {
@@ -119,6 +120,9 @@ export default defineComponent({
   padding: 12px;
 }
 
+.header-nav .nav-item span {
+  cursor: pointer;
+}
 .header-nav a {
   color: #333;
 }
