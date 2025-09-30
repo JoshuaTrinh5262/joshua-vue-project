@@ -6,7 +6,7 @@
         <ul>
           <li v-for="item in navItems" :key="item.text" class="nav-item" @mouseenter="toggleDropdown(item.text, true)"
             @mouseleave="toggleDropdown(item.text, false)">
-            <P v-if="href" :href="item.href">{{ item.text }}</P>
+            <span v-if="item.href" :href="item.href">{{ item.text }}</span>
             <span v-else>{{ item.text }}</span>
             <ul v-if="item.submenu && dropdownOpen[item.text]" class="drop-list">
               <li class="drop-list-item" v-for="subItem in item.submenu" :key="subItem.text">
@@ -18,9 +18,9 @@
       </nav>
       <div class="auth-buttons">
         <toggle-component></toggle-component>
-        <a v-if="!isAuthenticated" href="login" class="btn btn-primary">Login</a>
+        <!-- <a v-if="!isAuthenticated" href="login" class="btn btn-primary">Login</a>
         <a v-if="!isAuthenticated" href="register" class="btn btn-secondary">Sign Up</a>
-        <a v-if="isAuthenticated" class="btn btn-primary">Logout</a>
+        <a v-if="isAuthenticated" class="btn btn-primary">Logout</a> -->
       </div>
     </div>
   </header>
@@ -51,6 +51,13 @@ export default defineComponent({
         ],
       },
       {
+        text: "GENESYS",
+        submenu: [
+          { text: "Genesys", href: "/genesys" },
+          { text: "Deck Build", href: "/deckbuild" },
+        ],
+      },
+      {
         text: "OTHER",
         submenu: [
           { text: "MASTER RULE", href: "/master_rule" },
@@ -59,6 +66,7 @@ export default defineComponent({
           { text: "Edison", href: "/edison" },
         ],
       },
+
 
     ]);
 
@@ -123,6 +131,7 @@ export default defineComponent({
 .header-nav .nav-item span {
   cursor: pointer;
 }
+
 .header-nav a {
   color: #333;
 }

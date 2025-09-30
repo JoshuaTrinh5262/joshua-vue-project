@@ -14,6 +14,7 @@ import * as yugiohBanlistApi from "./api/yugiohBanlistApi";
 import * as yugiohCardApi from "./api/yugiohCardApi";
 import * as yugiohDeckApi from "./api/yugiohDeckApi";
 import * as yugiohDuelistApi from "./api/yugiohDuelistApi";
+import * as yugiohGenesysPointApi from "./api/yugiohGenesysPointApi";
 import * as yugiohProductApi from "./api/yugiohProductApi";
 import * as yugiohTournamentApi from "./api/yugiohTournamentApi";
 
@@ -34,6 +35,7 @@ export const apiService = {
     ...yugiohCardApi,
     ...yugiohDeckApi,
     ...yugiohDuelistApi,
+    ...yugiohGenesysPointApi,
     ...yugiohProductApi,
     ...yugiohTournamentApi,
 };

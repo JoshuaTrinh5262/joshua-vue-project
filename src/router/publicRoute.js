@@ -106,7 +106,24 @@ const publicRoutes = [
         component: () => import("../public/Edison.vue"),
         meta: {
             layout: "public",
-            breadcrumb: "draft",
+            breadcrumb: "edison",
+        },
+    },
+    {
+        path: "/genesys",
+        name: "Genesys",
+        component: () => import("../public/Genesys.vue"),
+        meta: {
+            layout: "public",
+            breadcrumb: "genesys",
+        },
+    },
+    {
+        path: "/deckbuild",
+        name: "DeckBuild",
+        component: () => import("../public/DeckBuild.vue"),
+        meta: {
+            layout: "public"
         },
     },
     {
