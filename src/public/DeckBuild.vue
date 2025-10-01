@@ -20,8 +20,16 @@
         <div class="card-preview">
           <template v-if="previewCard">
             <img :alt="previewCard.name" class="img-fluid mb-2" :src="previewCard.image" />
-            <h5>{{ previewCard.name }}</h5>
-            <p class="small">{{ previewCard.type }}</p>
+            <h5>{{ previewCard.name }} <span
+                style="margin-left: 8px; font-size: 12px; padding: 2px 6px; border-radius: 6px; background-color: rgba(0, 0, 0, 0.7); color: white;">50</span>
+            </h5>
+            <!-- ATK / DEF (if available) -->
+            <p v-if="previewCard.atk !== undefined && previewCard.def !== undefined" class="small">
+              ATK: {{ previewCard.atk }} / DEF: {{ previewCard.def }}
+            </p>
+            <!-- Type + Rank / Level -->
+            <p v-if="previewCard.star" class="small">{{ previewCard.type }} ★{{ previewCard.star }}</p>
+
             <div class="small text-muted">{{ previewCard.desc }}</div>
           </template>
           <template v-else>
@@ -37,7 +45,7 @@
         <div class="p-2 rounded bg-dark">
           <!-- Existing Deck Actions -->
           <div class="d-flex flex-wrap gap-2 mb-2">
-            <select v-model="selectedDeck" class="form-select flex-grow-1">
+            <select v-model="selectedDeck" class="form-control flex-grow-1">
               <option v-for="deck in decks" :key="deck.id" :value="deck.id">
                 {{ deck.name }}
               </option>
@@ -66,12 +74,11 @@
           <!-- Main Deck -->
           <div class="deck-row">
             <div class="deck-row-title">Main Deck ({{ mainDeck.length }})</div>
-            <div class="d-flex flex-wrap justify-content-center ">
+            <div class="d-flex flex-wrap justify-content-center gap-2">
               <p v-if="!mainDeck.length" class="text-muted">Empty</p>
               <div v-for="card in mainDeck" :key="card.id" class="card-slot">
                 <div style="position: relative; display: inline-block;">
-                  <img :alt="card.name" title="Crusadia Testament"
-                    src="https://images.ygoprodeck.com/images/cards_small/87497553.jpg"
+                  <img :alt="card.name" :title="card.name" :src="card.image"
                     style="width: 50px; height: 72px; object-fit: cover;">
                 </div>
               </div>
@@ -85,8 +92,7 @@
               <p v-if="!extraDeck.length" class="text-muted">Empty</p>
               <div v-for="card in extraDeck" :key="card.id" class="card-slot">
                 <div style="position: relative; display: inline-block;">
-                  <img :alt="card.name" title="Crusadia Testament"
-                    src="https://images.ygoprodeck.com/images/cards_small/87497553.jpg"
+                  <img :alt="card.name" :title="card.name" :src="card.image"
                     style="width: 50px; height: 72px; object-fit: cover;">
                 </div>
               </div>
@@ -100,8 +106,7 @@
               <p v-if="!sideDeck.length" class="text-muted">Empty</p>
               <div v-for="card in sideDeck" :key="card.id" class="card-slot">
                 <div style="position: relative; display: inline-block;">
-                  <img :alt="card.name" title="Crusadia Testament"
-                    src="https://images.ygoprodeck.com/images/cards_small/87497553.jpg"
+                  <img :alt="card.name" :title="card.name" :src="card.image"
                     style="width: 50px; height: 72px; object-fit: cover;">
                 </div>
               </div>
@@ -125,6 +130,9 @@
               style="width: 50px; height: 72px; object-fit: cover; margin-right: 8px;" />
             <div class="flex-grow-1">
               <strong>{{ card.name }}</strong>
+              <span v-if="card.point"
+                style="margin-left: 6px; font-size: 12px; padding: 2px 5px; border-radius: 6px; background-color: rgba(0, 0, 0, 0.7); color: white;">{{
+                  card.point }}</span>
               <div class="d-flex flex-wrap gap-1 mt-1">
                 <button class="btn btn-sm btn-outline-light" @click="addToMainDeck(card)">+ Main/Extra</button>
                 <button class="btn btn-sm btn-outline-secondary" @click="addToSideDeck(card)">+ Side</button>
@@ -164,27 +172,64 @@ export default defineComponent({
     const searchQuery = ref("");
     const searchResults = ref([
       {
-        id: "38459905",
-        name: "F.A. Test Run",
-        type: "Spell Card",
-        image: "https://images.ygoprodeck.com/images/cards/38459905.jpg",
-        desc: `Target 1 "F.A." monster you control; change its battle position, then, destroy 1 card on the field.
-    During your Main Phase, except the turn this card was sent to the GY: You can banish this card from your GY,
-    then target 1 face-up card you control; destroy it, and if you do, Special Summon 1 "F.A." monster from your Deck.
-    You can only use each effect of "F.A. Test Run" once per turn.`
+        "id": "48905153",
+        "name": "Zoodiac Boarbow",
+        "type": "XYZ Monster",
+        "star": "4",
+        "atk": -1,
+        "def": -1,
+        "image": "https://images.ygoprodeck.com/images/cards/48905153.jpg",
+        "desc": "5 Level 4 monsters\nOnce per turn, you can also Xyz Summon \"Zoodiac Boarbow\" by using 1 \"Zoodiac\" monster you control with a different name as Xyz Material. (If you used an Xyz Monster, any Xyz Materials attached to it also become Xyz Materials on this card.)\nThis card gains ATK and DEF equal to the ATK and DEF of all \"Zoodiac\" monsters attached to it as Materials.\nThis card can attack your opponent directly.\nWhen this card inflicts battle damage to your opponent while it has 12 or more Xyz Materials: You can send as many cards as possible from your opponent's hand and field to the Graveyard, then change this card to Defense Position."
       },
       {
-        id: "66380357",
-        name: "Appliancer Test",
-        type: "Monster Card",
-        image: "https://images.ygoprodeck.com/images/cards_small/66380357.jpg",
-        desc: "Sample monster card description."
+        "id": "78872731",
+        "name": "Zoodiac Drident",
+        "type": "XYZ Monster",
+        "star": "4",
+        "atk": -1,
+        "def": -1,
+        "point": 20,
+        "image": "https://images.ygoprodeck.com/images/cards/78872731.jpg",
+        "desc": "4 Level 4 monsters\nOnce per turn, you can also Xyz Summon \"Zoodiac Drident\" by using 1 \"Zoodiac\" monster you control with a different name as Xyz Material. (If you used an Xyz Monster, any Xyz Materials attached to it also become Xyz Materials on this card.)\nThis card gains ATK and DEF equal to the ATK and DEF of all \"Zoodiac\" monsters attached to it as Materials.\nOnce per turn (Quick Effect): You can detach 1 material from this card, then target 1 face-up card on the field; destroy it."
+      },
+      {
+        "id": "85115440",
+        "name": "Zoodiac Chakanine",
+        "type": "XYZ Monster",
+        "star": "4",
+        "atk": -1,
+        "def": -1,
+        "image": "https://images.ygoprodeck.com/images/cards/85115440.jpg",
+        "desc": "2 Level 4 monsters\nOnce per turn, you can also Xyz Summon \"Zoodiac Chakanine\" by using 1 \"Zoodiac\" monster you control with a different name as Xyz Material. (If you used an Xyz Monster, any Xyz Materials attached to it also become Xyz Materials on this card.)\nThis card gains ATK and DEF equal to the ATK and DEF of all \"Zoodiac\" monsters attached to it as Materials.\nYou can detach 1 material from this card, then target 1 \"Zoodiac\" monster in your GY; Special Summon it, but for the rest of this turn, its effects are negated, also it cannot be used as an Xyz Material for a Summon."
+      },
+      {
+        "id": "71541986",
+        "name": "Zoodiac Tigermortar",
+        "type": "XYZ Monster",
+        "star": "4",
+        "atk": -1,
+        "def": -1,
+        "image": "https://images.ygoprodeck.com/images/cards/71541986.jpg",
+        "desc": "3 Level 4 monsters\nOnce per turn, you can also Xyz Summon \"Zoodiac Tigermortar\" by using 1 \"Zoodiac\" monster you control with a different name as Xyz Material. (If you used an Xyz Monster, any Xyz Materials attached to it also become Xyz Materials on this card.)\nThis card gains ATK and DEF equal to the ATK and DEF of all \"Zoodiac\" monsters attached to it as Materials.\nOnce per turn: You can detach 1 material from this card, then target 1 Xyz Monster you control and 1 \"Zoodiac\" monster in your GY; attach that \"Zoodiac\" monster from your GY to that Xyz Monster as material."
+      },
+      {
+        "id": "48411996",
+        "name": "Zoodiac Barrage",
+        "type": "Spell Card",
+        "star": null,
+        "atk": null,
+        "def": null,
+        "point": 50,
+        "image": "https://images.ygoprodeck.com/images/cards/48411996.jpg",
+        "desc": "You can target 1 face-up card you control; destroy it, and if you do, Special Summon 1 \"Zoodiac\" monster from your Deck. You can only use this effect of \"Zoodiac Barrage\" once per turn. If this card is destroyed by a card effect and sent to the Graveyard: You can target 1 \"Zoodiac\" Xyz Monster you control; attach this card from your Graveyard to that Xyz Monster as Xyz Material."
       }
-    ]);
+    ]
+    );
     const apiError = ref("Error connecting to the API.");
     const previewCard = ref(null);
 
     function setPreview(card) {
+      console.log("test")
       previewCard.value = card;
     }
 
@@ -251,6 +296,7 @@ export default defineComponent({
       apiError,
       newDeckName,
       selectedDeck,
+      previewCard,
       setPreview,
       saveDeck,
       saveDeckAs,
@@ -431,5 +477,9 @@ a:visited {
 
 .card-preview .text-muted {
   color: #ffffff !important;
+}
+
+.gap-2 {
+  gap: 0.5em;
 }
 </style>
