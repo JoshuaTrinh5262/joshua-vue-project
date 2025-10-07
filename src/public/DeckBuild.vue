@@ -3,7 +3,7 @@
               background-repeat: no-repeat; 
               background-size: cover; 
               background-position: center center; 
-              min-height: 100vh;">
+              min-height: 95vh;">
 
     <!-- Header -->
     <div class="text-center mb-3">
@@ -141,8 +141,8 @@
             <div class="flex-grow-1">
               <strong>{{ card.name }}</strong>
               <span v-if="card.point"
-                style="margin-left: 6px; font-size: 12px; padding: 2px 5px; border-radius: 6px; background-color: rgba(0, 0, 0, 0.7); color: white;">{{
-                  card.point }}</span>
+                style="margin-left: 6px; font-size: 12px; padding: 2px 5px; border-radius: 6px; background-color: rgba(0, 0, 0, 0.7); color: white;">
+                {{ card.point }}</span>
               <div class="d-flex flex-wrap gap-1 mt-1">
                 <button class="btn btn-sm btn-outline-light" @click="addCardToDeck(card)">+ Main/Extra</button>
                 <button class="btn btn-sm btn-outline-secondary" @click="addToSideDeck(card)">+ Side</button>
@@ -258,6 +258,8 @@ export default defineComponent({
       const result = await apiService.searchCard(searchQuery.value);
       if (!result.error) {
         searchResults.value = result;
+      } else {
+        apiError.value = "Error connecting to the API.";
       }
     }
 
