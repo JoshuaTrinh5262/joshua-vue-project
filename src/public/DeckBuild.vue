@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid my-3" style="background-image: url('../background.jpg'); 
+  <div class="container-fluid" style="background-image: url('../background.jpg'); 
               background-repeat: no-repeat; 
               background-size: cover; 
               background-position: center center; 
@@ -7,7 +7,7 @@
 
     <!-- Header -->
     <div class="text-center mb-3">
-      <img alt="Logo" src="genesys-logo.png" style="max-height: 120px; margin-bottom: 10px;" />
+      <img alt="Logo" src="genesys-logo.png" class="my-3" style="max-height: 120px; margin-bottom: 10px;" />
       <h2>Genesys Format Deck Builder</h2>
       <p>
         <a href="/genesys">GO HERE</a> What is Genesys Format?
@@ -20,17 +20,23 @@
         <div class="card-preview">
           <template v-if="previewCard">
             <img :alt="previewCard.name" class="img-fluid mb-2" :src="previewCard.image" />
-            <h5>{{ previewCard.name }} <span
-                style="margin-left: 8px; font-size: 12px; padding: 2px 6px; border-radius: 6px; background-color: rgba(0, 0, 0, 0.7); color: white;">50</span>
+            <h5>{{ previewCard.name }} <span v-if="previewCard.point"
+                style="margin-left: 8px; font-size: 12px; padding: 2px 6px; border-radius: 6px; background-color: rgba(0, 0, 0, 0.7); color: white;">{{
+                  previewCard.point }}</span>
             </h5>
             <!-- ATK / DEF (if available) -->
-            <p v-if="previewCard.atk !== undefined && previewCard.def !== undefined" class="small">
+            <p v-if="previewCard.atk !== -1 && previewCard.def !== -1" class="small">
               ATK: {{ previewCard.atk }} / DEF: {{ previewCard.def }}
             </p>
             <!-- Type + Rank / Level -->
-            <p v-if="previewCard.star" class="small">{{ previewCard.type }} ★{{ previewCard.star }}</p>
-
-            <div class="small text-muted">{{ previewCard.desc }}</div>
+            <p v-if="previewCard.level != -1" class="small">{{ previewCard.type }} ★{{ previewCard.level }}</p>
+            <p v-if="previewCard.category" class="small">{{ previewCard.category }}</p>
+            <div class="text-muted">
+              {{ previewCard.pendulum_effect }}
+            </div>
+            <div class="text-muted">
+              {{ previewCard.description }}
+            </div>
           </template>
           <template v-else>
             <p class="text-muted">
@@ -51,19 +57,19 @@
               </option>
             </select>
             <button class="btn btn-tech btn-sm" @click="saveDeck">Save</button>
-            <button class="btn btn-tech btn-sm" @click="saveDeckAs">Save As</button>
-            <button class="btn btn-tech btn-sm" @click="renameDeck">Rename</button>
-            <button class="btn btn-tech btn-sm" @click="sortDeck">Sort</button>
+            <button class="btn btn-tech btn-sm" @click="saveDeckAs" disabed>Save As</button>
+            <button class="btn btn-tech btn-sm" @click="renameDeck" disabed>Rename</button>
+            <button class="btn btn-tech btn-sm" @click="sortDeck" disabed>Sort</button>
             <button class="btn btn-tech btn-sm" @click="clearDeck">Clear</button>
-            <button class="btn btn-tech btn-sm" @click="deleteDeck">Delete</button>
+            <button class="btn btn-tech btn-sm" @click="deleteDeck" disabed>Delete</button>
           </div>
 
           <!-- Create New Deck -->
           <div class="d-flex flex-wrap gap-2 mb-2">
             <input v-model="newDeckName" class="form-control form-control-sm" placeholder="New deck name" type="text" />
             <button class="btn btn-outline-success btn-sm" @click="createDeck">Create</button>
-            <button class="btn btn-tech btn-sm" @click="importDeck">Import</button>
-            <button class="btn btn-tech btn-sm" @click="exportDeck">Export</button>
+            <button class="btn btn-tech btn-sm" @click="importDeck" disabed>Import .ydk</button>
+            <button class="btn btn-tech btn-sm" @click="exportDeck">Export .ydk</button>
           </div>
 
           <!-- Deck Score -->
@@ -76,7 +82,8 @@
             <div class="deck-row-title">Main Deck ({{ mainDeck.length }})</div>
             <div class="d-flex flex-wrap justify-content-center gap-2">
               <p v-if="!mainDeck.length" class="text-muted">Empty</p>
-              <div v-for="card in mainDeck" :key="card.id" class="card-slot">
+              <div v-for="card in mainDeck" :key="card.id" class="card-slot" @mouseenter="setPreview(card)"
+                @click="setPreview(card)">
                 <div style="position: relative; display: inline-block;">
                   <img :alt="card.name" :title="card.name" :src="card.image"
                     style="width: 50px; height: 72px; object-fit: cover;">
@@ -91,7 +98,8 @@
             <div class="d-flex flex-wrap justify-content-center gap-2">
               <p v-if="!extraDeck.length" class="text-muted">Empty</p>
               <div v-for="card in extraDeck" :key="card.id" class="card-slot">
-                <div style="position: relative; display: inline-block;">
+                <div style="position: relative; display: inline-block;" @mouseenter="setPreview(card)"
+                  @click="setPreview(card)">
                   <img :alt="card.name" :title="card.name" :src="card.image"
                     style="width: 50px; height: 72px; object-fit: cover;">
                 </div>
@@ -105,7 +113,8 @@
             <div class="d-flex flex-wrap justify-content-center gap-2">
               <p v-if="!sideDeck.length" class="text-muted">Empty</p>
               <div v-for="card in sideDeck" :key="card.id" class="card-slot">
-                <div style="position: relative; display: inline-block;">
+                <div style="position: relative; display: inline-block;" @mouseenter="setPreview(card)"
+                  @click="setPreview(card)">
                   <img :alt="card.name" :title="card.name" :src="card.image"
                     style="width: 50px; height: 72px; object-fit: cover;">
                 </div>
@@ -118,8 +127,9 @@
       <!-- Search + Results -->
       <div class="col-md-3 mb-3">
         <div class="results-container">
-          <input v-model="searchQuery" class="form-control form-control-sm mb-2" placeholder="Search cards..."
+          <input v-model="searchQuery" class="form-control form-control-sm mb-2" placeholder="search card text here"
             type="text" />
+          <button class="btn btn-tech btn-sm mb-2" @click="searchCard">Search</button>
           <div v-if="apiError" class="alert alert-danger">
             {{ apiError }}
           </div>
@@ -134,7 +144,7 @@
                 style="margin-left: 6px; font-size: 12px; padding: 2px 5px; border-radius: 6px; background-color: rgba(0, 0, 0, 0.7); color: white;">{{
                   card.point }}</span>
               <div class="d-flex flex-wrap gap-1 mt-1">
-                <button class="btn btn-sm btn-outline-light" @click="addToMainDeck(card)">+ Main/Extra</button>
+                <button class="btn btn-sm btn-outline-light" @click="addCardToDeck(card)">+ Main/Extra</button>
                 <button class="btn btn-sm btn-outline-secondary" @click="addToSideDeck(card)">+ Side</button>
               </div>
             </div>
@@ -148,6 +158,8 @@
 <script>
 import { defineComponent, ref } from "vue";
 import PageTitleComponent from "@/Layout/Components/PageTitleComponent.vue";
+import { parseYugiohDeckFile } from "@/utils/fileHelper";
+import { apiService } from "@/supabase/apiService";
 
 export default defineComponent({
   name: "DeckBuild",
@@ -157,11 +169,9 @@ export default defineComponent({
   },
 
   setup() {
-    const decks = ref([
-      { id: "1", name: "ttttt" }
-    ]);
+    const decks = ref([]);
 
-    const selectedDeck = ref("1");
+    const selectedDeck = ref(null);
     const newDeckName = ref("");
     const deckScore = ref(0);
 
@@ -170,66 +180,11 @@ export default defineComponent({
     const sideDeck = ref([]);
 
     const searchQuery = ref("");
-    const searchResults = ref([
-      {
-        "id": "48905153",
-        "name": "Zoodiac Boarbow",
-        "type": "XYZ Monster",
-        "star": "4",
-        "atk": -1,
-        "def": -1,
-        "image": "https://images.ygoprodeck.com/images/cards/48905153.jpg",
-        "desc": "5 Level 4 monsters\nOnce per turn, you can also Xyz Summon \"Zoodiac Boarbow\" by using 1 \"Zoodiac\" monster you control with a different name as Xyz Material. (If you used an Xyz Monster, any Xyz Materials attached to it also become Xyz Materials on this card.)\nThis card gains ATK and DEF equal to the ATK and DEF of all \"Zoodiac\" monsters attached to it as Materials.\nThis card can attack your opponent directly.\nWhen this card inflicts battle damage to your opponent while it has 12 or more Xyz Materials: You can send as many cards as possible from your opponent's hand and field to the Graveyard, then change this card to Defense Position."
-      },
-      {
-        "id": "78872731",
-        "name": "Zoodiac Drident",
-        "type": "XYZ Monster",
-        "star": "4",
-        "atk": -1,
-        "def": -1,
-        "point": 20,
-        "image": "https://images.ygoprodeck.com/images/cards/78872731.jpg",
-        "desc": "4 Level 4 monsters\nOnce per turn, you can also Xyz Summon \"Zoodiac Drident\" by using 1 \"Zoodiac\" monster you control with a different name as Xyz Material. (If you used an Xyz Monster, any Xyz Materials attached to it also become Xyz Materials on this card.)\nThis card gains ATK and DEF equal to the ATK and DEF of all \"Zoodiac\" monsters attached to it as Materials.\nOnce per turn (Quick Effect): You can detach 1 material from this card, then target 1 face-up card on the field; destroy it."
-      },
-      {
-        "id": "85115440",
-        "name": "Zoodiac Chakanine",
-        "type": "XYZ Monster",
-        "star": "4",
-        "atk": -1,
-        "def": -1,
-        "image": "https://images.ygoprodeck.com/images/cards/85115440.jpg",
-        "desc": "2 Level 4 monsters\nOnce per turn, you can also Xyz Summon \"Zoodiac Chakanine\" by using 1 \"Zoodiac\" monster you control with a different name as Xyz Material. (If you used an Xyz Monster, any Xyz Materials attached to it also become Xyz Materials on this card.)\nThis card gains ATK and DEF equal to the ATK and DEF of all \"Zoodiac\" monsters attached to it as Materials.\nYou can detach 1 material from this card, then target 1 \"Zoodiac\" monster in your GY; Special Summon it, but for the rest of this turn, its effects are negated, also it cannot be used as an Xyz Material for a Summon."
-      },
-      {
-        "id": "71541986",
-        "name": "Zoodiac Tigermortar",
-        "type": "XYZ Monster",
-        "star": "4",
-        "atk": -1,
-        "def": -1,
-        "image": "https://images.ygoprodeck.com/images/cards/71541986.jpg",
-        "desc": "3 Level 4 monsters\nOnce per turn, you can also Xyz Summon \"Zoodiac Tigermortar\" by using 1 \"Zoodiac\" monster you control with a different name as Xyz Material. (If you used an Xyz Monster, any Xyz Materials attached to it also become Xyz Materials on this card.)\nThis card gains ATK and DEF equal to the ATK and DEF of all \"Zoodiac\" monsters attached to it as Materials.\nOnce per turn: You can detach 1 material from this card, then target 1 Xyz Monster you control and 1 \"Zoodiac\" monster in your GY; attach that \"Zoodiac\" monster from your GY to that Xyz Monster as material."
-      },
-      {
-        "id": "48411996",
-        "name": "Zoodiac Barrage",
-        "type": "Spell Card",
-        "star": null,
-        "atk": null,
-        "def": null,
-        "point": 50,
-        "image": "https://images.ygoprodeck.com/images/cards/48411996.jpg",
-        "desc": "You can target 1 face-up card you control; destroy it, and if you do, Special Summon 1 \"Zoodiac\" monster from your Deck. You can only use this effect of \"Zoodiac Barrage\" once per turn. If this card is destroyed by a card effect and sent to the Graveyard: You can target 1 \"Zoodiac\" Xyz Monster you control; attach this card from your Graveyard to that Xyz Monster as Xyz Material."
-      }
-    ]
-    );
-    const apiError = ref("Error connecting to the API.");
+    const searchResults = ref([]);
+    const apiError = ref(null);
     const previewCard = ref(null);
 
     function setPreview(card) {
-      console.log("test")
       previewCard.value = card;
     }
 
@@ -250,10 +205,42 @@ export default defineComponent({
     }
 
     function importDeck() {
+      parseYugiohDeckFile()
       alert("Import deck");
+
     }
 
     function exportDeck() {
+      if (!selectedDeck.value) {
+        alert("Please select a deck 1st");
+        return;
+      }
+      const mainLines = mainDeck.value.map(card => card.passcode.toString()).join("\n");
+      const extraLines = extraDeck.value.map(card => card.passcode.toString()).join("\n");
+      const sideLines = sideDeck.value.map(card => card.passcode.toString()).join("\n");
+
+      // Build YDK text
+      const ydkContent = [
+        `#main`,
+        mainLines,
+        `#extra`,
+        extraLines,
+        `!side`,
+        sideLines,
+        `` // extra newline at end
+      ].join("\n");
+
+      // Create a Blob and download it
+      const blob = new Blob([ydkContent], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      console.log(selectedDeck.value);
+      a.download = `${selectedDeck.value}.ydk`;
+      a.click();
+
+      URL.revokeObjectURL(url);
       alert("Export cards");
     }
 
@@ -267,22 +254,86 @@ export default defineComponent({
       alert("Delete current deck");
     }
 
+    const searchCard = async () => {
+      const result = await apiService.searchCard(searchQuery.value);
+      if (!result.error) {
+        searchResults.value = result;
+      }
+    }
+
+    const clearSearch = async () => {
+      searchQuery.value = "";
+      searchResults.value = [];
+    }
+
     function createDeck() {
       if (!newDeckName.value.trim()) {
-        return
+        alert(`new Deck Name must not be empty`);
+        return;
       };
+
       const id = Date.now().toString();
       decks.value.push({ id, name: newDeckName.value });
       selectedDeck.value = id;
       newDeckName.value = "";
     }
 
+    function addCardToDeck(card) {
+      const totalCopies = countCardCopies(card.passcode);
+
+      if (totalCopies >= 3) {
+        alert(`${card.name} already has 3 copies in your deck`);
+        return;
+      }
+
+      if (card.is_link || card.is_pendulum) {
+        alert(`cannot add pendulum or link monster`);
+        return;
+      }
+
+      if (card.is_fusion || card.is_xyz || card.is_synchro) {
+        addToExtraDeck(card)
+      } else {
+        addToMainDeck(card)
+      }
+    }
+
     function addToMainDeck(card) {
+      if (mainDeck.value.length >= 60) {
+        alert("main deck is max size");
+        return;
+      }
       mainDeck.value.push(card);
     }
 
+    function addToExtraDeck(card) {
+      if (extraDeck.value.length >= 15) {
+        alert("extra deck is max size");
+        return;
+      }
+      extraDeck.value.push(card);
+    }
+
     function addToSideDeck(card) {
+      const totalCopies = countCardCopies(card.passcode);
+
+      if (totalCopies >= 3) {
+        alert(`${card.name} already has 3 copies in your deck`);
+        return;
+      }
+
+      if (sideDeck.value.length >= 15) {
+        alert("side seck is max size");
+        return;
+      }
       sideDeck.value.push(card);
+    }
+
+    function countCardCopies(passcode) {
+      const mainCount = mainDeck.value.filter(c => c.passcode === passcode).length;
+      const extraCount = extraDeck.value.filter(c => c.passcode === passcode).length;
+      const sideCount = sideDeck.value.filter(c => c.passcode === passcode).length;
+      return mainCount + extraCount + sideCount;
     }
 
     return {
@@ -307,7 +358,9 @@ export default defineComponent({
       clearDeck,
       deleteDeck,
       createDeck,
-      addToMainDeck,
+      searchCard,
+      clearSearch,
+      addCardToDeck,
       addToSideDeck
     };
   },
@@ -315,8 +368,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-/* Modo Oscuro Consistente - 100% Sin Blancos */
-
 html,
 body {
   background-color: #121212 !important;
@@ -460,7 +511,7 @@ a:visited {
   border: 1px solid #333 !important;
   border-radius: 8px;
   padding: 10px;
-  max-height: 400px;
+  max-height: 500px;
   overflow-y: auto;
   color: #ddd !important;
 }
