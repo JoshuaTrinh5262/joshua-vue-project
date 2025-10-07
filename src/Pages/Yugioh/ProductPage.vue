@@ -57,7 +57,7 @@
           <div class="col-md-6">
             <div class="position-relative form-group">
               <label for="release_date">Release Date</label>
-              <input name="release_date" id="release_date" placeholder="Release Date" type="date" class="form-control">
+              <input name="release_date" id="release_date" placeholder="Release Date" type="date" v-model=currentProduct.release_date class="form-control">
               <small class="text-danger"></small>
             </div>
           </div>
