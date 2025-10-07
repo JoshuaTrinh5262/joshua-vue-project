@@ -1,9 +1,7 @@
 <template>
   <div class="app-container" :class="isDark? 'app-theme-dark' : 'app-theme-white'">
       <MainHeaderComponent />
-    <div class="m-4">
       <slot></slot>
-    </div>
   </div>
 </template>
 

@@ -38,9 +38,44 @@ export const getYugiohCardsWithPaging = async (
     }
 };
 
-export const getYugiohCards = async () => {
+// export const getYugiohCards = async () => {
+//     try {
+//         const { data, error } = await supabase.from("yugioh_card").select("*");
+//         if (error) {
+//             return { error: error.message };
+//         }
+//         return data;
+//     } catch (err) {
+//         return { error: err.message };
+//     }
+// };
+
+export const searchCard = async (value) => {
     try {
-        const { data, error } = await supabase.from("yugioh_card").select("*");
+        const { data, error } = await supabase
+            .from("yugioh_card")
+            .select("*")
+            .neq("passcode", null)
+            .ilike("name", `%${value}%`);
+        if (error) {
+            return { error: error.message };
+        }
+        const mappedData = data.map((card) => ({
+            ...card,
+            image: `https://images.ygoprodeck.com/images/cards/${card.passcode}.jpg`,
+        }));
+        return mappedData;
+    } catch (err) {
+        return { error: err.message };
+    }
+};
+
+export const getNullPasscodeCards = async () => {
+    try {
+        const { data, error } = await supabase
+            .from("yugioh_card")
+            .select("*")
+            .is("passcode", null);
         if (error) {
             return { error: error.message };
         }
@@ -111,7 +146,6 @@ export const deleteYugiohCard = async (id) => {
         return { error: err.message };
     }
 };
-
 
 export const countYugiohCardRecord = async () => {
     try {

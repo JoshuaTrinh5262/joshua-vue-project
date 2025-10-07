@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted, watch } from "vue";
+import { defineComponent, ref, onMounted } from "vue";
 import PageTitleComponent from "@/Layout/Components/PageTitleComponent.vue";
 import TabsComponent from "@/Layout/Components/Tabs/TabsComponent.vue";
 import TabComponent from "@/Layout/Components/Tabs/TabComponent.vue";

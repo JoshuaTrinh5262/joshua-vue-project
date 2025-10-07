@@ -1,12 +1,19 @@
 <template>
   <div>
     <page-title-component :heading=heading :subheading=subheading :icon=icon></page-title-component>
-
-    <table-component :footer=true :fields="fields" :items="items" @search="onSearch">
-    </table-component>
-
-    <pagination-component :currentPage="currentPage" :perPage="itemsPerPage" :totalItems="totalItems"
-      :totalPages="totalPages" @load-page="changeCurrentPage" @change-page-size="changePageSize"></pagination-component>
+    <tabs-component>
+      <tab-component title="Card">
+        <table-component :footer=true :fields="fields" :items="items" @search="onSearch">
+        </table-component>
+        <pagination-component :currentPage="currentPage" :perPage="itemsPerPage" :totalItems="totalItems"
+          :totalPages="totalPages" @load-page="changeCurrentPage"
+          @change-page-size="changePageSize"></pagination-component>
+      </tab-component>
+      <tab-component :title="`No Passcode Card`">
+        <table-component :footer=true :fields="fields" :items="items_b" @search="onSearch">
+        </table-component>
+      </tab-component>
+    </tabs-component>
   </div>
 </template>
 
@@ -17,6 +24,8 @@ import TableComponent from "@/Layout/Components/TableComponent.vue";
 import PaginationComponent from "@/Layout/Components/PaginationComponent.vue";
 import ModalComponent from "@/Layout/Components/ModalComponent.vue";
 import ButtonSpinner from "@/Layout/Components/ButtonSpinner.vue";
+import TabComponent from "@/Layout/Components/Tabs/TabComponent.vue";
+import TabsComponent from "@/Layout/Components/Tabs/TabsComponent.vue";
 import { apiService } from "@/supabase/apiService";
 
 export default defineComponent({
@@ -27,7 +36,9 @@ export default defineComponent({
     TableComponent,
     PaginationComponent,
     ModalComponent,
-    ButtonSpinner
+    ButtonSpinner,
+    TabComponent,
+    TabsComponent
   },
 
   setup() {
@@ -74,6 +85,7 @@ export default defineComponent({
       },
     ]);
     const items = ref([]);
+    const items_b = ref([]);
 
     const onSearch = (newSearchTerm) => {
       search.value = newSearchTerm;
@@ -90,6 +102,13 @@ export default defineComponent({
       }
     };
 
+    const getNullPasscodeCards = async () => {
+      const result = await apiService.getNullPasscodeCards();
+      if (!result.error) {
+        items_b.value = result;
+      }
+    };
+
     const changePageSize = async (newPageSize) => {
       await getYugiohCardsData(1, newPageSize);
     };
@@ -100,6 +119,7 @@ export default defineComponent({
     };
 
     onMounted(async () => {
+      await getNullPasscodeCards();
       await getYugiohCardsData(currentPage.value, itemsPerPage.value);
     });
 
@@ -113,6 +133,7 @@ export default defineComponent({
       totalPages,
       fields,
       items,
+      items_b,
       onSearch,
       changePageSize,
       changeCurrentPage
