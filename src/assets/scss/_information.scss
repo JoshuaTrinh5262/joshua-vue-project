@@ -1,0 +1,59 @@
+// node : replace with scss variable
+.information {
+    padding: 20px 20px;
+    border: 1px solid #CDD0D5;
+    border-radius: 2px;
+    position: relative;
+    margin-bottom: 25px;
+
+    .information-title {
+        padding: 0 10px;
+        background: #fff;
+        position: absolute;
+        top: -8px;
+        left: 10px;
+    }
+
+    &:hover {
+        border-color: #37b4ff;
+
+        .information-title {
+            color: #146EA3;
+        }
+    }
+}
+
+.information-btn-wrap {
+    position: absolute;
+    top: -12px;
+    right: 18px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.information-row-flex {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    margin: 0 -10px 16px -10px;
+}
+
+// dark mode 
+.dark {
+    .information {
+        border: 1px solid #CDD0D5;
+            &:hover {
+        border-color: #37b4ff;
+    }
+    }
+
+
+
+    .information-title {
+        background: #555;
+    }
+
+    &:hover {
+        border-color: #37b4ff;
+    }
+}

@@ -3,63 +3,94 @@
         <page-title-component :heading="heading" :subheading="subheading" :icon="icon"></page-title-component>
         <notification-component v-model:notification="notification"></notification-component>
         <tabs-component>
+            <tab-component title="Contact Information">
+                <div class="information">
+                    <div class="information-title">Contact Information</div>
+                    <div class="position-relative row form-group">
+                        <label for="facebook" class="col-sm-2 col-form-label">Facebook</label>
+                        <div class="col-sm-10">
+                            <input id="facebook" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="position-relative row form-group">
+                        <label for="youtube" class="col-sm-2 col-form-label">Youtube</label>
+                        <div class="col-sm-10">
+                            <input id="youtube" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="position-relative row form-group">
+                        <label for="email" class="col-sm-2 col-form-label">Email</label>
+                        <div class="col-sm-10">
+                            <input id="email" value="testing@gmail.com" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="position-relative row form-group">
+                        <label for="phone" class="col-sm-2 col-form-label">Phone</label>
+                        <div class="col-sm-10">
+                            <input id="phone" value="0000000000" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="position-relative row form-check">
+                        <button class="btn btn-primary" type="button">Save</button>
+                    </div>
+                </div>
+                <div class="information">
+                    <div class="information-title">Google Connection</div>
+                    <div class="position-relative row form-group">
+                        <label for="google" class="col-sm-2 col-form-label">Google Key</label>
+                        <div class="col-sm-10">
+                            <input id="google" class="form-control" value="******" disabled>
+                        </div>
+                    </div>
+                    <div class="position-relative row form-check">
+                        <button class="btn btn-primary" type="button">Connected</button>
+                    </div>
+                </div>
+                <div class="information">
+                    <div class="information-title">Supabase Connection</div>
+                    <div class="position-relative row form-group">
+                        <label for="superbase" class="col-sm-2 col-form-label">Supabase Key</label>
+                        <div class="col-sm-10">
+                            <input id="superbase" class="form-control" value="******" disabled>
+                        </div>
+                    </div>
+                    <div class="position-relative row form-check">
+                        <button class="btn btn-primary" type="button">Connected</button>
+                    </div>
+                </div>
+            </tab-component>
             <tab-component :title="$t('system_setting')">
-                <div class="position-relative row">
-                    <label for="language" class="col-sm-2 col-form-label">{{ $t('select_language') }}</label>
-                    <div class="col-sm-10">
-                        <select id="language" v-model="selectedLanguage" class="form-control">
-                            <option value="en">{{ $t('english') }}</option>
-                            <option value="vn">{{ $t('vietnamese') }}</option>
-                            <option value="jp">{{ $t('japanese') }}</option>
-                            <option value="id">{{ $t('indonesian') }}</option>
-                            <option value="kr">{{ $t('korean') }}</option>
-                            <option value="ru">{{ $t('russian') }}</option>
-                        </select>
+                <div class="information">
+                    <div class="information-title">{{ $t('language') }}</div>
+                    <div class="position-relative row">
+                        <label for="language" class="col-sm-2 col-form-label">{{ $t('select_language') }}</label>
+                        <div class="col-sm-10">
+                            <select id="language" v-model="selectedLanguage" class="form-control">
+                                <option value="en">{{ $t('english') }}</option>
+                                <option value="vn">{{ $t('vietnamese') }}</option>
+                                <option value="jp">{{ $t('japanese') }}</option>
+                                <option value="id">{{ $t('indonesian') }}</option>
+                                <option value="kr">{{ $t('korean') }}</option>
+                                <option value="ru">{{ $t('russian') }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="position-relative row form-check">
+                        <button @click="changeLanguage" class="btn btn-primary"> {{ $t('apply_setting') }}</button>
                     </div>
                 </div>
-                <div class="position-relative row form-check">
-                    <button @click="changeLanguage" class="btn btn-primary"> {{ $t('apply_setting') }}</button>
-                </div>
-
-            </tab-component>
-            <tab-component title="Demo Date Time Picker">
-                <div class="position-relative row  form-group">
-                    <label class="col-sm-2 col-form-label">Demo Date Time Picker</label>
-                    <div class="col-sm-10">
-                        <DateTimePicker></DateTimePicker>
+                <div class="information">
+                    <div class="information-title">Dark Mode</div>
+                    <div class="position-relative row form-group">
+                        <label for="darkmode" class="col-sm-2 col-form-label">Dark mode</label>
+                        <div class="col-sm-10">
+                            <button id="darkmode" class="btn btn-primary" @click="toggleDark()">
+                                <i v-if="!isDark" class="pe-7s-sun"></i>
+                                <i v-else class="pe-7s-moon"></i>
+                                Toggle Dark Mode
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <div class="position-relative row form-check">
-                    <button class="btn btn-primary" type="button">Save</button>
-                </div>
-            </tab-component>
-            <tab-component title="Dark Mode">
-                <div class="position-relative row form-group">
-                    <label for="darkmode" class="col-sm-2 col-form-label">Dark mode</label>
-                    <div class="col-sm-10">
-                        <button id="darkmode" class="btn btn-primary" @click="toggleDark()">
-                            <i v-if="!isDark" class="pe-7s-sun"></i>
-                            <i v-else class="pe-7s-moon"></i>
-                            Toggle Dark Mode
-                        </button>
-                    </div>
-                </div>
-            </tab-component>
-            <tab-component title="General Setting">
-                <div class="position-relative row form-group">
-                    <label for="language" class="col-sm-2 col-form-label">Facebook</label>
-                    <div class="col-sm-10">
-                        <input class="form-control" disabled>
-                    </div>
-                </div>
-                <div class="position-relative row form-group">
-                    <label for="language" class="col-sm-2 col-form-label">Youtube</label>
-                    <div class="col-sm-10">
-                        <input class="form-control" disabled>
-                    </div>
-                </div>
-                <div class="position-relative row form-check">
-                    <button class="btn btn-primary" type="button">Save</button>
                 </div>
             </tab-component>
         </tabs-component>
