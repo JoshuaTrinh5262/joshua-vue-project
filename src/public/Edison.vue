@@ -1,84 +1,50 @@
 <template>
   <div>
-    <div class="image-gallery">
-      <div v-for="(image, name) in loadImages" :key="name" class="image-container">
-        <img src="/backside.jpg" :alt="name" />
-        <div class="image-tag">card_name</div>
+    <div class="container-fluid" style="background-image: url('../background.jpg'); ">
+      <div class="text-white">
+        <h1 class="text-center">Yu-Gi-Oh! EDISON</h1>
+        <h2 class="text-center">WHAT IS EDISON FORMAT?</h2>
+        <p class="text-center">
+          The Edison format is a popular retro format in the Yu-Gi-Oh! trading card game, named after the 75th Shonen
+          Jump Championship held in Edison, New Jersey. It features cards from the 5D's era and is known for its strong
+          community support and competitive play. Iconic decks such as Quickdraw Plant and various strategies like
+          Blackwing and Vayu Turbo are commonly used in this format. The format has gained recognition for its unique
+          gameplay and is celebrated through events like the Edison Format World Championship.
+        </p>
+      </div>
+      <div>
+        <div v-for="group in banlistGroups" :key="group.title" class="banlist-group text-white">
+          <h2>{{ group.title }}</h2>
+          <ul>
+            <li v-for="card in group.items" :key="card">
+              {{ card.Name }}
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
-import PageTitleComponent from "@/Layout/Components/PageTitleComponent.vue";
-import images from "@/utils/loadImages";
+import { defineComponent } from "vue";
+import { banned, limit, semi } from "@/utils/edison_banlist.js";
 
 export default defineComponent({
   name: "Edison",
-
-  components: {
-    PageTitleComponent,
-  },
-
   setup() {
-    const heading = ref("Edison");
-    const subheading = ref("Highlighting the Journey of Creative Minds in the Art World.");
-    const icon = ref("pe-7s-photo-gallery icon-gradient bg-tempting-azure");
-    const loadImages = ref(images);
+    const banlistGroups = [
+      { title: "Banned", items: banned },
+      { title: "Limited", items: limit },
+      { title: "Semi-Limited", items: semi },
+    ];
 
     return {
-      heading,
-      subheading,
-      icon,
-      loadImages,
+
+      banlistGroups
     };
   },
 });
 </script>
 
-<style scoped>
-.image-gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 16px;
-}
-
-.image-container {
-  opacity: 0;
-  transform: translateY(20px);
-  animation: slideUp 0.5s ease forwards;
-}
-
-@keyframes slideUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.image-container img {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-}
-
-.image-container:hover img {
-  transform: scale(1.1);
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);
-}
-
-.image-tag {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  background-color: rgba(0, 0, 0, 0.7);
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 14px;
-  font-weight: bold;
-  z-index: 1;
-  pointer-events: none;
-}
-</style>
+<style scoped></style>

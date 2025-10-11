@@ -1,39 +1,44 @@
 <template>
   <div class="genesys-page">
-    <section class="intro">
-      <h1>Yu-Gi-Oh! GENESYS</h1>
-      <h2>WHAT IS GENESYS?</h2>
-      <p>
-        The Genesys rules are simple:
-      </p>
-      <ol>
-        <li>No Link Monsters or Pendulum Monsters are allowed. All other cards are allowed. The original field layout is
-          used, with no Extra Monster Zones nor Pendulum Zones.</li>
-        <li>The standard Forbidden & Limited Cards list is not used. All those cards can be used, except Link Monsters
-          and Pendulum Monsters. Usual limit of 3 copies max of any card still applies.</li>
-        <li>Deck construction uses a point system. Some cards are assigned a point value; most cards cost zero points.
-          The total point cost of cards in your Main Deck, Extra Deck, and Side Deck (combined) cannot exceed the point
-          cap for that event.</li>
-        <li>The standard point cap is 100, but events can be run with any point cap, or even a zero-point cap! Official
-          Tournament Stores can set their own caps for their tournaments.</li>
-      </ol>
-      <!-- <p>
-        <a :href="deckListUrl" target="_blank">GO HERE</a> to create and print your Deck list, using the early access
-        point tabulator tool.
-      </p>
-      <p>
-        <a :href="strategyGuideUrl" target="_blank">GO HERE</a> to read up on info and strategy tips for Genesys, where
-        and how to play, and how to build Genesys Decks (or modify your existing Decks)!
-      </p> -->
-      <p>
-        <a href="/deckbuild">GO HERE</a> Want to build Genesys Decks or modify your existing Decks.
-      </p>
-    </section>
+    <div class="container-fluid" style="background-image: url('../background.jpg'); ">
+      <div class="text-center mb-3">
+        <img alt="Logo" src="genesys-logo.png" class="my-3" style="max-height: 120px; margin-bottom: 10px;" />
+      </div>
+      <div class="intro">
+        <h1 class="text-center">Yu-Gi-Oh! GENESYS</h1>
+        <h2 class="text-center">WHAT IS GENESYS?</h2>
+        <p class="text-center">
+          Want to build Genesys Decks or modify your existing Decks. <a href="/deckbuild">GO HERE</a>
+        </p>
+        <div class="information">
+          <div class="information-title">
+            The Genesys rules are simple:
+          </div>
+          <ol>
+            <li class="mb-2">No Link Monsters or Pendulum Monsters are allowed. All other cards are allowed. The
+              original field layout
+              is
+              used, with no Extra Monster Zones nor Pendulum Zones.</li>
+            <li class="mb-2">The standard Forbidden & Limited Cards list is not used. All those cards can be used,
+              except Link Monsters
+              and Pendulum Monsters. Usual limit of 3 copies max of any card still applies.</li>
+            <li class="mb-2">Deck construction uses a point system. Some cards are assigned a point value; most cards
+              cost zero points.
+              The total point cost of cards in your Main Deck, Extra Deck, and Side Deck (combined) cannot exceed the
+              point
+              cap for that event.</li>
+            <li class="mb-2">The standard point cap is 100, but events can be run with any point cap, or even a
+              zero-point cap!
+              Official Tournament Stores can set their own caps for their tournaments.</li>
+          </ol>
+        </div>
+      </div>
 
-    <section class="card-list">
-      <table-component :footer=true :fields="fields" :items="items" :showAction="false"
-        :showSearch="false"></table-component>
-    </section>
+      <div class="card-list">
+        <table-component :footer=true :fields="fields" :items="items" :showAction="false"
+          :showSearch="false"></table-component>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -92,12 +97,10 @@ export default defineComponent({
 
 <style scoped>
 .genesys-page {
-  max-width: 900px;
   margin: 0 auto;
-  padding: 1rem;
+  color: white;
   font-family: sans-serif;
 }
-
 
 .main-nav ul {
   list-style: none;

@@ -86,17 +86,22 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.dark .main-header {
-  background-color: #333;
-  color: #fafbfc;
-}
+.dark {
+  .main-header {
+    background-color: #333;
+    color: #fafbfc;
+  }
 
-.dark .header-nav a {
-  color: #fafbfc;
-}
+  .header-nav a {
+    color: #fafbfc;
+  }
 
-.dark .header-nav .drop-list {
-  background-color: #333;
+  .header-nav .drop-list {
+    background-color: #333;
+  }
+    .header-nav .drop-list .a:hover {
+    background-color: #fff;
+  }
 }
 
 .main-header {
@@ -152,6 +157,7 @@ export default defineComponent({
   z-index: 10;
   display: flex;
   flex-direction: column;
+  width: 150px;
 }
 
 .header-nav .drop-list a {
@@ -163,7 +169,7 @@ export default defineComponent({
 }
 
 .header-nav .drop-list a:hover {
-  background-color: #333;
+  background-color: red;
 }
 
 .auth-buttons {

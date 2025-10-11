@@ -8,9 +8,9 @@
     <!-- Header -->
     <div class="text-center mb-3">
       <img alt="Logo" src="genesys-logo.png" class="my-3" style="max-height: 120px; margin-bottom: 10px;" />
-      <h2>Genesys Format Deck Builder</h2>
-      <p>
-        <a href="/genesys">GO HERE</a> What is Genesys Format?
+      <h2 class="text-white">Genesys Format Deck Builder</h2>
+      <p class="text-white">
+        What is Genesys Format? <a href="/genesys">GO HERE</a>
       </p>
     </div>
 
@@ -370,166 +370,119 @@ export default defineComponent({
 </script>
 
 <style scoped>
-html,
-body {
-  background-color: #121212 !important;
-  color: #e0e0e0 !important;
-  font-family: Arial, sans-serif;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-span,
-label,
-div {
-  color: #e0e0e0 !important;
-}
-
-a,
-a:hover,
-a:visited {
-  color: #bbb !important;
-}
-
-.container,
-.container-fluid,
-.row,
-.col,
-.col-md-*,
-.rounded,
-.border {
-  background-color: #121212 !important;
-  color: #e0e0e0 !important;
-}
-
-.bg-light,
-.bg-white,
-.bg-secondary,
-.card,
-.alert {
-  background-color: #1c1c1c !important;
-  color: #ddd !important;
-  border-color: #333 !important;
-}
-
 .btn,
 .btn-tech,
 .btn-sm,
 .btn-outline-light,
 .btn-outline-secondary,
 .btn-outline-success {
-  background-color: #2a2a2a !important;
-  color: #e0e0e0 !important;
-  border: 1px solid #444 !important;
+  background-color: #2a2a2a;
+  color: #e0e0e0;
+  border: 1px solid #555;
 }
 
 .btn:hover,
 .btn-tech:hover {
-  background-color: #3a3a3a !important;
-  color: #fff !important;
+  background-color: #3a3a3a;
+  color: #fff;
 }
 
 .form-control,
 .form-select {
-  background-color: #1c1c1c !important;
-  color: #ddd !important;
-  border: 1px solid #444 !important;
+  background-color: #1c1c1c;
+  color: #ddd;
+  border: 1px solid #555;
 }
 
 .form-control:focus,
 .form-select:focus {
-  background-color: #222 !important;
-  border-color: #666 !important;
-  color: #fff !important;
+  background-color: #222;
+  border-color: #555;
+  color: #fff;
 }
 
 .form-control::placeholder {
-  color: #888 !important;
+  color: #888;
 }
 
 .card-preview {
-  background-color: #1a1a1a !important;
-  border: 1px solid #333 !important;
+  background-color: #1a1a1a;
+  border: 1px solid #555;
   border-radius: 8px;
   padding: 12px;
   text-align: center;
-  color: #a4a !important;
+  color: #fff;
 }
 
 .card-preview img {
   max-height: 220px;
   object-fit: contain;
   border-radius: 4px;
-  background-color: #000 !important;
+  background-color: #000;
 }
 
 .card-result-item {
-  background-color: #1b1b1b !important;
-  border: 1px solid #333 !important;
+  background-color: #1b1b1b;
+  border: 1px solid #555;
   border-radius: 5px;
   padding: 8px;
   display: flex;
   align-items: center;
   margin-bottom: 6px;
-  color: #ddd !important;
+  color: #ddd;
 }
 
 .card-result-item:hover {
-  background-color: #252525 !important;
+  background-color: #252525;
 }
 
 .deck-row {
-  background-color: #181818 !important;
-  border: 1px solid #333 !important;
+  background-color: #181818;
+  border: 1px solid #333;
   border-radius: 8px;
   padding: 8px;
   margin: 10px 0;
   text-align: center;
-  color: #ddd !important;
+  color: #ddd;
 }
 
 .deck-row-title {
-  border-bottom: 1px solid #444 !important;
+  border-bottom: 1px solid #555;
   margin-bottom: 6px;
   padding-bottom: 4px;
   font-weight: bold;
-  color: #e0e0e0 !important;
+  color: #e0e0e0;
 }
 
 .deck-row img {
-  border: 1px solid #555 !important;
+  border: 1px solid #555;
   border-radius: 4px;
   cursor: pointer;
-  background-color: #000 !important;
+  background-color: #000;
 }
 
 .results-container {
-  background-color: #181818 !important;
-  border: 1px solid #333 !important;
+  background-color: #181818;
+  border: 1px solid #333;
   border-radius: 8px;
   padding: 10px;
   max-height: 500px;
   overflow-y: auto;
-  color: #ddd !important;
+  color: #ddd;
 }
 
 .alert {
-  background-color: #2c2c2c !important;
-  border-color: #444 !important;
-  color: #ddd !important;
+  background-color: #2c2c2c;
+  border-color: #555;
+  color: #ddd;
 }
 
 .text-muted {
-  color: #ffffff !important;
+  color: #ffffff;
 }
 
 .card-preview .text-muted {
-  color: #ffffff !important;
+  color: #ffffff;
 }
 
 .gap-2 {
