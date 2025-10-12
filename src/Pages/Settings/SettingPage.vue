@@ -5,6 +5,15 @@
         <tabs-component>
             <tab-component title="Contact Information">
                 <div class="information">
+                    <div class="information-title">General Information</div>
+                    <div class="position-relative row form-group">
+                        <label for="brand" class="col-sm-2 col-form-label">Brand</label>
+                        <div class="col-sm-10">
+                            <input id="brand" class="form-control" value="Hochiminh Duelist Association (HDA)" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="information">
                     <div class="information-title">Contact Information</div>
                     <div class="position-relative row form-group">
                         <label for="facebook" class="col-sm-2 col-form-label">Facebook</label>
@@ -30,6 +39,12 @@
                             <input id="phone" value="0000000000" class="form-control" disabled>
                         </div>
                     </div>
+                    <div class="position-relative row form-group">
+                        <label for="website" class="col-sm-2 col-form-label">Website</label>
+                        <div class="col-sm-10">
+                            <input id="website" value="https://joshuatrinh.fun/" class="form-control" disabled>
+                        </div>
+                    </div>
                     <div class="position-relative row form-check">
                         <button class="btn btn-primary" type="button">Save</button>
                     </div>
@@ -40,6 +55,14 @@
                         <label for="google" class="col-sm-2 col-form-label">Google Key</label>
                         <div class="col-sm-10">
                             <input id="google" class="form-control" value="******" disabled>
+                        </div>
+                    </div>
+                    <div class="position-relative row form-group">
+                        <label for="google-adsense-account" class="col-sm-2 col-form-label">Google Adsense
+                            Account</label>
+                        <div class="col-sm-10">
+                            <input id="google-adsense-account" class="form-control"
+                                placeholder="ca-pub-XXXXXXXXXXXXXXXX" value="ca-pub-3897004617530574" disabled>
                         </div>
                     </div>
                     <div class="position-relative row form-check">

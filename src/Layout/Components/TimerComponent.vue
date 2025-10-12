@@ -1,32 +1,22 @@
 <template>
   <div class="timer">
     <div v-if="timeLeft > 0">
-      <span>{{ formattedTime }}</span>
+      <h1>{{ formattedTime }}</h1>
     </div>
     <div v-else-if="timeLeft === 0 && hasStarted">
-      <span>Time's up!</span>
+      <h1>Time's up!</h1>
     </div>
 
     <div class="progress mt-3">
-      <div
-        class="progress-bar progress-bar-striped progress-bar-animated"
-        :style="{ width: (timeLeft / totalSeconds) * 100 + '%' }"
-        role="progressbar"
-        :aria-valuenow="timeLeft"
-        aria-valuemin="0"
-        :aria-valuemax="totalSeconds"
-      >
+      <div class="progress-bar progress-bar-striped progress-bar-animated"
+        :style="{ width: (timeLeft / totalSeconds) * 100 + '%' }" role="progressbar" :aria-valuenow="timeLeft"
+        aria-valuemin="0" :aria-valuemax="totalSeconds">
         {{ timeLeft }}
       </div>
     </div>
 
     <div class="controls">
-      <input
-        type="number"
-        v-model.number="inputMinutes"
-        min="1"
-        placeholder="Minutes"
-      />
+      <input type="number" v-model.number="inputMinutes" min="1" placeholder="Minutes" />
       <button @click="setTimer" class="btn btn-primary">Set Timer</button>
       <button @click="pause" class="btn btn-secondary">
         {{ isPaused ? "Resume" : "Pause" }}
@@ -126,7 +116,6 @@ export default defineComponent({
 <style scoped>
 .timer {
   font-family: monospace;
-  font-size: 2rem;
   color: #e76f51;
   margin: auto;
   text-align: center;
@@ -143,9 +132,9 @@ export default defineComponent({
 
 input {
   width: 100px;
-  padding: 0.4rem;
   margin-right: 0.5rem;
 }
+
 button {
   margin-right: 0.5rem;
 }
