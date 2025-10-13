@@ -36,7 +36,7 @@
                     <div class="position-relative row form-group">
                         <label for="phone" class="col-sm-2 col-form-label">Phone</label>
                         <div class="col-sm-10">
-                            <input id="phone" value="0000000000" class="form-control" disabled>
+                            <input id="phone" value="(00)-000-000-000" class="form-control" disabled>
                         </div>
                     </div>
                     <div class="position-relative row form-group">

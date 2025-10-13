@@ -83,7 +83,7 @@
             <div class="d-flex flex-wrap justify-content-center gap-2">
               <p v-if="!mainDeck.length" class="text-muted">Empty</p>
               <div v-for="card in mainDeck" :key="card.id" class="card-slot" @mouseenter="setPreview(card)"
-                @click="setPreview(card)">
+                @click="removeCardFromDeck(card, 'main')">
                 <div style="position: relative; display: inline-block;">
                   <img :alt="card.name" :title="card.name" :src="card.image"
                     style="width: 50px; height: 72px; object-fit: cover;">
@@ -99,7 +99,7 @@
               <p v-if="!extraDeck.length" class="text-muted">Empty</p>
               <div v-for="card in extraDeck" :key="card.id" class="card-slot">
                 <div style="position: relative; display: inline-block;" @mouseenter="setPreview(card)"
-                  @click="setPreview(card)">
+                  @click="removeCardFromDeck(card, 'extra')">
                   <img :alt="card.name" :title="card.name" :src="card.image"
                     style="width: 50px; height: 72px; object-fit: cover;">
                 </div>
@@ -114,7 +114,7 @@
               <p v-if="!sideDeck.length" class="text-muted">Empty</p>
               <div v-for="card in sideDeck" :key="card.id" class="card-slot">
                 <div style="position: relative; display: inline-block;" @mouseenter="setPreview(card)"
-                  @click="setPreview(card)">
+                  @click="removeCardFromDeck(card, 'side')">
                   <img :alt="card.name" :title="card.name" :src="card.image"
                     style="width: 50px; height: 72px; object-fit: cover;">
                 </div>
@@ -245,10 +245,18 @@ export default defineComponent({
     }
 
     function clearDeck() {
-      mainDeck.value = [];
-      extraDeck.value = [];
-      sideDeck.value = [];
+      if (mainDeck.value.length === 0 && extraDeck.value.length === 0 && sideDeck.value.length === 0) {
+        return;
+      }
+      const confirmed = confirm("Are you sure you want to clear your deck? This action cannot be undone.");
+
+      if (confirmed) {
+        mainDeck.value = [];
+        extraDeck.value = [];
+        sideDeck.value = [];
+      }
     }
+
 
     function deleteDeck() {
       alert("Delete current deck");
@@ -297,6 +305,37 @@ export default defineComponent({
         addToExtraDeck(card)
       } else {
         addToMainDeck(card)
+      }
+    }
+
+    function removeCardFromDeck(card, deckType) {
+      let index = -1;
+
+      switch (deckType) {
+        case 'main':
+          index = mainDeck.value.findIndex(c => c.passcode === card.passcode);
+
+          if (index !== -1) {
+            mainDeck.value.splice(index, 1);
+          }
+          break;
+        case 'extra':
+          index = extraDeck.value.findIndex(c => c.passcode === card.passcode);
+
+          if (index !== -1) {
+            extraDeck.value.splice(index, 1);
+          }
+          break;
+        case 'side':
+          index = sideDeck.value.findIndex(c => c.passcode === card.passcode);
+
+          if (index !== -1) {
+            sideDeck.value.splice(index, 1);
+          }
+          break;
+        default:
+          alert(`Unknown deck type: ${deckType}`);
+          break;
       }
     }
 
@@ -363,7 +402,8 @@ export default defineComponent({
       searchCard,
       clearSearch,
       addCardToDeck,
-      addToSideDeck
+      addToSideDeck,
+      removeCardFromDeck
     };
   },
 });
