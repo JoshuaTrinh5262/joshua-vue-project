@@ -19,8 +19,9 @@
       <div class="col-md-3 mb-3">
         <div class="card-preview">
           <template v-if="previewCard">
-            <img :alt="previewCard.name" class="img-fluid mb-2" :src="previewCard.image" />
-            <h5>{{ previewCard.name }} <span v-if="previewCard.point"
+            <img :alt="previewCard.name" class="img-fluid mb-2" :src="previewCard.image"
+              onerror="if (this.src != 'default.jpg') this.src = 'default.jpg';" />
+            <h5>{{ previewCard.name }} <span v-if="previewCard.point && previewCard.point != 0"
                 style="margin-left: 8px; font-size: 12px; padding: 2px 6px; border-radius: 6px; background-color: rgba(0, 0, 0, 0.7); color: white;">{{
                   previewCard.point }}</span>
             </h5>
@@ -68,13 +69,13 @@
           <div class="d-flex flex-wrap gap-2 mb-2">
             <input v-model="newDeckName" class="form-control form-control-sm" placeholder="New deck name" type="text" />
             <button class="btn btn-outline-success btn-sm" @click="createDeck">Create</button>
-            <button class="btn btn-tech btn-sm" @click="importDeck" disabed>Import .ydk</button>
+            <button class="btn btn-tech btn-sm" @click="importDeck" disabled>Import .ydk</button>
             <button class="btn btn-tech btn-sm" @click="exportDeck">Export .ydk</button>
           </div>
 
-          <!-- Deck Score -->
+          <!-- Deck Point -->
           <div class="text-center text-light mb-2">
-            Deck Score: {{ deckScore }}
+            Deck Point: {{ deckPoint }}
           </div>
 
           <!-- Main Deck -->
@@ -85,7 +86,11 @@
               <div v-for="card in mainDeck" :key="card.id" class="card-slot" @mouseenter="setPreview(card)"
                 @click="removeCardFromDeck(card, 'main')">
                 <div style="position: relative; display: inline-block;">
+                  <span v-if="card.point && card.point > 0"
+                    style="position: absolute; top: -5px; left: -5px; background-color: rgba(0, 0, 0, 0.7); color: white; font-size: 12px; padding: 2px 5px; border-radius: 8px; z-index: 1;">{{
+                      card.point }}</span>
                   <img :alt="card.name" :title="card.name" :src="card.image"
+                    onerror="if (this.src != 'default.jpg') this.src = 'default.jpg';"
                     style="width: 50px; height: 72px; object-fit: cover;">
                 </div>
               </div>
@@ -100,7 +105,11 @@
               <div v-for="card in extraDeck" :key="card.id" class="card-slot">
                 <div style="position: relative; display: inline-block;" @mouseenter="setPreview(card)"
                   @click="removeCardFromDeck(card, 'extra')">
+                  <span v-if="card.point && card.point > 0"
+                    style="position: absolute; top: -5px; left: -5px; background-color: rgba(0, 0, 0, 0.7); color: white; font-size: 12px; padding: 2px 5px; border-radius: 8px; z-index: 1;">{{
+                      card.point }}</span>
                   <img :alt="card.name" :title="card.name" :src="card.image"
+                    onerror="if (this.src != 'default.jpg') this.src = 'default.jpg';"
                     style="width: 50px; height: 72px; object-fit: cover;">
                 </div>
               </div>
@@ -115,7 +124,11 @@
               <div v-for="card in sideDeck" :key="card.id" class="card-slot">
                 <div style="position: relative; display: inline-block;" @mouseenter="setPreview(card)"
                   @click="removeCardFromDeck(card, 'side')">
+                  <span v-if="card.point && card.point > 0"
+                    style="position: absolute; top: -5px; left: -5px; background-color: rgba(0, 0, 0, 0.7); color: white; font-size: 12px; padding: 2px 5px; border-radius: 8px; z-index: 1;">{{
+                      card.point }}</span>
                   <img :alt="card.name" :title="card.name" :src="card.image"
+                    onerror="if (this.src != 'default.jpg') this.src = 'default.jpg';"
                     style="width: 50px; height: 72px; object-fit: cover;">
                 </div>
               </div>
@@ -130,6 +143,7 @@
           <input v-model="searchQuery" class="form-control form-control-sm mb-2" placeholder="search card text here"
             type="text" />
           <button class="btn btn-tech btn-sm mb-2" @click="searchCard">Search</button>
+          <div v-if="loading" class="loading-spinner"></div>
           <div v-if="apiError" class="alert alert-danger">
             {{ apiError }}
           </div>
@@ -137,10 +151,11 @@
           <div v-for="card in searchResults" :key="card.id" class="card-result-item d-flex align-items-center mb-2"
             @mouseenter="setPreview(card)" @click="setPreview(card)">
             <img :alt="card.name" class="rounded border" :src="card.image"
+              onerror="if (this.src != 'default.jpg') this.src = 'default.jpg';"
               style="width: 50px; height: 72px; object-fit: cover; margin-right: 8px;" />
             <div class="flex-grow-1">
               <strong>{{ card.name }}</strong>
-              <span v-if="card.point"
+              <span v-if="card.point && card.point != 0"
                 style="margin-left: 6px; font-size: 12px; padding: 2px 5px; border-radius: 6px; background-color: rgba(0, 0, 0, 0.7); color: white;">
                 {{ card.point }}</span>
               <div class="d-flex flex-wrap gap-1 mt-1">
@@ -156,10 +171,11 @@
   </div>
 </template>
 <script>
-import { defineComponent, ref } from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 import PageTitleComponent from "@/Layout/Components/PageTitleComponent.vue";
 import { parseYugiohDeckFile } from "@/utils/fileHelper";
 import { apiService } from "@/supabase/apiService";
+import genesysPoints from "@/utils/genesys.js";
 
 export default defineComponent({
   name: "DeckBuild",
@@ -173,7 +189,7 @@ export default defineComponent({
 
     const selectedDeck = ref(null);
     const newDeckName = ref("");
-    const deckScore = ref(0);
+    const deckPoint = ref(0);
 
     const mainDeck = ref([]);
     const extraDeck = ref([]);
@@ -181,6 +197,7 @@ export default defineComponent({
 
     const searchQuery = ref("");
     const searchResults = ref([]);
+    const loading = ref(false);
     const apiError = ref(null);
     const previewCard = ref(null);
 
@@ -189,7 +206,15 @@ export default defineComponent({
     }
 
     function saveDeck() {
-      alert("Save current deck");
+      const deckData = {
+        main: mainDeck.value,
+        extra: extraDeck.value,
+        side: sideDeck.value,
+      };
+
+      localStorage.setItem("myDeck", JSON.stringify(deckData));
+      alert("✅ Deck saved successfully!");
+
     }
 
     function saveDeckAs() {
@@ -205,14 +230,12 @@ export default defineComponent({
     }
 
     function importDeck() {
-      parseYugiohDeckFile()
-      alert("Import deck");
-
+      alert("Deck Imported");
     }
 
     function exportDeck() {
       if (!selectedDeck.value) {
-        alert("Please select a deck 1st");
+        alert("Please select your deck to export");
         return;
       }
       const mainLines = mainDeck.value.map(card => card.passcode.toString()).join("\n");
@@ -248,6 +271,7 @@ export default defineComponent({
       if (mainDeck.value.length === 0 && extraDeck.value.length === 0 && sideDeck.value.length === 0) {
         return;
       }
+
       const confirmed = confirm("Are you sure you want to clear your deck? This action cannot be undone.");
 
       if (confirmed) {
@@ -257,18 +281,37 @@ export default defineComponent({
       }
     }
 
-
     function deleteDeck() {
-      alert("Delete current deck");
+      const confirmed = confirm("Are you sure you want to delete your deck? This action cannot be undone.");
+
+      if (confirmed) {
+        localStorage.removeItem("myDeck");
+        mainDeck.value = [];
+        extraDeck.value = [];
+        sideDeck.value = [];
+      }
     }
 
     const searchCard = async () => {
+      if (searchQuery.value == "") {
+        return;
+      }
+
+      loading.value = true;
       const result = await apiService.searchCard(searchQuery.value);
+
       if (!result.error) {
-        searchResults.value = result;
+
+        const withPoints = result.map(card => ({
+          ...card,
+          point: genesysPoints[card.name] ?? 0
+        }));
+
+        searchResults.value = withPoints;
       } else {
         apiError.value = "Error connecting to the API.";
       }
+      loading.value = false;
     }
 
     const clearSearch = async () => {
@@ -300,6 +343,9 @@ export default defineComponent({
         alert(`cannot add pendulum or link monster`);
         return;
       }
+
+      const cardPoints = genesysPoints[card.name] ?? 0;
+      deckPoint.value += cardPoints;
 
       if (card.is_fusion || card.is_xyz || card.is_synchro) {
         addToExtraDeck(card)
@@ -377,14 +423,25 @@ export default defineComponent({
       return mainCount + extraCount + sideCount;
     }
 
+    onMounted(() => {
+      const saved = localStorage.getItem("myDeck");
+      if (saved) {
+        const deckData = JSON.parse(saved);
+        mainDeck.value = deckData.main || [];
+        extraDeck.value = deckData.extra || [];
+        sideDeck.value = deckData.side || [];
+      }
+    });
+
     return {
       mainDeck,
       extraDeck,
       sideDeck,
-      deckScore,
+      deckPoint,
       searchQuery,
       searchResults,
       decks,
+      loading,
       apiError,
       newDeckName,
       selectedDeck,
@@ -527,5 +584,21 @@ export default defineComponent({
 
 .gap-2 {
   gap: 0.5em;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  margin: 16px auto;
+  border: 4px solid #ccc;
+  border-top: 4px solid #333;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>
