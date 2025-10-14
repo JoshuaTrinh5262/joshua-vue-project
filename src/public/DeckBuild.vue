@@ -194,6 +194,7 @@ export default defineComponent({
     const mainDeck = ref([]);
     const extraDeck = ref([]);
     const sideDeck = ref([]);
+    const savedDecks = ref({});
 
     const searchQuery = ref("");
     const searchResults = ref([]);
@@ -212,7 +213,7 @@ export default defineComponent({
         side: sideDeck.value,
       };
 
-      localStorage.setItem("myDeck", JSON.stringify(deckData));
+      localStorage.setItem("decks", JSON.stringify(deckData));
       alert("✅ Deck saved successfully!");
 
     }
@@ -285,7 +286,7 @@ export default defineComponent({
       const confirmed = confirm("Are you sure you want to delete your deck? This action cannot be undone.");
 
       if (confirmed) {
-        localStorage.removeItem("myDeck");
+        localStorage.removeItem("decks");
         mainDeck.value = [];
         extraDeck.value = [];
         sideDeck.value = [];
@@ -424,7 +425,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      const saved = localStorage.getItem("myDeck");
+      const saved = localStorage.getItem("decks");
       if (saved) {
         const deckData = JSON.parse(saved);
         mainDeck.value = deckData.main || [];

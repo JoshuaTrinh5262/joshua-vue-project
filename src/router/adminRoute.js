@@ -73,15 +73,6 @@ const adminRoutes = [
         },
         component: () => import("../Pages/Datasets/DatasetPage.vue"),
     },
-    {
-        path: "/admin/dataset-unprocess",
-        name: "dataset-unprocess",
-        meta: {
-            layout: "admin",
-            requiresAuth: true,
-        },
-        component: () => import("../Pages/Datasets/DatasetUnprocessPage.vue"),
-    },
 
     // Vtubers Data
     {
