@@ -1,14 +1,14 @@
 <template>
-    <main class="tc container">
-        <header class="tc__header">
+    <main class="tc-container">
+        <header class="tc-header">
             <h1>Terms & Conditions</h1>
-            <p class="tc__meta">
+            <p class="tc-meta">
                 Last updated: <time :datetime="isoDate">{{ formattedDate }}</time>
             </p>
-            <button class="tc__print" @click="printPage" disabled>Print / Save as PDF</button>
+            <button class="tc-print" @click="printPage" disabled>Print / Save as PDF</button>
         </header>
 
-        <section class="tc__intro">
+        <section class="tc-intro">
             <p>
                 These Terms and Conditions ("Terms") govern your access to and use of
                 <strong>{{ siteName }}</strong> (the "Service"), operated by
@@ -193,7 +193,7 @@
             </p>
         </section>
 
-        <footer class="tc__footer">
+        <footer class="tc-footer">
             <p>
                 <em>Disclaimer:</em> This template is provided for convenience only and does not constitute legal
                 advice. Consider consulting a qualified attorney for guidance tailored to your situation.
@@ -239,17 +239,27 @@ function printPage() {
 </script>
 
 <style scoped>
-:root {
-    color-scheme: light dark;
+.dark {
+    .tc-container {
+        color: #fff;
+    }
+
+    .tc-print {
+        border: 1px solid #fff;
+        color: #fff;
+        padding: 0.5rem 0.9rem;
+        border-radius: 0.5rem;
+        cursor: pointer;
+    }
 }
 
-.container {
+.tc-container {
     max-width: 900px;
     margin: 0 auto;
     padding: 2rem 1rem 4rem;
 }
 
-.tc__header {
+.tc-header {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -258,16 +268,16 @@ function printPage() {
     margin-bottom: 1rem;
 }
 
-.tc__header h1 {
+.tc-header h1 {
     margin: 0;
     font-size: 2rem;
 }
 
-.tc__meta {
+.tc-meta {
     opacity: 0.8;
 }
 
-.tc__print {
+.tc-print {
     border: 1px solid currentColor;
     background: transparent;
     padding: 0.5rem 0.9rem;
@@ -289,18 +299,18 @@ section li {
     line-height: 1.6;
 }
 
-.tc__footer {
+.tc-footer {
     margin-top: 2rem;
     font-size: 0.95rem;
     opacity: 0.85;
 }
 
 @media print {
-    .tc__print {
+    .tc-print {
         display: none;
     }
 
-    .tc__header h1 {
+    .tc-header h1 {
         font-size: 1.5rem;
     }
 }
