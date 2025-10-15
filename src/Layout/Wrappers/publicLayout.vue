@@ -1,19 +1,22 @@
 <template>
-  <div class="app-container" :class="isDark? 'app-theme-dark' : 'app-theme-white'">
-      <MainHeaderComponent />
-      <slot></slot>
+  <div class="app-container" :class="isDark ? 'app-theme-dark' : 'app-theme-white'">
+    <PublicHeaderComponent />
+    <slot></slot>
+    <PublicFooterComponent />
   </div>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import MainHeaderComponent from "../Components/MainHeaderComponent";
+import PublicHeaderComponent from "../Components/PublicHeaderComponent.vue";
+import PublicFooterComponent from "../Components/PublicFooterComponent.vue";
 import { useDark } from "@vueuse/core";
 
 export default defineComponent({
   name: "PublicLayout",
   components: {
-    MainHeaderComponent,
+    PublicHeaderComponent,
+    PublicFooterComponent
   },
 
   setup() {

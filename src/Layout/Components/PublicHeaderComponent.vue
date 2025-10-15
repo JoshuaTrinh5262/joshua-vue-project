@@ -32,7 +32,7 @@ import ToggleComponent from "./ToggleComponent.vue";
 
 export default defineComponent({
   components: { ToggleComponent },
-  name: "MainHeaderComponent",
+  name: "PublicHeaderComponent",
 
   setup() {
     const title = ref("BRAND");
