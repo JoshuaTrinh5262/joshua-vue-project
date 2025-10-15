@@ -5,7 +5,7 @@ const authGuard = async (to, from, next) => {
         data: { user },
     } = await supabase.auth.getUser();
     const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
-
+    console.log("user data getUser", user);
     // Check if the route requires authentication and user is not logged in
     if (requiresAuth && !user) {
         if (to.path.startsWith("/admin")) {

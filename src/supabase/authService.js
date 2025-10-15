@@ -15,15 +15,15 @@ export async function signup(email, password) {
 }
 
 export async function login(email, password) {
-    const { user, error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
         email: email,
         password: password,
     });
-
+    console.log("user data login", data);
     if (error) {
         return { error: error.message };
     } else {
-        return user;
+        return data;
     }
 }
 
