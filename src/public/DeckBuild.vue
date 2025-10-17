@@ -140,8 +140,13 @@
       <!-- Search + Results -->
       <div class="col-md-3 mb-3">
         <div class="results-container">
-          <input v-model="searchQuery" class="form-control form-control-sm mb-2" placeholder="search card text here"
+          <input v-model="searchQuery" class="form-control form-control-sm mb-2" placeholder="Search card text here"
             type="text" />
+          <div class="form-check mb-2">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" v-model="includeDescription">Include card description
+            </label>
+          </div>
           <button class="btn btn-tech btn-sm mb-2" @click="searchCard">Search</button>
           <div v-if="loading" class="loading-spinner"></div>
           <div v-if="apiError" class="alert alert-danger">
@@ -197,6 +202,7 @@ export default defineComponent({
     const savedDecks = ref({});
 
     const searchQuery = ref("");
+    const includeDescription = ref(false);
     const searchResults = ref([]);
     const loading = ref(false);
     const apiError = ref(null);
@@ -299,8 +305,8 @@ export default defineComponent({
       }
 
       loading.value = true;
-      const result = await apiService.searchCard(searchQuery.value);
-
+      const result = await apiService.searchCard(searchQuery.value, includeDescription.value);
+      console.log(result);
       if (!result.error) {
 
         const withPoints = result.map(card => ({
@@ -440,6 +446,7 @@ export default defineComponent({
       sideDeck,
       deckPoint,
       searchQuery,
+      includeDescription,
       searchResults,
       decks,
       loading,

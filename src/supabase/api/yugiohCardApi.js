@@ -50,19 +50,34 @@ export const getYugiohCardsWithPaging = async (
 //     }
 // };
 
-export const searchCard = async (value) => {
+export const searchCard = async (search, includeDescription) => {
     try {
-        const { data, error } = await supabase
+        let query = supabase
             .from("yugioh_card")
             .select("*")
             .neq("passcode", null)
-            .ilike("name", `%${value}%`);
+            .ilike("name", `%${search}%`);
+        if (includeDescription) {
+            query = supabase
+                .from("yugioh_card")
+                .select("*")
+                .neq("passcode", null)
+                .or(
+                    `name.ilike.%${search}%,description.ilike.%${search}%,pendulum_effect.ilike.%${search}%`
+                );
+        }
+
+        const { data, error } = await query;
+
         if (error) {
             return { error: error.message };
         }
         const mappedData = data.map((card) => ({
             ...card,
-            image: `https://images.ygoprodeck.com/images/cards/${card.passcode}.jpg`,
+            image: `https://images.ygoprodeck.com/images/cards/${parseInt(
+                card.passcode,
+                10
+            )}.jpg`,
         }));
         return mappedData;
     } catch (err) {
