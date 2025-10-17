@@ -1,9 +1,5 @@
 <template>
-  <div class="container-fluid" style="background-image: url('../background.jpg'); 
-              background-repeat: no-repeat; 
-              background-size: cover; 
-              background-position: center center; 
-              min-height: 95vh;">
+  <div class="container-fluid" style="background-image: url('../background.jpg');">
 
     <!-- Header -->
     <div class="text-center mb-3">
