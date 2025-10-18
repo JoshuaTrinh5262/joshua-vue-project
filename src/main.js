@@ -37,6 +37,7 @@ const Translation = createI18n({
 const app = createApp(App);
 const pinia = createPinia();
 
+app.config.devtools = true;
 // Register global components
 app.component('admin-layout', Admin);
 app.component('public-layout', Public);
