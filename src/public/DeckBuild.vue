@@ -16,7 +16,7 @@
         <div class="card-preview">
           <template v-if="previewCard">
             <img :alt="previewCard.name" class="img-fluid mb-2" :src="previewCard.image"
-              onerror="if (this.src != 'default.jpg') this.src = 'default.jpg';" />
+              onerror="if (this.src != 'backside.jpg') this.src = 'backside.jpg';" />
             <h5>{{ previewCard.name }} <span v-if="previewCard.point && previewCard.point != 0"
                 style="margin-left: 8px; font-size: 12px; padding: 2px 6px; border-radius: 6px; background-color: rgba(0, 0, 0, 0.7); color: white;">{{
                   previewCard.point }}</span>
@@ -86,11 +86,12 @@
                     style="position: absolute; top: -5px; left: -5px; background-color: rgba(0, 0, 0, 0.7); color: white; font-size: 12px; padding: 2px 5px; border-radius: 8px; z-index: 1;">{{
                       card.point }}</span>
                   <img :alt="card.name" :title="card.name" :src="card.image"
-                    onerror="if (this.src != 'default.jpg') this.src = 'default.jpg';"
-                    style="width: 50px; height: 72px; object-fit: cover;">
+                    onerror="if (this.src != 'backside.jpg') this.src = 'backside.jpg';"
+                    style="width: 59px; height: 86px; object-fit: cover;">
                 </div>
               </div>
             </div>
+            <div class="deck-row-footer">Monster {{ mainDeck.length }} | Spell {{ mainDeck.length }} | Trap {{ mainDeck.length }} </div>
           </div>
 
           <!-- Extra Deck -->
@@ -105,11 +106,12 @@
                     style="position: absolute; top: -5px; left: -5px; background-color: rgba(0, 0, 0, 0.7); color: white; font-size: 12px; padding: 2px 5px; border-radius: 8px; z-index: 1;">{{
                       card.point }}</span>
                   <img :alt="card.name" :title="card.name" :src="card.image"
-                    onerror="if (this.src != 'default.jpg') this.src = 'default.jpg';"
-                    style="width: 50px; height: 72px; object-fit: cover;">
+                    onerror="if (this.src != 'backside.jpg') this.src = 'backside.jpg';"
+                    style="width: 59px; height: 86px; object-fit: cover;">
                 </div>
               </div>
             </div>
+            <div class="deck-row-footer">Xyz 0 | Fusion 0 | Synchro 0</div>
           </div>
 
           <!-- Side Deck -->
@@ -124,11 +126,12 @@
                     style="position: absolute; top: -5px; left: -5px; background-color: rgba(0, 0, 0, 0.7); color: white; font-size: 12px; padding: 2px 5px; border-radius: 8px; z-index: 1;">{{
                       card.point }}</span>
                   <img :alt="card.name" :title="card.name" :src="card.image"
-                    onerror="if (this.src != 'default.jpg') this.src = 'default.jpg';"
-                    style="width: 50px; height: 72px; object-fit: cover;">
+                    onerror="if (this.src != 'backside.jpg') this.src = 'backside.jpg';"
+                    style="width: 59px; height: 86px; object-fit: cover;">
                 </div>
               </div>
             </div>
+            <div class="deck-row-footer">Side Deck ({{ sideDeck.length }})</div>
           </div>
         </div>
       </div>
@@ -152,8 +155,8 @@
           <div v-for="card in searchResults" :key="card.id" class="card-result-item d-flex align-items-center mb-2"
             @mouseenter="setPreview(card)" @click="setPreview(card)">
             <img :alt="card.name" class="rounded border" :src="card.image"
-              onerror="if (this.src != 'default.jpg') this.src = 'default.jpg';"
-              style="width: 50px; height: 72px; object-fit: cover; margin-right: 8px;" />
+              onerror="if (this.src != 'backside.jpg') this.src = 'backside.jpg';"
+              style="width: 59px; height: 86px; object-fit: cover; margin-right: 8px;" />
             <div class="flex-grow-1">
               <strong>{{ card.name }}</strong>
               <span v-if="card.point && card.point != 0"
@@ -216,7 +219,7 @@ export default defineComponent({
       };
 
       localStorage.setItem("decks", JSON.stringify(deckData));
-      alert("✅ Deck saved successfully!");
+      alert("Deck saved successfully!");
 
     }
 
@@ -545,6 +548,13 @@ export default defineComponent({
   margin: 10px 0;
   text-align: center;
   color: #ddd;
+
+  img {
+    border: 1px solid #555;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #000;
+  }
 }
 
 .deck-row-title {
@@ -555,11 +565,13 @@ export default defineComponent({
   color: #e0e0e0;
 }
 
-.deck-row img {
-  border: 1px solid #555;
-  border-radius: 4px;
-  cursor: pointer;
-  background-color: #000;
+.deck-row-footer {
+  border-top: 1px solid #555;
+  margin-top: 6px;
+  padding-top: 4px;
+  text-align: right;
+  font-weight: bold;
+  color: #e0e0e0;
 }
 
 .results-container {

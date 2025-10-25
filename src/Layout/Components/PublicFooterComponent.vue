@@ -5,9 +5,11 @@
         <div><a href="https://www.facebook.com/ygovn.hda" target="_blank"><img class="footer-logo" src="/hda.jpg"
               alt="mdigi.tools" width="332" height="192"></a>
           <div>HDA - Hội YugiOh Tp Hồ Chí Minh.</div>
+          <div>Inspired Your Life</div>
         </div>
         <div class="py-3">
-          <div class="site-menu"><a class="menu-item" href="/about">About</a>
+          <div class="site-menu">
+            <a class="menu-item" href="/about">About</a>
             <a class="menu-item" href="/blog">Blog</a>
             <a class="menu-item" href="/faq">FAQ</a>
             <a class="menu-item" href="/terms-and-conditions">Terms</a><a class="menu-item" href="/privacy/">Privacy</a>
@@ -17,8 +19,10 @@
       </div>
       <div class="container-readable border-top text-center">
         <div class="leading-loose">
-          <div class="text-small">Built with ❤ by <a href="https://joshuatrinh.fun">Joshua Trinh</a><br><a href="#top">↑
-              back to top</a></div>
+          <div class="text-small">
+            Built with ❤ by <a href="https://joshuatrinh.fun">Joshua Trinh</a><br>
+            <a href="#top">↑ back to top</a>
+          </div>
         </div>
       </div>
     </div>
@@ -34,10 +38,7 @@ export default defineComponent({
   name: "PublicFooterComponent",
 
   setup() {
-
-    return {
-
-    };
+    return { };
   },
 });
 </script>
