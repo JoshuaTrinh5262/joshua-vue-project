@@ -14,25 +14,27 @@
       <!-- Card Preview -->
       <div class="col-md-3 mb-3">
         <div class="card-preview">
-          <template v-if="previewCard">
-            <img :alt="previewCard.name" class="img-fluid mb-2" :src="previewCard.image"
+          <template v-if="cardPreview">
+            <img :alt="cardPreview.name" class="img-fluid mb-2" :src="cardPreview.image"
               onerror="if (this.src != 'backside.jpg') this.src = 'backside.jpg';" />
-            <h5>{{ previewCard.name }} <span v-if="previewCard.point && previewCard.point != 0"
+            <h5>{{ cardPreview.name }} <span v-if="cardPreview.point && cardPreview.point != 0"
                 style="margin-left: 8px; font-size: 12px; padding: 2px 6px; border-radius: 6px; background-color: rgba(0, 0, 0, 0.7); color: white;">{{
-                  previewCard.point }}</span>
+                  cardPreview.point }}</span>
             </h5>
             <!-- ATK / DEF (if available) -->
-            <p v-if="previewCard.atk !== -1 && previewCard.def !== -1" class="small">
-              ATK: {{ previewCard.atk }} / DEF: {{ previewCard.def }}
+            <p v-if="cardPreview.atk !== -1 && cardPreview.def !== -1" class="small">
+              ATK: {{ cardPreview.atk }} / DEF: {{ cardPreview.def }}
             </p>
             <!-- Type + Rank / Level -->
-            <p v-if="previewCard.level != -1" class="small">{{ previewCard.type }} ★{{ previewCard.level }}</p>
-            <p v-if="previewCard.category" class="small">{{ previewCard.category }}</p>
-            <div class="text-muted">
-              {{ previewCard.pendulum_effect }}
+            <p v-if="cardPreview.level != -1" class="small">{{ cardPreview.type }} ★{{ cardPreview.level }}</p>
+            <p v-if="cardPreview.category" class="small">{{ cardPreview.category }}</p>
+            <div class="information" v-if="cardPreview.pendulum_effect">
+              <div class="information-title">Pendulum Effect</div>
+              {{ cardPreview.pendulum_effect }}
             </div>
-            <div class="text-muted">
-              {{ previewCard.description }}
+            <div class="information" v-if="cardPreview.description">
+              <div class="information-title">Card Description</div>
+              {{ cardPreview.description }}
             </div>
           </template>
           <template v-else>
@@ -45,25 +47,26 @@
 
       <!-- Deck Controls -->
       <div class="col-md-6 mb-3">
-        <div class="p-2 rounded bg-dark">
+        <div class="deck-control p-2 rounded bg-dark">
           <!-- Existing Deck Actions -->
           <div class="d-flex flex-wrap gap-2 mb-2">
-            <select v-model="selectedDeck" class="form-control flex-grow-1">
-              <option v-for="deck in decks" :key="deck.id" :value="deck.id">
-                {{ deck.name }}
+            <select v-model="selectedDeck" class="form-control form-control-sm flex-grow-1" @change="changeDeck">
+              <option v-for="deck in decks" :key="deck" :value="deck">
+                {{ deck }}
               </option>
             </select>
             <button class="btn btn-tech btn-sm" @click="saveDeck">Save</button>
-            <button class="btn btn-tech btn-sm" @click="saveDeckAs" disabed>Save As</button>
-            <button class="btn btn-tech btn-sm" @click="renameDeck" disabed>Rename</button>
-            <button class="btn btn-tech btn-sm" @click="sortDeck" disabed>Sort</button>
+            <button class="btn btn-tech btn-sm" @click="saveDeckAs">Save As</button>
+            <button class="btn btn-tech btn-sm" @click="renameDeck">Rename</button>
+            <button class="btn btn-tech btn-sm" @click="sortDeck">Sort</button>
             <button class="btn btn-tech btn-sm" @click="clearDeck">Clear</button>
-            <button class="btn btn-tech btn-sm" @click="deleteDeck" disabed>Delete</button>
+            <button class="btn btn-tech btn-sm" @click="deleteDeck">Delete</button>
           </div>
 
           <!-- Create New Deck -->
           <div class="d-flex flex-wrap gap-2 mb-2">
-            <input v-model="newDeckName" class="form-control form-control-sm" placeholder="New deck name" type="text" />
+            <input v-model="newDeckName" class="form-control form-control-sm" placeholder="New deck name" type="text"
+              @input="newDeckName = newDeckName.replace(/[^a-zA-Z0-9 _-]/g, '')" />
             <button class="btn btn-outline-success btn-sm" @click="createDeck">Create</button>
             <button class="btn btn-tech btn-sm" @click="importDeck" disabled>Import .ydk</button>
             <button class="btn btn-tech btn-sm" @click="exportDeck">Export .ydk</button>
@@ -91,7 +94,9 @@
                 </div>
               </div>
             </div>
-            <div class="deck-row-footer">Monster {{ mainDeck.length }} | Spell {{ mainDeck.length }} | Trap {{ mainDeck.length }} </div>
+            <div class="deck-row-footer">Monster {{ mainDeck.length }} | Spell {{ mainDeck.length }} | Trap {{
+              mainDeck.length
+            }} </div>
           </div>
 
           <!-- Extra Deck -->
@@ -198,37 +203,91 @@ export default defineComponent({
     const mainDeck = ref([]);
     const extraDeck = ref([]);
     const sideDeck = ref([]);
-    const savedDecks = ref({});
+    const savedDecks = ref([]);
 
     const searchQuery = ref("");
     const includeDescription = ref(false);
     const searchResults = ref([]);
     const loading = ref(false);
     const apiError = ref(null);
-    const previewCard = ref(null);
+    const cardPreview = ref(null);
 
     function setPreview(card) {
-      previewCard.value = card;
+      cardPreview.value = card;
     }
 
     function saveDeck() {
       const deckData = {
+        name: selectedDeck.value,
         main: mainDeck.value,
         extra: extraDeck.value,
         side: sideDeck.value,
       };
 
-      localStorage.setItem("decks", JSON.stringify(deckData));
-      alert("Deck saved successfully!");
+      // Find existing deck by name
+      const index = savedDecks.value.findIndex(deck => deck.name === selectedDeck.value);
 
+      if (index !== -1) {
+        // Update existing deck
+        savedDecks.value[index] = deckData;
+        alert(`Deck "${selectedDeck.value}" updated successfully!`);
+      } else {
+        // Add new deck if not found
+        savedDecks.value.push(deckData);
+        alert(`Deck "${selectedDeck.value}" saved successfully!`);
+      }
+
+      console.log("savedDecks", savedDecks)
+      // Save to localStorage
+      localStorage.setItem("decks", JSON.stringify(savedDecks.value));
     }
 
     function saveDeckAs() {
-      alert("Save current deck as new");
+      const newName = prompt("Enter a new name for your deck:");
+
+      if (newName === null) {
+        // User cancelled the prompt
+        return;
+      }
+
+      if (newName === selectedDeck.value) {
+        alert("New deck name cannot be the same as the current deck name.");
+        return;
+      }
+
+      selectedDeck.value = newName;
+      decks.value.push(newName);
+
+      const deckData = {
+        name: newName,
+        main: mainDeck.value,
+        extra: extraDeck.value,
+        side: sideDeck.value,
+      };
+      savedDecks.value.push(deckData);
+      alert(`Save current deck as "${newName}".`);
+      console.log("savedDecks.value",savedDecks.value.length)
     }
 
     function renameDeck() {
-      alert("Rename current deck");
+      const newName = prompt("Enter a new name for your deck:");
+
+      if (newName === null) {
+        // User cancelled the prompt
+        return;
+      }
+
+      const trimmedName = newName.trim();
+      if (trimmedName === "") {
+        alert("Deck name cannot be empty!");
+        return;
+      }
+
+      const confirmed = confirm(`Rename deck to "${trimmedName}"?`);
+      if (confirmed) {
+        newDeckName.value = trimmedName;
+        alert(`Deck renamed to: ${deckName}`);
+      }
     }
 
     function sortDeck() {
@@ -265,7 +324,6 @@ export default defineComponent({
 
       const a = document.createElement("a");
       a.href = url;
-      console.log(selectedDeck.value);
       a.download = `${selectedDeck.value}.ydk`;
       a.click();
 
@@ -331,10 +389,12 @@ export default defineComponent({
         return;
       };
 
-      const id = Date.now().toString();
-      decks.value.push({ id, name: newDeckName.value });
-      selectedDeck.value = id;
+      decks.value.push(newDeckName.value);
+      selectedDeck.value = newDeckName.value;
       newDeckName.value = "";
+      mainDeck.value = [];
+      extraDeck.value = [];
+      sideDeck.value = [];
     }
 
     function addCardToDeck(card) {
@@ -416,7 +476,7 @@ export default defineComponent({
       }
 
       if (sideDeck.value.length >= 15) {
-        alert("side seck is max size");
+        alert("side deck is max size");
         return;
       }
       sideDeck.value.push(card);
@@ -429,13 +489,27 @@ export default defineComponent({
       return mainCount + extraCount + sideCount;
     }
 
+    function changeDeck() {
+      const deck = savedDecks.value.find(d => d.name === selectedDeck.value);
+      if (deck) {
+        mainDeck.value = deck.main || [];
+        extraDeck.value = deck.extra || [];
+        sideDeck.value = deck.side || [];
+        console.log(`Deck "${selectedDeck.value}" loaded`);
+      }
+      alert("deck is changed");
+    }
+
     onMounted(() => {
       const saved = localStorage.getItem("decks");
+      console.log("saved", saved)
       if (saved) {
         const deckData = JSON.parse(saved);
-        mainDeck.value = deckData.main || [];
-        extraDeck.value = deckData.extra || [];
-        sideDeck.value = deckData.side || [];
+        selectedDeck.value = deckData[0].name;
+        mainDeck.value = deckData[0].main || [];
+        extraDeck.value = deckData[0].extra || [];
+        sideDeck.value = deckData[0].side || [];
+        decks.value = deckData.map(deck => deck.name);
       }
     });
 
@@ -452,7 +526,7 @@ export default defineComponent({
       apiError,
       newDeckName,
       selectedDeck,
-      previewCard,
+      cardPreview,
       setPreview,
       saveDeck,
       saveDeckAs,
@@ -467,7 +541,8 @@ export default defineComponent({
       clearSearch,
       addCardToDeck,
       addToSideDeck,
-      removeCardFromDeck
+      removeCardFromDeck,
+      changeDeck
     };
   },
 });
