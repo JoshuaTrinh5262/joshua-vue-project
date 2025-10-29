@@ -38,17 +38,31 @@ export const getYugiohCardsWithPaging = async (
     }
 };
 
-// export const getYugiohCards = async () => {
-//     try {
-//         const { data, error } = await supabase.from("yugioh_card").select("*");
-//         if (error) {
-//             return { error: error.message };
-//         }
-//         return data;
-//     } catch (err) {
-//         return { error: err.message };
-//     }
-// };
+export const getYugiohCards = async (passcodes) => {
+    try {
+        if (!Array.isArray(passcodes) || passcodes.length === 0) {
+            return [];
+        }
+        const { data, error } = await supabase
+            .from("yugioh_card")
+            .select("*")
+            .in("passcode", passcodes);
+        if (error) {
+            return { error: error.message };
+        }
+
+        const mappedData = data.map((card) => ({
+            ...card,
+            image: `https://images.ygoprodeck.com/images/cards/${parseInt(
+                card.passcode,
+                10
+            )}.jpg`,
+        }));
+        return mappedData;
+    } catch (err) {
+        return { error: err.message };
+    }
+};
 
 export const searchCard = async (search, includeDescription) => {
     try {
