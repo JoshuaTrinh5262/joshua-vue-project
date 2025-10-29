@@ -10,7 +10,7 @@
       </p>
     </div>
 
-    <div class="row">
+    <div class="deckbuild row">
       <!-- Card Preview -->
       <div class="col-md-3 mb-3">
         <div class="card-preview">
@@ -24,6 +24,10 @@
             <!-- ATK / DEF (if available) -->
             <p v-if="cardPreview.atk !== -1 && cardPreview.def !== -1" class="small">
               ATK: {{ cardPreview.atk }} / DEF: {{ cardPreview.def }}
+            </p>
+            <!-- Passcode (if available) -->
+            <p v-if="cardPreview.passcode" class="small">
+              {{ cardPreview.passcode }}
             </p>
             <!-- Type + Rank / Level -->
             <p v-if="cardPreview.level != -1" class="small">{{ cardPreview.type }} ★{{ cardPreview.level }}</p>
@@ -47,7 +51,7 @@
 
       <!-- Deck Controls -->
       <div class="col-md-6 mb-3">
-        <div class="deck-control p-2 rounded bg-dark">
+        <div class="deck-control p-2 rounded">
           <!-- Existing Deck Actions -->
           <div class="d-flex flex-wrap gap-2 mb-2">
             <select v-model="selectedDeck" class="form-control form-control-sm flex-grow-1" @change="changeDeck">
@@ -67,14 +71,15 @@
           <div class="d-flex flex-wrap gap-2 mb-2">
             <input v-model="newDeckName" class="form-control form-control-sm" placeholder="New deck name" type="text"
               @input="newDeckName = newDeckName.replace(/[^a-zA-Z0-9 _-]/g, '')" />
+            <input type="file" ref="fileInput" accept=".ydk" style="display: none" @change="importDeck" />
             <button class="btn btn-outline-success btn-sm" @click="createDeck">Create</button>
-            <button class="btn btn-tech btn-sm" @click="importDeck" disabled>Import .ydk</button>
+            <button class="btn btn-tech btn-sm" @click="triggerFilePicker">Import .ydk</button>
             <button class="btn btn-tech btn-sm" @click="exportDeck">Export .ydk</button>
           </div>
 
           <!-- Deck Point -->
           <div class="text-center text-light mb-2">
-            Deck Point: {{ deckPoint }}
+            Deck Point: {{ deckPoints }}
           </div>
 
           <!-- Main Deck -->
@@ -94,9 +99,9 @@
                 </div>
               </div>
             </div>
-            <div class="deck-row-footer">Monster {{ mainDeck.length }} | Spell {{ mainDeck.length }} | Trap {{
-              mainDeck.length
-            }} </div>
+            <div class="deck-row-footer">
+              Monster {{ mainDeckCounts.Monster }} | Spell {{ mainDeckCounts.Spell }} | Trap {{ mainDeckCounts.Trap }}
+            </div>
           </div>
 
           <!-- Extra Deck -->
@@ -116,7 +121,10 @@
                 </div>
               </div>
             </div>
-            <div class="deck-row-footer">Xyz 0 | Fusion 0 | Synchro 0</div>
+            <div class="deck-row-footer">
+              Xyz {{ extraDeckCounts.Xyz }} | Fusion {{ extraDeckCounts.Fusion }} | Synchro {{ extraDeckCounts.Synchro
+              }}
+            </div>
           </div>
 
           <!-- Side Deck -->
@@ -136,7 +144,9 @@
                 </div>
               </div>
             </div>
-            <div class="deck-row-footer">Side Deck ({{ sideDeck.length }})</div>
+            <div class="deck-row-footer">
+              Monster {{ sideDeckCounts.Monster }} | Spell {{ sideDeckCounts.Spell }} | Trap {{ sideDeckCounts.Trap }}
+            </div>
           </div>
         </div>
       </div>
@@ -180,9 +190,8 @@
   </div>
 </template>
 <script>
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, onMounted, ref, computed } from "vue";
 import PageTitleComponent from "@/Layout/Components/PageTitleComponent.vue";
-import { parseYugiohDeckFile } from "@/utils/fileHelper";
 import { apiService } from "@/supabase/apiService";
 import genesysPoints from "@/utils/genesys.js";
 
@@ -198,8 +207,9 @@ export default defineComponent({
 
     const selectedDeck = ref(null);
     const newDeckName = ref("");
-    const deckPoint = ref(0);
+    const deckPoints = ref(0);
 
+    const fileInput = ref(null);
     const mainDeck = ref([]);
     const extraDeck = ref([]);
     const sideDeck = ref([]);
@@ -212,16 +222,100 @@ export default defineComponent({
     const apiError = ref(null);
     const cardPreview = ref(null);
 
+    const mainDeckCounts = computed(() => {
+      const counts = { Monster: 0, Spell: 0, Trap: 0 };
+
+      for (const card of mainDeck.value) {
+        switch (card.category) {
+          case "Monster":
+            counts.Monster++;
+            break;
+          case "Spell":
+            counts.Spell++;
+            break;
+          case "Trap":
+            counts.Trap++;
+            break;
+          default:
+            break;
+        }
+      }
+
+      return counts;
+    });
+
+    const sideDeckCounts = computed(() => {
+      const counts = { Monster: 0, Spell: 0, Trap: 0 };
+
+      for (const card of sideDeck.value) {
+        switch (card.category) {
+          case "Monster":
+            counts.Monster++;
+            break;
+          case "Spell":
+            counts.Spell++;
+            break;
+          case "Trap":
+            counts.Trap++;
+            break;
+          default:
+            break;
+        }
+      }
+
+      return counts;
+    });
+
+    const extraDeckCounts = computed(() => {
+      const counts = {
+        Fusion: 0,
+        Synchro: 0,
+        Xyz: 0,
+        Link: 0,
+      };
+
+      for (const card of extraDeck.value) {
+        let type = null;
+
+        switch (true) {
+          case card.is_fusion:
+            type = "Fusion";
+            break;
+          case card.is_synchro:
+            type = "Synchro";
+            break;
+          case card.is_xyz:
+            type = "Xyz";
+            break;
+          case card.is_link:
+            type = "Link";
+            break;
+          default:
+            break;
+        }
+
+        if (type) {
+          counts[type]++;
+        }
+      }
+
+      return counts;
+    });
+
     function setPreview(card) {
       cardPreview.value = card;
     }
 
     function saveDeck() {
+      if (!Array.isArray(savedDecks.value)) {
+        savedDecks.value = [];
+      }
+
       const deckData = {
         name: selectedDeck.value,
-        main: mainDeck.value,
-        extra: extraDeck.value,
-        side: sideDeck.value,
+        main: [...mainDeck.value],
+        extra: [...extraDeck.value],
+        side: [...sideDeck.value],
       };
 
       // Find existing deck by name
@@ -237,7 +331,6 @@ export default defineComponent({
         alert(`Deck "${selectedDeck.value}" saved successfully!`);
       }
 
-      console.log("savedDecks", savedDecks)
       // Save to localStorage
       localStorage.setItem("decks", JSON.stringify(savedDecks.value));
     }
@@ -260,20 +353,27 @@ export default defineComponent({
 
       const deckData = {
         name: newName,
-        main: mainDeck.value,
-        extra: extraDeck.value,
-        side: sideDeck.value,
+        main: [...mainDeck.value],
+        extra: [...extraDeck.value],
+        side: [...sideDeck.value],
       };
       savedDecks.value.push(deckData);
+
+      // Save to localStorage
+      localStorage.setItem("decks", JSON.stringify(savedDecks.value));
+
       alert(`Save current deck as "${newName}".`);
-      console.log("savedDecks.value",savedDecks.value.length)
     }
 
     function renameDeck() {
-      const newName = prompt("Enter a new name for your deck:");
+      if (!selectedDeck.value) {
+        alert("Please select a deck to rename.");
+        return;
+      }
+
+      const newName = prompt("Enter a new name for your deck:", selectedDeck.value);
 
       if (newName === null) {
-        // User cancelled the prompt
         return;
       }
 
@@ -283,19 +383,137 @@ export default defineComponent({
         return;
       }
 
-      const confirmed = confirm(`Rename deck to "${trimmedName}"?`);
-      if (confirmed) {
-        newDeckName.value = trimmedName;
-        alert(`Deck renamed to: ${deckName}`);
+      const nameExists = savedDecks.value.some(
+        (deck) => deck.name === trimmedName
+      );
+      if (nameExists) {
+        alert(`A deck named "${trimmedName}" already exists!`);
+        return;
       }
+
+      const confirmed = confirm(`Rename deck "${selectedDeck.value}" to "${trimmedName}"?`);
+      if (!confirmed) {
+        return;
+      }
+
+      const index = savedDecks.value.findIndex((deck) => deck.name === selectedDeck.value);
+
+      if (index === -1) {
+        alert("Deck not found!");
+        return;
+      }
+
+      savedDecks.value[index].name = trimmedName;
+      selectedDeck.value = trimmedName;
+
+      localStorage.setItem("decks", JSON.stringify(savedDecks.value));
+
+      decks.value = savedDecks.value.map((deck) => deck.name);
+
+      alert(`Deck renamed to "${trimmedName}" successfully!`);
     }
 
     function sortDeck() {
-      alert("Sort deck cards");
+      const typeOrder = ["Monster", "Spell", "Trap"];
+      const sortByTypeThenName = (a, b) => {
+        const typeDiff = typeOrder.indexOf(a.type) - typeOrder.indexOf(b.type);
+        if (typeDiff !== 0) {
+          return typeDiff;
+        }
+        return a.name.localeCompare(b.name);
+      };
+
+      mainDeck.value = mainDeck.value.sort(sortByTypeThenName);
+      extraDeck.value = extraDeck.value.sort(sortByTypeThenName);
+      sideDeck.value = sideDeck.value.sort(sortByTypeThenName);
+
+      alert("Deck sorted by type and name!");
     }
 
-    function importDeck() {
-      alert("Deck Imported");
+    function triggerFilePicker() {
+      fileInput.value.click();
+    }
+
+    async function importDeck(event) {
+      const file = event.target.files[0];
+      if (!file) {
+        return;
+      }
+
+      const fileName = file.name.replace(/\.[^/.]+$/, "");
+      const text = await file.text();
+
+      // --- Step 1: Parse file sections ---
+      const sections = { main: [], extra: [], side: [] };
+      let current = null;
+
+      for (const line of text.split("\n").map(l => l.trim()).filter(Boolean)) {
+        if (line.startsWith("#main")) {
+          current = "main";
+        }
+        else if (line.startsWith("#extra")) {
+          current = "extra";
+        }
+        else if (line.startsWith("!side")) {
+          current = "side";
+        }
+        else if (/^\d+$/.test(line) && current) {
+          sections[current].push(line);
+        }
+      }
+
+      // --- Step 2: Extract unique passcodes ---
+      const uniquePasscodes = [
+        ...new Set([
+          ...sections.main,
+          ...sections.extra,
+          ...sections.side,
+        ]),
+      ];
+
+      // --- Step 3: Fetch card data from Supabase ---
+      const { data: cards, error } = await apiService.getYugiohCards(uniquePasscodes);
+
+      const cardWithPoints = cards.map(card => ({
+        ...card,
+        point: genesysPoints[card.name] ?? 0
+      }));
+
+      // --- Step 4: Map passcodes to card data ---
+      const cardMap = {};
+      for (const card of cardWithPoints) {
+        cardMap[card.passcode] = card;
+      }
+
+      mainDeck.value = sections.main.map(code => cardMap[code]).filter(Boolean);
+      extraDeck.value = sections.extra.map(code => cardMap[code]).filter(Boolean);
+      sideDeck.value = sections.side.map(code => cardMap[code]).filter(Boolean);
+
+      // --- Step 5: Generate unique deck name ---
+      let newDeckName = fileName;
+      let i = 1;
+      while (savedDecks.value.some(deck => deck.name === newDeckName)) {
+        newDeckName = `${fileName} (${i++})`;
+      }
+
+      // --- Step 6: Save to local data ---
+      const newDeck = {
+        name: newDeckName,
+        main: [...mainDeck.value],
+        extra: [...extraDeck.value],
+        side: [...sideDeck.value],
+      };
+
+      // --- Step 7: Update reactive state ---
+      savedDecks.value.push(newDeck);
+      decks.value.push(newDeckName);
+      selectedDeck.value = newDeckName;
+      calculateDeckPoints();
+
+      // --- Step 8: Save to localStorage ---
+      localStorage.setItem("decks", JSON.stringify(savedDecks.value));
+
+      alert(`Deck "${newDeckName}" imported successfully!`);
     }
 
     function exportDeck() {
@@ -346,13 +564,47 @@ export default defineComponent({
     }
 
     function deleteDeck() {
-      const confirmed = confirm("Are you sure you want to delete your deck? This action cannot be undone.");
+      // if (!selectedDeck.value) {
+      //   alert("Please select a deck to delete.");
+      //   return;
+      // }
 
-      if (confirmed) {
-        localStorage.removeItem("decks");
+      const confirmed = confirm(
+        `Are you sure you want to delete "${selectedDeck.value}"? This action cannot be undone.`
+      );
+
+      if (!confirmed) {
+        return;
+      }
+      const index = savedDecks.value.findIndex(
+        (deck) => deck.name === selectedDeck.value
+      );
+
+      if (index === -1) {
+        alert("Deck not found!");
+        return;
+      }
+
+      savedDecks.value.splice(index, 1);
+
+      localStorage.setItem("decks", JSON.stringify(savedDecks.value));
+
+      decks.value = savedDecks.value.map((deck) => deck.name);
+
+      if (savedDecks.value.length > 0) {
+        const firstDeck = savedDecks.value[0];
+        selectedDeck.value = firstDeck.name;
+        mainDeck.value = firstDeck.main || [];
+        extraDeck.value = firstDeck.extra || [];
+        sideDeck.value = firstDeck.side || [];
+        calculateDeckPoints();
+        alert(`Deck deleted. Now loaded "${firstDeck.name}".`);
+      } else {
+        selectedDeck.value = "";
         mainDeck.value = [];
         extraDeck.value = [];
         sideDeck.value = [];
+        alert("All decks deleted.");
       }
     }
 
@@ -363,9 +615,8 @@ export default defineComponent({
 
       loading.value = true;
       const result = await apiService.searchCard(searchQuery.value, includeDescription.value);
-      console.log(result);
-      if (!result.error) {
 
+      if (!result.error) {
         const withPoints = result.map(card => ({
           ...card,
           point: genesysPoints[card.name] ?? 0
@@ -389,12 +640,23 @@ export default defineComponent({
         return;
       };
 
+      const newDeck = {
+        name: newDeckName.value,
+        main: [],
+        extra: [],
+        side: [],
+      };
+
+      savedDecks.value.push(newDeck);
       decks.value.push(newDeckName.value);
       selectedDeck.value = newDeckName.value;
-      newDeckName.value = "";
+
+      localStorage.setItem("decks", JSON.stringify(savedDecks.value));
+
       mainDeck.value = [];
       extraDeck.value = [];
       sideDeck.value = [];
+      newDeckName.value = "";
     }
 
     function addCardToDeck(card) {
@@ -411,7 +673,7 @@ export default defineComponent({
       }
 
       const cardPoints = genesysPoints[card.name] ?? 0;
-      deckPoint.value += cardPoints;
+      deckPoints.value += cardPoints;
 
       if (card.is_fusion || card.is_xyz || card.is_synchro) {
         addToExtraDeck(card)
@@ -495,29 +757,46 @@ export default defineComponent({
         mainDeck.value = deck.main || [];
         extraDeck.value = deck.extra || [];
         sideDeck.value = deck.side || [];
-        console.log(`Deck "${selectedDeck.value}" loaded`);
+        calculateDeckPoints();
       }
-      alert("deck is changed");
+    }
+
+    function calculateDeckPoints() {
+      const total =
+        mainDeck.value.reduce((sum, card) => sum + (card?.point || 0), 0) +
+        extraDeck.value.reduce((sum, card) => sum + (card?.point || 0), 0) +
+        sideDeck.value.reduce((sum, card) => sum + (card?.point || 0), 0);
+
+      deckPoints.value = total;
     }
 
     onMounted(() => {
       const saved = localStorage.getItem("decks");
-      console.log("saved", saved)
+
       if (saved) {
         const deckData = JSON.parse(saved);
-        selectedDeck.value = deckData[0].name;
-        mainDeck.value = deckData[0].main || [];
-        extraDeck.value = deckData[0].extra || [];
-        sideDeck.value = deckData[0].side || [];
+
+        savedDecks.value = deckData;
+
+        if (deckData.length > 0) {
+          selectedDeck.value = deckData[0].name;
+          mainDeck.value = deckData[0].main || [];
+          extraDeck.value = deckData[0].extra || [];
+          sideDeck.value = deckData[0].side || [];
+          calculateDeckPoints();
+        }
+
         decks.value = deckData.map(deck => deck.name);
+      } else {
+        savedDecks.value = [];
+        decks.value = [];
       }
     });
-
     return {
       mainDeck,
       extraDeck,
       sideDeck,
-      deckPoint,
+      deckPoints,
       searchQuery,
       includeDescription,
       searchResults,
@@ -527,11 +806,15 @@ export default defineComponent({
       newDeckName,
       selectedDeck,
       cardPreview,
+      mainDeckCounts,
+      sideDeckCounts,
+      extraDeckCounts,
       setPreview,
       saveDeck,
       saveDeckAs,
       renameDeck,
       sortDeck,
+      triggerFilePicker,
       importDeck,
       exportDeck,
       clearDeck,
@@ -685,6 +968,10 @@ export default defineComponent({
   border-top: 4px solid #333;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
+}
+
+.deck-control {
+  background-color: #333;
 }
 
 @keyframes spin {
