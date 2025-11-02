@@ -193,7 +193,7 @@
 import { defineComponent, onMounted, ref, computed } from "vue";
 import PageTitleComponent from "@/Layout/Components/PageTitleComponent.vue";
 import { apiService } from "@/supabase/apiService";
-import genesysPoints from "@/utils/genesys.js";
+import genesysPoints from "@/utils/genesys_10_27_2025.js";
 
 export default defineComponent({
   name: "DeckBuild",
@@ -474,11 +474,13 @@ export default defineComponent({
       // --- Step 3: Fetch card data from Supabase ---
       const { data: cards, error } = await apiService.getYugiohCards(uniquePasscodes);
 
-      const cardWithPoints = cards.map(card => ({
-        ...card,
-        point: genesysPoints[card.name] ?? 0
-      }));
-
+      const cardWithPoints = cards.map(card => {
+        const found = genesysPoints.find(p => p.name === card.name);
+        return {
+          ...card,
+          point: found ? found.point : 0
+        };
+      });
       // --- Step 4: Map passcodes to card data ---
       const cardMap = {};
       for (const card of cardWithPoints) {
@@ -617,12 +619,14 @@ export default defineComponent({
       const result = await apiService.searchCard(searchQuery.value, includeDescription.value);
 
       if (!result.error) {
-        const withPoints = result.map(card => ({
-          ...card,
-          point: genesysPoints[card.name] ?? 0
-        }));
-
-        searchResults.value = withPoints;
+        const cardWithPoints = result.map(card => {
+          const found = genesysPoints.find(p => p.name === card.name);
+          return {
+            ...card,
+            point: found ? found.point : 0
+          };
+        });
+        searchResults.value = cardWithPoints;
       } else {
         apiError.value = "Error connecting to the API.";
       }
