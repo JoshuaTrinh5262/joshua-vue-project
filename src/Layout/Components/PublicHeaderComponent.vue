@@ -1,15 +1,21 @@
 <template>
   <header class="main-header">
     <div class="header-content">
-      <h1 class="header-title">{{ title }}</h1>
-      <nav class="header-nav">
+      <span class="header-title">
+        <!-- Task Replace with logo -->
+        <a href="/">{{ title }}</a>
+      </span>
+      <button class="hamburger" @click="isMenuOpen = !isMenuOpen">
+        <span :class="{ open: isMenuOpen }"></span>
+      </button>
+      <nav :class="['header-nav', { open: isMenuOpen }]" class="header-nav">
         <ul>
-          <li v-for="item in navItems" :key="item.text" class="nav-item" @mouseenter="toggleDropdown(item.text, true)"
-            @mouseleave="toggleDropdown(item.text, false)">
-            <span v-if="item.href" :href="item.href">{{ item.text }}</span>
+          <li v-for="item in navItems" :key="item.text" @mouseenter="toggleDropdown(item.text, true)"
+            @mouseleave="toggleDropdown(item.text, false)" class="nav-item">
+            <a v-if="item.href" :href="item.href" class="item-url">{{ item.text }}</a>
             <span v-else>{{ item.text }}</span>
-            <ul v-if="item.submenu && dropdownOpen[item.text]" class="drop-list">
-              <li class="drop-list-item" v-for="subItem in item.submenu" :key="subItem.text">
+            <ul class="sub-list">
+              <li class="sub-list-item" v-for="subItem in item.submenu" :key="subItem.text">
                 <a :href="subItem.href">{{ subItem.text }}</a>
               </li>
             </ul>
@@ -38,9 +44,8 @@ export default defineComponent({
     const title = ref("BRAND");
     const isAuthenticated = ref(false);
     const dropdownOpen = ref({});
-
+    const isMenuOpen = ref(false);
     const navItems = ref([
-      { text: "HOME", href: "/" },
       {
         text: "YUGIOH",
         submenu: [
@@ -57,17 +62,16 @@ export default defineComponent({
           { text: "Deck Build", href: "/deckbuild" },
         ],
       },
+      { text: "EDISON", href: "/edison" },
       {
         text: "OTHER",
         submenu: [
           { text: "MASTER RULE", href: "/master_rule" },
           { text: "CONTACT", href: "/contact" },
           { text: "DRAFT", href: "/draft" },
-          { text: "Edison", href: "/edison" },
         ],
       },
-
-
+      { text: "TOOLS" },
     ]);
 
     const toggleDropdown = (menu, state) => {
@@ -79,6 +83,7 @@ export default defineComponent({
       isAuthenticated,
       navItems,
       dropdownOpen,
+      isMenuOpen,
       toggleDropdown,
     };
   },
@@ -96,12 +101,82 @@ export default defineComponent({
     color: #fafbfc;
   }
 
-  .header-nav .drop-list {
+  .header-nav .nav-item span,
+  .header-nav .nav-item .item-url {
+    border-bottom: 2px solid #333;
+  }
+
+  .header-nav .sub-list {
     background-color: #333;
   }
-    .header-nav .drop-list .a:hover {
-    background-color: #fff;
+
+  .header-nav .sub-list .sub-list-item {
+    border-bottom: 2px solid #333;
   }
+
+  .hamburger span,
+  .hamburger span::before,
+  .hamburger span::after {
+    background: white;
+  }
+
+  @media (max-width: 768px) {
+    .hamburger {
+      display: block;
+    }
+
+    .header-nav {
+      background: #333;
+    }
+  }
+}
+
+.hamburger {
+  display: none;
+  width: 32px;
+  height: 24px;
+  position: relative;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.hamburger span,
+.hamburger span::before,
+.hamburger span::after {
+  content: "";
+  position: absolute;
+  height: 3px;
+  width: 100%;
+  background: black;
+  left: 0;
+  transition: 0.3s ease;
+}
+
+.hamburger span {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.hamburger span::before {
+  top: -8px;
+}
+
+.hamburger span::after {
+  top: 8px;
+}
+
+/* Animate when open */
+.hamburger span.open {
+  background: transparent;
+}
+
+.hamburger span.open::before {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger span.open::after {
+  transform: rotate(-45deg) translate(5px, -5px);
 }
 
 .main-header {
@@ -120,6 +195,10 @@ export default defineComponent({
   font-size: 1.5rem;
 }
 
+.header-title a {
+  text-decoration: none;
+}
+
 .header-nav ul {
   list-style: none;
   margin: 0;
@@ -127,14 +206,43 @@ export default defineComponent({
   display: flex;
 }
 
-.header-nav .nav-item {
+/* --- Navigation --- */
+.header-nav ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.header-nav li {
   position: relative;
-  margin: 0px;
-  padding: 12px;
+}
+
+.header-nav a {
+  color: white;
+  text-decoration: none;
+}
+
+.header-nav .nav-item {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
 }
 
 .header-nav .nav-item span {
-  cursor: pointer;
+  cursor: default;
+  padding: 12px;
+  border-bottom: 2px solid white;
+}
+
+.header-nav .nav-item .item-url {
+  padding: 12px;
+  border-bottom: 2px solid white;
+}
+
+.header-nav .nav-item:hover span,
+.header-nav .nav-item:hover .item-url {
+  border-bottom: 2px solid red;
 }
 
 .header-nav a {
@@ -145,7 +253,7 @@ export default defineComponent({
   text-decoration: none;
 }
 
-.header-nav .drop-list {
+.header-nav .sub-list {
   background-color: #fafbfc;
   position: absolute;
   top: 100%;
@@ -160,16 +268,18 @@ export default defineComponent({
   width: 150px;
 }
 
-.header-nav .drop-list a {
-  display: block;
+.header-nav .sub-list .sub-list-item {
+  display: none;
   padding: 1rem;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-  width: auto;
+  border-bottom: 2px solid #fafbfc;
 }
 
-.header-nav .drop-list a:hover {
-  background-color: red;
+.nav-item:hover .sub-list .sub-list-item {
+  display: block;
+}
+
+.header-nav .sub-list .sub-list-item:hover {
+  border-bottom: 2px solid red;
 }
 
 .auth-buttons {
@@ -183,5 +293,58 @@ export default defineComponent({
   padding: 0.5rem 1rem;
   margin-left: 1rem;
   cursor: pointer;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  .header-nav {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    width: 100%;
+    background: #fafbfc;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;
+    z-index: 3;
+  }
+
+  .header-nav.open {
+    max-height: 1000px;
+  }
+
+  .header-nav ul {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .header-nav .nav-item {
+    width: 100%;
+  }
+
+  .header-nav .nav-item span {
+    padding: 10px;
+  }
+
+  .header-nav .sub-list {
+    position: relative;
+    width: 100%;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(-10px);
+    transition: max-height 0.5s ease, opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .nav-item:hover .sub-list {
+    max-height: 300px;
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>
