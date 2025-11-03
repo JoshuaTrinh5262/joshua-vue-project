@@ -71,7 +71,12 @@ export default defineComponent({
           { text: "DRAFT", href: "/draft" },
         ],
       },
-      { text: "TOOLS" },
+      {
+        text: "TOOLS",
+        submenu: [
+          { text: "TIMER", href: "/timer" },
+        ],
+      },
     ]);
 
     const toggleDropdown = (menu, state) => {
