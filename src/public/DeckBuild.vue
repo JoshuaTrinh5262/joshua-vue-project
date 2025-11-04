@@ -654,6 +654,7 @@ export default defineComponent({
       savedDecks.value.push(newDeck);
       decks.value.push(newDeckName.value);
       selectedDeck.value = newDeckName.value;
+      deckPoints.value = 0;
 
       localStorage.setItem("decks", JSON.stringify(savedDecks.value));
 
@@ -676,7 +677,9 @@ export default defineComponent({
         return;
       }
 
-      const cardPoints = genesysPoints[card.name] ?? 0;
+      const cardData = genesysPoints.find(p => p.name === card.name);
+      const cardPoints = cardData ? cardData.point : 0;
+
       deckPoints.value += cardPoints;
 
       if (card.is_fusion || card.is_xyz || card.is_synchro) {
@@ -689,33 +692,39 @@ export default defineComponent({
     function removeCardFromDeck(card, deckType) {
       let index = -1;
 
+      const cardPoints = genesysPoints.find(p => p.name === card.name)?.point ?? 0;
+
       switch (deckType) {
         case 'main':
           index = mainDeck.value.findIndex(c => c.passcode === card.passcode);
-
           if (index !== -1) {
             mainDeck.value.splice(index, 1);
+            deckPoints.value -= cardPoints;
           }
           break;
+
         case 'extra':
           index = extraDeck.value.findIndex(c => c.passcode === card.passcode);
-
           if (index !== -1) {
             extraDeck.value.splice(index, 1);
+            deckPoints.value -= cardPoints;
           }
           break;
+
         case 'side':
           index = sideDeck.value.findIndex(c => c.passcode === card.passcode);
-
           if (index !== -1) {
             sideDeck.value.splice(index, 1);
+            deckPoints.value -= cardPoints;
           }
           break;
+
         default:
           alert(`Unknown deck type: ${deckType}`);
           break;
       }
     }
+
 
     function addToMainDeck(card) {
       if (mainDeck.value.length >= 60) {
