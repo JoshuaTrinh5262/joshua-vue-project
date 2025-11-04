@@ -41,6 +41,7 @@ const publicRoutes = [
         name: "Product",
         component: () => import("../public/yugioh/ProductPublicPage.vue"),
         meta: {
+            title: "Product | Joshua Trinh",
             layout: "public",
             breadcrumb: "Product",
         },
@@ -77,9 +78,21 @@ const publicRoutes = [
         path: "/:pathMatch(.*)*",
         name: "not-found",
         meta: {
+            title: "Not Found | Joshua Trinh",
             layout: "empty",
         },
         component: () => import("../public/NotFoundPage.vue"),
+    },
+    // Tools
+    {
+        path: "/timer",
+        name: "Timer",
+        component: () => import("../public/TimerPage.vue"),
+        meta: {
+            title: "Timer | Joshua Trinh",
+            layout: "public",
+            breadcrumb: "timer",
+        },
     },
     // Other
     {
@@ -105,6 +118,7 @@ const publicRoutes = [
         name: "Edison",
         component: () => import("../public/Edison.vue"),
         meta: {
+            title: "Edison | Joshua Trinh",
             layout: "public",
             breadcrumb: "edison",
         },
@@ -114,6 +128,7 @@ const publicRoutes = [
         name: "Genesys",
         component: () => import("../public/Genesys.vue"),
         meta: {
+            title: "Genesys | Joshua Trinh",
             layout: "public",
             breadcrumb: "genesys",
         },
@@ -123,7 +138,8 @@ const publicRoutes = [
         name: "DeckBuild",
         component: () => import("../public/DeckBuild.vue"),
         meta: {
-            layout: "public"
+            title: "Deckbuild | Joshua Trinh",
+            layout: "public",
         },
     },
     {
@@ -131,6 +147,7 @@ const publicRoutes = [
         name: "Contact",
         component: () => import("../public/ContactPage.vue"),
         meta: {
+            title: "Contact | Joshua Trinh",
             layout: "public",
             breadcrumb: "contact",
         },
@@ -140,6 +157,7 @@ const publicRoutes = [
         name: "Terms And Conditions",
         component: () => import("../public/TermsAndConditions.vue"),
         meta: {
+            title: "Terms And Conditions | Joshua Trinh",
             layout: "public",
         },
     },

@@ -18,4 +18,8 @@ const router = new createRouter({
 
 router.beforeEach(authGuard);
 
+router.afterEach((to) => {
+  document.title = to.meta.title || 'Joshua Project'
+})
+
 export default router;
