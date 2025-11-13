@@ -10,46 +10,47 @@
                                 <span>Please sign in to your account below.</span>
                             </h4>
                         </div>
+                        <form>
+                            <!-- Email Input -->
+                            <div class="form-group">
+                                <label for="email">Email address</label>
+                                <input type="email" class="form-control" id="email" v-model="email" required
+                                    placeholder="Enter email..." autocomplete="on" />
+                                <small id="exampleInput1Help" class="form-text text-muted">We'll never share your
+                                    email with anyone else.</small>
+                            </div>
 
-                        <!-- Email Input -->
-                        <div class="form-group">
-                            <label for="email">Email address</label>
-                            <input type="email" class="form-control" id="email" v-model="email" required
-                                placeholder="Enter email..." autocomplete="on" />
-                            <small id="exampleInput1Help" class="form-text text-muted">We'll never share your
-                                email with anyone else.</small>
-                        </div>
-
-                        <!-- Password Input -->
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <div class="input-group">
-                                <input :type="isPasswordVisible ? 'text' : 'password'" class="form-control"
-                                    id="password" v-model="password" required placeholder="Enter password..."
-                                    autocomplete="on" />
-                                <div class="input-group-append" @click="togglePasswordVisibility">
-                                    <span class="input-group-text">
-                                        <i class="pe-7s-look"></i>
-                                    </span>
+                            <!-- Password Input -->
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <div class="input-group">
+                                    <input :type="isPasswordVisible ? 'text' : 'password'" class="form-control"
+                                        id="password" v-model="password" required placeholder="Enter password..."
+                                        autocomplete="on" />
+                                    <div class="input-group-append" @click="togglePasswordVisibility">
+                                        <span class="input-group-text">
+                                            <i class="pe-7s-look"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Checkbox -->
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="checkbox" name="check" />
-                            <label class="form-check-label" for="checkbox">
-                                Keep me logged in
-                            </label>
-                        </div>
+                            <!-- Checkbox -->
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="checkbox" name="check" />
+                                <label class="form-check-label" for="checkbox">
+                                    Keep me logged in
+                                </label>
+                            </div>
 
-                        <div class="divider"></div>
+                            <div class="divider"></div>
 
-                        <!-- Sign Up Link -->
-                        <h6 class="mb-0">
-                            No account?
-                            <a href="/register" class="text-primary">Sign Up Now</a>
-                        </h6>
+                            <!-- Sign Up Link -->
+                            <h6 class="mb-0">
+                                No account?
+                                <a href="/register" class="text-primary">Sign Up Now</a>
+                            </h6>
+                        </form>
                     </div>
 
                     <!-- Footer with Actions -->
