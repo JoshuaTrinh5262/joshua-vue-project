@@ -1,3 +1,5 @@
+@use "custom-variable" as variable;
+
 .kanban {
     display: flex;
     justify-content: center;
@@ -14,13 +16,13 @@
         padding: 0.5rem;
         margin-right: 0.25rem;
         border-radius: 0.25rem;
-        background-color: white;
+        background-color: variable.$white;
     }
 
     .column-title {
         font-size: 20px;
         font-weight: 700;
-        color: black;
+        color: variable.$black;
     }
 
     .kanban-cards {
@@ -32,7 +34,7 @@
             border-radius: 0.5rem;
             box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
             border: 1px solid #dee2e6;
-            background-color: white;
+            background-color: variable.$white;
         }
 
         .task-header {
@@ -76,13 +78,13 @@
                 padding: 2px;
                 margin: 2px;
                 font-size: 24px;
-                border: 1px solid black;
+                border: 1px solid variable.$black;
                 border-radius: 50px;
             }
 
             .task-action:hover {
-                background-color: black;
-                color: white;
+                background-color: variable.$black;
+                color: variable.$white;
                 transform: scale(1.1);
             }
         }
@@ -95,11 +97,11 @@
 .dark {
     .kanban {
         .column-title {
-            color: white;
+            color: variable.$white;
         }
 
         .kanban-column {
-            background-color: black;
+            background-color: variable.$black;
         }
     }
 }

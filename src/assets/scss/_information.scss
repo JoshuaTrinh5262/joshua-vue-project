@@ -10,8 +10,10 @@
         padding: 0 10px;
         background: #fff;
         position: absolute;
-        top: -8px;
+        top: -14px;
         left: 10px;
+        font-size: 1rem;
+        font-weight: bold;
     }
 
     &:hover {
@@ -38,13 +40,24 @@
     margin: 0 -10px 16px -10px;
 }
 
+.information-block-left {
+    width: 49%;
+    float: left;
+}
+
+.information-block-right {
+    width: 49%;
+    float: right;
+}
+
 // dark mode 
 .dark {
     .information {
         border: 1px solid #CDD0D5;
-            &:hover {
-        border-color: #37b4ff;
-    }
+
+        &:hover {
+            border-color: #37b4ff;
+        }
     }
 
     .information-title {

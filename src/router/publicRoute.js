@@ -28,6 +28,15 @@ const publicRoutes = [
         },
     },
     {
+        path: "/yugioh/card/:id",
+        name: "Card Detail",
+        component: () => import("../public/CardDetailPage.vue"),
+        meta: {
+            layout: "public",
+            breadcrumb: "Card Detail",
+        },
+    },
+    {
         path: "/yugioh/banlist",
         name: "Banlist",
         component: () => import("../public/yugioh/BanlistPublicPage.vue"),
@@ -54,25 +63,6 @@ const publicRoutes = [
             breadcrumb: "Tournament",
         },
         component: () => import("../public/yugioh/TournamentPublicPage.vue"),
-    },
-    // VTUBER
-    {
-        path: "/vtuber",
-        name: "Vtuber",
-        component: () => import("../public/VtuberPage.vue"),
-        meta: {
-            layout: "public",
-            breadcrumb: "Vtuber",
-        },
-    },
-    {
-        path: "/vtuber/event",
-        name: "event",
-        component: () => import("../public/vtuber/EventPublicPage.vue"),
-        meta: {
-            layout: "public",
-            breadcrumb: "Event",
-        },
     },
     {
         path: "/:pathMatch(.*)*",
