@@ -8,6 +8,14 @@ const publicRoutes = [
         },
         component: () => import("../public/HomePage.vue"),
     },
+    {
+        path: "/setting",
+        name: "Setting",
+        meta: {
+            layout: "public",
+        },
+        component: () => import("../public/SettingPage.vue"),
+    },
     // YUGIOH
     {
         path: "/yugioh",
@@ -72,6 +80,24 @@ const publicRoutes = [
             layout: "empty",
         },
         component: () => import("../public/NotFoundPage.vue"),
+    },
+    {
+        path: "/battlecity",
+        name: "Battle City Vietnam",
+        meta: {
+            layout: "public",
+            breadcrumb: "Battlecity",
+        },
+        component: () => import("../public/BattleCityPage.vue"),
+    },
+        {
+        path: "/battlecity/policy",
+        name: "Battle City Vietnam Policy",
+        meta: {
+            layout: "public",
+            breadcrumb: "Policy",
+        },
+        component: () => import("../public/battleCity/PolicyPage.vue"),
     },
     // Tools
     {

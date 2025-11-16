@@ -1,7 +1,7 @@
 <template>
     <div class="card">
         <div class="card-body">
-            <h1>Page is under contruction.</h1>
+            <h1 class="text-center">Contact Page is under contruction.</h1>
         </div>
     </div>
 </template>

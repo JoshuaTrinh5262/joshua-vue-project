@@ -1,0 +1,41 @@
+@use "custom-variable" as variable;
+
+.not-found {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+
+    .not-found-content {
+        text-align: center;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: variable.$white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    h1 {
+        font-size: 3em;
+        color: variable.$red;
+    }
+
+    p {
+        color: variable.$black;
+        font-size: 1.2em;
+    }
+}
+
+.dark {
+    .not-found {
+        background-color: #121212;
+
+        .not-found-content {
+            background-color: #1e1e1e;
+        }
+
+        p {
+            color: variable.$white;
+        }
+    }
+}

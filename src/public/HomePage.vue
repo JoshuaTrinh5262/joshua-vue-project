@@ -16,13 +16,13 @@
 <script setup>
 const sections = [
   {
-    image: "/background.jpg",
+    image: "/BCVN.jpg",
     title: "BATTLE CITY VIETNAM (BCVN)",
     text: "a national tournament system in Vietnam for the card game Yu-Gi-Oh!",
-    url: "/"
+    url: "/battlecity"
   },
   {
-    image: "/abstract5.jpg",
+    image: "/background.jpg",
     title: "Yu-Gi-Oh! CARDS",
     text: "Use the Card Lookup to discover cards, read effects, view artworks, and learn how each card fits into your favorite decks.",
     url: "/yugioh/card"
@@ -35,7 +35,7 @@ const sections = [
     url: "/yugioh/banlist"
   },
   {
-    image: "/abstract5.jpg",
+    image: "/background.jpg",
     title: "Yu-Gi-Oh! GENESYS",
     text: "YuGiOh Genesys is Konami's official format that reimagines competitive Yu-Gi-Oh! gameplay."
       + " Launched for players seeking a fresh strategic experience, the genesys format eliminates modern"
@@ -49,7 +49,7 @@ const sections = [
     url: "/deckbuild"
   },
   {
-    image: "/abstract5.jpg",
+    image: "/background.jpg",
     title: "Yu-Gi-Oh! EDISON FORMAT",
     text: "The Edison format is a popular retro format in the Yu-Gi-Oh! trading card game, named after the 75th Shonen"
       + "Jump Championship held in Edison, New Jersey. It features cards from the 5D's era and is known for its strong"
