@@ -63,6 +63,7 @@
             <button class="btn btn-tech btn-sm" @click="saveDeckAs">Save As</button>
             <button class="btn btn-tech btn-sm" @click="renameDeck">Rename</button>
             <button class="btn btn-tech btn-sm" @click="sortDeck">Sort</button>
+            <button class="btn btn-tech btn-sm" @click="shuffleAllDecks">Shuffle</button>
             <button class="btn btn-tech btn-sm" @click="clearDeck">Clear</button>
             <button class="btn btn-tech btn-sm" @click="deleteDeck">Delete</button>
           </div>
@@ -72,80 +73,82 @@
             <input v-model="newDeckName" class="form-control form-control-sm" placeholder="New deck name" type="text"
               @input="newDeckName = newDeckName.replace(/[^a-zA-Z0-9 _-]/g, '')" />
             <input type="file" ref="fileInput" accept=".ydk" style="display: none" @change="importDeck" />
-            <button class="btn btn-outline-success btn-sm" @click="createDeck">Create</button>
+            <button class="btn btn-tech btn-sm" @click="createDeck">Create</button>
             <button class="btn btn-tech btn-sm" @click="triggerFilePicker">Import .ydk</button>
             <button class="btn btn-tech btn-sm" @click="exportDeck">Export .ydk</button>
+            <button class="btn btn-tech btn-sm" @click="exportToPng">Print .png</button>
           </div>
+          <div class="deck-export-area" id="deck-export-area">
+            <!-- Deck Point -->
+            <div class="deck-point">
+              <h5>Deck Point: {{ deckPoints }}</h5>
+            </div>
 
-          <!-- Deck Point -->
-          <div class="text-center text-light mb-2">
-            Deck Point: {{ deckPoints }}
-          </div>
-
-          <!-- Main Deck -->
-          <div class="deck-row">
-            <div class="deck-row-title">Main Deck ({{ mainDeck.length }})</div>
-            <div class="d-flex flex-wrap justify-content-center gap-2">
-              <p v-if="!mainDeck.length" class="text-muted">Empty</p>
-              <div v-for="card in mainDeck" :key="card.id" class="card-slot" @mouseenter="setPreview(card)"
-                @click="removeCardFromDeck(card, 'main')">
-                <div style="position: relative; display: inline-block;">
-                  <span v-if="card.point && card.point > 0"
-                    style="position: absolute; top: -5px; left: -5px; background-color: rgba(0, 0, 0, 0.7); color: white; font-size: 12px; padding: 2px 5px; border-radius: 8px; z-index: 1;">{{
-                      card.point }}</span>
-                  <img :alt="card.name" :title="card.name" :src="card.image"
-                    onerror="if (this.src != 'backside.jpg') this.src = 'backside.jpg';"
-                    style="width: 59px; height: 86px; object-fit: cover;">
+            <!-- Main Deck -->
+            <div class="deck-row">
+              <div class="deck-row-title">Main Deck ({{ mainDeck.length }})</div>
+              <transition-group name="deck" tag="div" class="d-flex flex-wrap justify-content-center gap-2">
+                <p v-if="!mainDeck.length" class="text-muted">Empty</p>
+                <div v-for="card, index in mainDeck" :key="index" class="card-slot" @mouseenter="setPreview(card)"
+                  @click="removeCardFromDeck(card, 'main')">
+                  <div style="position: relative; display: inline-block;">
+                    <span v-if="card.point && card.point > 0"
+                      style="position: absolute; top: -5px; left: -5px; background-color: rgba(0, 0, 0, 0.7); color: white; font-size: 12px; padding: 2px 5px; border-radius: 8px; z-index: 1;">{{
+                        card.point }}</span>
+                    <img :alt="card.name" :title="card.name" :src="card.image"
+                      onerror="if (this.src != 'backside.jpg') this.src = 'backside.jpg';"
+                      style="width: 59px; height: 86px; object-fit: cover;">
+                  </div>
                 </div>
+              </transition-group>
+              <div class="deck-row-footer">
+                Monster {{ mainDeckCounts.Monster }} | Spell {{ mainDeckCounts.Spell }} | Trap {{ mainDeckCounts.Trap }}
               </div>
             </div>
-            <div class="deck-row-footer">
-              Monster {{ mainDeckCounts.Monster }} | Spell {{ mainDeckCounts.Spell }} | Trap {{ mainDeckCounts.Trap }}
-            </div>
-          </div>
-
-          <!-- Extra Deck -->
-          <div class="deck-row">
-            <div class="deck-row-title">Extra Deck ({{ extraDeck.length }})</div>
-            <div class="d-flex flex-wrap justify-content-center gap-2">
-              <p v-if="!extraDeck.length" class="text-muted">Empty</p>
-              <div v-for="card in extraDeck" :key="card.id" class="card-slot">
-                <div style="position: relative; display: inline-block;" @mouseenter="setPreview(card)"
-                  @click="removeCardFromDeck(card, 'extra')">
-                  <span v-if="card.point && card.point > 0"
-                    style="position: absolute; top: -5px; left: -5px; background-color: rgba(0, 0, 0, 0.7); color: white; font-size: 12px; padding: 2px 5px; border-radius: 8px; z-index: 1;">{{
-                      card.point }}</span>
-                  <img :alt="card.name" :title="card.name" :src="card.image"
-                    onerror="if (this.src != 'backside.jpg') this.src = 'backside.jpg';"
-                    style="width: 59px; height: 86px; object-fit: cover;">
+            <!-- Extra Deck -->
+            <div class="deck-row">
+              <div class="deck-row-title">Extra Deck ({{ extraDeck.length }})</div>
+              <transition-group name="deck" tag="div" class="d-flex flex-wrap justify-content-center gap-2">
+                <p v-if="!extraDeck.length" class="text-muted">Empty</p>
+                <div v-for="card, index in extraDeck" :key="index" class="card-slot">
+                  <div style="position: relative; display: inline-block;" @mouseenter="setPreview(card)"
+                    @click="removeCardFromDeck(card, 'extra')">
+                    <span v-if="card.point && card.point > 0"
+                      style="position: absolute; top: -5px; left: -5px; background-color: rgba(0, 0, 0, 0.7); color: white; font-size: 12px; padding: 2px 5px; border-radius: 8px; z-index: 1;">{{
+                        card.point }}</span>
+                    <img :alt="card.name" :title="card.name" :src="card.image" 
+                      onerror="if (this.src != 'backside.jpg') this.src = 'backside.jpg';"
+                      style="width: 59px; height: 86px; object-fit: cover;">
+                  </div>
                 </div>
+              </transition-group>
+              <div class="deck-row-footer">
+                Xyz {{ extraDeckCounts.Xyz }} | Fusion {{ extraDeckCounts.Fusion }} | Synchro {{
+                  extraDeckCounts.Synchro
+                }}
               </div>
             </div>
-            <div class="deck-row-footer">
-              Xyz {{ extraDeckCounts.Xyz }} | Fusion {{ extraDeckCounts.Fusion }} | Synchro {{ extraDeckCounts.Synchro
-              }}
-            </div>
-          </div>
 
-          <!-- Side Deck -->
-          <div class="deck-row">
-            <div class="deck-row-title">Side Deck ({{ sideDeck.length }})</div>
-            <div class="d-flex flex-wrap justify-content-center gap-2">
-              <p v-if="!sideDeck.length" class="text-muted">Empty</p>
-              <div v-for="card in sideDeck" :key="card.id" class="card-slot">
-                <div style="position: relative; display: inline-block;" @mouseenter="setPreview(card)"
-                  @click="removeCardFromDeck(card, 'side')">
-                  <span v-if="card.point && card.point > 0"
-                    style="position: absolute; top: -5px; left: -5px; background-color: rgba(0, 0, 0, 0.7); color: white; font-size: 12px; padding: 2px 5px; border-radius: 8px; z-index: 1;">{{
-                      card.point }}</span>
-                  <img :alt="card.name" :title="card.name" :src="card.image"
-                    onerror="if (this.src != 'backside.jpg') this.src = 'backside.jpg';"
-                    style="width: 59px; height: 86px; object-fit: cover;">
+            <!-- Side Deck -->
+            <div class="deck-row">
+              <div class="deck-row-title">Side Deck ({{ sideDeck.length }})</div>
+              <transition-group name="deck" tag="div" class="d-flex flex-wrap justify-content-center gap-2">
+                <p v-if="!sideDeck.length" class="text-muted">Empty</p>
+                <div v-for="card, index in sideDeck" :key="index" class="card-slot">
+                  <div style="position: relative; display: inline-block;" @mouseenter="setPreview(card)"
+                    @click="removeCardFromDeck(card, 'side')">
+                    <span v-if="card.point && card.point > 0"
+                      style="position: absolute; top: -5px; left: -5px; background-color: rgba(0, 0, 0, 0.7); color: white; font-size: 12px; padding: 2px 5px; border-radius: 8px; z-index: 1;">{{
+                        card.point }}</span>
+                    <img :alt="card.name" :title="card.name" :src="card.image"
+                      onerror="if (this.src != 'backside.jpg') this.src = 'backside.jpg';"
+                      style="width: 59px; height: 86px; object-fit: cover;">
+                  </div>
                 </div>
+              </transition-group>
+              <div class="deck-row-footer">
+                Monster {{ sideDeckCounts.Monster }} | Spell {{ sideDeckCounts.Spell }} | Trap {{ sideDeckCounts.Trap }}
               </div>
-            </div>
-            <div class="deck-row-footer">
-              Monster {{ sideDeckCounts.Monster }} | Spell {{ sideDeckCounts.Spell }} | Trap {{ sideDeckCounts.Trap }}
             </div>
           </div>
         </div>
@@ -178,8 +181,8 @@
                 style="margin-left: 6px; font-size: 12px; padding: 2px 5px; border-radius: 6px; background-color: rgba(0, 0, 0, 0.7); color: white;">
                 {{ card.point }}</span>
               <div class="d-flex flex-wrap gap-1 mt-1">
-                <button class="btn btn-sm btn-outline-light" @click="addCardToDeck(card)">+ Main/Extra</button>
-                <button class="btn btn-sm btn-outline-secondary" @click="addToSideDeck(card)">+ Side</button>
+                <button class="btn btn-tech btn-sm" @click="addCardToDeck(card)">+ Main/Extra</button>
+                <button class="btn btn-tech btn-sm" @click="addToSideDeck(card)">+ Side</button>
               </div>
             </div>
           </div>
@@ -194,6 +197,8 @@ import { defineComponent, onMounted, ref, computed } from "vue";
 import PageTitleComponent from "@/Layout/Components/PageTitleComponent.vue";
 import { apiService } from "@/supabase/apiService";
 import genesysPoints from "@/utils/genesys_10_27_2025.js";
+import html2canvas from "html2canvas";
+import domtoimage from 'dom-to-image-more';
 
 export default defineComponent({
   name: "DeckBuild",
@@ -415,19 +420,32 @@ export default defineComponent({
 
     function sortDeck() {
       const typeOrder = ["Monster", "Spell", "Trap"];
-      const sortByTypeThenName = (a, b) => {
-        const typeDiff = typeOrder.indexOf(a.type) - typeOrder.indexOf(b.type);
+      const sortByCategoryThenName = (a, b) => {
+        const typeDiff = typeOrder.indexOf(a.category) - typeOrder.indexOf(b.category);
         if (typeDiff !== 0) {
           return typeDiff;
         }
         return a.name.localeCompare(b.name);
       };
 
-      mainDeck.value = mainDeck.value.sort(sortByTypeThenName);
-      extraDeck.value = extraDeck.value.sort(sortByTypeThenName);
-      sideDeck.value = sideDeck.value.sort(sortByTypeThenName);
+      mainDeck.value = mainDeck.value.sort(sortByCategoryThenName);
+      extraDeck.value = extraDeck.value.sort(sortByCategoryThenName);
+      sideDeck.value = sideDeck.value.sort(sortByCategoryThenName);
+    }
 
-      alert("Deck sorted by type and name!");
+    function shuffleDeck(deck) {
+      const array = [...deck];
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function shuffleAllDecks() {
+      mainDeck.value = shuffleDeck(mainDeck.value);
+      extraDeck.value = shuffleDeck(extraDeck.value);
+      sideDeck.value = shuffleDeck(sideDeck.value);
     }
 
     function triggerFilePicker() {
@@ -472,7 +490,7 @@ export default defineComponent({
       ];
 
       // --- Step 3: Fetch card data from Supabase ---
-      const { data: cards, error } = await apiService.getYugiohCards(uniquePasscodes);
+      const cards = await apiService.getYugiohCards(uniquePasscodes);
 
       const cardWithPoints = cards.map(card => {
         const found = genesysPoints.find(p => p.name === card.name);
@@ -551,6 +569,30 @@ export default defineComponent({
       alert("Export cards");
     }
 
+    async function exportToPng() {
+      // if (!selectedDeck.value) {
+      //   alert("Please select a deck to print");
+      //   return;
+      // }
+
+      // const target = document.getElementById("deck-export-area");
+
+      // html2canvas(target, {
+      //   scale: 2,
+      //   backgroundColor: null,
+      //   allowTaint: false,
+      //   useCORS: true,
+
+      // }).then(canvas => {
+      //   const image = canvas.toDataURL("image/png");
+
+      //   const link = document.createElement("a");
+      //   link.download = `${selectedDeck.value}.png`;
+      //   link.href = image;
+      //   link.click();
+      // });
+    }
+
     function clearDeck() {
       if (mainDeck.value.length === 0 && extraDeck.value.length === 0 && sideDeck.value.length === 0) {
         return;
@@ -559,6 +601,7 @@ export default defineComponent({
       const confirmed = confirm("Are you sure you want to clear your deck? This action cannot be undone.");
 
       if (confirmed) {
+        deckPoints.value = 0;
         mainDeck.value = [];
         extraDeck.value = [];
         sideDeck.value = [];
@@ -566,11 +609,6 @@ export default defineComponent({
     }
 
     function deleteDeck() {
-      // if (!selectedDeck.value) {
-      //   alert("Please select a deck to delete.");
-      //   return;
-      // }
-
       const confirmed = confirm(
         `Are you sure you want to delete "${selectedDeck.value}"? This action cannot be undone.`
       );
@@ -578,6 +616,7 @@ export default defineComponent({
       if (!confirmed) {
         return;
       }
+
       const index = savedDecks.value.findIndex(
         (deck) => deck.name === selectedDeck.value
       );
@@ -822,14 +861,17 @@ export default defineComponent({
       mainDeckCounts,
       sideDeckCounts,
       extraDeckCounts,
+      fileInput,
       setPreview,
       saveDeck,
       saveDeckAs,
       renameDeck,
       sortDeck,
+      shuffleAllDecks,
       triggerFilePicker,
       importDeck,
       exportDeck,
+      exportToPng,
       clearDeck,
       deleteDeck,
       createDeck,
@@ -846,11 +888,7 @@ export default defineComponent({
 
 <style scoped>
 .btn,
-.btn-tech,
-.btn-sm,
-.btn-outline-light,
-.btn-outline-secondary,
-.btn-outline-success {
+.btn-tech {
   background-color: #2a2a2a;
   color: #e0e0e0;
   border: 1px solid #555;
@@ -911,6 +949,12 @@ export default defineComponent({
   background-color: #252525;
 }
 
+.deck-point {
+  text-align: center;
+  color: white;
+  margin-bottom: 2px;
+}
+
 .deck-row {
   background-color: #181818;
   border: 1px solid #333;
@@ -934,6 +978,16 @@ export default defineComponent({
   padding-bottom: 4px;
   font-weight: bold;
   color: #e0e0e0;
+}
+
+.card-slot {
+  transition: transform 0.2s ease, z-index 0.2s ease;
+  cursor: pointer;
+}
+
+.card-slot:hover {
+  transform: scale(1.15);
+  z-index: 10;
 }
 
 .deck-row-footer {
@@ -991,5 +1045,27 @@ export default defineComponent({
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Fade & Scale in */
+.deck-enter-active,
+.deck-leave-active,
+.deck-move {
+  transition: all 0.3s ease;
+}
+
+.deck-enter-from,
+.deck-leave-to {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+/* Optional: slight float effect */
+.deck-enter-to {
+  transform: scale(1) translateY(0);
+}
+
+.deck-leave-active {
+  position: absolute;
 }
 </style>
