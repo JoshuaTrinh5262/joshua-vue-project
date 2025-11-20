@@ -41,7 +41,7 @@ export default defineComponent({
   name: "PublicHeaderComponent",
 
   setup() {
-    const title = ref("BRAND");
+    const title = ref("HDA");
     const isAuthenticated = ref(false);
     const dropdownOpen = ref({});
     const isMenuOpen = ref(false);
@@ -54,6 +54,10 @@ export default defineComponent({
           { text: "PRODUCT", href: "/yugioh/product" },
           { text: "TOURNAMENT", href: "/yugioh/tournament" },
         ],
+      },
+      {
+        text: "BLOG",
+        href: "/blog"
       },
       {
         text: "BATTLE CITY",
@@ -105,5 +109,4 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

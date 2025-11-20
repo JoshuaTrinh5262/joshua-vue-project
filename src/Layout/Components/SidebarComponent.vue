@@ -1,6 +1,5 @@
 <template>
-    <div class="app-sidebar sidebar-shadow"
-        :class="isDark ? 'text-lighter' : 'text-darker'"
+    <div class="app-sidebar sidebar-shadow" :class="isDark ? 'text-lighter' : 'text-darker'"
         @mouseover="toggleSidebarHover('add', 'closed-sidebar-open')"
         @mouseleave="toggleSidebarHover('remove', 'closed-sidebar-open')">
         <div class="app-header__logo">
@@ -61,8 +60,15 @@ export default defineComponent({
                     { title: 'Timer', href: '/admin/timer' },
                 ],
             },
-            { title: 'Setting', icon: 'pe-7s-settings', href: '/admin/setting' },
-            { title: 'Translations', icon: 'pe-7s-file', href: '/admin/translation' },
+            {
+                title: 'Setting',
+                icon: 'pe-7s-settings',
+                child: [
+                    { title: 'Setting Control', href: '/admin/setting' },
+                    { title: 'Enums Control', href: '/admin/enums' },
+                    { title: 'Translations Control', href: '/admin/translation' },
+                ],
+            },
             { title: 'Tabs', icon: 'pe-7s-rocket', href: '/admin/tabs' },
             { title: 'Kanban', icon: 'pe-7s-notebook', href: '/admin/kanban' },
             {
@@ -73,6 +79,14 @@ export default defineComponent({
                     { title: 'Forgot Password Boxed', href: '/admin/forgot-password' },
                     { title: 'Not Found Boxed', href: '/admin/notfound' },
                     { title: 'Reset Password Boxed', href: '/admin/notfound' },
+                ],
+            },
+            {
+                title: 'Blog',
+                icon: 'pe-7s-news-paper',
+                child: [
+                    { title: 'Blogs Control', href: '/admin/add-blog' },
+                    { title: 'Blogs Page', href: '/admin/blog-page' },
                 ],
             },
             { header: true, title: 'Vtuber Data' },

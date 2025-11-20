@@ -2,8 +2,7 @@
     <div>
         <div class="h-100 bg-premium-dark">
             <div class="d-flex h-100 justify-content-center align-items-center">
-                <div class="col-md-8 mx-auto app-login-box">
-                    <div class="app-logo-inverse mx-auto mb-3"></div>
+                <div class="col-md-8 mx-auto">
                     <div class="modal-dialog w-100">
                         <div class="modal-content">
                             <div class="modal-body">

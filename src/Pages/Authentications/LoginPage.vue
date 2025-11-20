@@ -1,6 +1,6 @@
 <template>
     <div class="d-flex h-100 justify-content-center align-items-center">
-        <div class="col-md-8 mx-auto app-login-box">
+        <div class="col-md-8 mx-auto">
             <div class="modal-dialog w-100 mx-auto">
                 <div class="modal-content">
                     <div class="modal-body">

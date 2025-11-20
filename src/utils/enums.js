@@ -28,12 +28,13 @@ export const BanlistCardStatus = {
     BANNED: "banned"
 }
 
-export const CardAttribute = {
+export const MonsterAttribute = {
     DARK: "dark",
     LIGHT: "light",
     FIRE: "fire",
     WATER: "water",
     EARTH: "earth",
+    WIND: 'wind'
 }
 
 export const MonsterType = {

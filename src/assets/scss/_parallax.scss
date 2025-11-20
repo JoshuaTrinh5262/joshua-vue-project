@@ -8,6 +8,7 @@
     background-attachment: fixed;
     display: flex;
     align-items: center;
+    overflow: hidden;
 }
 
 .content-box {
@@ -49,4 +50,13 @@
     font-weight: 600;
     text-decoration: none;
     transition: 0.25s;
+}
+
+@media (max-width: 768px) {
+    .content-box {
+        width: 100%; 
+        clip-path: none; 
+        transform: translateX(0);
+        padding: 20px;
+    }
 }

@@ -8,7 +8,11 @@
                     <div class="information-title">General Information</div>
                     <div class="position-relative form-group">
                         <label for="brand" class="form-label">Brand</label>
-                        <input id="brand" class="form-control" value="Hochiminh Duelist Association (HDA)" disabled>
+                        <input id="brand" class="form-control" value="Hochiminh Duelist Association" disabled>
+                    </div>
+                    <div class="position-relative form-group">
+                        <label for="acronym" class="form-label">Acronym</label>
+                        <input id="acronym" class="form-control" value="HDA" disabled>
                     </div>
                 </div>
                 <div class="information">

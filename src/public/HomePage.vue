@@ -1,14 +1,11 @@
 <template>
-  <div>
-    <div v-for="(item, i) in sections" :key="i" class="parallax" :style="{ backgroundImage: `url(${item.image})` }">
-      <div :class="['content-box', i % 2 === 0 ? 'left' : 'right']">
-        <h2>{{ item.title }}</h2>
-        <p>{{ item.text }}</p>
-        <router-link :to="item.url" class="detail">
-          Know More →
-        </router-link>
-      </div>
-
+  <div v-for="(item, i) in sections" :key="i" class="parallax" :style="{ backgroundImage: `url(${item.image})` }">
+    <div :class="['content-box', i % 2 === 0 ? 'left' : 'right']">
+      <h2>{{ item.title }}</h2>
+      <p>{{ item.text }}</p>
+      <router-link :to="item.url" class="detail">
+        Know More →
+      </router-link>
     </div>
   </div>
 </template>

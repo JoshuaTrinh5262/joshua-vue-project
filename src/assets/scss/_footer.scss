@@ -8,7 +8,11 @@
 }
 
 .site-menu {
-    height: 2.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    height: auto; 
     font-size: 0.875rem;
     letter-spacing: 0.025em;
     font-weight: 600;
@@ -22,6 +26,7 @@
 .site-menu .menu-item {
     line-height: 40px;
     align-self: center;
+    white-space: nowrap;
 }
 
 .site-footer {

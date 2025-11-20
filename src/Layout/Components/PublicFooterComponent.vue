@@ -20,9 +20,9 @@
           </div>
         </div>
         <div class="py-2">
-          <div class="site-menu ">
-            <button class="btn-sm m-2">Facebook</button>
-            <button class="btn-sm m-2">Youtube</button>
+          <div class="site-menu">
+            <a class="m-2" href="https://www.facebook.com/ygovn.hda" target="_blank">Facebook</a>
+            <a class="m-2" href="https://www.youtube.com/@HDADuelChannel" target="_blank">Youtube</a>
           </div>
         </div>
       </div>

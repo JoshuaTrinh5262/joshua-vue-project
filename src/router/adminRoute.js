@@ -73,7 +73,43 @@ const adminRoutes = [
         },
         component: () => import("../Pages/Datasets/DatasetPage.vue"),
     },
-
+    // Blog Control
+    {
+        path: "/admin/add-blog",
+        name: "blog 1 ",
+        meta: {
+            layout: "admin",
+            requiresAuth: true,
+        },
+        component: () => import("../Pages/Blogs/AddBlogControl.vue"),
+    },
+    {
+        path: "/admin/blog-page",
+        name: "blog 2",
+        meta: {
+            layout: "admin",
+            requiresAuth: true,
+        },
+        component: () => import("../Pages/Blogs/BlogControl.vue"),
+    },
+        {
+        path: "/admin/blog/:id",
+        name: "blog 3",
+        meta: {
+            layout: "admin",
+            requiresAuth: true,
+        },
+        component: () => import("../Pages/Blogs/SingleBlog.vue"),
+    },
+    {
+        path: "/admin/blog/add",
+        name: "add blog",
+        meta: {
+            layout: "admin",
+            requiresAuth: true,
+        },
+        component: () => import("../Pages/Blogs/AddBlogControl.vue"),
+    },
     // Vtubers Data
     {
         path: "/admin/talent",
@@ -236,7 +272,7 @@ const adminRoutes = [
         },
         component: () => import("../Pages/Yugioh/ProductPage.vue"),
     },
-        {
+    {
         path: "/admin/product/:id",
         name: "product detail",
         meta: {
@@ -262,16 +298,25 @@ const adminRoutes = [
             layout: "admin",
             requiresAuth: true,
         },
-        component: () => import("../Pages/Settings/SettingPage.vue"),
+        component: () => import("../Pages/Settings/SettingControl.vue"),
     },
     {
+        path: "/admin/enums",
+        name: "enums control",
+        meta: {
+            layout: "admin",
+            requiresAuth: true,
+        },
+        component: () => import("../Pages/Settings/EnumsControl.vue"),
+    },
+        {
         path: "/admin/translation",
         name: "translations",
         meta: {
             layout: "admin",
             requiresAuth: true,
         },
-        component: () => import("../Pages/TranslationPage.vue"),
+        component: () => import("../Pages/Settings/TranslationControl.vue"),
     },
     {
         path: "/admin/tabs",
