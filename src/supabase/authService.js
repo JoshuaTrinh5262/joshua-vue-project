@@ -1,4 +1,5 @@
 import { supabase } from "./supabase";
+import { jwtDecode } from "../helpers/jwtHelper.js";
 
 export async function signup(email, password) {
     const { user, error } = await supabase.auth.signUp({
@@ -19,7 +20,22 @@ export async function login(email, password) {
         email: email,
         password: password,
     });
-    console.log("user data login", data);
+
+    // Extract the session data
+    const session = data?.session;
+    if (!session) {
+        return { error: "No session returned." };
+    }
+
+    // Get the JWT token
+    const token = session.access_token;
+
+    // Decode the token
+    const decoded = jwtDecode(token);
+
+    localStorage.setItem("jwt_token", token);
+    localStorage.setItem("jwt_user", JSON.stringify(decoded));
+
     if (error) {
         return { error: error.message };
     } else {

@@ -116,7 +116,7 @@
                     <span v-if="card.point && card.point > 0"
                       style="position: absolute; top: -5px; left: -5px; background-color: rgba(0, 0, 0, 0.7); color: white; font-size: 12px; padding: 2px 5px; border-radius: 8px; z-index: 1;">{{
                         card.point }}</span>
-                    <img :alt="card.name" :title="card.name" :src="card.image" 
+                    <img :alt="card.name" :title="card.name" :src="card.image"
                       onerror="if (this.src != 'backside.jpg') this.src = 'backside.jpg';"
                       style="width: 59px; height: 86px; object-fit: cover;">
                   </div>
@@ -194,18 +194,12 @@
 </template>
 <script>
 import { defineComponent, onMounted, ref, computed } from "vue";
-import PageTitleComponent from "@/Layout/Components/PageTitleComponent.vue";
 import { apiService } from "@/supabase/apiService";
 import genesysPoints from "@/utils/genesys_10_27_2025.js";
-import html2canvas from "html2canvas";
-import domtoimage from 'dom-to-image-more';
+
 
 export default defineComponent({
   name: "DeckBuild",
-
-  components: {
-    PageTitleComponent,
-  },
 
   setup() {
     const decks = ref([]);

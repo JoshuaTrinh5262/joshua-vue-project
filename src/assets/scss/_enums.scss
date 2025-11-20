@@ -1,0 +1,42 @@
+@use "custom-variable" as variable;
+
+.enums {
+    .items {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+
+        .item {
+            cursor: default;
+            list-style: none;
+            background-color: rgba(0, 0, 0, 0.1);
+            color: variable.$black;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            padding: 6px;
+            border-radius: 3px;
+            white-space: nowrap;
+        }
+
+        .item:hover {
+            background-color: rgba(255, 161.5, 161.5)
+        }
+    }
+}
+
+.dark {
+    .enums {
+        .items {
+            .item {
+                background-color: variable.$bg-444;
+                color: variable.$white;
+            }
+
+            .item:hover {
+                background-color: rgba(255, 161.5, 161.5)
+            }
+        }
+    }
+}

@@ -90,7 +90,7 @@ const publicRoutes = [
         },
         component: () => import("../public/BattleCityPage.vue"),
     },
-        {
+    {
         path: "/battlecity/policy",
         name: "Battle City Vietnam Policy",
         meta: {
@@ -111,6 +111,24 @@ const publicRoutes = [
         },
     },
     // Other
+    {
+        path: "/blog",
+        name: "blog",
+        component: () => import("../public/BlogsPage.vue"),
+        meta: {
+            layout: "public",
+            breadcrumb: "blog",
+        },
+    },
+    {
+        path: "/blog/:id",
+        name: "blog detail",
+        component: () => import("../public/BlogDetailPage.vue"),
+        meta: {
+            layout: "public",
+            breadcrumb: "blog ",
+        },
+    },
     {
         path: "/master_rule",
         name: "Master Rule",
